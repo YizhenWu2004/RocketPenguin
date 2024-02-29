@@ -94,6 +94,7 @@ public class InputController implements InputProcessor {
         scroll = 0;
     }
     public void readInput(){
+
         if (Gdx.input.isKeyPressed(Input.Keys.W)){
             y_movement = 1;
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
