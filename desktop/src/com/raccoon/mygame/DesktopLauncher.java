@@ -2,6 +2,7 @@ package com.raccoon.mygame;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.raccoon.mygame.game.GDXRoot;
 import com.raccoon.mygame.game.LePetitRaccoon;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
@@ -12,6 +13,6 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		//config.setWindowedMode(400, 600);
 		config.setTitle("RocketPenguin");
-		new Lwjgl3Application(new LePetitRaccoon(), config);
+		new Lwjgl3Application(new GDXRoot(), config);
 	}
 }
