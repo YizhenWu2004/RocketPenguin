@@ -21,7 +21,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.*;
+import com.raccoon.mygame.controllers.InputController;
 import com.raccoon.mygame.util.ScreenListener;
+import com.raccoon.mygame.view.GameCanvas;
 
 /**
  * Root class for a LibGDX.

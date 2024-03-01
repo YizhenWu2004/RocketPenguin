@@ -20,7 +20,7 @@ package com.raccoon.mygame.obstacle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.raccoon.mygame.game.GameCanvas;
+import com.raccoon.mygame.view.GameCanvas;
 
 /**
  * Base model class to support collisions.
