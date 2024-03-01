@@ -42,9 +42,9 @@ public class PlayerStub {
      * Draws the player onto the given canvas
      * @param canvas The canvas to draw to
      * */
-    private void draw(GameCanvas canvas){
-        canvas.draw(playerTexture, this.position.x, this.position.y);
-    }
+//    private void draw(GameCanvas canvas){
+//        canvas.draw(playerTexture, this.position.x, this.position.y);
+//    }
 
     /**
      * Moves the player's position given a specified offset
