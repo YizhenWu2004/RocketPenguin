@@ -22,7 +22,6 @@ public class Guard {
         this.width = width;
         this.height = height;
         patrolTexture = texture;
-        position = new Vector2(x, y);
     }
 
     //Setters
