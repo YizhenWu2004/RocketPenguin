@@ -1,4 +1,4 @@
-package com.raccoon.mygame;
+package com.raccoon.mygame.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;
