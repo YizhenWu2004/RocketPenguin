@@ -24,7 +24,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
-import com.raccoon.mygame.GameCanvas;
+import com.raccoon.mygame.game.GameCanvas;
 
 /**
  * Base model class to support collisions.

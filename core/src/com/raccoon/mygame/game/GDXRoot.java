@@ -11,13 +11,12 @@
  * Based on original PhysicsDemo Lab by Don Holden, 2007
  * Updated asset version, 2/6/2021
  */
- package com.raccoon.mygame;
+ package com.raccoon.mygame.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.raccoon.mygame.*;
-import util.ScreenListener;
+import com.raccoon.mygame.util.ScreenListener;
 
 /**
  * Root class for a LibGDX.  

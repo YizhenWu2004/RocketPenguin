@@ -21,7 +21,7 @@
  * Based on original Optimization Lab by Don Holden, 2007
  * LibGDX version, 2/2/2015
  */
- package util;
+ package com.raccoon.mygame.util;
 
 import com.badlogic.gdx.Screen;
 
