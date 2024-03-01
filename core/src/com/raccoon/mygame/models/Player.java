@@ -1,12 +1,9 @@
-package com.raccoon.mygame;
+package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Queue;
 
-import java.util.LinkedList;
-
-public class PlayerStub {
+public class Player {
 
     private Vector2 position;
 
@@ -21,7 +18,7 @@ public class PlayerStub {
 
     private Texture playerTexture;
 
-    PlayerStub(float x, float y, float width, float height, Texture texture){
+    Player(float x, float y, float width, float height, Texture texture){
         this.width = width;
         this.height = height;
         playerTexture = texture;
