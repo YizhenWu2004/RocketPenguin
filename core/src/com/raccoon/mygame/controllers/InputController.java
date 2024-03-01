@@ -1,4 +1,4 @@
-package com.raccoon.mygame.game;
+package com.raccoon.mygame.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
