@@ -1,38 +1,52 @@
+
+
 /*
  * GDXRoot.java
  *
  * This is the primary class file for running the game.  It is the "static main" of
  * LibGDX.  In the first lab, we extended ApplicationAdapter.  In previous lab
  * we extended Game.  This is because of a weird graphical artifact that we do not
- * understand.  Transparencies (in 3D only) is failing when we use ApplicationAdapter. 
+ * understand.  Transparencies (in 3D only) is failing when we use ApplicationAdapter.
  * There must be some undocumented OpenGL code in setScreen.
  *
  * Author: Walker M. White
  * Based on original PhysicsDemo Lab by Don Holden, 2007
  * Updated asset version, 2/6/2021
  */
- package com.raccoon.mygame.game;
+package com.raccoon.mygame.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.*;
 import com.raccoon.mygame.util.ScreenListener;
 
 /**
- * Root class for a LibGDX.  
- * 
+ * Root class for a LibGDX.
+ *
  * This class is technically not the ROOT CLASS. Each platform has another class above
- * this (e.g. PC games use DesktopLauncher) which serves as the true root.  However, 
- * those classes are unique to each platform, while this class is the same across all 
- * plaforms. In addition, this functions as the root class all intents and purposes, 
- * and you would draw it as a root class in an architecture specification.  
+ * this (e.g. PC games use DesktopLauncher) which serves as the true root.  However,
+ * those classes are unique to each platform, while this class is the same across all
+ * plaforms. In addition, this functions as the root class all intents and purposes,
+ * and you would draw it as a root class in an architecture specification.
  */
 public class GDXRoot extends Game implements ScreenListener {
-	/** Drawing context to display graphics (VIEW CLASS) */
 	private GameCanvas canvas;
-	/** Player mode for the the game proper (CONTROLLER CLASS) */
+
+
+	//current could represent whether we are in restaurant
 	private int current;
-	
+
+	SpriteBatch batch;
+
+	Texture img;
+
+
+	InputController controller;
+	Rectangle bounds;
+
 	/**
 	 * Creates a new game from the configuration settings.
 	 *
@@ -41,18 +55,22 @@ public class GDXRoot extends Game implements ScreenListener {
 	 */
 	public GDXRoot() { }
 
-	/** 
+	/**
 	 * Called when the Application is first created.
-	 * 
+	 *
 	 * This is method immediately loads assets for the loading screen, and prepares
 	 * the asynchronous loader for all other assets.
 	 */
 	public void create() {
 		canvas  = new GameCanvas();
+		current = 0;
+		controller = new InputController();
+		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
+
 	}
 
-	/** 
-	 * Called when the Application is destroyed. 
+	/**
+	 * Called when the Application is destroyed.
 	 *
 	 * This is preceded by a call to pause().
 	 */
@@ -65,11 +83,11 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		super.dispose();
 	}
-	
+
 	/**
-	 * Called when the Application is resized. 
+	 * Called when the Application is resized.
 	 *
-	 * This can happen at any point during a non-paused state but will never happen 
+	 * This can happen at any point during a non-paused state but will never happen
 	 * before a call to create().
 	 *
 	 * @param width  The new width in pixels
@@ -93,4 +111,17 @@ public class GDXRoot extends Game implements ScreenListener {
 		Gdx.app.exit();
 	}
 
+	@Override
+	public void render(){
+		update();
+		draw();
+	}
+
+	public void update(){
+		//update position, inventory, etc, according to current state plus InputController
+	}
+
+	public void draw(){
+		//calls draw method to draw overlay(background) and all the other stuff)
+	}
 }
