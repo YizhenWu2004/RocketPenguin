@@ -13,6 +13,6 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		//config.setWindowedMode(400, 600);
 		config.setTitle("RocketPenguin");
-		new Lwjgl3Application(new LePetitRaccoon(), config);
+		new Lwjgl3Application(new GDXRoot(), config);
 	}
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class LePetitRaccoon extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+
 	
 	@Override
 	public void create () {

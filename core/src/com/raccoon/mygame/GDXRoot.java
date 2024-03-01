@@ -16,6 +16,9 @@
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.*;
 import com.raccoon.mygame.*;
 import util.ScreenListener;
 
@@ -29,10 +32,19 @@ import util.ScreenListener;
  * and you would draw it as a root class in an architecture specification.  
  */
 public class GDXRoot extends Game implements ScreenListener {
-	/** Drawing context to display graphics (VIEW CLASS) */
 	private GameCanvas canvas;
-	/** Player mode for the the game proper (CONTROLLER CLASS) */
+
+
+	//current could represent whether we are in restaurant
 	private int current;
+
+	SpriteBatch batch;
+
+	Texture img;
+
+
+	InputController controller;
+	Rectangle bounds;
 	
 	/**
 	 * Creates a new game from the configuration settings.
@@ -50,6 +62,10 @@ public class GDXRoot extends Game implements ScreenListener {
 	 */
 	public void create() {
 		canvas  = new GameCanvas();
+		current = 0;
+		controller = new InputController();
+		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
+
 	}
 
 	/** 
@@ -94,4 +110,17 @@ public class GDXRoot extends Game implements ScreenListener {
 		Gdx.app.exit();
 	}
 
+	@Override
+	public void render(){
+		update();
+		draw();
+	}
+
+	public void update(){
+		//update position, inventory, etc, according to current state plus InputController
+	}
+
+	public void draw(){
+		//calls draw method to draw overlay(background) and all the other stuff)
+	}
 }
