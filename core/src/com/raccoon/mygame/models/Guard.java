@@ -17,7 +17,7 @@ public class Guard {
     private Texture patrolTexture;
 
     Guard(float x, float y, float width, float height, Texture texture){
-        position = new Vector2(0.0f, 0.0f);
+        position = new Vector2(x, y);
         velocity = new Vector2(0.0f, 0.0f);
         this.width = width;
         this.height = height;
