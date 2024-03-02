@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.raccoon.mygame.objects.GameObject;
+import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Player {
@@ -65,7 +66,7 @@ public class Player {
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
-    public void pickUpItem(GameObject object){
+    public void pickUpItem(Ingredient object){
         //this is dependent on whether or not this method will exist which I am not sure if it does lol
         this.inventory.add(object);
     }
@@ -89,9 +90,14 @@ public class Player {
         return this.space;
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     public void draw(){
         canvas.draw(playerTexture, Color.WHITE, 10, 10,
                 position.x, position.y, 0.0f, 0.1f, 0.1f);
+        this.inventory.draw(canvas);
 
     }
     public void clearInv(){

@@ -13,7 +13,7 @@ public class InputController{
      * for scroll, -1 represent left and 1 represent right scroll direction*/
     private float y_movement;
     private float x_movement;
-    private float scroll;
+    private int scroll;
     private boolean interaction;
     private boolean space;
 
@@ -57,9 +57,9 @@ public class InputController{
             x_movement = 0;
         }
 
-        if (Gdx.input.isKeyPressed(Keys.LEFT)){
+        if (Gdx.input.isKeyJustPressed(Keys.LEFT)){
             scroll = -1;
-        } else if (Gdx.input.isKeyPressed(Keys.RIGHT)){
+        } else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)){
             scroll = 1;
         } else {
             scroll = 0;
