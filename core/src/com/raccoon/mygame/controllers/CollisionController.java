@@ -68,7 +68,8 @@ public class CollisionController {
     }
 
     private void handleCollision(Player p, Guard g) {
-        if (p.getPosition().dst(g.getPosition()) < GUARD_RADIUS)
-        p.setPosition(new Vector2());
+        if (p.getPosition().dst(g.getPosition()) < GUARD_RADIUS) {
+            p.setPosition(new Vector2());
+        }
     }
 }
