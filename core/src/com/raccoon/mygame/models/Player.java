@@ -2,6 +2,7 @@ package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.raccoon.mygame.objects.GameObject;
 
 public class Player {
 
@@ -14,26 +15,27 @@ public class Player {
 
     //this should be a list of game objects instead
     //holds 3 items at a time
-    private Integer[] inventory = new Integer[3];
+    private Inventory inventory;
 
     private Texture playerTexture;
 
-    Player(float x, float y, float width, float height, Texture texture){
+    public Player(float x, float y, float width, float height, Texture texture, Inventory inventory){
         this.width = width;
         this.height = height;
+        this.inventory = inventory;
         playerTexture = texture;
         position = new Vector2(x, y);
     }
 
     //Setters
-    private void setX(float x){position.x = x;}
-    private void setY(float y){position.y = y;}
-    private void setPosition(Vector2 position){this.position = position;}
+    public void setX(float x){position.x = x;}
+    public void setY(float y){position.y = y;}
+    public void setPosition(Vector2 position){this.position = position;}
 
     //Getters
-    private float getX(){return this.position.x;}
-    private float getY(){return this.position.y;}
-    private Vector2 getPosition(){return this.position;}
+    public float getX(){return this.position.x;}
+    public float getY(){return this.position.y;}
+    public Vector2 getPosition(){return this.position;}
 
     /**
      * Draws the player onto the given canvas
@@ -48,20 +50,19 @@ public class Player {
      * @param xOffset The x distance to move the player
      * @param yOffset The y distance to move the player
      * */
-    private void move(float xOffset, float yOffset){
+    public void move(float xOffset, float yOffset){
         this.position.x += xOffset;
         this.position.y += yOffset;
     }
 
-    //need to finish implementing this
-    private void addItem(int item, int position){
-        //if the inventory is full,
-        //TO BE IMPLEMENTED
-        return;
+    //im not adding a pick up method because the inventory seems to handle that just fine?
+    public void pickUpItem(GameObject object){
+        //this is dependent on whether or not this method will exist which I am not sure if it does lol
+        this.inventory.add(object);
     }
 
-    private void removeItem(int item, int position){
-        //TO BE IMPLEMENTED
-        return;
+    //does what you think it would
+    public void removeItem(){
+        this.inventory.drop();
     }
 }
