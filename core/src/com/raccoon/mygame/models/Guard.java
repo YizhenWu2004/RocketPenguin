@@ -25,9 +25,9 @@ public class Guard {
     }
 
     //Setters
-    private void setX(float x){position.x = x;}
-    private void setY(float y){position.y = y;}
-    private void setPosition(Vector2 position){this.position = position;}
+    public void setX(float x){position.x = x;}
+    public void setY(float y){position.y = y;}
+    public void setPosition(Vector2 position){this.position = position;}
 
     public void setVX(float value) {
         velocity.x = value;
@@ -38,9 +38,9 @@ public class Guard {
     }
 
     //Getters
-    private float getX(){return this.position.x;}
-    private float getY(){return this.position.y;}
-    private Vector2 getPosition(){return this.position;}
+    public float getX(){return this.position.x;}
+    public float getY(){return this.position.y;}
+    public Vector2 getPosition(){return this.position;}
 
     public Vector2 getVelocity() {
         return velocity;

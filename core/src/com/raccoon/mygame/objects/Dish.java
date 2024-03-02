@@ -4,6 +4,7 @@ package com.raccoon.mygame.objects;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Dish implements GameObject{
+    public int name;
     public Ingredient[] type;
     public int size; //size of dish, from 1-3
     private Texture texture;
@@ -17,6 +18,7 @@ public class Dish implements GameObject{
         this.texture = texture;
         this.isActive = true;
         this.posInInventory = posInInventory;
+        this.name = 0;
 
     }
 

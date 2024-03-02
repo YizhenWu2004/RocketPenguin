@@ -4,6 +4,7 @@ package com.raccoon.mygame.objects;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Ingredient implements GameObject{
+    public int name;
     public String type;
     private float x;
     private float y;
@@ -24,6 +25,7 @@ public class Ingredient implements GameObject{
         this.isActive = true;
         this.posInInventory = posInInventory;
         this.posInPot = -1;
+        this.name = 0;
     }
 
 

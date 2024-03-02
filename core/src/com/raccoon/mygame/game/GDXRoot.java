@@ -45,7 +45,6 @@ public class GDXRoot extends Game implements ScreenListener {
 
 	Texture img;
 
-
 	InputController controller;
 	Rectangle bounds;
 
