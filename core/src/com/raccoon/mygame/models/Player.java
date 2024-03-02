@@ -2,7 +2,10 @@ package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.raccoon.mygame.controllers.InputController;
 import com.raccoon.mygame.objects.GameObject;
+
+import com.raccoon.mygame.models.inventory;
 
 public class Player {
 
@@ -13,13 +16,16 @@ public class Player {
 
     private Vector2 velocity;
 
+    //the interaction boolean from the InputController to be used to handle inputs
+    private boolean interaction;
+
     //this should be a list of game objects instead
     //holds 3 items at a time
-    private Inventory inventory;
+    private inventory inventory;
 
     private Texture playerTexture;
 
-    public Player(float x, float y, float width, float height, Texture texture, Inventory inventory){
+    public Player(float x, float y, float width, float height, Texture texture, inventory inventory){
         this.width = width;
         this.height = height;
         this.inventory = inventory;
@@ -64,5 +70,12 @@ public class Player {
     //does what you think it would
     public void removeItem(){
         this.inventory.drop();
+    }
+
+    public void setInteraction(boolean interaction){
+        this.interaction = interaction;
+    }
+    public boolean getInteraction(){
+        return this.getInteraction();
     }
 }
