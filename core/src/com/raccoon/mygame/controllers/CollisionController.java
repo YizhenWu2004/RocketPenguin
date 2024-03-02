@@ -55,6 +55,7 @@ public class CollisionController {
     public void processGuards(Player p, Array<Guard> guards) {
         for (Guard g: guards) {
             handleCollision(p, g);
+
         }
     }
 
@@ -70,6 +71,7 @@ public class CollisionController {
     private void handleCollision(Player p, Guard g) {
         if (p.getPosition().dst(g.getPosition()) < GUARD_RADIUS) {
             p.setPosition(new Vector2());
+            p.clearInv();
         }
     }
 }

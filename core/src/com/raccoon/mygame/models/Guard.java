@@ -16,7 +16,7 @@ public class Guard {
 
     private Texture patrolTexture;
 
-    Guard(float x, float y, float width, float height, Texture texture){
+    public Guard(float x, float y, float width, float height, Texture texture){
         position = new Vector2(x, y);
         velocity = new Vector2(0.0f, 0.0f);
         this.width = width;
@@ -60,7 +60,7 @@ public class Guard {
 
     public void draw(GameCanvas canvas) {
         canvas.draw(patrolTexture, Color.WHITE, 10, 10,
-                position.x, position.y, 0.0f, 1.0f, 1.f);
+                position.x, position.y, 0.0f, 0.5f, 0.5f);
     }
 
     //ADD PATROL AI CONTROLLER???

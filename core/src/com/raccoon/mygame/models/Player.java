@@ -1,11 +1,10 @@
 package com.raccoon.mygame.models;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.raccoon.mygame.controllers.InputController;
 import com.raccoon.mygame.objects.GameObject;
-
-import com.raccoon.mygame.models.inventory;
+import com.raccoon.mygame.view.GameCanvas;
 
 public class Player {
 
@@ -21,16 +20,20 @@ public class Player {
 
     //this should be a list of game objects instead
     //holds 3 items at a time
-    private inventory inventory;
+    private Inventory inventory;
 
     private Texture playerTexture;
+    private GameCanvas canvas;
 
-    public Player(float x, float y, float width, float height, Texture texture, inventory inventory){
+    private boolean space;
+    public Player(float x, float y, float width, float height, Texture texture, Inventory inventory,
+            GameCanvas canvas){
         this.width = width;
         this.height = height;
         this.inventory = inventory;
         playerTexture = texture;
         position = new Vector2(x, y);
+        this.canvas = canvas;
     }
 
     //Setters
@@ -76,6 +79,23 @@ public class Player {
         this.interaction = interaction;
     }
     public boolean getInteraction(){
-        return this.getInteraction();
+        return this.interaction;
     }
+
+    public void setSpace(boolean space){
+        this.space = space;
+    }
+    public boolean getSpace(){
+        return this.space;
+    }
+
+    public void draw(){
+        canvas.draw(playerTexture, Color.WHITE, 10, 10,
+                position.x, position.y, 0.0f, 0.1f, 0.1f);
+
+    }
+    public void clearInv(){
+        inventory.clearAll();
+    }
+
 }

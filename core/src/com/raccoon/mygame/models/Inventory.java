@@ -1,10 +1,9 @@
 package com.raccoon.mygame.models;
 
 import com.raccoon.mygame.objects.GameObject;
-import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
-public class inventory {
+public class Inventory {
 
     //list of all the gameobjects into inventory
     private GameObject[] items;
@@ -13,7 +12,7 @@ public class inventory {
     //boolean array to keep track of which indices in items are filled
     private boolean[] filled;
 
-    public inventory(){
+    public Inventory(){
         items = new GameObject[5];
         filled = new boolean[5];
         selected = 0;

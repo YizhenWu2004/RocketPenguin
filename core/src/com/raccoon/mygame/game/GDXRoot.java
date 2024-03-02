@@ -18,12 +18,18 @@ package com.raccoon.mygame.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.*;
+import com.raccoon.mygame.controllers.CollisionController;
 import com.raccoon.mygame.controllers.InputController;
+import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.util.ScreenListener;
 import com.raccoon.mygame.view.GameCanvas;
+import com.raccoon.mygame.models.*;
+import com.badlogic.gdx.utils.*;
 
 /**
  * Root class for a LibGDX.
@@ -45,8 +51,13 @@ public class GDXRoot extends Game implements ScreenListener {
 
 	Texture img;
 
-	InputController controller;
+	InputController input;
+	CollisionController collision;
 	Rectangle bounds;
+	private Array<Ingredient> objects;
+	private Array<Guard> guards;
+
+	private Player player;
 
 	/**
 	 * Creates a new game from the configuration settings.
@@ -65,8 +76,15 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void create() {
 		canvas  = new GameCanvas();
 		current = 0;
-		controller = new InputController();
+		input = new InputController();
+		collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
 		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
+		objects = new Array();
+		objects.add(new Ingredient("cat",200,200,new Texture("ingredient.png"),-1));
+		guards = new Array();
+		guards.add(new Guard(100,100,10,10,new Texture("guard.png")));
+		Inventory inv = new Inventory();
+		player = new Player(0,0,30,30, new Texture("rocko.png"),inv, canvas);
 
 	}
 
@@ -119,10 +137,31 @@ public class GDXRoot extends Game implements ScreenListener {
 	}
 
 	public void update(){
+		input.readInput();
+		player.move(5*input.getXMovement(),5*input.getYMovement());
+		player.setSpace(input.getSpace());
+		player.setInteraction(input.getInteraction());
+		collision.processBounds(player);
+		collision.processGuards(player,guards);
+		collision.processIngredients(player,objects);
+		//System.out.println(player.getX() + " " +player.getY());
 		//update position, inventory, etc, according to current state plus InputController
 	}
 
 	public void draw(){
+		canvas.begin();
+		canvas.draw(new Texture("background.png"), Color.WHITE, 0, 0,
+				0, 0, 0.0f, 2f, 2f);
+		player.draw();
+		for(Guard g : guards){
+			g.draw(canvas);
+		}
+		for (Ingredient i : objects){
+			i.draw(canvas);
+		}
+		//canvas.clear();
+		canvas.end();
+
 		//calls draw method to draw overlay(background) and all the other stuff)
 	}
 }

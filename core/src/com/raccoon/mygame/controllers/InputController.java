@@ -15,6 +15,8 @@ public class InputController{
     private float x_movement;
     private float scroll;
     private boolean interaction;
+    private boolean space;
+
 
     public float getYMovement(){
         return y_movement;
@@ -28,6 +30,7 @@ public class InputController{
     }
 
     public boolean getInteraction(){return interaction;}
+    public boolean getSpace(){return space;}
 
 
     public InputController(){
@@ -66,6 +69,12 @@ public class InputController{
             interaction = true;
         } else {
             interaction = false;
+        }
+
+        if (Gdx.input.isKeyPressed(Keys.SPACE)){
+            space = true;
+        } else {
+            space = false;
         }
 
     }

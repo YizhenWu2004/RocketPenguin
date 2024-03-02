@@ -1,7 +1,9 @@
 
 package com.raccoon.mygame.objects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.view.GameCanvas;
 
 public class Ingredient implements GameObject{
     public int name;
@@ -64,6 +66,9 @@ public class Ingredient implements GameObject{
     public int posInInventory() {
         return posInInventory;
     }
+    public void setPosInv(int index){
+        posInInventory = index;
+    }
 
     public int posInPot(){
         return posInPot;
@@ -71,6 +76,13 @@ public class Ingredient implements GameObject{
 
     public void inPot(int index){
         posInPot = index;
+    }
+
+    public void draw(GameCanvas canvas){
+        if (posInInventory < 0) {
+            canvas.draw(texture, Color.WHITE, 10, 10,
+                    x, y, 0.0f, 0.1f, 0.1f);
+        }
     }
 }
 
