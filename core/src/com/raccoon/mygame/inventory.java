@@ -40,7 +40,7 @@ public class inventory {
     //draws the objects in items
     public void draw(GameCanvas canvas){
         for(int i = 0; i < items.length; i++){
-            if(filled[i] = false){
+            if(filled[i] != false){
                 canvas.draw(items[i].getTexture(), 100 * (i+1), 100);
             }
         }
