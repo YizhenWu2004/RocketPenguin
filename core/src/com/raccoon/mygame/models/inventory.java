@@ -1,4 +1,4 @@
-package com.raccoon.mygame;
+package com.raccoon.mygame.models;
 
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.obstacle.BoxObstacle;
