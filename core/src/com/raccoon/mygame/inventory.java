@@ -47,9 +47,10 @@ public class inventory {
     }
 
     //adds another item to the inventory. The item is added to the first available slot
-    public void add(){
+    public void add(GameObject object){
         for(int i = 0; i < items.length; i++){
             if(filled[i] = false){
+                items[i] = object;
                 filled[i] = true;
                 break;
             }
