@@ -54,6 +54,10 @@ public class Guard {
         velocity.y = value;
     }
 
+    public float getWidth() { return width; }
+
+    public float getHeight() { return height; }
+
     public void update(float delta) {
         position.add(velocity);
     }
