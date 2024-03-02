@@ -1,6 +1,10 @@
 package com.raccoon.mygame.controllers;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.*;
 import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.models.Guard;
+import com.raccoon.mygame.objects.*;
 
 //detects collision for now
 public class CollisionController {
@@ -27,6 +31,35 @@ public class CollisionController {
     }
 
     public void processBounds(Player p) {
-        if (p.getX() )
+        if (p.getX() < 0) {
+            p.setX(0);
+        }
+        else if (p.getX() >= width) {
+            p.setX(width-1);
+        }
+
+        if (p.getY() < 0) {
+            p.setY(0);
+        }
+        else if (p.getY() >= height) {
+            p.setY(height-1);
+        }
+    }
+
+    public void processCollisions(Player p, Array<GameObject> objects) {
+
+    }
+
+    private void handleCollision(Player p, Ingredient i) {
+        if (p.getPosition().dst(new Vector2(i.getXPosition(), i.getYPosition())) < PICKUP_RADIUS) {
+            if (p.getInteraction()) {
+                p.pickUpItem(i);
+                p.setInteraction(false);
+            }
+        }
+    }
+
+    private void handleCollision(Player p, Guard g) {
+        p.setPosition(new Vector2());
     }
 }
