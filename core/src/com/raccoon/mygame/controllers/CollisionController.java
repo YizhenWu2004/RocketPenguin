@@ -9,10 +9,10 @@ import com.raccoon.mygame.objects.*;
 //detects collision for now
 public class CollisionController {
     /** Maximum distance a player must be from an ingredient to pick it up */
-    protected static final float PICKUP_RADIUS = 3.0f;
+    protected static final float PICKUP_RADIUS = 100.0f;
 
     /** Maximum distance a player must be from a guard to be caught */
-    protected static final float GUARD_RADIUS = 3.0f;
+    protected static final float GUARD_RADIUS = 100.0f;
 
     /** Width of the collision geometry */
     private float width;
@@ -69,7 +69,8 @@ public class CollisionController {
     }
 
     private void handleCollision(Player p, Guard g) {
-        if (p.getPosition().dst(g.getPosition()) < GUARD_RADIUS) {
+        Vector2 dst = p.getPosition().sub(g.getPosition());
+        if (Math.abs(dst.x) < g.getWidth()/2 && Math.abs(dst.y) < g.getHeight()/2) {
             p.setPosition(new Vector2());
             p.clearInv();
         }
