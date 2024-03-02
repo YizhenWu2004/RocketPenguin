@@ -2,6 +2,7 @@ package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.raccoon.mygame.objects.GameObject;
 
 public class Player {
 
@@ -55,4 +56,8 @@ public class Player {
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
+    public void pickUpItem(GameObject object){
+        //this is dependent on whether or not this method will exist which I am not sure if it does lol
+        this.inventory.add(object);
+    }
 }
