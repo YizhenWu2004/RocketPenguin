@@ -1,21 +1,26 @@
 package com.raccoon.mygame.models;
 
+import com.badlogic.gdx.graphics.Color;
 import com.raccoon.mygame.objects.GameObject;
+import com.raccoon.mygame.objects.Ingredient;
+import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
-
+import com.badlogic.gdx.graphics.Texture;
 public class Inventory {
 
     //list of all the gameobjects into inventory
-    private GameObject[] items;
+    private Ingredient[] items;
     //pointer representing the current slot in the inventory thats selected
     private int selected;
+    private Texture itexture;
     //boolean array to keep track of which indices in items are filled
     private boolean[] filled;
 
-    public Inventory(){
-        items = new GameObject[5];
+    public Inventory(Texture t){
+        items = new Ingredient[5];
         filled = new boolean[5];
         selected = 0;
+        itexture = t;
         for(int i = 0; i < filled.length; i++){
             filled[i] = false;
         }
@@ -23,7 +28,12 @@ public class Inventory {
     //used when the player selects another item in their inventory
 
     public void setSelected(int i){
-        selected = i;
+        if(i != 0){
+            System.out.println("changed selecteg");
+        }
+        if(0 <= selected + i && selected + i < 5){
+            selected = selected + i;
+        }
     }
 
     //gets the index of the current slot selected
@@ -38,15 +48,19 @@ public class Inventory {
 
     //draws the objects in items
     public void draw(GameCanvas canvas){
+        canvas.draw(itexture, Color.WHITE, 10, 10,
+                0, 550, 0.0f, 1f, 1f);
+        Texture h = new Texture("minecraft.png");
+        canvas.draw(h, selected * 185,570);
         for(int i = 0; i < items.length; i++){
             if(filled[i] != false){
-                canvas.draw(items[i].getTexture(), 100 * (i+1), 100);
+                canvas.draw(items[i].getTexture(), i * 185, 570);
             }
         }
     }
 
     //adds another item to the inventory. The item is added to the first available slot
-    public void add(GameObject object){
+    public void add(Ingredient object){
         for(int i = 0; i < items.length; i++){
             if(filled[i] = false){
                 items[i] = object;

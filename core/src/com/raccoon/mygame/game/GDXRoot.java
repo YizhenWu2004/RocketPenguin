@@ -83,7 +83,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		objects.add(new Ingredient("cat",200,200,new Texture("ingredient.png"),-1));
 		guards = new Array();
 		guards.add(new Guard(100,100,10,10,new Texture("guard.png")));
-		Inventory inv = new Inventory();
+		Inventory inv = new Inventory(new Texture("UI_inventorybar01_030224.png"));
 		player = new Player(0,0,30,30, new Texture("rocko.png"),inv, canvas);
 
 	}
@@ -144,6 +144,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		collision.processBounds(player);
 		collision.processGuards(player,guards);
 		collision.processIngredients(player,objects);
+		player.getInventory().setSelected((int) input.getScroll());
 		//System.out.println(player.getX() + " " +player.getY());
 		//update position, inventory, etc, according to current state plus InputController
 	}
@@ -153,6 +154,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		canvas.draw(new Texture("background.png"), Color.WHITE, 0, 0,
 				0, 0, 0.0f, 2f, 2f);
 		player.draw();
+
 		for(Guard g : guards){
 			g.draw(canvas);
 		}
