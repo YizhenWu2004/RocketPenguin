@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.raccoon.mygame.objects.GameObject;
 
+//this is just the directory looking at elmo's commit.
+//I don't think she's uploaded it to main yet.
+import com.raccoon.mygame.inventory;
+
 public class Player {
 
     private Vector2 position;
