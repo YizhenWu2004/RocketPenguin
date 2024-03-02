@@ -60,4 +60,9 @@ public class Player {
         //this is dependent on whether or not this method will exist which I am not sure if it does lol
         this.inventory.add(object);
     }
+
+    //does what you think it would
+    public void removeItem(){
+        this.inventory.drop();
+    }
 }
