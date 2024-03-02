@@ -46,8 +46,16 @@ public class CollisionController {
         }
     }
 
-    public void processCollisions(Player p, Array<GameObject> objects) {
+    public void processIngredients(Player p, Array<Ingredient> ingredients) {
+        for (Ingredient i: ingredients) {
+            handleCollision(p, i);
+        }
+    }
 
+    public void processGuards(Player p, Array<Guard> guards) {
+        for (Guard g: guards) {
+            handleCollision(p, g);
+        }
     }
 
     private void handleCollision(Player p, Ingredient i) {
@@ -60,6 +68,7 @@ public class CollisionController {
     }
 
     private void handleCollision(Player p, Guard g) {
+        if (p.getPosition().dst(g.getPosition()) < GUARD_RADIUS)
         p.setPosition(new Vector2());
     }
 }
