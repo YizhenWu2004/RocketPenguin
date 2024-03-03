@@ -9,6 +9,8 @@ import com.raccoon.mygame.view.GameCanvas;
 
 public class Player {
 
+    protected static final float TEXTURE_SX = 0.1f;
+    protected static final float TEXTURE_SY = 0.1f;
     private Vector2 position;
 
     private float width;
@@ -94,9 +96,12 @@ public class Player {
         return inventory;
     }
 
+    public float getTextureWidth() { return playerTexture.getWidth() * TEXTURE_SX; }
+    public float getTextureHeight() { return playerTexture.getHeight() * TEXTURE_SY; }
+
     public void draw(){
         canvas.draw(playerTexture, Color.WHITE, 10, 10,
-                position.x, position.y, 0.0f, 0.1f, 0.1f);
+                position.x, position.y, 0.0f, TEXTURE_SX, TEXTURE_SY);
         this.inventory.draw(canvas);
 
     }

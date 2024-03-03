@@ -72,7 +72,9 @@ public class CollisionController {
 
         Vector2 dst = new Vector2(p.getPosition().x, p.getPosition().y);
         dst.sub((g.getPosition()));
-        if (Math.abs(dst.x) < 25 && Math.abs(dst.y) < 25) {
+        float collisionX = (p.getTextureWidth() + g.getTextureWidth())*0.5f;
+        float collisionY = (p.getTextureHeight() + g.getTextureHeight())*0.5f;
+        if (Math.abs(dst.x) < collisionX && Math.abs(dst.y) < collisionY) {
             p.setPosition(new Vector2());
             p.clearInv();
         }
