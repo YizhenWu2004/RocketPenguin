@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.*;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Guard {
+    protected static final float TEXTURE_SX = 0.5f;
+    protected static final float TEXTURE_SY = 0.5f;
     private Vector2 position;
 
     private float width;
@@ -58,13 +60,16 @@ public class Guard {
 
     public float getHeight() { return height; }
 
+    public float getTextureWidth() { return patrolTexture.getWidth() * TEXTURE_SX; }
+    public float getTextureHeight() { return patrolTexture.getHeight() * TEXTURE_SY; }
+
     public void update(float delta) {
         position.add(velocity);
     }
 
     public void draw(GameCanvas canvas) {
         canvas.draw(patrolTexture, Color.WHITE, 10, 10,
-                position.x, position.y, 0.0f, 0.5f, 0.5f);
+                position.x, position.y, 0.0f, TEXTURE_SX, TEXTURE_SY);
     }
 
     //ADD PATROL AI CONTROLLER???
