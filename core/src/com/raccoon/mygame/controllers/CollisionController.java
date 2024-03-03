@@ -55,11 +55,11 @@ public class CollisionController {
     public void processGuards(Player p, Array<Guard> guards) {
         for (Guard g: guards) {
             handleCollision(p, g);
-
         }
     }
 
     private void handleCollision(Player p, Ingredient i) {
+
         if (p.getPosition().dst(new Vector2(i.getXPosition(), i.getYPosition())) < PICKUP_RADIUS) {
             if (p.getInteraction()) {
                 p.pickUpItem(i);
@@ -69,8 +69,10 @@ public class CollisionController {
     }
 
     private void handleCollision(Player p, Guard g) {
-        Vector2 dst = p.getPosition().sub(g.getPosition());
-        if (Math.abs(dst.x) < g.getWidth()/2 && Math.abs(dst.y) < g.getHeight()/2) {
+
+        Vector2 dst = new Vector2(p.getPosition().x, p.getPosition().y);
+        dst.sub((g.getPosition()));
+        if (Math.abs(dst.x) < 25 && Math.abs(dst.y) < 25) {
             p.setPosition(new Vector2());
             p.clearInv();
         }
