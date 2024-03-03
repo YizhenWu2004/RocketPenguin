@@ -53,7 +53,7 @@ public class Inventory {
         Texture h = new Texture("minecraft.png");
         canvas.draw(h, selected * 185,570);
         for(int i = 0; i < items.length; i++){
-            if(filled[i] != false){
+            if(filled[i]){
                 canvas.draw(items[i].getTexture(), i * 185, 570);
             }
         }
@@ -62,7 +62,7 @@ public class Inventory {
     //adds another item to the inventory. The item is added to the first available slot
     public void add(Ingredient object){
         for(int i = 0; i < items.length; i++){
-            if(filled[i] = false){
+            if(!filled[i]){
                 items[i] = object;
                 filled[i] = true;
                 break;
