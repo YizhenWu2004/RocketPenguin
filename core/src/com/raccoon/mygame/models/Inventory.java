@@ -28,10 +28,16 @@ public class Inventory {
     //used when the player selects another item in their inventory
 
     public void setSelected(int i){
-        if(i != 0){
-            System.out.println("changed selecteg");
+//        if(i != 0){
+//            System.out.println("changed selecteg");
+//        }
+        if(selected == 0 && i == -1){
+            selected = 4;
         }
-        if(0 <= selected + i && selected + i < 5){
+        else if(selected == 4 && i == 1){
+            selected = 0;
+        }
+        else if(0 <= selected + i && selected + i < 5){
             selected = selected + i;
         }
     }
@@ -49,12 +55,12 @@ public class Inventory {
     //draws the objects in items
     public void draw(GameCanvas canvas){
         canvas.draw(itexture, Color.WHITE, 10, 10,
-                0, 550, 0.0f, 1f, 1f);
+                10, 550, 0.0f, 1f, 1f);
         Texture h = new Texture("minecraft.png");
-        canvas.draw(h, selected * 185,570);
+        canvas.draw(h, Color.WHITE, 10,10, selected * (187-selected),550, 0.0f, 1.32f,1.35f);
         for(int i = 0; i < items.length; i++){
             if(filled[i]){
-                canvas.draw(items[i].getTexture(), Color.WHITE, 10, 10,i * 185+20, 570,0.0f, 0.1f, 0.1f);
+                canvas.draw(items[i].getTexture(), Color.WHITE, 10, 10,i * 185+21, 562,0.0f, 0.145f, 0.125f);
             }
         }
     }
