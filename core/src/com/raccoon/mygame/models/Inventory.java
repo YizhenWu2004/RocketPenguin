@@ -54,7 +54,7 @@ public class Inventory {
         canvas.draw(h, selected * 185,570);
         for(int i = 0; i < items.length; i++){
             if(filled[i]){
-                canvas.draw(items[i].getTexture(), i * 185, 570);
+                canvas.draw(items[i].getTexture(), Color.WHITE, 10, 10,i * 185+20, 570,0.0f, 0.1f, 0.1f);
             }
         }
     }
@@ -65,6 +65,8 @@ public class Inventory {
             if(!filled[i]){
                 items[i] = object;
                 filled[i] = true;
+                items[i].setPosInv(i);
+                items[i].setPosition(-100,-100);
                 break;
             }
         }

@@ -61,9 +61,9 @@ public class CollisionController {
     private void handleCollision(Player p, Ingredient i) {
 
         if (p.getPosition().dst(new Vector2(i.getXPosition(), i.getYPosition())) < PICKUP_RADIUS) {
-            if (p.getInteraction()) {
+            if (p.getSpace()) {
                 p.pickUpItem(i);
-                p.setInteraction(false);
+                p.setSpace(false);
             }
         }
     }
