@@ -1139,6 +1139,26 @@ public class GameCanvas {
     	debugRender.setColor(color);
     	debugRender.ellipse(x0-w, y0-h, 2*w, 2*h, 12);
     }
+
+	public void drawDebugRectangle(float x, float y, float width, float height, Color color) {
+		if (active == DrawPass.STANDARD) {
+			spriteBatch.end();
+			active = DrawPass.INACTIVE;
+		}
+
+		if (active != DrawPass.DEBUG) {
+			debugRender.begin(ShapeRenderer.ShapeType.Line);
+			active = DrawPass.DEBUG;
+		}
+
+		debugRender.setColor(color);
+		debugRender.rect(x, y, width, height);
+
+		debugRender.end();
+
+		spriteBatch.begin();
+		active = DrawPass.STANDARD;
+	}
     
 	/**
 	 * Compute the affine transform (and store it in local) for this image.

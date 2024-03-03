@@ -70,12 +70,15 @@ public class CollisionController {
     }
 
     private void handleCollision(Player p, Guard g) {
+        Vector2 pPos = p.getPosition();
+        Vector2 gPos = g.getPosition();
 
-        Vector2 dst = new Vector2(p.getPosition().x, p.getPosition().y);
-        dst.sub((g.getPosition()));
-        float collisionX = (p.getTextureWidth() + g.getTextureWidth())*0.5f;
-        float collisionY = (p.getTextureHeight() + g.getTextureHeight())*0.5f;
-        if (Math.abs(dst.x) < collisionX && Math.abs(dst.y) < collisionY) {
+        float pRight = pPos.x + p.getTextureWidth();
+        float pTop = pPos.y + p.getTextureHeight();
+        float gRight = gPos.x + g.getTextureWidth();
+        float gTop = gPos.y + g.getTextureHeight();
+
+        if (pPos.x < gRight && pRight > gPos.x && pPos.y < gTop && pTop > gPos.y) {
             p.setPosition(new Vector2());
             p.clearInv();
         }
