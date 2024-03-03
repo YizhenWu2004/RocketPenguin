@@ -2,14 +2,15 @@ package com.raccoon.mygame.controllers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.*;
-import com.raccoon.mygame.models.Player;
-import com.raccoon.mygame.models.Guard;
+import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
 
 //detects collision for now
 public class CollisionController {
     /** Maximum distance a player must be from an ingredient to pick it up */
     protected static final float PICKUP_RADIUS = 100.0f;
+
+    protected static final float TRASH_RADIUS = 100.0f;
 
     /** Maximum distance a player must be from a guard to be caught */
     protected static final float GUARD_RADIUS = 100.0f;
@@ -77,6 +78,14 @@ public class CollisionController {
         if (Math.abs(dst.x) < collisionX && Math.abs(dst.y) < collisionY) {
             p.setPosition(new Vector2());
             p.clearInv();
+        }
+    }
+
+    private void handleCollision(Player p, Trash t) {
+        if (p.getPosition().dst(t.getPosition()) < TRASH_RADIUS) {
+            if (p.getInteraction()) {
+                p.getInventory().drop();
+            }
         }
     }
 }
