@@ -58,6 +58,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	private Array<Guard> guards;
 
 	private Player player;
+	private Trash trash;
 	private boolean win;
 
 	/**
@@ -95,7 +96,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		guards.add(new Guard(1400,600,10,10,new Texture("guard.png")));
 		Inventory inv = new Inventory(new Texture("UI_inventorybar01_030224.png"));
 		player = new Player(0,0,30,30, new Texture("rocko.png"),inv, canvas);
-
+		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
 	}
 
 	/**
@@ -161,6 +162,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		collision.processBounds(player);
 		collision.processGuards(player,guards);
 		collision.processIngredients(player,objects);
+		collision.handleCollision(player,trash);
 		player.getInventory().setSelected((int) input.getScroll());
 		float delta = Gdx.graphics.getDeltaTime();
 		for (Guard guard : guards) {
@@ -186,6 +188,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		for (Ingredient i : objects){
 			i.draw(canvas);
 		}
+		trash.draw(canvas);
 		//canvas.clear();
 		canvas.end();
 

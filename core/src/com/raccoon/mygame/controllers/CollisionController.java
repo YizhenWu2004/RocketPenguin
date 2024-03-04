@@ -84,7 +84,7 @@ public class CollisionController {
         }
     }
 
-    private void handleCollision(Player p, Trash t) {
+    public void handleCollision(Player p, Trash t) {
         if (p.getPosition().dst(t.getPosition()) < TRASH_RADIUS) {
             if (p.getInteraction()) {
                 p.getInventory().drop();

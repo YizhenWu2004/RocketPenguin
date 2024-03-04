@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Trash {
-    protected static final float TEXTURE_SX = 0.5f;
-    protected static final float TEXTURE_SY = 0.5f;
+    protected static final float TEXTURE_SX = 0.75f;
+    protected static final float TEXTURE_SY = 0.75f;
     private Vector2 position;
 
     private float width;
