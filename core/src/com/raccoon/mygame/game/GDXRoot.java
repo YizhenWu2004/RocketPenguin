@@ -60,6 +60,9 @@ public class GDXRoot extends Game implements ScreenListener {
 	private Player player;
 	private Trash trash;
 	private boolean win;
+	public Texture background;
+	public Texture winPic;
+
 
 	/**
 	 * Creates a new game from the configuration settings.
@@ -76,6 +79,8 @@ public class GDXRoot extends Game implements ScreenListener {
 	 * the asynchronous loader for all other assets.
 	 */
 	public void create() {
+		background = new Texture("background.png");
+		winPic = new Texture("win.png");
 		canvas  = new GameCanvas();
 		current = 0;
 		win = false;
@@ -144,7 +149,9 @@ public class GDXRoot extends Game implements ScreenListener {
 	@Override
 	public void render(){
 		update();
+		canvas.begin();
 		draw();
+		canvas.end();
 	}
 
 
@@ -170,15 +177,14 @@ public class GDXRoot extends Game implements ScreenListener {
 		}
 	}
 
+
 	public void draw(){
-		canvas.begin();
 		if (win){
-			canvas.draw(new Texture("win.png"), Color.WHITE, 15, 15,
+			canvas.draw(winPic, Color.WHITE, 15, 15,
 					0, 0, 0.0f, 2.8f, 3f);
-			canvas.end();
 			return;
 		}
-		canvas.draw(new Texture("background.png"), Color.WHITE, 0, 0,
+		canvas.draw(background, Color.WHITE, 0, 0,
 				0, 0, 0.0f, 2f, 2f);
 		player.draw();
 
@@ -190,8 +196,6 @@ public class GDXRoot extends Game implements ScreenListener {
 		}
 		trash.draw(canvas);
 		//canvas.clear();
-		canvas.end();
-
 		//calls draw method to draw overlay(background) and all the other stuff)
 	}
 }
