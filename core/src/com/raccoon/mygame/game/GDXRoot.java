@@ -58,6 +58,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	private Array<Guard> guards;
 
 	private Player player;
+	private boolean win;
 
 	/**
 	 * Creates a new game from the configuration settings.
@@ -76,6 +77,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void create() {
 		canvas  = new GameCanvas();
 		current = 0;
+		win = false;
 		input = new InputController();
 		collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
 		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
@@ -140,12 +142,8 @@ public class GDXRoot extends Game implements ScreenListener {
 
 	@Override
 	public void render(){
-		if (player.getX() >= 1900){
-			win();
-		}else {
-			update();
-			draw();
-		}
+		update();
+		draw();
 	}
 
 
@@ -154,6 +152,9 @@ public class GDXRoot extends Game implements ScreenListener {
 		if (input.getReset()){
 			create();
 		}
+		if (player.getX() >= 1900) {
+			win = true;
+		}
 		player.move(8*input.getXMovement(),8*input.getYMovement());
 		player.setSpace(input.getSpace());
 		player.setInteraction(input.getInteraction());
@@ -161,9 +162,6 @@ public class GDXRoot extends Game implements ScreenListener {
 		collision.processGuards(player,guards);
 		collision.processIngredients(player,objects);
 		player.getInventory().setSelected((int) input.getScroll());
-		//System.out.println(player.getX() + " " +player.getY());
-		//update position, inventory, etc, according to current state plus InputController
-
 		float delta = Gdx.graphics.getDeltaTime();
 		for (Guard guard : guards) {
 			guard.update(delta);
@@ -172,6 +170,12 @@ public class GDXRoot extends Game implements ScreenListener {
 
 	public void draw(){
 		canvas.begin();
+		if (win){
+			canvas.draw(new Texture("win.png"), Color.WHITE, 15, 15,
+					0, 0, 0.0f, 2.8f, 3f);
+			canvas.end();
+			return;
+		}
 		canvas.draw(new Texture("background.png"), Color.WHITE, 0, 0,
 				0, 0, 0.0f, 2f, 2f);
 		player.draw();
@@ -186,12 +190,5 @@ public class GDXRoot extends Game implements ScreenListener {
 		canvas.end();
 
 		//calls draw method to draw overlay(background) and all the other stuff)
-	}
-
-	public void win(){
-		canvas.begin();
-		canvas.draw(new Texture("win.png"), Color.WHITE, 15, 15,
-				0, 0, 0.0f, 2.8f, 3f);
-		canvas.end();
 	}
 }
