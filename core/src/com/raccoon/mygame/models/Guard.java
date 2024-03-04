@@ -31,8 +31,8 @@ public class Guard {
         this.height = height;
         patrolTexture = texture;
 
-        float leftBoundary = 0;
-        float rightBoundary = 300;
+        float leftBoundary = x-150;
+        float rightBoundary = x+150;
         float speed = 60;
         this.aiController = new GuardAIController(leftBoundary, rightBoundary, speed);
     }

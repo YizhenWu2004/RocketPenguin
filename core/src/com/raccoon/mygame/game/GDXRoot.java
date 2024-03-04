@@ -81,9 +81,16 @@ public class GDXRoot extends Game implements ScreenListener {
 		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
 		objects = new Array();
 		objects.add(new Ingredient("cat",200,200,new Texture("ingredient.png"),-1));
+		objects.add(new Ingredient("cat",1600,300,new Texture("ingredient.png"),-1));
+		objects.add(new Ingredient("cat",1500,800,new Texture("ingredient.png"),-1));
+		objects.add(new Ingredient("cat",900,400,new Texture("ingredient.png"),-1));
+		objects.add(new Ingredient("cat",1000,800,new Texture("ingredient.png"),-1));
 		guards = new Array();
 		guards.add(new Guard(100,100,10,10,new Texture("guard.png")));
 		guards.add(new Guard(100,300,10,10,new Texture("guard.png")));
+		guards.add(new Guard(1500,800,10,10,new Texture("guard.png")));
+		guards.add(new Guard(750,400,10,10,new Texture("guard.png")));
+		guards.add(new Guard(1400,600,10,10,new Texture("guard.png")));
 		Inventory inv = new Inventory(new Texture("UI_inventorybar01_030224.png"));
 		player = new Player(0,0,30,30, new Texture("rocko.png"),inv, canvas);
 
@@ -133,13 +140,21 @@ public class GDXRoot extends Game implements ScreenListener {
 
 	@Override
 	public void render(){
-		update();
-		draw();
+		if (player.getX() >= 1900){
+			win();
+		}else {
+			update();
+			draw();
+		}
 	}
+
 
 	public void update(){
 		input.readInput();
-		player.move(5*input.getXMovement(),5*input.getYMovement());
+		if (input.getReset()){
+			create();
+		}
+		player.move(8*input.getXMovement(),8*input.getYMovement());
 		player.setSpace(input.getSpace());
 		player.setInteraction(input.getInteraction());
 		collision.processBounds(player);
@@ -171,5 +186,12 @@ public class GDXRoot extends Game implements ScreenListener {
 		canvas.end();
 
 		//calls draw method to draw overlay(background) and all the other stuff)
+	}
+
+	public void win(){
+		canvas.begin();
+		canvas.draw(new Texture("win.png"), Color.WHITE, 15, 15,
+				0, 0, 0.0f, 2.8f, 3f);
+		canvas.end();
 	}
 }
