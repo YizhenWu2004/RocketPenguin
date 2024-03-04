@@ -95,12 +95,6 @@ public class GameCanvas {
 	private Vector2 vertex;
 	/** Cache object to handle raw textures */
 	private TextureRegion holder;
-	public boolean isActive(){
-		if(active == DrawPass.STANDARD){
-			return true;
-		}
-		return false;
-	}
 
 	/**
 	 * Creates a new GameCanvas determined by the application configuration.
