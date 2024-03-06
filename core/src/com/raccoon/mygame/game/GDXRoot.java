@@ -19,9 +19,20 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.controllers.CollisionController;
 import com.raccoon.mygame.controllers.InputController;
 import com.raccoon.mygame.models.Player;
@@ -63,6 +74,14 @@ public class GDXRoot extends Game implements ScreenListener {
 	public Texture background;
 	public Texture winPic;
 
+	public OrthographicCamera camera;
+
+	private Box2DDebugRenderer renderer;
+
+	private World world;
+	private Body obj;
+	private Body p;
+
 
 	/**
 	 * Creates a new game from the configuration settings.
@@ -79,6 +98,43 @@ public class GDXRoot extends Game implements ScreenListener {
 	 * the asynchronous loader for all other assets.
 	 */
 	public void create() {
+
+		camera= new OrthographicCamera();
+		camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+		world = new World(new Vector2(0, 0), false);
+		renderer = new Box2DDebugRenderer();
+		obj = createObj();
+		BodyDef bodyDef = new BodyDef();
+// We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
+		bodyDef.type = BodyType.DynamicBody;
+// Set our body's starting position in the world
+		bodyDef.position.set(400, 10);
+
+// Create our body in the world using our body definition
+		Body body = world.createBody(bodyDef);
+
+// Create a circle shape and set its radius to 6
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(32, 32);
+
+// Create a fixture definition to apply our shape to
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.density = 0.5f;
+		fixtureDef.friction = 0.4f;
+		fixtureDef.restitution = 0.6f; // Make it bounce a little bit
+
+// Create our fixture and attach it to the body
+		Fixture fixture = body.createFixture(fixtureDef);
+
+// Remember to dispose of any shapes after you're done with them!
+// BodyDef and FixtureDef don't need disposing, but shapes do.
+		shape.dispose();
+		p = body;
+
+
+
+
 		background = new Texture("background.png");
 		winPic = new Texture("win.png");
 		canvas  = new GameCanvas();
@@ -104,6 +160,20 @@ public class GDXRoot extends Game implements ScreenListener {
 		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
 	}
 
+	public Body createObj(){
+		Body body;
+		BodyDef def = new BodyDef();
+		def.type = BodyDef.BodyType.StaticBody;
+		def.position.set(0,0);
+		body = world.createBody(def);
+
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(32/2, 32/2);
+		body.createFixture(shape,1.0f);
+		shape.dispose();
+		return body;
+	}
+
 	/**
 	 * Called when the Application is destroyed.
 	 *
@@ -115,6 +185,8 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		canvas.dispose();
 		canvas = null;
+		renderer.dispose();
+		world.dispose();
 
 		super.dispose();
 	}
@@ -152,18 +224,45 @@ public class GDXRoot extends Game implements ScreenListener {
 		canvas.begin();
 		draw();
 		canvas.end();
+		//Gdx.gl.glClearColor(0, 0, 0, 1);
+		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		renderer.render(world,camera.combined);
+
+
 	}
 
 
 	public void update(){
+
 		input.readInput();
+
+		float x;
+		float y;
+		if(input.getXMovement() < 0){
+			x = -100;
+		} else if (input.getXMovement() > 0){
+			x = 100;
+		} else {
+			x = 0;
+		}
+
+		if(input.getYMovement() < 0){
+			y = -100;
+		} else if (input.getYMovement() > 0){
+			y = 100;
+		} else {
+			y = 0;
+		}
+		p.setLinearVelocity(x,y);
+
 		if (input.getReset()){
 			create();
 		}
 		if (player.getX() >= 1900) {
 			win = true;
 		}
-		player.move(8*input.getXMovement(),8*input.getYMovement());
+		//player.move(8*input.getXMovement(),8*input.getYMovement());
+		player.setPosition(p.getPosition());
 		player.setSpace(input.getSpace());
 		player.setInteraction(input.getInteraction());
 		collision.processBounds(player);
@@ -175,6 +274,9 @@ public class GDXRoot extends Game implements ScreenListener {
 		for (Guard guard : guards) {
 			guard.update(delta);
 		}
+
+		world.step(1/60f, 6,2);
+
 	}
 
 
