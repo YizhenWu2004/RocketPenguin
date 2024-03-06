@@ -776,9 +776,10 @@ public abstract class SimpleObstacle extends Obstacle {
 	 *
 	 * @param canvas Drawing context
 	 */
-	public void draw(GameCanvas canvas) {
+	public void draw(GameCanvas canvas, float scaleX, float scaleY, float ox, float oy) {
+		//System.out.println(origin.x+" "+origin.y);
 		if (texture != null) {
-			canvas.draw(texture,Color.WHITE,origin.x,origin.y,getX()*drawScale.x,getY()*drawScale.x,getAngle(),1,1);
+			canvas.draw(texture,Color.WHITE,origin.x,origin.y+oy,getX()*drawScale.x,getY()*drawScale.x,getAngle(),scaleX,scaleY);
 		}
 	}
 	
@@ -828,6 +829,7 @@ public abstract class SimpleObstacle extends Obstacle {
 		// Make a body, if possible
 		bodyinfo.active = true;
 		body = world.createBody(bodyinfo);
+		body.setType(BodyType.StaticBody);
 		body.setUserData(this);
 		
 		// Only initialize if a body was created.

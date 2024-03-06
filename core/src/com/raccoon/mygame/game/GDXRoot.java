@@ -23,6 +23,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -37,6 +38,7 @@ import com.raccoon.mygame.controllers.CollisionController;
 import com.raccoon.mygame.controllers.InputController;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.Ingredient;
+import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.ScreenListener;
 import com.raccoon.mygame.view.GameCanvas;
 import com.raccoon.mygame.models.*;
@@ -81,6 +83,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	private World world;
 	private Body obj;
 	private Body p;
+	private BoxObstacle b;
 
 
 	/**
@@ -99,41 +102,15 @@ public class GDXRoot extends Game implements ScreenListener {
 	 */
 	public void create() {
 
-		camera= new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-		world = new World(new Vector2(0, 0), false);
-		renderer = new Box2DDebugRenderer();
-		obj = createObj();
-		BodyDef bodyDef = new BodyDef();
-// We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
-		bodyDef.type = BodyType.DynamicBody;
-// Set our body's starting position in the world
-		bodyDef.position.set(400, 10);
-
-// Create our body in the world using our body definition
-		Body body = world.createBody(bodyDef);
-
-// Create a circle shape and set its radius to 6
-		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(32, 32);
-
-// Create a fixture definition to apply our shape to
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = shape;
-		fixtureDef.density = 0.5f;
-		fixtureDef.friction = 0.4f;
-		fixtureDef.restitution = 0.6f; // Make it bounce a little bit
-
-// Create our fixture and attach it to the body
-		Fixture fixture = body.createFixture(fixtureDef);
-
-// Remember to dispose of any shapes after you're done with them!
-// BodyDef and FixtureDef don't need disposing, but shapes do.
-		shape.dispose();
-		p = body;
-
-
-
+		world = new World(new Vector2(0, -100), false);
+		b = new BoxObstacle(50,50);
+		b.setDensity(1.0f);
+		b.activatePhysics(world);
+		Texture t = new Texture("rocko.png");
+		TextureRegion te = new TextureRegion(t);
+		b.setTexture(te);
+		b.setFriction(0);
+		b.setLinearDamping(0);
 
 		background = new Texture("background.png");
 		winPic = new Texture("win.png");
@@ -141,7 +118,6 @@ public class GDXRoot extends Game implements ScreenListener {
 		current = 0;
 		win = false;
 		input = new InputController();
-		collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
 		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
 		objects = new Array();
 		objects.add(new Ingredient("cat",200,200,new Texture("ingredient.png"),-1));
@@ -149,30 +125,20 @@ public class GDXRoot extends Game implements ScreenListener {
 		objects.add(new Ingredient("cat",1500,800,new Texture("ingredient.png"),-1));
 		objects.add(new Ingredient("cat",900,400,new Texture("ingredient.png"),-1));
 		objects.add(new Ingredient("cat",1000,800,new Texture("ingredient.png"),-1));
+
 		guards = new Array();
-		guards.add(new Guard(100,100,10,10,new Texture("guard.png")));
-		guards.add(new Guard(100,300,10,10,new Texture("guard.png")));
-		guards.add(new Guard(1500,800,10,10,new Texture("guard.png")));
-		guards.add(new Guard(750,400,10,10,new Texture("guard.png")));
-		guards.add(new Guard(1400,600,10,10,new Texture("guard.png")));
+		guards.add(new Guard(150,100,10,10,new Texture("guard.png"),world));
+		guards.add(new Guard(150,300,10,10,new Texture("guard.png"),world));
+		guards.add(new Guard(1500,800,10,10,new Texture("guard.png"),world));
+		guards.add(new Guard(750,400,10,10,new Texture("guard.png"),world));
+		guards.add(new Guard(1400,600,10,10,new Texture("guard.png"),world));
 		Inventory inv = new Inventory(new Texture("UI_inventorybar01_030224.png"));
-		player = new Player(0,0,30,30, new Texture("rocko.png"),inv, canvas);
+		player = new Player(0,0,30,30, new Texture("rocko.png"),inv, canvas, b);
 		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
+		collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player);
+		world.setContactListener(collision);
 	}
 
-	public Body createObj(){
-		Body body;
-		BodyDef def = new BodyDef();
-		def.type = BodyDef.BodyType.StaticBody;
-		def.position.set(0,0);
-		body = world.createBody(def);
-
-		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(32/2, 32/2);
-		body.createFixture(shape,1.0f);
-		shape.dispose();
-		return body;
-	}
 
 	/**
 	 * Called when the Application is destroyed.
@@ -185,7 +151,6 @@ public class GDXRoot extends Game implements ScreenListener {
 
 		canvas.dispose();
 		canvas = null;
-		renderer.dispose();
 		world.dispose();
 
 		super.dispose();
@@ -224,9 +189,10 @@ public class GDXRoot extends Game implements ScreenListener {
 		canvas.begin();
 		draw();
 		canvas.end();
+		drawDebug();
 		//Gdx.gl.glClearColor(0, 0, 0, 1);
 		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		renderer.render(world,camera.combined);
+		//renderer.render(world,camera.combined);
 
 
 	}
@@ -234,26 +200,21 @@ public class GDXRoot extends Game implements ScreenListener {
 
 	public void update(){
 
+		if (collision.collide){
+			player.setPosition(new Vector2());
+			player.clearInv();
+			collision.collide = false;
+		}
+
+
 		input.readInput();
 
-		float x;
-		float y;
-		if(input.getXMovement() < 0){
-			x = -100;
-		} else if (input.getXMovement() > 0){
-			x = 100;
-		} else {
-			x = 0;
-		}
+		float x = 100*input.getXMovement();
+		float y =100*input.getYMovement();
+		b.getBody().setLinearVelocity(x,y);
+		//System.out.println(b.getBody().getPosition().x);
 
-		if(input.getYMovement() < 0){
-			y = -100;
-		} else if (input.getYMovement() > 0){
-			y = 100;
-		} else {
-			y = 0;
-		}
-		p.setLinearVelocity(x,y);
+		//player.move(x,y);
 
 		if (input.getReset()){
 			create();
@@ -261,12 +222,13 @@ public class GDXRoot extends Game implements ScreenListener {
 		if (player.getX() >= 1900) {
 			win = true;
 		}
+
 		//player.move(8*input.getXMovement(),8*input.getYMovement());
-		player.setPosition(p.getPosition());
+		//player.setPosition(p.getPosition());
 		player.setSpace(input.getSpace());
 		player.setInteraction(input.getInteraction());
 		collision.processBounds(player);
-		collision.processGuards(player,guards);
+		//collision.processGuards(player,guards);
 		collision.processIngredients(player,objects);
 		collision.handleCollision(player,trash);
 		player.getInventory().setSelected((int) input.getScroll());
@@ -288,7 +250,9 @@ public class GDXRoot extends Game implements ScreenListener {
 		}
 		canvas.draw(background, Color.WHITE, 0, 0,
 				0, 0, 0.0f, 2f, 2f);
+		//b.draw(canvas, 0.1f, 0.1f);
 		player.draw();
+		trash.draw(canvas);
 
 		for(Guard g : guards){
 			g.draw(canvas);
@@ -296,8 +260,17 @@ public class GDXRoot extends Game implements ScreenListener {
 		for (Ingredient i : objects){
 			i.draw(canvas);
 		}
-		trash.draw(canvas);
-		//canvas.clear();
+
+
 		//calls draw method to draw overlay(background) and all the other stuff)
+	}
+
+	public void drawDebug(){
+		canvas.beginDebug();
+		b.drawDebug(canvas);
+		for(Guard g : guards){
+			g.debug(canvas);
+		}
+		canvas.endDebug();
 	}
 }

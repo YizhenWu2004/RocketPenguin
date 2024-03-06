@@ -123,6 +123,8 @@ public class BoxObstacle extends SimpleObstacle {
 	}
 
 
+
+
 	/**
 	 * Creates a new box object.
 	 *

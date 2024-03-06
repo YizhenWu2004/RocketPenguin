@@ -1,11 +1,15 @@
 package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.controllers.GuardAIController;
+import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Guard {
@@ -22,10 +26,11 @@ public class Guard {
 
     private GuardAIController aiController;
 
+    private BoxObstacle g;
 
 
-    public Guard(float x, float y, float width, float height, Texture texture){
-        position = new Vector2(x, y);
+
+    public Guard(float x, float y, float width, float height, Texture texture, World world){
         velocity = new Vector2(0.0f, 0.0f);
         this.width = width;
         this.height = height;
@@ -35,12 +40,22 @@ public class Guard {
         float rightBoundary = x+150;
         float speed = 60;
         this.aiController = new GuardAIController(leftBoundary, rightBoundary, speed);
+
+        g = new BoxObstacle(100,50);
+        g.setDensity(1.0f);
+        g.activatePhysics(world);
+        Texture t = new Texture("guard.png");
+        TextureRegion te = new TextureRegion(t);
+        g.setTexture(te);
+        g.setPosition(x,y);
+        g.setBodyType(BodyType.DynamicBody);
+        g.setFixedRotation(true);
     }
 
     //Setters
-    public void setX(float x){position.x = x;}
-    public void setY(float y){position.y = y;}
-    public void setPosition(Vector2 position){this.position = position;}
+    public void setX(float x){g.setX(x);}
+    public void setY(float y){g.setY(y);}
+    public void setPosition(Vector2 position){g.setPosition(position);}
 
     public void setVX(float value) {
         velocity.x = value;
@@ -51,9 +66,9 @@ public class Guard {
     }
 
     //Getters
-    public float getX(){return this.position.x;}
-    public float getY(){return this.position.y;}
-    public Vector2 getPosition(){return this.position;}
+    public float getX(){return g.getX();}
+    public float getY(){return g.getY();}
+    public Vector2 getPosition(){return g.getPosition();}
 
     public Vector2 getVelocity() {
         return velocity;
@@ -75,25 +90,28 @@ public class Guard {
     public float getTextureHeight() { return patrolTexture.getHeight() * TEXTURE_SY; }
 
     public void update(float delta) {
-        position.add(velocity);
+        //g.setPosition(g.getPosition().add(velocity));
         if (aiController != null) {
-            position = aiController.updatePosition(new Vector2(position), delta);
+            g.setLinearVelocity(new Vector2(aiController.getSpeed(g.getPosition(),delta),0));
+            //System.out.println(g.getLinearVelocity().x);
+
         }
     }
 
-    ShapeRenderer shapeRenderer = new ShapeRenderer();
-
     public void draw(GameCanvas canvas) {
-        canvas.draw(patrolTexture, Color.WHITE, 10, 10,
-                position.x, position.y, 0.0f, TEXTURE_SX, TEXTURE_SY);
+//        canvas.draw(patrolTexture, Color.WHITE, 10, 10,
+//                position.x, position.y, 0.0f, TEXTURE_SX, TEXTURE_SY);
+          g.draw(canvas, TEXTURE_SX, TEXTURE_SY, 0, -100);
+//        float debugX = position.x;
+//        float debugY = position.y;
+//        float debugWidth = getTextureWidth();
+//        float debugHeight = getTextureHeight();
+//        Color debugColor = Color.RED;
+//        canvas.drawDebugRectangle(debugX, debugY, debugWidth, debugHeight, debugColor);
+    }
 
-        float debugX = position.x;
-        float debugY = position.y;
-        float debugWidth = getTextureWidth();
-        float debugHeight = getTextureHeight();
-        Color debugColor = Color.RED;
-
-        canvas.drawDebugRectangle(debugX, debugY, debugWidth, debugHeight, debugColor);
+    public void debug(GameCanvas canvas){
+        g.drawDebug(canvas);
     }
 
 }

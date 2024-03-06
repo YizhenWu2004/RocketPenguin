@@ -3,8 +3,11 @@ package com.raccoon.mygame.models;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
+import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Player {
@@ -28,26 +31,33 @@ public class Player {
     private Texture playerTexture;
     private GameCanvas canvas;
 
+    public BoxObstacle p;
+
     private boolean space;
     public Player(float x, float y, float width, float height, Texture texture, Inventory inventory,
-            GameCanvas canvas){
+            GameCanvas canvas, BoxObstacle b){
         this.width = width;
         this.height = height;
         this.inventory = inventory;
         playerTexture = texture;
         position = new Vector2(x, y);
         this.canvas = canvas;
+        this.p = b;
+        p.setBodyType(BodyType.DynamicBody);
+        p.setFixedRotation(true);
     }
 
     //Setters
-    public void setX(float x){position.x = x;}
-    public void setY(float y){position.y = y;}
-    public void setPosition(Vector2 position){this.position = position;}
+    public void setX(float x){p.setX(x);}
+    public void setY(float y){p.setY(y);}
+    public void setPosition(Vector2 position){
+        p.setPosition(position);
+    }
 
     //Getters
-    public float getX(){return this.position.x;}
-    public float getY(){return this.position.y;}
-    public Vector2 getPosition(){return this.position;}
+    public float getX(){return p.getX();}
+    public float getY(){return p.getY();}
+    public Vector2 getPosition(){return p.getPosition();}
 
     /**
      * Draws the player onto the given canvas
@@ -63,8 +73,12 @@ public class Player {
      * @param yOffset The y distance to move the player
      * */
     public void move(float xOffset, float yOffset){
-        this.position.x += xOffset;
-        this.position.y += yOffset;
+        //p.setPosition(p.getX() + xOffset, p.getY() + yOffset);
+        p.setVX(xOffset);
+        p.setVY(yOffset);
+        //Body b= p.getBody();
+        //b.setLinearVelocity(new Vector2(xOffset, yOffset));
+
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
@@ -96,12 +110,13 @@ public class Player {
         return inventory;
     }
 
-    public float getTextureWidth() { return playerTexture.getWidth() * TEXTURE_SX; }
-    public float getTextureHeight() { return playerTexture.getHeight() * TEXTURE_SY; }
+    public float getTextureWidth() { return p.getWidth(); }
+    public float getTextureHeight() { return p.getHeight(); }
 
     public void draw(){
-        canvas.draw(playerTexture, Color.WHITE, 10, 10,
-                position.x, position.y, 0.0f, TEXTURE_SX, TEXTURE_SY);
+        p.draw(canvas, 0.1f, 0.1f, 0, -250);
+//        canvas.draw(playerTexture, Color.WHITE, 10, 10,
+//                position.x, position.y, 0.0f, TEXTURE_SX, TEXTURE_SY);
         this.inventory.draw(canvas);
 
     }

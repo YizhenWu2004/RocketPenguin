@@ -30,5 +30,22 @@ public class GuardAIController {
         }
         return guardPosition;
     }
+    public float getSpeed(Vector2 guardPosition, float deltaTime) {
+        if (movingRight) {
+            guardPosition.x += speed * deltaTime;
+            if (guardPosition.x >= rightBoundary) {
+                movingRight = false;
+                return 0;
+            }
+            return speed;
+        } else {
+            guardPosition.x -= speed * deltaTime;
+            if (guardPosition.x <= leftBoundary) {
+                movingRight = true;
+                return 0;
+            }
+            return -speed;
+        }
+    }
 
 }
