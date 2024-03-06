@@ -1,12 +1,17 @@
 package com.raccoon.mygame.controllers;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.*;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
 
 //detects collision for now
-public class CollisionController {
+public class CollisionController implements ContactListener {
     /** Maximum distance a player must be from an ingredient to pick it up */
     protected static final float PICKUP_RADIUS = 100.0f;
 
@@ -19,6 +24,7 @@ public class CollisionController {
     private float width;
     /** Height of the collision geometry */
     private float height;
+    private Player player;
 
     /**
      * Creates a CollisionController for the given screen dimensions.
@@ -26,9 +32,11 @@ public class CollisionController {
      * @param width   Width of the screen
      * @param height  Height of the screen
      */
-    public CollisionController(float width, float height) {
+    public CollisionController(float width, float height, Player p) {
         this.width = width;
         this.height = height;
+        this.player = p;
+        collide=false;
     }
 
     public void processBounds(Player p) {
@@ -90,5 +98,31 @@ public class CollisionController {
                 p.getInventory().drop();
             }
         }
+    }
+    public boolean collide;
+
+
+    @Override
+    public void beginContact(Contact contact) {
+        Body body1 = contact.getFixtureA().getBody();
+        Body body2 = contact.getFixtureB().getBody();
+        if (body1.getUserData() == player.p || body2.getUserData() == player.p){
+            collide = true;
+        }
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+
     }
 }

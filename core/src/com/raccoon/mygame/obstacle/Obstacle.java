@@ -987,7 +987,7 @@ public abstract class Obstacle {
 	 *
 	 * @param canvas Drawing context
 	 */
-	public abstract void draw(GameCanvas canvas);
+	public abstract void draw(GameCanvas canvas, float scaleX, float scaleY, float ox, float oy);
 
 	/**
 	 * Draws the outline of the physics body.
