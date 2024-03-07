@@ -205,6 +205,9 @@ public class GDXRoot extends Game implements ScreenListener {
 			player.clearInv();
 			collision.collide = false;
 		}
+		if (collision.inSight){
+			System.out.println("I SEE YOU FUCKER");
+		}
 
 
 		input.readInput();

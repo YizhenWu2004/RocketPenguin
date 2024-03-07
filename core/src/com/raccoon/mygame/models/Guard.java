@@ -60,6 +60,7 @@ public class Guard {
         sight.activatePhysics(world);
         sight.setPosition(x + getTextureWidth(), y + getTextureHeight()/2.0f);
         sight.setBodyType(BodyType.KinematicBody);
+
     }
 
     //Setters
