@@ -56,11 +56,11 @@ public class Inventory {
     public void draw(GameCanvas canvas){
         canvas.draw(itexture, Color.WHITE, 10, 10,
                 500, 0, 0.0f, 0.5f, 0.5f);
-        Texture h = new Texture("minecraft.png");
-        canvas.draw(h, Color.WHITE, 10,10, selected * (94-selected) + 500,0, 0.0f, 0.66f,0.675f);
+        Texture h = new Texture("inventoryselected.png");
+        canvas.draw(h, Color.WHITE, 0,5, selected * (94-selected) + 480,0, 0.0f, 0.5f,0.5f);
         for(int i = 0; i < items.length; i++){
             if(filled[i]){
-                canvas.draw(items[i].getTexture(), Color.WHITE, 10, 10,i * 90 + 506, 5,0.0f, 0.0725f, 0.0625f);
+                canvas.draw(items[i].getTexture(), Color.WHITE, 10, 10,i * 90 + 506, 5,0.0f, 0.2f, 0.2f);
             }
         }
     }

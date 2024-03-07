@@ -13,8 +13,8 @@ import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Guard {
-    protected static final float TEXTURE_SX = 0.5f;
-    protected static final float TEXTURE_SY = 0.5f;
+    protected static final float TEXTURE_SX = 0.1f;
+    protected static final float TEXTURE_SY = 0.1f;
     private Vector2 position;
 
     private float width;
@@ -47,7 +47,7 @@ public class Guard {
         g = new BoxObstacle(100,50);
         g.setDensity(1.0f);
         g.activatePhysics(world);
-        Texture t = new Texture("guard.png");
+        Texture t = new Texture("gooseReal.png");
         TextureRegion te = new TextureRegion(t);
         g.setTexture(te);
         g.setPosition(x,y);
