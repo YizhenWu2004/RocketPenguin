@@ -26,16 +26,19 @@ public class CollisionController implements ContactListener {
     private float height;
     private Player player;
 
+    private Array<Guard> guards;
+
     /**
      * Creates a CollisionController for the given screen dimensions.
      *
      * @param width   Width of the screen
      * @param height  Height of the screen
      */
-    public CollisionController(float width, float height, Player p) {
+    public CollisionController(float width, float height, Player p, Array<Guard> guards) {
         this.width = width;
         this.height = height;
         this.player = p;
+        this.guards = guards;
         collide=false;
         inSight=false;
     }
@@ -108,9 +111,28 @@ public class CollisionController implements ContactListener {
     public void beginContact(Contact contact) {
         Body body1 = contact.getFixtureA().getBody();
         Body body2 = contact.getFixtureB().getBody();
-        if (body1.getUserData() == player.p || body2.getUserData() == player.p){
+        if (body1.getUserData() == player.p){
             if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
                 inSight = true;
+                for(Guard guard : guards){
+                    if(body2.getUserData() == guard){
+                        System.out.println("I SEE YOU CHASE2");
+                        guard.switchToChaseMode();
+                    }
+                }
+            }
+            else {
+                collide = true;
+            }
+        }
+        else if (body2.getUserData() == player.p){
+            if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
+                inSight = true;
+                for(Guard guard : guards){
+                    if(body1.getUserData() == guard){
+                        guard.switchToChaseMode();
+                    }
+                }
             }
             else {
                 collide = true;

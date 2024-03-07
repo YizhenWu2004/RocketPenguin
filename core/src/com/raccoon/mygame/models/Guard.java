@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
@@ -26,7 +27,7 @@ public class Guard {
 
     private GuardAIController aiController;
 
-    private BoxObstacle g;
+    public BoxObstacle g;
     private BoxObstacle g2;
 
     private BoxObstacle sight;
@@ -54,12 +55,16 @@ public class Guard {
         g.setBodyType(BodyType.KinematicBody);
         g.setFixedRotation(true);
 
-        sight = new BoxObstacle(250, 3*getTextureHeight());
+sight = new BoxObstacle(250, 3*getTextureHeight());
+
         sight.setSensor(true);
         sight.setDensity(1.0f);
         sight.activatePhysics(world);
         sight.setPosition(x + getTextureWidth(), y + getTextureHeight()*5);
         sight.setBodyType(BodyType.KinematicBody);
+
+        g.getBody().setUserData(this);
+        sight.getBody().setUserData(this);
 
     }
 
@@ -103,11 +108,11 @@ public class Guard {
     public float getTextureWidth() { return patrolTexture.getWidth() * TEXTURE_SX; }
     public float getTextureHeight() { return patrolTexture.getHeight() * TEXTURE_SY; }
 
-    public void update(float delta) {
+    public void update(float delta, Array<Float> info) {
         //g.setPosition(g.getPosition().add(velocity));
         if (aiController != null) {
-            g.setLinearVelocity(new Vector2(aiController.getSpeed(g.getPosition(),delta),0));
-            sight.setLinearVelocity(new Vector2(aiController.getSpeed(sight.getPosition(),delta),0));
+            g.setLinearVelocity(new Vector2(aiController.getSpeed(g.getPosition(),delta, info)));
+            sight.setLinearVelocity(new Vector2(aiController.getSpeed(sight.getPosition(),delta,info)));
             //sight.setAngle((float) ((sight.getAngle() + 0.01f) % (2*Math.PI)));
             //System.out.println(g.getLinearVelocity().x);
 
@@ -130,6 +135,12 @@ public class Guard {
 
         g.drawDebug(canvas);
         sight.drawDebug(canvas);
+    }
+
+    public void switchToChaseMode() {
+//        System.out.println("I SEE YOU CHASE");
+
+        this.aiController.setAIStateChase();
     }
 
 }
