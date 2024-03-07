@@ -37,6 +37,7 @@ public class CollisionController implements ContactListener {
         this.height = height;
         this.player = p;
         collide=false;
+        inSight=false;
     }
 
     public void processBounds(Player p) {
@@ -100,6 +101,7 @@ public class CollisionController implements ContactListener {
         }
     }
     public boolean collide;
+    public boolean inSight;
 
 
     @Override
@@ -107,13 +109,20 @@ public class CollisionController implements ContactListener {
         Body body1 = contact.getFixtureA().getBody();
         Body body2 = contact.getFixtureB().getBody();
         if (body1.getUserData() == player.p || body2.getUserData() == player.p){
-            collide = true;
+            if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
+                inSight = true;
+            }
+            else {
+                collide = true;
+            }
         }
+
     }
 
     @Override
     public void endContact(Contact contact) {
-
+        inSight = false;
+        collide = false;
     }
 
     @Override
