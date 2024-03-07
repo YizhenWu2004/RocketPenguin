@@ -135,7 +135,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		Inventory inv = new Inventory(new Texture("inventorybar.png"));
 		player = new Player(0,0,30,30, new Texture("rockoReal.png"),inv, canvas, b);
 		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
-		collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player);
+		collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
 		world.setContactListener(collision);
 	}
 
@@ -206,7 +206,7 @@ public class GDXRoot extends Game implements ScreenListener {
 			collision.collide = false;
 		}
 		if (collision.inSight){
-			System.out.println("I SEE YOU FUCKER");
+//			System.out.println("I SEE YOU FUCKER");
 		}
 
 
@@ -237,7 +237,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		player.getInventory().setSelected((int) input.getScroll());
 		float delta = Gdx.graphics.getDeltaTime();
 		for (Guard guard : guards) {
-			guard.update(delta);
+			guard.update(delta, generatePlayerInfo());
 		}
 
 		world.step(1/60f, 6,2);
@@ -275,5 +275,12 @@ public class GDXRoot extends Game implements ScreenListener {
 			g.debug(canvas);
 		}
 		canvas.endDebug();
+	}
+
+	public Array<Float> generatePlayerInfo() {
+		Array<Float> playerInfo = new Array<Float>();
+		playerInfo.add(player.getX());
+		playerInfo.add(player.getY());
+		return playerInfo;
 	}
 }
