@@ -120,6 +120,12 @@ public class Player {
         this.inventory.draw(canvas);
 
     }
+
+    //draw with scale
+    public void draw(float scaleX, float scaleY){
+        p.draw(canvas, scaleX, scaleY, 0, -250);
+        this.inventory.draw(canvas);
+    }
     public void clearInv(){
         inventory.clearAll();
     }

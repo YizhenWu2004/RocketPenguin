@@ -106,13 +106,13 @@ public class GDXRoot extends Game implements ScreenListener {
 		b = new BoxObstacle(50,50);
 		b.setDensity(1.0f);
 		b.activatePhysics(world);
-		Texture t = new Texture("rocko.png");
+		Texture t = new Texture("rockoReal.png");
 		TextureRegion te = new TextureRegion(t);
 		b.setTexture(te);
 		b.setFriction(0);
 		b.setLinearDamping(0);
 
-		background = new Texture("background.png");
+		background = new Texture("groceryfloor.png");
 		winPic = new Texture("win.png");
 		canvas  = new GameCanvas();
 		current = 0;
@@ -120,11 +120,11 @@ public class GDXRoot extends Game implements ScreenListener {
 		input = new InputController();
 		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
 		objects = new Array();
-		objects.add(new Ingredient("cat",200,200,new Texture("ingredient.png"),-1));
-		objects.add(new Ingredient("cat",1600,300,new Texture("ingredient.png"),-1));
-		objects.add(new Ingredient("cat",1500,800,new Texture("ingredient.png"),-1));
-		objects.add(new Ingredient("cat",900,400,new Texture("ingredient.png"),-1));
-		objects.add(new Ingredient("cat",1000,800,new Texture("ingredient.png"),-1));
+		objects.add(new Ingredient("apple",200,200,new Texture("apple.png"),-1));
+		objects.add(new Ingredient("banana",1600,300,new Texture("banana.png"),-1));
+		objects.add(new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1));
+		objects.add(new Ingredient("orange",900,400,new Texture("orange.png"),-1));
+		objects.add(new Ingredient("banana",1000,800,new Texture("banana.png"),-1));
 
 		guards = new Array();
 		guards.add(new Guard(150,100,10,10,new Texture("guard.png"),world));
@@ -132,8 +132,8 @@ public class GDXRoot extends Game implements ScreenListener {
 		guards.add(new Guard(1500,800,10,10,new Texture("guard.png"),world));
 		guards.add(new Guard(750,400,10,10,new Texture("guard.png"),world));
 		guards.add(new Guard(1400,600,10,10,new Texture("guard.png"),world));
-		Inventory inv = new Inventory(new Texture("UI_inventorybar01_030224.png"));
-		player = new Player(0,0,30,30, new Texture("rocko.png"),inv, canvas, b);
+		Inventory inv = new Inventory(new Texture("inventorybar.png"));
+		player = new Player(0,0,30,30, new Texture("rockoReal.png"),inv, canvas, b);
 		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
 		collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player);
 		world.setContactListener(collision);
@@ -252,9 +252,9 @@ public class GDXRoot extends Game implements ScreenListener {
 			return;
 		}
 		canvas.draw(background, Color.WHITE, 0, 0,
-				0, 0, 0.0f, 2f, 2f);
+				0, 0, 0.0f, 1f, 1f);
 		//b.draw(canvas, 0.1f, 0.1f);
-		player.draw();
+		player.draw(0.25f,0.25f);
 		trash.draw(canvas);
 
 		for(Guard g : guards){

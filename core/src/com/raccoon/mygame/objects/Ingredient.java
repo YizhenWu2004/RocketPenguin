@@ -81,7 +81,7 @@ public class Ingredient implements GameObject{
     public void draw(GameCanvas canvas){
         if (posInInventory < 0) {
             canvas.draw(texture, Color.WHITE, 10, 10,
-                    x, y, 0.0f, 0.1f, 0.1f);
+                    x, y, 0.0f, 0.2f, 0.2f);
         }
     }
 }
