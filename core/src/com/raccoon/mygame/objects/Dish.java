@@ -15,6 +15,7 @@ public class Dish implements GameObject{
 
     public Dish(Ingredient[] type, Texture texture, int posInInventory ){
         this.type = type;
+        size = type.length;
         this.texture = texture;
         this.isActive = true;
         this.posInInventory = posInInventory;

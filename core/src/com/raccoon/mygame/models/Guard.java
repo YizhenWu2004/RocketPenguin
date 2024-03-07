@@ -27,6 +27,9 @@ public class Guard {
     private GuardAIController aiController;
 
     private BoxObstacle g;
+    private BoxObstacle g2;
+
+    private BoxObstacle sight;
 
 
 
@@ -48,14 +51,25 @@ public class Guard {
         TextureRegion te = new TextureRegion(t);
         g.setTexture(te);
         g.setPosition(x,y);
-        g.setBodyType(BodyType.DynamicBody);
+        g.setBodyType(BodyType.KinematicBody);
         g.setFixedRotation(true);
+
+        sight = new BoxObstacle(250, getTextureHeight()/2.0f);
+        sight.setSensor(true);
+        sight.setDensity(1.0f);
+        sight.activatePhysics(world);
+        sight.setPosition(x + getTextureWidth(), y + getTextureHeight()/2.0f);
+        sight.setBodyType(BodyType.KinematicBody);
+
     }
 
     //Setters
     public void setX(float x){g.setX(x);}
     public void setY(float y){g.setY(y);}
-    public void setPosition(Vector2 position){g.setPosition(position);}
+    public void setPosition(Vector2 position){
+        g.setPosition(position);
+        sight.setPosition(position.x + getTextureWidth(), position.y + getTextureHeight()/2.0f);
+    }
 
     public void setVX(float value) {
         velocity.x = value;
@@ -93,6 +107,8 @@ public class Guard {
         //g.setPosition(g.getPosition().add(velocity));
         if (aiController != null) {
             g.setLinearVelocity(new Vector2(aiController.getSpeed(g.getPosition(),delta),0));
+            sight.setLinearVelocity(new Vector2(aiController.getSpeed(sight.getPosition(),delta),0));
+            //sight.setAngle((float) ((sight.getAngle() + 0.01f) % (2*Math.PI)));
             //System.out.println(g.getLinearVelocity().x);
 
         }
@@ -111,7 +127,9 @@ public class Guard {
     }
 
     public void debug(GameCanvas canvas){
+
         g.drawDebug(canvas);
+        sight.drawDebug(canvas);
     }
 
 }
