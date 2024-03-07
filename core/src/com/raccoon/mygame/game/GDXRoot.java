@@ -102,8 +102,8 @@ public class GDXRoot extends Game implements ScreenListener {
 	 */
 	public void create() {
 
-		world = new World(new Vector2(0, -100), false);
-		b = new BoxObstacle(50,50);
+		world = new World(new Vector2(0, 0), false);
+		b = new BoxObstacle(50,30);
 		b.setDensity(1.0f);
 		b.activatePhysics(world);
 		Texture t = new Texture("rockoReal.png");

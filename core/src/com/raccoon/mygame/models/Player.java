@@ -123,7 +123,7 @@ public class Player {
 
     //draw with scale
     public void draw(float scaleX, float scaleY){
-        p.draw(canvas, scaleX, scaleY, 0, -250);
+        p.draw(canvas, scaleX, scaleY, 0, -200);
         this.inventory.draw(canvas);
     }
     public void clearInv(){
