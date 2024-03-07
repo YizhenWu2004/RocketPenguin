@@ -2,24 +2,22 @@ package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
-public class Player {
+public class Player extends BoxObstacle{
 
     protected static final float TEXTURE_SX = 0.1f;
     protected static final float TEXTURE_SY = 0.1f;
-    private Vector2 position;
-
-    private float width;
-    private float height;
-
-    private Vector2 velocity;
+    private final int WORLD_WIDTH = 32;
+    private final int WORLD_HEIGHT = 18;
 
     //the interaction boolean from the InputController to be used to handle inputs
     private boolean interaction;
@@ -31,54 +29,30 @@ public class Player {
     private Texture playerTexture;
     private GameCanvas canvas;
 
-    public BoxObstacle p;
 
     private boolean space;
+
+
+//    b = new BoxObstacle(1,1);
+//		b.setDensity(1.0f);
+//		b.activatePhysics(world);
+//		b.setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT); // Pixel width / world width
+
     public Player(float x, float y, float width, float height, Texture texture, Inventory inventory,
-            GameCanvas canvas, BoxObstacle b){
-        this.width = width;
-        this.height = height;
+            GameCanvas canvas, World world){
+        super(width, height);
         this.inventory = inventory;
-        playerTexture = texture;
-        position = new Vector2(x, y);
+        setTexture(new TextureRegion(texture));
         this.canvas = canvas;
-        this.p = b;
-        p.setBodyType(BodyType.DynamicBody);
-        p.setFixedRotation(true);
-    }
-
-    //Setters
-    public void setX(float x){p.setX(x);}
-    public void setY(float y){p.setY(y);}
-    public void setPosition(Vector2 position){
-        p.setPosition(position);
-    }
-
-    //Getters
-    public float getX(){return p.getX();}
-    public float getY(){return p.getY();}
-    public Vector2 getPosition(){return p.getPosition();}
-
-    /**
-     * Draws the player onto the given canvas
-     * @param canvas The canvas to draw to
-     * */
-//    private void draw(GameCanvas canvas){
-//        canvas.draw(playerTexture, this.position.x, this.position.y);
-//    }
-
-    /**
-     * Moves the player's position given a specified offset
-     * @param xOffset The x distance to move the player
-     * @param yOffset The y distance to move the player
-     * */
-    public void move(float xOffset, float yOffset){
-        //p.setPosition(p.getX() + xOffset, p.getY() + yOffset);
-        p.setVX(xOffset);
-        p.setVY(yOffset);
-        //Body b= p.getBody();
-        //b.setLinearVelocity(new Vector2(xOffset, yOffset));
-
+        setFixedRotation(true);
+        setDensity(1);
+        setFriction(0);
+        setLinearDamping(0);
+        setPosition(x,y);
+        activatePhysics(world);
+        this.setBodyType(BodyType.DynamicBody);
+        setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT);
+        this.getBody().setUserData(this);
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
@@ -110,20 +84,9 @@ public class Player {
         return inventory;
     }
 
-    public float getTextureWidth() { return p.getWidth(); }
-    public float getTextureHeight() { return p.getHeight(); }
-
-    public void draw(){
-        p.draw(canvas, 0.1f, 0.1f, 0, -250);
-//        canvas.draw(playerTexture, Color.WHITE, 10, 10,
-//                position.x, position.y, 0.0f, TEXTURE_SX, TEXTURE_SY);
-        this.inventory.draw(canvas);
-
-    }
-
     //draw with scale
     public void draw(float scaleX, float scaleY){
-        p.draw(canvas, scaleX, scaleY, 0, -200);
+        draw(canvas, scaleX, scaleY, 0, -200);
         this.inventory.draw(canvas);
     }
     public void clearInv(){

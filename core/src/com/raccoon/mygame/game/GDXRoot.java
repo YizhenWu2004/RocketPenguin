@@ -56,14 +56,6 @@ import com.badlogic.gdx.utils.*;
 public class GDXRoot extends Game implements ScreenListener {
 	private GameCanvas canvas;
 
-
-	//current could represent whether we are in restaurant
-	private int current;
-
-	SpriteBatch batch;
-
-	Texture img;
-
 	InputController input;
 	CollisionController collision;
 	Rectangle bounds;
@@ -81,9 +73,12 @@ public class GDXRoot extends Game implements ScreenListener {
 	private Box2DDebugRenderer renderer;
 
 	private World world;
-	private Body obj;
-	private Body p;
-	private BoxObstacle b;
+
+	private final int WORLD_WIDTH = 32;
+	private final int WORLD_HEIGHT = 18;
+
+	private Vector2 velCache;
+
 
 
 	/**
@@ -102,20 +97,13 @@ public class GDXRoot extends Game implements ScreenListener {
 	 */
 	public void create() {
 
+
 		world = new World(new Vector2(0, 0), false);
-		b = new BoxObstacle(50,30);
-		b.setDensity(1.0f);
-		b.activatePhysics(world);
-		Texture t = new Texture("rockoReal.png");
-		TextureRegion te = new TextureRegion(t);
-		b.setTexture(te);
-		b.setFriction(0);
-		b.setLinearDamping(0);
+		canvas  = new GameCanvas();
 
 		background = new Texture("groceryfloor.png");
 		winPic = new Texture("win.png");
-		canvas  = new GameCanvas();
-		current = 0;
+		velCache = new Vector2(0,0);
 		win = false;
 		input = new InputController();
 		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
@@ -127,13 +115,14 @@ public class GDXRoot extends Game implements ScreenListener {
 		objects.add(new Ingredient("banana",1000,800,new Texture("banana.png"),-1));
 
 		guards = new Array();
-		guards.add(new Guard(150,100,10,10,new Texture("guard.png"),world));
-		guards.add(new Guard(150,300,10,10,new Texture("guard.png"),world));
-		guards.add(new Guard(1500,800,10,10,new Texture("guard.png"),world));
-		guards.add(new Guard(750,400,10,10,new Texture("guard.png"),world));
-		guards.add(new Guard(1400,600,10,10,new Texture("guard.png"),world));
+		guards.add(new Guard(2.5f,1.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+		guards.add(new Guard(2.5f,5,1.67f,0.83f,new Texture("gooseReal.png"),world,canvas));
+		guards.add(new Guard(25,13.3f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+		guards.add(new Guard(12.5f,6.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+		guards.add(new Guard(23.3f,10,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
 		Inventory inv = new Inventory(new Texture("inventorybar.png"));
-		player = new Player(0,0,30,30, new Texture("rockoReal.png"),inv, canvas, b);
+		player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),inv, canvas, world);
+		//player.setBodyType(BodyType.KinematicBody);
 		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
 		collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
 		world.setContactListener(collision);
@@ -190,11 +179,6 @@ public class GDXRoot extends Game implements ScreenListener {
 		draw();
 		canvas.end();
 		drawDebug();
-		//Gdx.gl.glClearColor(0, 0, 0, 1);
-		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		//renderer.render(world,camera.combined);
-
-
 	}
 
 
@@ -208,26 +192,21 @@ public class GDXRoot extends Game implements ScreenListener {
 		if (collision.inSight){
 //			System.out.println("I SEE YOU FUCKER");
 		}
-
-
 		input.readInput();
 
-		float x = 100*input.getXMovement();
-		float y =100*input.getYMovement();
-		b.getBody().setLinearVelocity(x,y);
-		//System.out.println(b.getBody().getPosition().x);
+		float x = 5f*input.getXMovement();
+		float y =5f*input.getYMovement();
+		velCache = velCache.set(x,y);
+		player.setLinearVelocity(velCache);
 
-		//player.move(x,y);
 
 		if (input.getReset()){
 			create();
 		}
-		if (player.getX() >= 1900) {
+		if (player.getX() >= 32) {
 			win = true;
 		}
 
-		//player.move(8*input.getXMovement(),8*input.getYMovement());
-		//player.setPosition(p.getPosition());
 		player.setSpace(input.getSpace());
 		player.setInteraction(input.getInteraction());
 		collision.processBounds(player);
@@ -240,6 +219,7 @@ public class GDXRoot extends Game implements ScreenListener {
 			guard.update(delta, generatePlayerInfo());
 		}
 
+		//System.out.println(b.getLinearVelocity());
 		world.step(1/60f, 6,2);
 
 	}
@@ -258,7 +238,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		trash.draw(canvas);
 
 		for(Guard g : guards){
-			g.draw(canvas);
+			g.draw(0.1f,0.1f);
 		}
 		for (Ingredient i : objects){
 			i.draw(canvas);
@@ -270,7 +250,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 	public void drawDebug(){
 		canvas.beginDebug();
-		b.drawDebug(canvas);
+		player.drawDebug(canvas);
 		for(Guard g : guards){
 			g.debug(canvas);
 		}
