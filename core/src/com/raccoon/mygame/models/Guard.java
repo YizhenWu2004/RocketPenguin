@@ -54,11 +54,11 @@ public class Guard {
         g.setBodyType(BodyType.KinematicBody);
         g.setFixedRotation(true);
 
-        sight = new BoxObstacle(250, getTextureHeight()/2.0f);
+        sight = new BoxObstacle(250, 3*getTextureHeight());
         sight.setSensor(true);
         sight.setDensity(1.0f);
         sight.activatePhysics(world);
-        sight.setPosition(x + getTextureWidth(), y + getTextureHeight()/2.0f);
+        sight.setPosition(x + getTextureWidth(), y + getTextureHeight()*5);
         sight.setBodyType(BodyType.KinematicBody);
 
     }
@@ -68,7 +68,7 @@ public class Guard {
     public void setY(float y){g.setY(y);}
     public void setPosition(Vector2 position){
         g.setPosition(position);
-        sight.setPosition(position.x + getTextureWidth(), position.y + getTextureHeight()/2.0f);
+        sight.setPosition(position.x + getTextureWidth(), position.y + getTextureHeight()*5);
     }
 
     public void setVX(float value) {
@@ -117,7 +117,7 @@ public class Guard {
     public void draw(GameCanvas canvas) {
 //        canvas.draw(patrolTexture, Color.WHITE, 10, 10,
 //                position.x, position.y, 0.0f, TEXTURE_SX, TEXTURE_SY);
-          g.draw(canvas, TEXTURE_SX, TEXTURE_SY, 0, -100);
+          g.draw(canvas, TEXTURE_SX, TEXTURE_SY, 0, -600);
 //        float debugX = position.x;
 //        float debugY = position.y;
 //        float debugWidth = getTextureWidth();
