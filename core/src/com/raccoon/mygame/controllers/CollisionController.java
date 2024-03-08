@@ -14,12 +14,15 @@ import com.raccoon.mygame.obstacle.Obstacle;
 //detects collision for now
 public class CollisionController implements ContactListener {
     /** Maximum distance a player must be from an ingredient to pick it up */
-    protected static final float PICKUP_RADIUS = 100.0f;
+    protected static final float PICKUP_RADIUS = 1.0f;
 
-    protected static final float TRASH_RADIUS = 100.0f;
+    protected static final float TRASH_RADIUS = 1.0f;
 
     /** Maximum distance a player must be from a guard to be caught */
     protected static final float GUARD_RADIUS = 100.0f;
+
+    private final int WORLD_WIDTH = 32;
+    private final int WORLD_HEIGHT = 18;
 
     /** Width of the collision geometry */
     private float width;
@@ -72,9 +75,16 @@ public class CollisionController implements ContactListener {
         }
     }
 
-    private void handleCollision(Player p, Ingredient i) {
+    private Vector2 canvasToWorld(Vector2 canvasCoords) {
+        return new Vector2(canvasCoords.x * WORLD_WIDTH / width, canvasCoords.y * WORLD_HEIGHT / height);
+    }
 
-        if (p.getPosition().dst(new Vector2(i.getXPosition(), i.getYPosition())) < PICKUP_RADIUS) {
+    private void handleCollision(Player p, Ingredient i) {
+        Vector2 iPosCanvas = new Vector2(i.getXPosition() + i.getTextureWidth()/2f,
+                i.getYPosition() + i.getTextureHeight()/2f);
+        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
+        Vector2 iPosWorld = canvasToWorld(iPosCanvas);
+        if (p.getPosition().dst(iPosWorld) < PICKUP_RADIUS) {
             if (p.getSpace()) {
                 p.pickUpItem(i);
                 p.setSpace(false);
@@ -98,7 +108,10 @@ public class CollisionController implements ContactListener {
     }
 
     public void handleCollision(Player p, Trash t) {
-        if (p.getPosition().dst(t.getPosition()) < TRASH_RADIUS) {
+        Vector2 tPosCanvas = new Vector2(t.getX() + t.getTextureWidth()/2f,
+                t.getY() + t.getTextureHeight()/2f);
+        Vector2 tPosWorld = canvasToWorld(tPosCanvas);
+        if (p.getPosition().dst(tPosWorld) < TRASH_RADIUS) {
             if (p.getInteraction()) {
                 p.getInventory().drop();
             }
