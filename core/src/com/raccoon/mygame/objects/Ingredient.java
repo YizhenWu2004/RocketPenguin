@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Ingredient implements GameObject{
+    private static final float TEXTURE_SX = 0.2f;
+    private static final float TEXTURE_SY = 0.2f;
     public int name;
     public String type;
     private float x;
@@ -78,10 +80,13 @@ public class Ingredient implements GameObject{
         posInPot = index;
     }
 
+    public float getTextureWidth() { return texture.getWidth() * TEXTURE_SX; }
+    public float getTextureHeight() { return texture.getHeight() * TEXTURE_SY; }
+
     public void draw(GameCanvas canvas){
         if (posInInventory < 0) {
             canvas.draw(texture, Color.WHITE, 10, 10,
-                    x, y, 0.0f, 0.2f, 0.2f);
+                    x, y, 0.0f, TEXTURE_SX, TEXTURE_SY);
         }
     }
 }
