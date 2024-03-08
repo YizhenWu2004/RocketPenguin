@@ -13,7 +13,7 @@ import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
-public class Guard {
+public class Guard extends BoxObstacle {
     protected static final float TEXTURE_SX = 0.1f;
     protected static final float TEXTURE_SY = 0.1f;
     private Vector2 position;
@@ -27,83 +27,48 @@ public class Guard {
 
     private GuardAIController aiController;
 
-    public BoxObstacle g;
-    private BoxObstacle g2;
 
     private BoxObstacle sight;
 
+    private final int WORLD_WIDTH = 32;
+    private final int WORLD_HEIGHT = 18;
+    private float scaleX;
+    private float scaleY;
+    private GameCanvas canvas;
 
-
-    public Guard(float x, float y, float width, float height, Texture texture, World world){
-        velocity = new Vector2(0.0f, 0.0f);
-        this.width = width;
-        this.height = height;
+    public Guard(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas){
+        super(width, height);
         patrolTexture = texture;
+        setTexture(new TextureRegion(texture));
+        scaleX= canvas.getWidth()/WORLD_WIDTH;
+        scaleY = canvas.getHeight()/WORLD_HEIGHT;
+        this.canvas = canvas;
+        setFixedRotation(true);
+        setDensity(1);
+        setFriction(0);
+        setLinearDamping(0);
+        setPosition(x,y);
+        activatePhysics(world);
+        this.setBodyType(BodyType.KinematicBody);
+        setDrawScale(scaleX, scaleY);
+//        float leftBoundary = (x-150)/scaleX;
+//        float rightBoundary = (x+150)/scaleX;
+//        float speed = 2;
+        //this.aiController = new GuardAIController(leftBoundary, rightBoundary, speed);
 
-        float leftBoundary = x-150;
-        float rightBoundary = x+150;
-        float speed = 60;
-        this.aiController = new GuardAIController(leftBoundary, rightBoundary, speed);
-
-        g = new BoxObstacle(100,50);
-        g.setDensity(1.0f);
-        g.activatePhysics(world);
-        Texture t = new Texture("gooseReal.png");
-        TextureRegion te = new TextureRegion(t);
-        g.setTexture(te);
-        g.setPosition(x,y);
-        g.setBodyType(BodyType.KinematicBody);
-        g.setFixedRotation(true);
-
-sight = new BoxObstacle(250, 3*getTextureHeight());
+        sight = new BoxObstacle(250/scaleX, 3*getTextureHeight()/scaleY);
+        sight.setDrawScale(50.f, 50.f);
 
         sight.setSensor(true);
         sight.setDensity(1.0f);
         sight.activatePhysics(world);
-        sight.setPosition(x + getTextureWidth(), y + getTextureHeight()*5);
-        sight.setBodyType(BodyType.KinematicBody);
+        sight.setPosition((x + getTextureWidth())/scaleX, (y + getTextureHeight()*5)/scaleY);
+        sight.setBodyType(BodyType.DynamicBody);
 
-        g.getBody().setUserData(this);
+        this.getBody().setUserData(this);
         sight.getBody().setUserData(this);
 
     }
-
-    //Setters
-    public void setX(float x){g.setX(x);}
-    public void setY(float y){g.setY(y);}
-    public void setPosition(Vector2 position){
-        g.setPosition(position);
-        sight.setPosition(position.x + getTextureWidth(), position.y + getTextureHeight()*5);
-    }
-
-    public void setVX(float value) {
-        velocity.x = value;
-    }
-
-    public float getVY() {
-        return velocity.y;
-    }
-
-    //Getters
-    public float getX(){return g.getX();}
-    public float getY(){return g.getY();}
-    public Vector2 getPosition(){return g.getPosition();}
-
-    public Vector2 getVelocity() {
-        return velocity;
-    }
-
-    public float getVX() {
-        return velocity.x;
-    }
-
-    public void setVY(float value) {
-        velocity.y = value;
-    }
-
-    public float getWidth() { return width; }
-
-    public float getHeight() { return height; }
 
     public float getTextureWidth() { return patrolTexture.getWidth() * TEXTURE_SX; }
     public float getTextureHeight() { return patrolTexture.getHeight() * TEXTURE_SY; }
@@ -111,7 +76,7 @@ sight = new BoxObstacle(250, 3*getTextureHeight());
     public void update(float delta, Array<Float> info) {
         //g.setPosition(g.getPosition().add(velocity));
         if (aiController != null) {
-            g.setLinearVelocity(new Vector2(aiController.getSpeed(g.getPosition(),delta, info)));
+            this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(),delta, info)));
             sight.setLinearVelocity(new Vector2(aiController.getSpeed(sight.getPosition(),delta,info)));
             //sight.setAngle((float) ((sight.getAngle() + 0.01f) % (2*Math.PI)));
             //System.out.println(g.getLinearVelocity().x);
@@ -119,27 +84,19 @@ sight = new BoxObstacle(250, 3*getTextureHeight());
         }
     }
 
-    public void draw(GameCanvas canvas) {
-//        canvas.draw(patrolTexture, Color.WHITE, 10, 10,
-//                position.x, position.y, 0.0f, TEXTURE_SX, TEXTURE_SY);
-          g.draw(canvas, TEXTURE_SX, TEXTURE_SY, 0, -600);
-//        float debugX = position.x;
-//        float debugY = position.y;
-//        float debugWidth = getTextureWidth();
-//        float debugHeight = getTextureHeight();
-//        Color debugColor = Color.RED;
-//        canvas.drawDebugRectangle(debugX, debugY, debugWidth, debugHeight, debugColor);
+    public void draw(float scaleX, float scaleY) {
+
+          draw(canvas, scaleX,scaleY, 0, -600);
     }
 
     public void debug(GameCanvas canvas){
 
-        g.drawDebug(canvas);
+        drawDebug(canvas);
         sight.drawDebug(canvas);
     }
 
     public void switchToChaseMode() {
 //        System.out.println("I SEE YOU CHASE");
-
         this.aiController.setAIStateChase();
     }
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.*;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
+import com.raccoon.mygame.obstacle.Obstacle;
 
 //detects collision for now
 public class CollisionController implements ContactListener {
@@ -85,8 +86,8 @@ public class CollisionController implements ContactListener {
         Vector2 pPos = p.getPosition();
         Vector2 gPos = g.getPosition();
 
-        float pRight = pPos.x + p.getTextureWidth();
-        float pTop = pPos.y + p.getTextureHeight();
+        float pRight = pPos.x + p.getWidth();
+        float pTop = pPos.y + p.getHeight();
         float gRight = gPos.x + g.getTextureWidth();
         float gTop = gPos.y + g.getTextureHeight();
 
@@ -109,9 +110,11 @@ public class CollisionController implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
+        System.out.println("Here");
+
         Body body1 = contact.getFixtureA().getBody();
         Body body2 = contact.getFixtureB().getBody();
-        if (body1.getUserData() == player.p){
+        if (body1.getUserData() instanceof Player){
             if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
                 inSight = true;
                 for(Guard guard : guards){
@@ -125,7 +128,8 @@ public class CollisionController implements ContactListener {
                 collide = true;
             }
         }
-        else if (body2.getUserData() == player.p){
+        else if (body1.getUserData() instanceof Player || body2.getUserData() instanceof Player){
+            System.out.println("collision");
             if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
                 inSight = true;
                 for(Guard guard : guards){
