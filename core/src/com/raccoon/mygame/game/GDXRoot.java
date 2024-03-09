@@ -234,12 +234,14 @@ public class GDXRoot extends Game implements ScreenListener {
 		canvas.draw(background, Color.WHITE, 0, 0,
 				0, 0, 0.0f, 1f, 1f);
 		//b.draw(canvas, 0.1f, 0.1f);
-		player.draw(0.25f,0.25f);
-		trash.draw(canvas);
-
 		for(Guard g : guards){
 			g.draw(0.1f,0.1f);
 		}
+
+		player.draw(0.25f,0.25f);
+		trash.draw(canvas);
+
+
 		for (Ingredient i : objects){
 			i.draw(canvas);
 		}
