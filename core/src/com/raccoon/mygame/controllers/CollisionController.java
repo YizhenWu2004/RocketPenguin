@@ -113,10 +113,10 @@ public class CollisionController implements ContactListener {
 //        Vector2 iPosWorld = canvasToWorld(iPosCanvas);
 //        System.out.println(p.getPosition().dst(iPosWorld));
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
-            if(p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS)
+            if(p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS){
 //            System.out.println(g.getY());
                 g.switchToChaseMode();
-        }
+        }}
     }
 
     public void handleCollision(Player p, Trash t) {
@@ -144,7 +144,7 @@ public class CollisionController implements ContactListener {
                 for(Guard guard : guards){
                     if(body2.getUserData() == guard){
                         System.out.println("I SEE YOU CHASE2");
-                        guard.switchToChaseMode();
+//                        guard.switchToChaseMode();
                     }
                 }
             }
@@ -158,7 +158,7 @@ public class CollisionController implements ContactListener {
                 inSight = true;
                 for(Guard guard : guards){
                     if(body1.getUserData() == guard){
-                        guard.switchToChaseMode();
+//                        guard.switchToChaseMode();
                     }
                 }
             }

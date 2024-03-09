@@ -51,10 +51,9 @@ public class Guard extends BoxObstacle {
         activatePhysics(world);
         this.setBodyType(BodyType.KinematicBody);
         setDrawScale(scaleX, scaleY);
-//        float leftBoundary = (x-150)/scaleX;
-//        float rightBoundary = (x+150)/scaleX;
-//        float speed = 2;
-        //this.aiController = new GuardAIController(leftBoundary, rightBoundary, speed);
+
+        //world height and width currently hard coded in, consider changing later
+        this.aiController = new GuardAIController(this.getX(), this.getY(), 32, 18, 150, 2);
 
         sight = new BoxObstacle(50/scaleX, 1*getTextureHeight()/scaleY);
         sight.setDrawScale(1.0f, 1.0f);

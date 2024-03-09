@@ -15,9 +15,9 @@ public class GuardAIController {
 
     private AIState currentState = AIState.WANDER;
 
-    public GuardAIController(float leftBoundary, float rightBoundary, float speed) {
-        this.leftBoundary = leftBoundary;
-        this.rightBoundary = rightBoundary;
+    public GuardAIController(float x, float y, float worldWidth, float worldHeight, float patrolRange, float speed) {
+        this.leftBoundary = Math.max(x - patrolRange, 0);
+        this.rightBoundary = Math.min(x + patrolRange, worldWidth);
         this.speed = speed;
     }
 
@@ -25,53 +25,48 @@ public class GuardAIController {
         currentState =  AIState.CHASE;
     }
 
-    public Vector2 updatePosition(Vector2 guardPosition, float deltaTime) {
-        if(currentState == AIState.WANDER){
-            if (movingRight) {
-                guardPosition.x += speed * deltaTime;
-                if (guardPosition.x >= rightBoundary) {
-                    guardPosition.x = rightBoundary;
-                    movingRight = false;
-                }
-            } else {
-                guardPosition.x -= speed * deltaTime;
-                if (guardPosition.x <= leftBoundary) {
-                    guardPosition.x = leftBoundary;
-                    movingRight = true;
-                }
-            }
-        }
-        else if (currentState == AIState.CHASE){
+//    public Vector2 updatePosition(Vector2 guardPosition, float deltaTime) {
+//        if(currentState == AIState.WANDER){
+//            if (movingRight) {
+//                guardPosition.x += speed * deltaTime;
+//                if (guardPosition.x >= rightBoundary) {
+//                    guardPosition.x = rightBoundary;
+//                    movingRight = false;
+//                }
+//            } else {
+//                guardPosition.x -= speed * deltaTime;
+//                if (guardPosition.x <= leftBoundary) {
+//                    guardPosition.x = leftBoundary;
+//                    movingRight = true;
+//                }
+//            }
+//        }
+//        else if (currentState == AIState.CHASE){
+//
+//        }
+//
+//        return guardPosition;
+//    }
 
-        }
-
-        return guardPosition;
-    }
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
         Vector2 speedVector = new Vector2(0f, 0f);
 
         if (currentState == AIState.WANDER) {
-            float xSpeed = 0f;
             if (movingRight) {
-                guardPosition.x += speed * deltaTime;
-                if (guardPosition.x >= rightBoundary) {
-                    guardPosition.x = rightBoundary;
+                if (guardPosition.x + speed * deltaTime >= rightBoundary) {
                     movingRight = false;
-                    xSpeed = 0f;
+                    speedVector.x = -(guardPosition.x + speed * deltaTime - rightBoundary);
                 } else {
-                    xSpeed = speed;
+                    speedVector.x = speed;
                 }
             } else {
-                guardPosition.x -= speed * deltaTime;
-                if (guardPosition.x <= leftBoundary) {
-                    guardPosition.x = leftBoundary;
+                if (guardPosition.x - speed * deltaTime <= leftBoundary) {
                     movingRight = true;
-                    xSpeed = 0f;
+                    speedVector.x = leftBoundary - (guardPosition.x - speed * deltaTime);
                 } else {
-                    xSpeed = -speed;
+                    speedVector.x = -speed;
                 }
             }
-            speedVector.set(xSpeed, 0f);
         } else if (currentState == AIState.CHASE) {
             float playerX = info.get(0);
             float playerY = info.get(1);
