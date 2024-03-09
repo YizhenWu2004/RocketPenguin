@@ -56,18 +56,17 @@ public class Guard extends BoxObstacle {
 //        float speed = 2;
         //this.aiController = new GuardAIController(leftBoundary, rightBoundary, speed);
 
-        sight = new BoxObstacle(250/scaleX, 3*getTextureHeight()/scaleY);
-        sight.setDrawScale(50.f, 50.f);
+        sight = new BoxObstacle(50/scaleX, 1*getTextureHeight()/scaleY);
+        sight.setDrawScale(1.0f, 1.0f);
 
         sight.setSensor(true);
         sight.setDensity(1.0f);
         sight.activatePhysics(world);
         sight.setPosition((x + getTextureWidth())/scaleX, (y + getTextureHeight()*5)/scaleY);
         sight.setBodyType(BodyType.DynamicBody);
-
         this.getBody().setUserData(this);
         sight.getBody().setUserData(this);
-
+//        sight.drawDebug(canvas);
     }
 
     public float getTextureWidth() { return patrolTexture.getWidth() * TEXTURE_SX; }
@@ -80,24 +79,20 @@ public class Guard extends BoxObstacle {
             sight.setLinearVelocity(new Vector2(aiController.getSpeed(sight.getPosition(),delta,info)));
             //sight.setAngle((float) ((sight.getAngle() + 0.01f) % (2*Math.PI)));
             //System.out.println(g.getLinearVelocity().x);
-
         }
     }
 
     public void draw(float scaleX, float scaleY) {
-
           draw(canvas, scaleX,scaleY, 0, -600);
     }
 
     public void debug(GameCanvas canvas){
-
         drawDebug(canvas);
         sight.drawDebug(canvas);
     }
 
     public void switchToChaseMode() {
-//        System.out.println("I SEE YOU CHASE");
+        System.out.println("I SEE YOU CHASE");
         this.aiController.setAIStateChase();
     }
-
 }

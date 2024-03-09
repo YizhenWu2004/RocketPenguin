@@ -210,7 +210,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		player.setSpace(input.getSpace());
 		player.setInteraction(input.getInteraction());
 		collision.processBounds(player);
-		//collision.processGuards(player,guards);
+		collision.processGuards(player,guards);
 		collision.processIngredients(player,objects);
 		collision.handleCollision(player,trash);
 		player.getInventory().setSelected((int) input.getScroll());
