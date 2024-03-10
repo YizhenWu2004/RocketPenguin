@@ -16,12 +16,6 @@ import com.raccoon.mygame.view.GameCanvas;
 public class Guard extends BoxObstacle {
     protected static final float TEXTURE_SX = 0.1f;
     protected static final float TEXTURE_SY = 0.1f;
-    private Vector2 position;
-
-    private float width;
-    private float height;
-
-    private Vector2 velocity;
 
     private Texture patrolTexture;
 
