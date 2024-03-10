@@ -32,6 +32,9 @@ public class Player extends BoxObstacle{
 
     private boolean space;
 
+    //not sure if this should go here uhhh
+    private boolean isTeleporting = false;
+
 
 //    b = new BoxObstacle(1,1);
 //		b.setDensity(1.0f);
@@ -83,6 +86,14 @@ public class Player extends BoxObstacle{
     public Inventory getInventory() {
         return inventory;
     }
+
+    public void setTeleporting(boolean isTeleporting){
+        this.isTeleporting = isTeleporting;
+    }
+    public boolean getTeleporting(){
+        return this.isTeleporting;
+    }
+
 
     //draw with scale
     public void draw(float scaleX, float scaleY){

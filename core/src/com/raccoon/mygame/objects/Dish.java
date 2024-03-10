@@ -2,6 +2,7 @@
 package com.raccoon.mygame.objects;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.view.GameCanvas;
 
 public class Dish implements GameObject{
     public int name;
@@ -42,5 +43,11 @@ public class Dish implements GameObject{
     @Override
     public int posInInventory() {
         return posInInventory;
+    }
+
+    @Override
+    public void draw(GameCanvas canvas){
+        //doesn't draw anything yet
+        return;
     }
 }

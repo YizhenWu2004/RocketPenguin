@@ -37,7 +37,9 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.controllers.CollisionController;
 import com.raccoon.mygame.controllers.InputController;
 import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
+import com.raccoon.mygame.objects.NormalCollisionObject;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.ScreenListener;
 import com.raccoon.mygame.view.GameCanvas;
@@ -59,16 +61,18 @@ public class GDXRoot extends Game implements ScreenListener {
 	InputController input;
 	CollisionController collision;
 	Rectangle bounds;
-	private Array<Ingredient> objects;
+	private Array<GameObject> objects;
 	private Array<Guard> guards;
 
 	private Player player;
 	private Trash trash;
+	private NormalCollisionObject vent;
+	private NormalCollisionObject vent1;
 	private boolean win;
 	public Texture background;
 	public Texture winPic;
 
-	public OrthographicCamera camera;
+	/*public OrthographicCamera camera;*/
 
 	private Box2DDebugRenderer renderer;
 
@@ -107,12 +111,20 @@ public class GDXRoot extends Game implements ScreenListener {
 		win = false;
 		input = new InputController();
 		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
-		objects = new Array();
+
+		vent = new NormalCollisionObject(new Texture("minecraft.png"), 100, 100, 100,100, true);
+		vent1 = new NormalCollisionObject(new Texture("minecraft.png"), 1000, 100, 100,100, true);
+		vent.setObjectToTeleportTo(vent1);
+
+		objects = new Array<>();
 		objects.add(new Ingredient("apple",200,200,new Texture("apple.png"),-1));
 		objects.add(new Ingredient("banana",1600,300,new Texture("banana.png"),-1));
 		objects.add(new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1));
 		objects.add(new Ingredient("orange",900,400,new Texture("orange.png"),-1));
 		objects.add(new Ingredient("banana",1000,800,new Texture("banana.png"),-1));
+
+		objects.add(vent);
+		objects.add(vent1);
 
 		guards = new Array();
 		guards.add(new Guard(2.5f,1.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
@@ -213,10 +225,27 @@ public class GDXRoot extends Game implements ScreenListener {
 		collision.processGuards(player,guards);
 		collision.processIngredients(player,objects);
 		collision.handleCollision(player,trash);
+		collision.handleCollision(player, vent);
+		collision.handleCollision(player, vent1);
 		player.getInventory().setSelected((int) input.getScroll());
 		float delta = Gdx.graphics.getDeltaTime();
 		for (Guard guard : guards) {
 			guard.update(delta, generatePlayerInfo());
+		}
+
+		if(player.getTeleporting()){
+//			canvas.setCameraToPosition(
+//					new Vector2(player.getPosition().x, canvas.getCameraPosition().y)
+//			);
+			if(vent.getBeingTeleportedTo()){
+				canvas.translateCamera(vent.calculateCameraTranslation());
+				vent.setBeingTeleportedTo(false);
+			}
+			if(vent1.getBeingTeleportedTo()){
+				canvas.translateCamera(vent1.calculateCameraTranslation());
+				vent1.setBeingTeleportedTo(false);
+			}
+			player.setTeleporting(false);
 		}
 
 		//System.out.println(b.getLinearVelocity());
@@ -242,7 +271,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		trash.draw(canvas);
 
 
-		for (Ingredient i : objects){
+		for (GameObject i : objects){
 			i.draw(canvas);
 		}
 
