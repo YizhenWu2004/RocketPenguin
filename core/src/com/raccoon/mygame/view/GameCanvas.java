@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
@@ -1176,5 +1177,17 @@ public class GameCanvas {
 		local.rotate(180.0f*angle/(float)Math.PI);
 		local.scale(sx,sy);
 		local.translate(-ox,-oy);
+	}
+
+	public void translateCamera(Vector2 translationVector){
+		camera.translate(translationVector);
+		camera.update();
+	}
+	public void setCameraToPosition(Vector2 position){
+		camera.position.set(new Vector3(position, 0));
+		camera.update();
+	}
+	public Vector3 getCameraPosition(){
+		return camera.position;
 	}
 }

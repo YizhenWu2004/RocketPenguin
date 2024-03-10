@@ -63,9 +63,18 @@ public class CollisionController implements ContactListener {
         }
     }
 
-    public void processIngredients(Player p, Array<Ingredient> ingredients) {
-        for (Ingredient i: ingredients) {
-            handleCollision(p, i);
+//    public void processIngredients(Player p, Array<Ingredient> ingredients) {
+//        for (Ingredient i: ingredients) {
+//            handleCollision(p, i);
+//        }
+//    }
+
+    public void processIngredients(Player p, Array<GameObject> ingredients){
+        //I am sorry for changing this lol I really dont know what good it did
+        //everything still works tho lolll
+        for (GameObject i: ingredients) {
+            if(i instanceof Ingredient)
+                handleCollision(p, (Ingredient)i);
         }
     }
 
@@ -118,6 +127,30 @@ public class CollisionController implements ContactListener {
                 g.switchToChaseMode();
         }}
     }
+
+    public void handleCollision(Player p, NormalCollisionObject o){
+
+        Vector2 oPosCanvas = new Vector2(o.getX() + o.getWidth()/2f,
+                o.getY() + o.getHeight()/2f);
+//        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
+        Vector2 oPosWorld = canvasToWorld(oPosCanvas);
+
+        NormalCollisionObject goTo = o.getObjectToTeleportTo();
+        Vector2 oPosCanvas1 = new Vector2(goTo.getX() + goTo.getWidth()/2f,
+                goTo.getY() + goTo.getHeight()/2f);
+//        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
+        Vector2 oPosWorld1 = canvasToWorld(oPosCanvas1);
+        if (p.getPosition().dst(oPosWorld) < PICKUP_RADIUS) {
+            System.out.println("Colliding with Normal Collision Object");
+            if(o.getIsTeleporter()){
+                oPosWorld1.x+=2;
+                goTo.setBeingTeleportedTo(true);
+                p.setPosition(oPosWorld1);
+                p.setTeleporting(true);
+            }
+        }
+    }
+
 
     public void handleCollision(Player p, Trash t) {
         Vector2 tPosCanvas = new Vector2(t.getX() + t.getTextureWidth()/2f,

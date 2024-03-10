@@ -83,6 +83,7 @@ public class Ingredient implements GameObject{
     public float getTextureWidth() { return texture.getWidth() * TEXTURE_SX; }
     public float getTextureHeight() { return texture.getHeight() * TEXTURE_SY; }
 
+    @Override
     public void draw(GameCanvas canvas){
         if (posInInventory < 0) {
             canvas.draw(texture, Color.WHITE, 10, 10,
