@@ -75,6 +75,23 @@ public class NormalCollisionObject implements GameObject{
         return new Vector2(this.getX(), this.getY());
     }
 
+    public Vector2 calculateCameraTranslation(){
+        Vector2 dist = this.objectToTeleportTo.getPosition().sub(this.getPosition());
+        dist.x = Math.abs(dist.x);
+        dist.y = Math.abs(dist.y);
+        //if this vent is on the left of the other vent
+        if(this.getX() < this.objectToTeleportTo.getX()){
+            dist.x = -dist.x;
+            return dist;
+        }
+        if(this.getX() >= this.objectToTeleportTo.getX()){
+
+            System.out.println(dist);
+            return dist;
+        }
+        return new Vector2(0,0);
+    }
+
     public void draw(GameCanvas canvas){
         canvas.draw(texture, xPos, yPos);
     }

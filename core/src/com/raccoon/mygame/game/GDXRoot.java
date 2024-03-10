@@ -234,18 +234,15 @@ public class GDXRoot extends Game implements ScreenListener {
 		}
 
 		if(player.getTeleporting()){
-			Vector2 dist;
 //			canvas.setCameraToPosition(
 //					new Vector2(player.getPosition().x, canvas.getCameraPosition().y)
 //			);
 			if(vent.getBeingTeleportedTo()){
-				dist = vent.getPosition().sub(vent1.getPosition());
-				canvas.translateCamera(dist);
+				canvas.translateCamera(vent.calculateCameraTranslation());
 				vent.setBeingTeleportedTo(false);
 			}
 			if(vent1.getBeingTeleportedTo()){
-				dist = vent1.getPosition().sub(vent.getPosition());
-				canvas.translateCamera(dist);
+				canvas.translateCamera(vent1.calculateCameraTranslation());
 				vent1.setBeingTeleportedTo(false);
 			}
 			player.setTeleporting(false);
