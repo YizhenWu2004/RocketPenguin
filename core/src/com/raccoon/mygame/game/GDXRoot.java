@@ -122,6 +122,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		objects.add(new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1));
 		objects.add(new Ingredient("orange",900,400,new Texture("orange.png"),-1));
 		objects.add(new Ingredient("banana",1000,800,new Texture("banana.png"),-1));
+		objects.add(new Ingredient("apple",2000,300,new Texture("apple.png"),-1));
 
 		objects.add(vent);
 		objects.add(vent1);
@@ -215,9 +216,9 @@ public class GDXRoot extends Game implements ScreenListener {
 		if (input.getReset()){
 			create();
 		}
-		if (player.getX() >= 32) {
-			win = true;
-		}
+//		if (player.getX() >= 32) {
+//			win = true;
+//		}
 
 		player.setSpace(input.getSpace());
 		player.setInteraction(input.getInteraction());
@@ -233,11 +234,12 @@ public class GDXRoot extends Game implements ScreenListener {
 			guard.update(delta, generatePlayerInfo());
 		}
 
+
+		//if the player is in a teleporting state
 		if(player.getTeleporting()){
-//			canvas.setCameraToPosition(
-//					new Vector2(player.getPosition().x, canvas.getCameraPosition().y)
-//			);
+			//check which vent is being teleported to
 			if(vent.getBeingTeleportedTo()){
+				//translate the camera's position based on the distance between both vents
 				canvas.translateCamera(vent.calculateCameraTranslation());
 				vent.setBeingTeleportedTo(false);
 			}
@@ -245,6 +247,8 @@ public class GDXRoot extends Game implements ScreenListener {
 				canvas.translateCamera(vent1.calculateCameraTranslation());
 				vent1.setBeingTeleportedTo(false);
 			}
+
+			//player isn't teleporting anymore
 			player.setTeleporting(false);
 		}
 
@@ -262,6 +266,8 @@ public class GDXRoot extends Game implements ScreenListener {
 		}
 		canvas.draw(background, Color.WHITE, 0, 0,
 				0, 0, 0.0f, 1f, 1f);
+		canvas.draw(background, Color.WHITE, 0, 0,
+				background.getWidth(), 0, 0.0f, 1f, 1f);
 		//b.draw(canvas, 0.1f, 0.1f);
 		for(Guard g : guards){
 			g.draw(0.1f,0.1f);
