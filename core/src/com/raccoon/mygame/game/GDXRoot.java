@@ -63,6 +63,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	Rectangle bounds;
 	private Array<GameObject> objects;
 	private Array<Guard> guards;
+	private Array<Customer> customers;
 
 	private Player player;
 	private Trash trash;
@@ -100,8 +101,6 @@ public class GDXRoot extends Game implements ScreenListener {
 	 * the asynchronous loader for all other assets.
 	 */
 	public void create() {
-
-
 		world = new World(new Vector2(0, 0), false);
 		canvas  = new GameCanvas();
 
@@ -139,6 +138,10 @@ public class GDXRoot extends Game implements ScreenListener {
 		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
 		collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
 		world.setContactListener(collision);
+
+		customers = new Array();
+		customers.add(new Customer(0f,1f,1f,0.7f,new Texture("rockoReal.png"),world, canvas));
+
 	}
 
 
@@ -272,6 +275,9 @@ public class GDXRoot extends Game implements ScreenListener {
 		for(Guard g : guards){
 			g.draw(0.1f,0.1f);
 		}
+		for(Customer c : customers){
+			c.draw(0.25f,0.25f);
+		}
 
 		player.draw(0.25f,0.25f);
 		trash.draw(canvas);
@@ -290,6 +296,9 @@ public class GDXRoot extends Game implements ScreenListener {
 		player.drawDebug(canvas);
 		for(Guard g : guards){
 			g.debug(canvas);
+		}
+		for(Customer c : customers){
+			c.debug(canvas);
 		}
 		canvas.endDebug();
 	}
