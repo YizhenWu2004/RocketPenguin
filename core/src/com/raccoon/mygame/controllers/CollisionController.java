@@ -167,10 +167,12 @@ public class CollisionController implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
-        System.out.println("Here");
-
         Body body1 = contact.getFixtureA().getBody();
         Body body2 = contact.getFixtureB().getBody();
+        if (body1.getUserData() instanceof Customer || body2.getUserData() instanceof Customer){
+            return;
+        }
+
         if (body1.getUserData() instanceof Player){
             if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
                 inSight = true;
@@ -186,7 +188,6 @@ public class CollisionController implements ContactListener {
             }
         }
         else if (body1.getUserData() instanceof Player || body2.getUserData() instanceof Player){
-            System.out.println("collision");
             if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
                 inSight = true;
                 for(Guard guard : guards){
