@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.*;
+import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.obstacle.Obstacle;
 import com.raccoon.mygame.util.PooledList;
 import com.raccoon.mygame.util.ScreenListener;
@@ -76,6 +77,10 @@ public abstract class WorldController implements Screen {
 	protected GameCanvas canvas;
 	/** All the objects in the world. */
 	protected PooledList<Obstacle> objects  = new PooledList<Obstacle>();
+
+	/** All of the NON PHYSICS objects in the world */
+	protected Array<GameObject> nonPhysicsObjects = new Array<>();
+
 	/** Queue for adding objects */
 	protected PooledList<Obstacle> addQueue = new PooledList<Obstacle>();
 	/** Listener that will update the player mode when we are done */
@@ -309,6 +314,13 @@ public abstract class WorldController implements Screen {
 	}
 
 	/**
+	 * Immediately adds the NON PHYSICS GAME OBJECT to the world
+	 * */
+	protected void addNonPhysicsObject(GameObject obj){
+		nonPhysicsObjects.add(obj);
+	}
+
+	/**
 	 * Returns true if the object is in bounds.
 	 *
 	 * This assertion is useful for debugging the physics.
@@ -444,11 +456,17 @@ public abstract class WorldController implements Screen {
 	 * @param dt	Number of seconds since last animation frame
 	 */
 	public void draw(float dt) {
+
 		canvas.clear();
 		
 		canvas.begin();
 		for(Obstacle obj : objects) {
 			obj.draw(canvas);
+		}
+		for(GameObject obj: nonPhysicsObjects){
+			obj.draw(canvas);
+			//why dont we ever get here
+			System.out.println("Drew a " + obj.getClass().getSimpleName());
 		}
 		canvas.end();
 		

@@ -50,17 +50,10 @@ public class GDXRoot extends Game implements ScreenListener {
 	 * the asynchronous loader for all other assets.
 	 */
 	public void create() {
-		canvas  = new GameCanvas();
-
-		// Initialize the three game worlds
-		controllers = new WorldController[1];
-		controllers[0] = new GroceryController();
-		controllers[0].setCanvas(canvas);
-		current = 0;
-		controllers[0].setScreenListener(this);
-
-		controllers[current].reset();
-		setScreen(controllers[current]);
+		canvas = new GameCanvas();
+		WorldController groceryController = new GroceryController();
+		groceryController.setCanvas(canvas);
+		this.setScreen(groceryController);
 	}
 
 	/**
@@ -125,4 +118,8 @@ public class GDXRoot extends Game implements ScreenListener {
 			Gdx.app.exit();
 		}
 		}
+
+	public void render(){
+		super.render();
 	}
+}
