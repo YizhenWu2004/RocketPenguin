@@ -70,7 +70,7 @@ public abstract class WorldController implements Screen {
 	/** Height of the game world in Box2d units */
 	protected static final float DEFAULT_HEIGHT = 18.0f;
 	/** The default value of gravity (going down) */
-	protected static final float DEFAULT_GRAVITY = -4.9f;
+	protected static final float DEFAULT_GRAVITY = 0;
 	
 	/** Reference to the game canvas */
 	protected GameCanvas canvas;
