@@ -13,7 +13,9 @@ package com.raccoon.mygame.game;/*
  */
 
 import com.badlogic.gdx.*;
+import com.raccoon.mygame.controllers.DinerController;
 import com.raccoon.mygame.controllers.GroceryController;
+import com.raccoon.mygame.controllers.InputController;
 import com.raccoon.mygame.controllers.WorldController;
 import com.raccoon.mygame.util.ScreenListener;
 import com.raccoon.mygame.view.GameCanvas;
@@ -35,6 +37,8 @@ public class GDXRoot extends Game implements ScreenListener {
 	/** List of all WorldControllers */
 	private WorldController[] controllers;
 
+	private InputController inputController;
+
 	/**
 	 * Creates a new game from the configuration settings.
 	 *
@@ -51,9 +55,18 @@ public class GDXRoot extends Game implements ScreenListener {
 	 */
 	public void create() {
 		canvas = new GameCanvas();
-		WorldController groceryController = new GroceryController();
-		groceryController.setCanvas(canvas);
-		this.setScreen(groceryController);
+		controllers = new WorldController[2];
+		controllers[0] = new GroceryController();
+		controllers[1] = new DinerController();
+
+		controllers[0].setCanvas(canvas);
+		controllers[1].setCanvas(canvas);
+
+		controllers[0].setScreenListener(this);
+
+		current = 0;
+
+		this.setScreen(controllers[current]);
 	}
 
 	/**
@@ -106,6 +119,7 @@ public class GDXRoot extends Game implements ScreenListener {
 		setScreen(controllers[current]);
 
 		if (exitCode == WorldController.EXIT_NEXT) {
+			System.out.println("going to next world");
 			current = (current+1) % controllers.length;
 			controllers[current].reset();
 			setScreen(controllers[current]);

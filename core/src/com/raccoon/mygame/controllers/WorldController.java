@@ -355,6 +355,8 @@ public abstract class WorldController implements Screen {
 	 */
 	public boolean preUpdate(float dt) {
 		InputController input = InputController.getInstance();
+		input.readInput();
+
 		if (listener == null) {
 			return true;
 		}
@@ -365,6 +367,7 @@ public abstract class WorldController implements Screen {
 //		}
 		
 		// Handle resets
+		System.out.println(input.getReset());
 		if (input.getReset()) {
 			reset();
 		}
@@ -374,28 +377,32 @@ public abstract class WorldController implements Screen {
 //			pause();
 //			listener.exitScreen(this, EXIT_QUIT);
 //			return false;
-//		} else if (input.didAdvance()) {
-//			pause();
-//			listener.exitScreen(this, EXIT_NEXT);
-//			return false;
-//		} else if (input.didRetreat()) {
+//		} else
+//
+		if (input.getNext()) {
+			System.out.println("pressing next");
+			pause();
+			listener.exitScreen(this, EXIT_NEXT);
+			return false;
+		}
+//		if (input.didRetreat()) {
 //			pause();
 //			listener.exitScreen(this, EXIT_PREV);
 //			return false;
 //		}
 
 
-		if (countdown > 0) {
-			countdown--;
-		} else if (countdown == 0) {
-			if (failed) {
-				reset();
-			} else if (complete) {
-				pause();
-				listener.exitScreen(this, EXIT_NEXT);
-				return false;
-			}
-		}
+//		if (countdown > 0) {
+//			countdown--;
+//		} else if (countdown == 0) {
+//			if (failed) {
+//				reset();
+//			} else if (complete) {
+//				pause();
+//				listener.exitScreen(this, EXIT_NEXT);
+//				return false;
+//			}
+//		}
 		return true;
 	}
 	
@@ -607,5 +614,6 @@ public abstract class WorldController implements Screen {
 	public void setScreenListener(ScreenListener listener) {
 		this.listener = listener;
 	}
+
 
 }

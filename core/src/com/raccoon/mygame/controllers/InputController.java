@@ -16,6 +16,7 @@ public class InputController{
     private int scroll;
     private boolean interaction;
     private boolean space;
+    private boolean next_world;
 
     private boolean reset;
 
@@ -48,6 +49,7 @@ public class InputController{
     public boolean getInteraction(){return interaction;}
     public boolean getSpace(){return space;}
     public boolean getReset(){return reset;}
+    public boolean getNext(){return next_world;}
 
 
     public InputController(){
@@ -98,6 +100,12 @@ public class InputController{
             reset = true;
         } else {
             reset = false;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Keys.N)){
+            next_world = true;
+        } else{
+            next_world = false;
         }
 
     }

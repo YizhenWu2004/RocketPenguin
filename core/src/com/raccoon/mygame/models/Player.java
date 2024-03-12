@@ -41,12 +41,11 @@ public class Player extends BoxObstacle{
 //		b.activatePhysics(world);
 //		b.setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT); // Pixel width / world width
 
-    public Player(float x, float y, float width, float height, Texture texture, Inventory inventory,
-            GameCanvas canvas, World world){
+    public Player(float x, float y, float width, float height, Texture texture, Inventory inventory, GameCanvas canvas, World world){
         super(width, height);
         this.inventory = inventory;
-        setTexture(new TextureRegion(texture));
         this.canvas = canvas;
+        setTexture(new TextureRegion(texture));
         setFixedRotation(true);
         setDensity(1);
         setFriction(0);
@@ -63,6 +62,7 @@ public class Player extends BoxObstacle{
         //this is dependent on whether or not this method will exist which I am not sure if it does lol
         this.inventory.add(object);
     }
+
 
     //does what you think it would
     public void removeItem(){

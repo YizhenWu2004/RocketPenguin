@@ -9,16 +9,15 @@ import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.obstacle.Obstacle;
-import com.raccoon.mygame.view.GameCanvas;
 
-public class GroceryController extends WorldController{
+public class DinerController extends WorldController{
     private Player player;
     private Inventory inv;
 
     private Ingredient apple;
-    public Texture background = new Texture("groceryfloor.png");;
+    public Texture background = new Texture("background.png");
 
-    public GroceryController(){
+    public DinerController(){
         super(DEFAULT_WIDTH,DEFAULT_HEIGHT,DEFAULT_GRAVITY);
         setDebug(false);
         setComplete(false);
@@ -27,30 +26,29 @@ public class GroceryController extends WorldController{
 
     @Override
     public void reset() {
-        Vector2 gravity = new Vector2(world.getGravity() );
+//        Vector2 gravity = new Vector2(world.getGravity());
+//
+//        for (Obstacle obj : objects) {
+//            obj.deactivatePhysics(world);
+//        }
+//        objects.clear();
+//        addQueue.clear();
+//        world.dispose();
 
-        for(Obstacle obj : objects) {
-            obj.deactivatePhysics(world);
-        }
-        objects.clear();
-        addQueue.clear();
-        world.dispose();
-
-        world = new World(gravity,false);
+        world = new World(new Vector2(0,0), false);
         setComplete(false);
         setFailure(false);
-
         populateWorld();
     }
 
     public void populateWorld(){
         System.out.println("populating world!");
-        Inventory inv = new Inventory(new Texture("inventorybar.png"));
-        apple = new Ingredient("apple", 1000, 1000, new Texture("apple.png"), 1);
-        addNonPhysicsObject(apple);
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),inv, canvas, world);
-        background = new Texture("groceryfloor.png");
-        addObject(player);
+//        Inventory inv = new Inventory(new Texture("inventorybar.png"));
+//        apple = new Ingredient("apple", 1000, 1000, new Texture("apple.png"), 1);
+//        addNonPhysicsObject(apple);
+//        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),inv, canvas, world);
+//        background = new Texture("groceryfloor.png");
+//        addObject(player);
     }
 
     /**
@@ -107,6 +105,5 @@ public class GroceryController extends WorldController{
             }
             canvas.endDebug();
         }
-
     }
 }
