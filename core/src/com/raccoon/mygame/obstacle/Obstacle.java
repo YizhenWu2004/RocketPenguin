@@ -990,6 +990,13 @@ public abstract class Obstacle {
 	public abstract void draw(GameCanvas canvas, float scaleX, float scaleY, float ox, float oy);
 
 	/**
+	 * Draws the texture physics object.
+	 *
+	 * @param canvas Drawing context
+	 */
+	public abstract void draw(GameCanvas canvas);
+
+	/**
 	 * Draws the outline of the physics body.
 	 *
 	 * This method can be helpful for understanding issues with collisions.

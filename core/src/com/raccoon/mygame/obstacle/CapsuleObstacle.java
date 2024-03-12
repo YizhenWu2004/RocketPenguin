@@ -236,6 +236,11 @@ public class CapsuleObstacle extends SimpleObstacle {
 		    (width > height ? Orientation.HORIZONTAL : Orientation.VERTICAL));
 	}
 
+	@Override
+	public void draw(GameCanvas canvas) {
+		canvas.draw(texture, getX(), getY());
+	}
+
 	/**
 	 * Creates a new capsule object.
 	 *

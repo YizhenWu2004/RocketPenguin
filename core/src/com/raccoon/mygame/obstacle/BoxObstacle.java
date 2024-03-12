@@ -122,7 +122,10 @@ public class BoxObstacle extends SimpleObstacle {
 		this(0, 0, width, height);
 	}
 
-
+	@Override
+	public void draw(GameCanvas canvas) {
+		canvas.draw(texture, getX(), getY());
+	}
 
 
 	/**

@@ -35,7 +35,9 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.controllers.CollisionController;
+import com.raccoon.mygame.controllers.GroceryController;
 import com.raccoon.mygame.controllers.InputController;
+import com.raccoon.mygame.controllers.WorldController;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
@@ -56,35 +58,14 @@ import com.badlogic.gdx.utils.*;
  * and you would draw it as a root class in an architecture specification.
  */
 public class GDXRoot extends Game implements ScreenListener {
+	/** Drawing context to display graphics (VIEW CLASS) */
 	private GameCanvas canvas;
 
-	InputController input;
-	CollisionController collision;
-	Rectangle bounds;
-	private Array<GameObject> objects;
-	private Array<Guard> guards;
-	private Array<Customer> customers;
-
-	private Player player;
-	private Trash trash;
-	private NormalCollisionObject vent;
-	private NormalCollisionObject vent1;
-	private boolean win;
-	public Texture background;
-	public Texture winPic;
-
-	/*public OrthographicCamera camera;*/
-
-	private Box2DDebugRenderer renderer;
-
-	private World world;
-
-	private final int WORLD_WIDTH = 32;
-	private final int WORLD_HEIGHT = 18;
-
-	private Vector2 velCache;
-
-
+	private InputController inputController;
+	/** Current world we are on*/
+	private int current;
+	/** List of all WorldControllers */
+	private WorldController[] controllers;
 
 	/**
 	 * Creates a new game from the configuration settings.
@@ -101,47 +82,16 @@ public class GDXRoot extends Game implements ScreenListener {
 	 * the asynchronous loader for all other assets.
 	 */
 	public void create() {
-		world = new World(new Vector2(0, 0), false);
-		canvas  = new GameCanvas();
+		canvas = new GameCanvas();
+		inputController = new InputController();
 
-		background = new Texture("groceryfloor.png");
-		winPic = new Texture("win.png");
-		velCache = new Vector2(0,0);
-		win = false;
-		input = new InputController();
-		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
+		// Initialize the three game worlds
+		controllers = new WorldController[1];
+		controllers[0] = new GroceryController(canvas);
+		controllers[0].setInputController(inputController);
+		current = 0;
 
-		vent = new NormalCollisionObject(new Texture("minecraft.png"), 100, 100, 100,100, true);
-		vent1 = new NormalCollisionObject(new Texture("minecraft.png"), 1000, 100, 100,100, true);
-		vent.setObjectToTeleportTo(vent1);
-
-		objects = new Array<>();
-		objects.add(new Ingredient("apple",200,200,new Texture("apple.png"),-1));
-		objects.add(new Ingredient("banana",1600,300,new Texture("banana.png"),-1));
-		objects.add(new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1));
-		objects.add(new Ingredient("orange",900,400,new Texture("orange.png"),-1));
-		objects.add(new Ingredient("banana",1000,800,new Texture("banana.png"),-1));
-		objects.add(new Ingredient("apple",2000,300,new Texture("apple.png"),-1));
-
-		objects.add(vent);
-		objects.add(vent1);
-
-		guards = new Array();
-		guards.add(new Guard(2.5f,1.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-		guards.add(new Guard(2.5f,5,1.67f,0.83f,new Texture("gooseReal.png"),world,canvas));
-		guards.add(new Guard(25,13.3f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-		guards.add(new Guard(12.5f,6.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-		guards.add(new Guard(23.3f,10,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-		Inventory inv = new Inventory(new Texture("inventorybar.png"));
-		player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),inv, canvas, world);
-		//player.setBodyType(BodyType.KinematicBody);
-		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
-		collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
-		world.setContactListener(collision);
-
-		customers = new Array();
-		customers.add(new Customer(0f,1f,1f,0.7f,new Texture("rockoReal.png"),world, canvas));
-
+		setScreen(controllers[current]);
 	}
 
 
@@ -153,10 +103,12 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void dispose() {
 		// Call dispose on our children
 		setScreen(null);
+		for(int ii = 0; ii < controllers.length; ii++) {
+			controllers[ii].dispose();
+		}
 
 		canvas.dispose();
 		canvas = null;
-		world.dispose();
 
 		super.dispose();
 	}
@@ -184,129 +136,22 @@ public class GDXRoot extends Game implements ScreenListener {
 	 * @param exitCode The state of the screen upon exit
 	 */
 	public void exitScreen(Screen screen, int exitCode) {
-		// We quit the main application
-		Gdx.app.exit();
-	}
+		controllers[0].gatherAssets();
+		controllers[0].setScreenListener(this);
+		controllers[0].setCanvas(canvas);
+		setScreen(controllers[current]);
 
-	@Override
-	public void render(){
-		update();
-		canvas.begin();
-		draw();
-		canvas.end();
-		drawDebug();
-	}
-
-
-	public void update(){
-
-		if (collision.collide){
-			player.setPosition(new Vector2());
-			player.clearInv();
-			collision.collide = false;
+		if (exitCode == WorldController.EXIT_NEXT) {
+			current = (current+1) % controllers.length;
+			controllers[current].reset();
+			setScreen(controllers[current]);
+		} else if (exitCode == WorldController.EXIT_PREV) {
+			current = (current+controllers.length-1) % controllers.length;
+			controllers[current].reset();
+			setScreen(controllers[current]);
+		} else if (exitCode == WorldController.EXIT_QUIT) {
+			// We quit the main application
+			Gdx.app.exit();
 		}
-		if (collision.inSight){
-//			System.out.println("I SEE YOU FUCKER");
-		}
-		input.readInput();
-
-		float x = 5f*input.getXMovement();
-		float y =5f*input.getYMovement();
-		velCache = velCache.set(x,y);
-		player.setLinearVelocity(velCache);
-
-
-		if (input.getReset()){
-			create();
-		}
-//		if (player.getX() >= 32) {
-//			win = true;
-//		}
-
-		player.setSpace(input.getSpace());
-		player.setInteraction(input.getInteraction());
-		collision.processBounds(player);
-		collision.processGuards(player,guards);
-		collision.processIngredients(player,objects);
-		collision.handleCollision(player,trash);
-		collision.handleCollision(player, vent);
-		collision.handleCollision(player, vent1);
-		player.getInventory().setSelected((int) input.getScroll());
-		float delta = Gdx.graphics.getDeltaTime();
-		for (Guard guard : guards) {
-			guard.update(delta, generatePlayerInfo());
-		}
-
-
-		//if the player is in a teleporting state
-		if(player.getTeleporting()){
-			//check which vent is being teleported to
-			if(vent.getBeingTeleportedTo()){
-				//translate the camera's position based on the distance between both vents
-				canvas.translateCamera(vent.calculateCameraTranslation());
-				vent.setBeingTeleportedTo(false);
-			}
-			if(vent1.getBeingTeleportedTo()){
-				canvas.translateCamera(vent1.calculateCameraTranslation());
-				vent1.setBeingTeleportedTo(false);
-			}
-
-			//player isn't teleporting anymore
-			player.setTeleporting(false);
-		}
-
-		//System.out.println(b.getLinearVelocity());
-		world.step(1/60f, 6,2);
-
-	}
-
-
-	public void draw(){
-		if (win){
-			canvas.draw(winPic, Color.WHITE, 15, 15,
-					0, 0, 0.0f, 2.8f, 3f);
-			return;
-		}
-		canvas.draw(background, Color.WHITE, 0, 0,
-				0, 0, 0.0f, 1f, 1f);
-		canvas.draw(background, Color.WHITE, 0, 0,
-				background.getWidth(), 0, 0.0f, 1f, 1f);
-		//b.draw(canvas, 0.1f, 0.1f);
-		for(Guard g : guards){
-			g.draw(0.1f,0.1f);
-		}
-		for(Customer c : customers){
-			c.draw(0.25f,0.25f);
-		}
-
-		player.draw(0.25f,0.25f);
-		trash.draw(canvas);
-
-
-		for (GameObject i : objects){
-			i.draw(canvas);
-		}
-
-
-		//calls draw method to draw overlay(background) and all the other stuff)
-	}
-
-	public void drawDebug(){
-		canvas.beginDebug();
-		player.drawDebug(canvas);
-		for(Guard g : guards){
-			g.debug(canvas);
-		}
-		for(Customer c : customers){
-			c.debug(canvas);
-		}
-		canvas.endDebug();
-	}
-
-	public Array<Float> generatePlayerInfo() {
-		Array<Float> playerInfo = new Array<Float>();
-		playerInfo.add(player.getX());
-		playerInfo.add(player.getY());
-		return playerInfo;
 	}
 }
