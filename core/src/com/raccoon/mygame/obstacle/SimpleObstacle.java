@@ -782,6 +782,15 @@ public abstract class SimpleObstacle extends Obstacle {
 			canvas.draw(texture,Color.WHITE,origin.x,origin.y+oy,getX()*drawScale.x,getY()*drawScale.x,getAngle(),scaleX,scaleY);
 		}
 	}
+
+
+	//needed this for WorldController, doesn't account for alot though
+	public void draw(GameCanvas canvas) {
+		//System.out.println(origin.x+" "+origin.y);
+		if (texture != null) {
+			canvas.draw(texture, origin.x, origin.y);
+		}
+	}
 	
 	/**
 	 * Returns the Box2D body for this object.
