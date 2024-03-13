@@ -12,8 +12,8 @@ public class VentObstacle extends NormalObstacle{
     private VentObstacle objectToTeleportTo;
     private boolean isBeingTeleportedTo = false;
 
-    public VentObstacle(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas) {
-        super(x, y, width, height, texture, world, canvas);
+    public VentObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas){
+        super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas);
     }
 
     public void setObjectToTeleportTo(VentObstacle objectToTeleportTo){

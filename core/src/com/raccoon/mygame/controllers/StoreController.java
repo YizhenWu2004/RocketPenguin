@@ -54,7 +54,7 @@ public class StoreController extends WorldController implements ContactListener 
         ingredients.add(new Ingredient("apple",2000,300,new Texture("apple.png"),-1));
         guards = new Array();
       
-        vent1 = new VentObstacle(5,10, 2,2, new Texture("minecraft.png"),world, canvas);
+        vent1 = new VentObstacle(5,10, 2,2,1,1,0,0, new Texture("minecraft.png"),world, canvas);
 
         guards.add(new Guard(2.5f,5,1.67f,0.83f,new Texture("gooseReal.png"),world,canvas));
         guards.add(new Guard(25,13.3f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));

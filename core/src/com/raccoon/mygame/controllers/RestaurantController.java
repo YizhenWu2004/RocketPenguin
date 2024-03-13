@@ -49,7 +49,7 @@ public class RestaurantController extends WorldController implements ContactList
                 new Texture("table.png"), world, canvas));
         this.input = input;
 
-        vent1 = new VentObstacle(5,10, 2,2, new Texture("minecraft.png"),world, canvas);
+        vent1 = new VentObstacle(5,10, 2,2, 1, 1, 0, 0, new Texture("minecraft.png"),world, canvas);
 
         active = true;
         world.setContactListener(this);
