@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.view.GameCanvas;
@@ -27,6 +28,11 @@ public class RestaurantController extends WorldController implements ContactList
     private Player player;
     private InputController input;
     private boolean active;
+
+    private VentObstacle vent1;
+    private boolean ventCollision;
+
+    private int globalIndex = 0;
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv){
         world = new World(new Vector2(0,0), false);
         this.canvas = canvas;
@@ -42,6 +48,9 @@ public class RestaurantController extends WorldController implements ContactList
         obstacles.add(new TableObstacle(5f, 12f, 5f, 3f, 0.25f, 0.25f, -50f, 125f,
                 new Texture("table.png"), world, canvas));
         this.input = input;
+
+        vent1 = new VentObstacle(5,10, 2,2, new Texture("minecraft.png"),world, canvas);
+
         active = true;
         world.setContactListener(this);
     }
@@ -91,6 +100,7 @@ public class RestaurantController extends WorldController implements ContactList
         for(Customer c : customers){
             c.debug(canvas);
         }
+        vent1.drawDebug(canvas);
         for (NormalObstacle o: obstacles) {
             o.debug(canvas);
         }
@@ -98,6 +108,13 @@ public class RestaurantController extends WorldController implements ContactList
 
     @Override
     public void beginContact(Contact contact) {
+        Body body1 = contact.getFixtureA().getBody();
+        Body body2 = contact.getFixtureB().getBody();
+        if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle)|| (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)){
+            System.out.println("colliding with vent");
+            //execute
+            setVentCollision(true);
+        }
     }
 
     @Override
@@ -113,5 +130,25 @@ public class RestaurantController extends WorldController implements ContactList
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
+    }
+
+    public int getIndex(){
+        if(this.active)
+            return this.globalIndex;
+        return 0;
+    }
+    public void setIndex(int index){
+        this.globalIndex = index;
+    }
+
+    public boolean getActive(){
+        return this.active;
+    }
+
+    public boolean getVentCollision(){
+        return this.ventCollision;
+    }
+    public void setVentCollision(boolean isColliding){
+        this.ventCollision = isColliding;
     }
 }

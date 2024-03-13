@@ -173,6 +173,16 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
 public void update(){
+		//store is supposed to be 1, if this is different we change current
+		if(store.getVentCollision()){
+			current = current == 0 ? 1: 0;
+			store.setVentCollision(false);
+		}
+		if(restaurant.getVentCollision()){
+			current = current == 0 ? 1: 0;
+			restaurant.setVentCollision(false);
+		}
+		System.out.println(current + "current");
 //		if (collision.collide){
 //			player.setPosition(new Vector2());
 //			player.clearInv();
@@ -226,7 +236,6 @@ public void update(){
 //		}
 
 		//System.out.println(b.getLinearVelocity());
-
 	}
 
 	public void draw(){
@@ -253,5 +262,4 @@ public void update(){
 		}
 		canvas.endDebug();
 	}
-
 }
