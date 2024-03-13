@@ -18,6 +18,7 @@ public class InputController{
     private boolean space;
 
     private boolean reset;
+    public boolean click;
 
     public float getYMovement(){
         return y_movement;
@@ -40,6 +41,7 @@ public class InputController{
         x_movement = 0;
         scroll = 0;
         interaction = false;
+        click = false;
     }
     public void readInput(){
 
@@ -83,6 +85,11 @@ public class InputController{
             reset = true;
         } else {
             reset = false;
+        }
+        if(Gdx.input.isButtonPressed(Buttons.LEFT)){
+            click = true;
+        } else {
+            click = false;
         }
 
     }
