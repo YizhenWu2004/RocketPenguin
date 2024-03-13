@@ -45,8 +45,8 @@ public class NormalObstacle extends BoxObstacle {
     public float getSX() { return sx; }
     public float getSY() { return sy; }
 
-    public void draw(float scaleX, float scaleY, float ox, float oy) {
-        draw(canvas, scaleX,scaleY, ox, oy);
+    public void draw() {
+        draw(canvas, sx,sy, ox, oy);
     }
 
     public void debug(GameCanvas canvas){
