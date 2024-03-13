@@ -4,6 +4,11 @@ package com.raccoon.mygame.controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Customer;
@@ -11,7 +16,7 @@ import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.view.GameCanvas;
 
-public class RestaurantController extends WorldController{
+public class RestaurantController extends WorldController implements ContactListener {
     private World world;
     private GameCanvas canvas;
     private Texture background;
@@ -28,6 +33,7 @@ public class RestaurantController extends WorldController{
         player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),new Inventory(new Texture("inventorybar.png")), canvas, world);
         this.input = input;
         active = true;
+        world.setContactListener(this);
     }
 
     public void setActive(boolean b){
@@ -74,4 +80,22 @@ public class RestaurantController extends WorldController{
         }
     }
 
+    @Override
+    public void beginContact(Contact contact) {
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+
+    }
 }

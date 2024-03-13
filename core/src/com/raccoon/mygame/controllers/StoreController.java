@@ -4,6 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Guard;
@@ -13,7 +18,7 @@ import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.view.GameCanvas;
 
-public class StoreController extends WorldController{
+public class StoreController extends WorldController implements ContactListener {
     private World world;
     private GameCanvas canvas;
     private Texture background;
@@ -21,6 +26,8 @@ public class StoreController extends WorldController{
     private Player player;
     private Array<Ingredient> ingredients;
     private Array<Guard> guards;
+    public boolean playerGuardCollide;
+    private CollisionController collision;
     boolean active;
     public StoreController(GameCanvas canvas, Texture texture, InputController input){
         world = new World(new Vector2(0,0), false);
@@ -42,6 +49,8 @@ public class StoreController extends WorldController{
 	guards.add(new Guard(12.5f,6.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
 	guards.add(new Guard(23.3f,10,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
         active = false;
+        world.setContactListener(this);
+        collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
     }
 
     public void setActive(boolean b){
@@ -61,6 +70,11 @@ public class StoreController extends WorldController{
 
     }
     public void update(){
+        if (playerGuardCollide){
+            player.setPosition(0,0);
+            player.clearInv();
+            playerGuardCollide = false;
+        }
         if (active){
             float x = 5f*input.getXMovement();
             float y =5f*input.getYMovement();
@@ -73,9 +87,12 @@ public class StoreController extends WorldController{
         for (Guard guard : guards) {
             guard.update(delta, generatePlayerInfo());
         }
+
+        collision.processBounds(player);
+        collision.processGuards(player,guards);
+        collision.processIngredients(player,ingredients);
         world.step(1/60f, 6,2);
 
-        //System.out.println("store");
     }
 
     public void draw(){
@@ -105,4 +122,27 @@ public class StoreController extends WorldController{
     }
 
 
+    @Override
+    public void beginContact(Contact contact) {
+        Body body1 = contact.getFixtureA().getBody();
+        Body body2 = contact.getFixtureB().getBody();
+        if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof Guard)|| (body2.getUserData() instanceof Player && body1.getUserData() instanceof Guard)){
+            playerGuardCollide = true;
+        }
+    }
+
+    @Override
+    public void endContact(Contact contact) {
+        playerGuardCollide = false;
+    }
+
+    @Override
+    public void preSolve(Contact contact, Manifold oldManifold) {
+
+    }
+
+    @Override
+    public void postSolve(Contact contact, ContactImpulse impulse) {
+
+    }
 }
