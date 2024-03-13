@@ -16,6 +16,7 @@ import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
+import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class StoreController extends WorldController implements ContactListener {
@@ -26,6 +27,12 @@ public class StoreController extends WorldController implements ContactListener 
     private Player player;
     private Array<Ingredient> ingredients;
     private Array<Guard> guards;
+
+    private VentObstacle vent1;
+    private boolean ventCollision;
+
+    private int globalIndex = 1;
+
     public boolean playerGuardCollide;
     private CollisionController collision;
     boolean active;
@@ -44,10 +51,13 @@ public class StoreController extends WorldController implements ContactListener 
         ingredients.add(new Ingredient("apple",2000,300,new Texture("apple.png"),-1));
         guards = new Array();
         guards.add(new Guard(2.5f,1.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-	guards.add(new Guard(2.5f,5,1.67f,0.83f,new Texture("gooseReal.png"),world,canvas));
-	guards.add(new Guard(25,13.3f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-	guards.add(new Guard(12.5f,6.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-	guards.add(new Guard(23.3f,10,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+	    guards.add(new Guard(2.5f,5,1.67f,0.83f,new Texture("gooseReal.png"),world,canvas));
+	    guards.add(new Guard(25,13.3f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+	    guards.add(new Guard(12.5f,6.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+	    guards.add(new Guard(23.3f,10,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+
+        vent1 = new VentObstacle(5,10, 2,2, new Texture("minecraft.png"),world, canvas);
+
         active = false;
         world.setContactListener(this);
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
@@ -112,6 +122,7 @@ public class StoreController extends WorldController implements ContactListener 
         for(Guard g : guards){
             g.debug(canvas);
         }
+        vent1.drawDebug(canvas);
     }
 
     public Array<Float> generatePlayerInfo() {
@@ -129,6 +140,12 @@ public class StoreController extends WorldController implements ContactListener 
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof Guard)|| (body2.getUserData() instanceof Player && body1.getUserData() instanceof Guard)){
             playerGuardCollide = true;
         }
+        if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle)|| (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)){
+            System.out.println("colliding with vent");
+            setVentCollision(true);
+            //execute
+
+        }
     }
 
     @Override
@@ -144,5 +161,23 @@ public class StoreController extends WorldController implements ContactListener 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
+    }
+
+    public int getIndex(){
+        return this.globalIndex;
+    }
+    public void setIndex(int ind){
+        globalIndex = ind;
+    }
+
+    public boolean getActive(){
+        return this.active;
+    }
+
+    public boolean getVentCollision(){
+        return this.ventCollision;
+    }
+    public void setVentCollision(boolean isColliding){
+        this.ventCollision = isColliding;
     }
 }
