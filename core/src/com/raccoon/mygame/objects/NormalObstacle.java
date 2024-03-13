@@ -13,14 +13,22 @@ public class NormalObstacle extends BoxObstacle {
     private Texture texture;
     private float scaleX;
     private float scaleY;
+    private float ox;
+    private float oy;
+    private float sx;
+    private float sy;
     private GameCanvas canvas;
 
-    public NormalObstacle(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas) {
+    public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas) {
         super(x, y, width, height);
         this.texture = texture;
         setTexture(new TextureRegion(texture));
         scaleX= canvas.getWidth()/WORLD_WIDTH;
         scaleY = canvas.getHeight()/WORLD_HEIGHT;
+        this.sx = sx;
+        this.sy = sy;
+        this.ox = ox;
+        this.oy = oy;
         this.canvas = canvas;
         setFixedRotation(true);
         setDensity(1);
@@ -32,7 +40,12 @@ public class NormalObstacle extends BoxObstacle {
         this.getBody().setUserData(this);
     }
 
-    public void draw(float scaleX, float scaleY, int ox, int oy) {
+    public float getOX() { return ox; }
+    public float getOY() { return oy; }
+    public float getSX() { return sx; }
+    public float getSY() { return sy; }
+
+    public void draw(float scaleX, float scaleY, float ox, float oy) {
         draw(canvas, scaleX,scaleY, ox, oy);
     }
 
