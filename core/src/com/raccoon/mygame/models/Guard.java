@@ -49,17 +49,17 @@ public class Guard extends BoxObstacle {
         //world height and width currently hard coded in, consider changing later
         this.aiController = new GuardAIController(this.getX(), this.getY(), 32, 18, 150, 2);
 
-        sight = new BoxObstacle(50/scaleX, 1*getTextureHeight()/scaleY);
-        sight.setDrawScale(1.0f, 1.0f);
-
-        sight.setSensor(true);
-        sight.setDensity(1.0f);
-        sight.activatePhysics(world);
-        sight.setPosition((x + getTextureWidth())/scaleX, (y + getTextureHeight()*5)/scaleY);
-        sight.setBodyType(BodyType.DynamicBody);
-        this.getBody().setUserData(this);
-        sight.getBody().setUserData(this);
-//        sight.drawDebug(canvas);
+//        sight = new BoxObstacle(50/scaleX, 1*getTextureHeight()/scaleY);
+//        sight.setDrawScale(1.0f, 1.0f);
+//
+//        sight.setSensor(true);
+//        sight.setDensity(1.0f);
+//        sight.activatePhysics(world);
+//        sight.setPosition((x + getTextureWidth())/scaleX, (y + getTextureHeight()*5)/scaleY);
+//        sight.setBodyType(BodyType.DynamicBody);
+//        this.getBody().setUserData(this);
+//        sight.getBody().setUserData(this);
+        //sight.drawDebug(canvas);
     }
 
     public float getTextureWidth() { return patrolTexture.getWidth() * TEXTURE_SX; }
@@ -69,7 +69,7 @@ public class Guard extends BoxObstacle {
         //g.setPosition(g.getPosition().add(velocity));
         if (aiController != null) {
             this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(),delta, info)));
-            sight.setLinearVelocity(new Vector2(aiController.getSpeed(sight.getPosition(),delta,info)));
+            //sight.setLinearVelocity(new Vector2(aiController.getSpeed(sight.getPosition(),delta,info)));
             //sight.setAngle((float) ((sight.getAngle() + 0.01f) % (2*Math.PI)));
             //System.out.println(g.getLinearVelocity().x);
         }
@@ -81,7 +81,7 @@ public class Guard extends BoxObstacle {
 
     public void debug(GameCanvas canvas){
         drawDebug(canvas);
-        sight.drawDebug(canvas);
+        //sight.drawDebug(canvas);
     }
 
     public void switchToChaseMode() {

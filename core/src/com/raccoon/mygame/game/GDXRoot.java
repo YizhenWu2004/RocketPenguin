@@ -100,7 +100,6 @@ public class GDXRoot extends Game implements ScreenListener {
 		restaurant = new RestaurantController(canvas, new Texture("background.png"), input);
 		store = new StoreController(canvas,new Texture("groceryfloor.png"), input);
 		current = 0; //this means restaurant
-//		background = new Texture("groceryfloor.png");
 //		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
 //
 //		vent = new NormalCollisionObject(new Texture("minecraft.png"), 100, 100, 100,100, true);
@@ -114,8 +113,6 @@ public class GDXRoot extends Game implements ScreenListener {
 //
 
 //		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
-//		collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
-//		world.setContactListener(collision);
 //
 
 

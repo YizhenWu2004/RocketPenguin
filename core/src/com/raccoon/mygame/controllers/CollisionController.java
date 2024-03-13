@@ -12,7 +12,7 @@ import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.Obstacle;
 
 //detects collision for now
-public class CollisionController implements ContactListener {
+public class CollisionController{
     /** Maximum distance a player must be from an ingredient to pick it up */
     protected static final float PICKUP_RADIUS = 1.0f;
 
@@ -43,8 +43,8 @@ public class CollisionController implements ContactListener {
         this.height = height;
         this.player = p;
         this.guards = guards;
-        collide=false;
-        inSight=false;
+        //collide=false;
+        //inSight=false;
     }
 
     public void processBounds(Player p) {
@@ -69,7 +69,7 @@ public class CollisionController implements ContactListener {
 //        }
 //    }
 
-    public void processIngredients(Player p, Array<GameObject> ingredients){
+    public void processIngredients(Player p, Array<Ingredient> ingredients){
         //I am sorry for changing this lol I really dont know what good it did
         //everything still works tho lolll
         for (GameObject i: ingredients) {
@@ -178,60 +178,60 @@ public class CollisionController implements ContactListener {
             }
         }
     }
-    public boolean collide;
-    public boolean inSight;
+//    public boolean collide;
+//    public boolean inSight;
 
-    @Override
-    public void beginContact(Contact contact) {
-        Body body1 = contact.getFixtureA().getBody();
-        Body body2 = contact.getFixtureB().getBody();
-        if (body1.getUserData() instanceof Customer || body2.getUserData() instanceof Customer){
-            return;
-        }
-
-        if (body1.getUserData() instanceof Player){
-            if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
-                inSight = true;
-                for(Guard guard : guards){
-                    if(body2.getUserData() == guard){
-                        System.out.println("I SEE YOU CHASE2");
-//                        guard.switchToChaseMode();
-                    }
-                }
-            }
-            else {
-                collide = true;
-            }
-        }
-        else if (body1.getUserData() instanceof Player || body2.getUserData() instanceof Player){
-            if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
-                inSight = true;
-                for(Guard guard : guards){
-                    if(body1.getUserData() == guard){
-                        System.out.println("I SEE YOU CHASE2");
-//                        guard.switchToChaseMode();
-                    }
-                }
-            }
-            else {
-                collide = true;
-            }
-        }
-    }
-
-    @Override
-    public void endContact(Contact contact) {
-        inSight = false;
-        collide = false;
-    }
-
-    @Override
-    public void preSolve(Contact contact, Manifold oldManifold) {
-
-    }
-
-    @Override
-    public void postSolve(Contact contact, ContactImpulse impulse) {
-
-    }
+//    @Override
+//    public void beginContact(Contact contact) {
+//        Body body1 = contact.getFixtureA().getBody();
+//        Body body2 = contact.getFixtureB().getBody();
+//        if (body1.getUserData() instanceof Customer || body2.getUserData() instanceof Customer){
+//            return;
+//        }
+//
+//        if (body1.getUserData() instanceof Player){
+//            if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
+//                inSight = true;
+//                for(Guard guard : guards){
+//                    if(body2.getUserData() == guard){
+//                        System.out.println("I SEE YOU CHASE2");
+////                        guard.switchToChaseMode();
+//                    }
+//                }
+//            }
+//            else {
+//                collide = true;
+//            }
+//        }
+//        else if (body1.getUserData() instanceof Player || body2.getUserData() instanceof Player){
+//            if (contact.getFixtureA().isSensor() || contact.getFixtureB().isSensor()) {
+//                inSight = true;
+//                for(Guard guard : guards){
+//                    if(body1.getUserData() == guard){
+//                        System.out.println("I SEE YOU CHASE2");
+////                        guard.switchToChaseMode();
+//                    }
+//                }
+//            }
+//            else {
+//                collide = true;
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void endContact(Contact contact) {
+//        inSight = false;
+//        collide = false;
+//    }
+//
+//    @Override
+//    public void preSolve(Contact contact, Manifold oldManifold) {
+//
+//    }
+//
+//    @Override
+//    public void postSolve(Contact contact, ContactImpulse impulse) {
+//
+//    }
 }
