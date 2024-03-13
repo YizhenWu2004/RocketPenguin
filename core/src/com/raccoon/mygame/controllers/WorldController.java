@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.*;
+import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.obstacle.Obstacle;
 import com.raccoon.mygame.util.PooledList;

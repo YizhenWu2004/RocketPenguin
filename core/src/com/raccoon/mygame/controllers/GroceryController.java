@@ -1,13 +1,16 @@
 package com.raccoon.mygame.controllers;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
+import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.obstacle.Obstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
@@ -16,13 +19,41 @@ public class GroceryController extends WorldController{
     private Inventory inv;
 
     private Ingredient apple;
-    public Texture background = new Texture("groceryfloor.png");;
+    public Texture background = new Texture("groceryfloor.png");
 
-    public GroceryController(){
+    private InputController input;
+
+    private Vector2 velCache;
+    private GameCanvas canvas;
+
+
+    public GroceryController(GameCanvas canvas){
+
         super(DEFAULT_WIDTH,DEFAULT_HEIGHT,DEFAULT_GRAVITY);
         setDebug(false);
         setComplete(false);
         setFailure(false);
+
+        //desperate times call for desperate measures, THROW EVERYTHIN IN CONSTRUCTOR
+        input = new InputController();
+        velCache = new Vector2(0,0);
+
+        Inventory inv = new Inventory(new Texture("inventorybar.png"));
+//        addNonPhysicsObject(inv);
+
+        apple = new Ingredient("apple", 1000, 1000, new Texture("apple.png"), 1);
+        addNonPhysicsObject(apple);
+
+        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),inv, canvas);
+        background = new Texture("groceryfloor.png");
+        addObject(player);
+        player.getBody().setUserData(player);
+
+        BoxObstacle obstacle = new BoxObstacle(100, 100, 100, 100);
+        obstacle.setTexture(new TextureRegion(new Texture("apple.png")));
+        addObject(obstacle);
+
+        this.canvas = canvas;
     }
 
     @Override
@@ -44,13 +75,22 @@ public class GroceryController extends WorldController{
     }
 
     public void populateWorld(){
+        input = new InputController();
+
         System.out.println("populating world!");
         Inventory inv = new Inventory(new Texture("inventorybar.png"));
+//        addNonPhysicsObject(inv);
+
         apple = new Ingredient("apple", 1000, 1000, new Texture("apple.png"), 1);
         addNonPhysicsObject(apple);
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),inv, canvas, world);
+
+        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),inv, canvas);
         background = new Texture("groceryfloor.png");
         addObject(player);
+
+        BoxObstacle obstacle = new BoxObstacle(100, 100, 100, 100);
+        obstacle.setTexture(new TextureRegion(new Texture("apple.png")));
+        addObject(obstacle);
     }
 
     /**
@@ -79,7 +119,15 @@ public class GroceryController extends WorldController{
 
     @Override
     public void update(float dt) {
+        input.readInput();
 
+        float x = 5f*input.getXMovement();
+        float y =5f*input.getYMovement();
+        velCache = velCache.set(x,y);
+        System.out.println(velCache);
+        player.setLinearVelocity(velCache);
+
+        System.out.println(player.getPosition() + " Player pos");
     }
 
     public void draw(float dt) {

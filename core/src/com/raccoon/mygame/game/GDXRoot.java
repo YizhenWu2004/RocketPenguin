@@ -56,7 +56,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	public void create() {
 		canvas = new GameCanvas();
 		controllers = new WorldController[2];
-		controllers[0] = new GroceryController();
+		controllers[0] = new GroceryController(canvas);
 		controllers[1] = new DinerController();
 
 		controllers[0].setCanvas(canvas);

@@ -41,22 +41,27 @@ public class Player extends BoxObstacle{
 //		b.activatePhysics(world);
 //		b.setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT); // Pixel width / world width
 
-    public Player(float x, float y, float width, float height, Texture texture, Inventory inventory, GameCanvas canvas, World world){
+    public Player(float x, float y, float width, float height, Texture texture, Inventory inventory, GameCanvas canvas/*, World world*/){
         super(width, height);
         this.inventory = inventory;
-        this.canvas = canvas;
+//        this.canvas = canvas;
         setTexture(new TextureRegion(texture));
         setFixedRotation(true);
         setDensity(1);
         setFriction(0);
         setLinearDamping(0);
         setPosition(x,y);
-        activatePhysics(world);
+//        activatePhysics(world);
         this.setBodyType(BodyType.DynamicBody);
         setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT);
-        this.getBody().setUserData(this);
+//        this.getBody().setUserData(this);
     }
 
+    public void postPhysicsInitialization() {
+        if (this.getBody() != null) {
+            this.getBody().setUserData(this);
+        }
+    }
     //im not adding a pick up method because the inventory seems to handle that just fine?
     public void pickUpItem(Ingredient object){
         //this is dependent on whether or not this method will exist which I am not sure if it does lol
@@ -96,10 +101,10 @@ public class Player extends BoxObstacle{
 
 
     //draw with scale
-    public void draw(float scaleX, float scaleY){
-        draw(canvas, scaleX, scaleY, 0, -200);
-        this.inventory.draw(canvas);
-    }
+//    public void draw(float scaleX, float scaleY){
+//        draw(canvas, scaleX, scaleY, 0, -200);
+//        this.inventory.draw(canvas);
+//    }
     public void clearInv(){
         inventory.clearAll();
     }

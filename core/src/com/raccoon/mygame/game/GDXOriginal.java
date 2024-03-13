@@ -133,7 +133,7 @@ public class GDXOriginal extends Game implements ScreenListener {
         guards.add(new Guard(12.5f,6.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
         guards.add(new Guard(23.3f,10,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
         Inventory inv = new Inventory(new Texture("inventorybar.png"));
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),inv, canvas, world);
+        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),inv, canvas);
         //player.setBodyType(BodyType.KinematicBody);
         trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
@@ -279,7 +279,7 @@ public class GDXOriginal extends Game implements ScreenListener {
             c.draw(0.25f,0.25f);
         }
 
-        player.draw(0.25f,0.25f);
+//        player.draw(0.25f,0.25f);
         trash.draw(canvas);
 
 
