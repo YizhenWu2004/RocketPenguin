@@ -236,8 +236,13 @@ public class GDXRoot extends Game implements ScreenListener {
 		for (Guard guard : guards) {
 			guard.update(delta, generatePlayerInfo());
 		}
-
-
+		Guard[] guards2 = new Guard[guards.size];
+		for(int i = 0; i < guards.size; i++){
+			guards2[i] = guards.get(i);
+		}
+		for(int i = 0; i < guards2.length - 1; i++){
+			collision.processGuards(guards.get(i), guards2, i);
+		}
 		//if the player is in a teleporting state
 		if(player.getTeleporting()){
 			//check which vent is being teleported to
