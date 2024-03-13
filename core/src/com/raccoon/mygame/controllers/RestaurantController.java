@@ -24,13 +24,13 @@ public class RestaurantController extends WorldController implements ContactList
     private Player player;
     private InputController input;
     private boolean active;
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input){
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv){
         world = new World(new Vector2(0,0), false);
         this.canvas = canvas;
         this.background = texture;
         customers = new Array();
         customers.add(new Customer(0f,1f,1f,0.7f,new Texture("rockoReal.png"),world, canvas));
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),new Inventory(new Texture("inventorybar.png")), canvas, world);
+        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),sharedInv, canvas, world);
         this.input = input;
         active = true;
         world.setContactListener(this);

@@ -29,11 +29,11 @@ public class StoreController extends WorldController implements ContactListener 
     public boolean playerGuardCollide;
     private CollisionController collision;
     boolean active;
-    public StoreController(GameCanvas canvas, Texture texture, InputController input){
+    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv){
         world = new World(new Vector2(0,0), false);
         this.canvas = canvas;
         this.background = texture;
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),new Inventory(new Texture("inventorybar.png")), canvas, world);
+        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),sharedInv, canvas, world);
         this.input = input;
         ingredients = new Array<>();
         ingredients.add(new Ingredient("apple",200,200,new Texture("apple.png"),-1));
