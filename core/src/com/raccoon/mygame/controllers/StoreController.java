@@ -126,6 +126,13 @@ public class StoreController extends WorldController implements ContactListener 
         collision.processIngredients(player,ingredients);
         world.step(1/60f, 6,2);
 
+        Guard[] guards2 = new Guard[guards.size];
+        for(int i = 0; i < guards.size; i++){
+            guards2[i] = guards.get(i);
+        }
+        for(int i = 0; i < guards2.length - 1; i++){
+            collision.processGuards(guards.get(i), guards2, i);
+        }
     }
 
     public void draw(){
