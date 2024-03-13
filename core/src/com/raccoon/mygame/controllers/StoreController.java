@@ -17,6 +17,8 @@ import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.objects.VentObstacle;
+import com.raccoon.mygame.objects.NormalObstacle;
+import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class StoreController extends WorldController implements ContactListener {
@@ -33,14 +35,15 @@ public class StoreController extends WorldController implements ContactListener 
 
     private int globalIndex = 1;
 
+    private Array<NormalObstacle> obstacles;
     public boolean playerGuardCollide;
     private CollisionController collision;
     boolean active;
-    public StoreController(GameCanvas canvas, Texture texture, InputController input){
+    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv){
         world = new World(new Vector2(0,0), false);
         this.canvas = canvas;
         this.background = texture;
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),new Inventory(new Texture("inventorybar.png")), canvas, world);
+        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),sharedInv, canvas, world);
         this.input = input;
         ingredients = new Array<>();
         ingredients.add(new Ingredient("apple",200,200,new Texture("apple.png"),-1));
@@ -50,14 +53,34 @@ public class StoreController extends WorldController implements ContactListener 
         ingredients.add(new Ingredient("banana",1000,800,new Texture("banana.png"),-1));
         ingredients.add(new Ingredient("apple",2000,300,new Texture("apple.png"),-1));
         guards = new Array();
-        guards.add(new Guard(2.5f,1.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-	    guards.add(new Guard(2.5f,5,1.67f,0.83f,new Texture("gooseReal.png"),world,canvas));
-	    guards.add(new Guard(25,13.3f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-	    guards.add(new Guard(12.5f,6.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-	    guards.add(new Guard(23.3f,10,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-
+      
         vent1 = new VentObstacle(5,10, 2,2, new Texture("minecraft.png"),world, canvas);
 
+        guards.add(new Guard(2.5f,5,1.67f,0.83f,new Texture("gooseReal.png"),world,canvas));
+        guards.add(new Guard(25,13.3f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+        guards.add(new Guard(12.5f,6.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+        guards.add(new Guard(23.3f,10,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+        obstacles = new Array();
+        obstacles.add(new NormalObstacle(2.5f, 16.5f, 5.0f, 2.5f, 0.25f, 0.25f, -50f, 0f,
+                new Texture("groceryshelfhorizontal.png"),world, canvas));
+        obstacles.add(new NormalObstacle(7.5f, 16.5f, 5.0f, 2.5f, 0.25f, 0.25f, -50f, 0f,
+                new Texture("groceryshelfhorizontal.png"),world, canvas));
+        obstacles.add(new NormalObstacle(12.5f, 16.5f, 5.0f, 2.5f, 0.25f, 0.25f, -50f, 0f,
+                new Texture("groceryshelfhorizontal.png"),world, canvas));
+        obstacles.add(new NormalObstacle(17.5f, 16.5f, 5.0f, 2.5f, 0.25f, 0.25f, -50f, 0f,
+                new Texture("groceryshelfhorizontal.png"),world, canvas));
+        obstacles.add(new NormalObstacle(22.5f, 16.5f, 5.0f, 2.5f, 0.25f, 0.25f, -50f, 0f,
+                new Texture("groceryshelfhorizontal.png"),world, canvas));
+        obstacles.add(new NormalObstacle(27.5f, 16.5f, 5.0f, 2.5f, 0.25f, 0.25f, -50f, 0f,
+                new Texture("groceryshelfhorizontal.png"),world, canvas));
+        obstacles.add(new NormalObstacle(32.5f, 16.5f, 5.0f, 2.5f, 0.25f, 0.25f, -50f, 0f,
+                new Texture("groceryshelfhorizontal.png"),world, canvas));
+        obstacles.add(new NormalObstacle(31.5f, 14f, 1.5f, 9f, 0.4f, 0.4f, 0f, 50f,
+                new Texture("groceryshelfvertical.png"),world, canvas));
+        obstacles.add(new NormalObstacle(31.5f, 6f, 1.5f, 9f, 0.4f, 0.4f, 0f, 50f,
+                new Texture("groceryshelfvertical.png"),world, canvas));
+        obstacles.add(new NormalObstacle(31.5f, -2f, 1.5f, 9f, 0.4f, 0.4f, 0f, 50f,
+                new Texture("groceryshelfvertical.png"),world, canvas));
         active = false;
         world.setContactListener(this);
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
@@ -108,6 +131,9 @@ public class StoreController extends WorldController implements ContactListener 
     public void draw(){
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
+        for (NormalObstacle o : obstacles){
+            o.draw(o.getSX(), o.getSY(), o.getOX(), o.getOY());
+        }
         player.draw(0.25f,0.25f);
         for (Ingredient i : ingredients){
             i.draw(canvas);
@@ -123,6 +149,9 @@ public class StoreController extends WorldController implements ContactListener 
             g.debug(canvas);
         }
         vent1.drawDebug(canvas);
+        for (NormalObstacle o : obstacles) {
+            o.debug(canvas);
+        }
     }
 
     public Array<Float> generatePlayerInfo() {

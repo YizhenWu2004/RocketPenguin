@@ -15,6 +15,8 @@ import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.VentObstacle;
+import com.raccoon.mygame.objects.NormalObstacle;
+import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class RestaurantController extends WorldController implements ContactListener {
@@ -22,6 +24,7 @@ public class RestaurantController extends WorldController implements ContactList
     private GameCanvas canvas;
     private Texture background;
     private Array<Customer> customers;
+    private Array<NormalObstacle> obstacles;
     private Player player;
     private InputController input;
     private boolean active;
@@ -30,13 +33,20 @@ public class RestaurantController extends WorldController implements ContactList
     private boolean ventCollision;
 
     private int globalIndex = 0;
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input){
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv){
         world = new World(new Vector2(0,0), false);
         this.canvas = canvas;
         this.background = texture;
         customers = new Array();
         customers.add(new Customer(0f,1f,1f,0.7f,new Texture("rockoReal.png"),world, canvas));
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),new Inventory(new Texture("inventorybar.png")), canvas, world);
+        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),sharedInv, canvas, world);
+        obstacles = new Array();
+        obstacles.add(new NormalObstacle(16f, 17f, 32f, 2.5f, 1f, 1f, 0f, 500f,
+                new Texture("restaurantwall.png"), world, canvas));
+        obstacles.add(new TableObstacle(5f, 6f, 5f, 3f, 0.25f, 0.25f, -50f, 125f,
+                new Texture("table.png"), world, canvas));
+        obstacles.add(new TableObstacle(5f, 12f, 5f, 3f, 0.25f, 0.25f, -50f, 125f,
+                new Texture("table.png"), world, canvas));
         this.input = input;
 
         vent1 = new VentObstacle(5,10, 2,2, new Texture("minecraft.png"),world, canvas);
@@ -77,6 +87,9 @@ public class RestaurantController extends WorldController implements ContactList
     public void draw(){
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 2f, 2f);
+        for (NormalObstacle o : obstacles){
+            o.draw(o.getSX(), o.getSY(), o.getOX(), o.getOY());
+        }
         player.draw(0.25f,0.25f);
         for(Customer c : customers){
             c.draw(0.25f,0.25f);
@@ -88,6 +101,9 @@ public class RestaurantController extends WorldController implements ContactList
             c.debug(canvas);
         }
         vent1.drawDebug(canvas);
+        for (NormalObstacle o: obstacles) {
+            o.debug(canvas);
+        }
     }
 
     @Override
