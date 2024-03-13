@@ -779,7 +779,7 @@ public abstract class SimpleObstacle extends Obstacle {
 	public void draw(GameCanvas canvas, float scaleX, float scaleY, float ox, float oy) {
 		//System.out.println(origin.x+" "+origin.y);
 		if (texture != null) {
-			canvas.draw(texture,Color.WHITE,origin.x,origin.y+oy,getX()*drawScale.x,getY()*drawScale.x,getAngle(),scaleX,scaleY);
+			canvas.draw(texture,Color.WHITE,origin.x+ox,origin.y+oy,getX()*drawScale.x,getY()*drawScale.x,getAngle(),scaleX,scaleY);
 		}
 	}
 	

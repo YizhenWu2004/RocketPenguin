@@ -175,7 +175,7 @@ public class GDXRoot extends Game implements ScreenListener {
 	}
 
 
-	public void update(){
+public void update(){
 //		if (collision.collide){
 //			player.setPosition(new Vector2());
 //			player.clearInv();
@@ -231,7 +231,6 @@ public class GDXRoot extends Game implements ScreenListener {
 		//System.out.println(b.getLinearVelocity());
 
 	}
-
 
 	public void draw(){
 

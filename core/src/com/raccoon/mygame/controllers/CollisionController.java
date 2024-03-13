@@ -86,6 +86,15 @@ public class CollisionController implements ContactListener {
         }
     }
 
+    public void processGuards(Guard g, Guard[] guards, int i) {
+//        System.out.println(guards.size);
+        for (int j = i+1; j < guards.length; j++) {
+//            System.out.println(g.getY());
+            handleCollision(guards[j] , g);
+        }
+    }
+
+
     private Vector2 canvasToWorld(Vector2 canvasCoords) {
         return new Vector2(canvasCoords.x * WORLD_WIDTH / width, canvasCoords.y * WORLD_HEIGHT / height);
     }
@@ -126,6 +135,13 @@ public class CollisionController implements ContactListener {
 //            System.out.println(g.getY());
                 g.switchToChaseMode();
         }}
+    }
+
+    private void handleCollision(Guard other, Guard g) {
+        if (other.getPosition().x > g.getX() - 0.5 && other.getPosition().x < g.getX() + 0.5) {
+            if(other.getPosition().y > g.getY() - 0.5 && other.getPosition().y < g.getY() + 0.5){
+                other.setX(other.getPosition().x + 0.1f);
+            }}
     }
 
     public void handleCollision(Player p, NormalCollisionObject o){
@@ -192,6 +208,7 @@ public class CollisionController implements ContactListener {
                 inSight = true;
                 for(Guard guard : guards){
                     if(body1.getUserData() == guard){
+                        System.out.println("I SEE YOU CHASE2");
 //                        guard.switchToChaseMode();
                     }
                 }
