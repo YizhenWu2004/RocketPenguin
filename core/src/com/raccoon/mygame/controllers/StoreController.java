@@ -124,6 +124,9 @@ public class StoreController extends WorldController implements ContactListener 
         super.dispose();
     }
 
+    public World getWorld(){
+        return world;
+    }
     @Override
     public void render(float delta) {
 
@@ -145,10 +148,11 @@ public class StoreController extends WorldController implements ContactListener 
         float delta = Gdx.graphics.getDeltaTime();
         for (Guard guard : guards) {
             guard.update(delta, generatePlayerInfo());
+//            guard.getSight().render();
         }
 
         collision.processBounds(player);
-        collision.processGuards(player,guards);
+//        collision.processGuards(player,guards);
         collision.processIngredients(player,ingredients);
         world.step(1/60f, 6,2);
 
