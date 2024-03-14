@@ -92,13 +92,13 @@ public class CollisionController{
         }
     }
 
-    public void processGuards(Player p, Array<Guard> guards) {
-//        System.out.println(guards.size);
-        for (Guard g: guards) {
-//            System.out.println(g.getY());
-            handleCollision(p, g);
-        }
-    }
+//    public void processGuards(Player p, Array<Guard> guards) {
+////        System.out.println(guards.size);
+//        for (Guard g: guards) {
+////            System.out.println(g.getY());
+//            handleCollision(p, g);
+//        }
+//    }
 
     public void processGuards(Guard g, Guard[] guards, int i) {
 //        System.out.println(guards.size);
