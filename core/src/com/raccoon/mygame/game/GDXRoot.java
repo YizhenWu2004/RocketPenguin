@@ -173,14 +173,15 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
 public void update(){
-		//store is supposed to be 1, if this is different we change current
 		if(store.getVentCollision()){
 			current = current == 0 ? 1: 0;
 			store.setVentCollision(false);
+			restaurant.onSet();
 		}
 		if(restaurant.getVentCollision()){
 			current = current == 0 ? 1: 0;
 			restaurant.setVentCollision(false);
+			store.onSet();
 		}
 		//System.out.println(current + "current");
 //		if (collision.collide){

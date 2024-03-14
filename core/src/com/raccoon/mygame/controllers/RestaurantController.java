@@ -37,6 +37,8 @@ public class RestaurantController extends WorldController implements ContactList
     CollisionController collision;
 
     private int globalIndex = 0;
+    private Vector2 localStartingPos;
+
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -0.25f : 0.25f), 0.25f, -50f, 50f,
                 new Texture("table.png"), world, canvas);
@@ -89,6 +91,8 @@ public class RestaurantController extends WorldController implements ContactList
         this.input = input;
 
         vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
+        localStartingPos = new Vector2(vent1.getX()-1.5f, vent1.getY());
+
 
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
         active = true;
@@ -243,5 +247,13 @@ public class RestaurantController extends WorldController implements ContactList
     }
     public void setVentCollision(boolean isColliding){
         this.ventCollision = isColliding;
+    }
+
+    /**
+     * Called whenever this level just got switched to.
+     *
+     * */
+    public void onSet(){
+        player.setPosition(localStartingPos);
     }
 }
