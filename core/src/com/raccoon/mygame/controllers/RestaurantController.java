@@ -61,11 +61,11 @@ public class RestaurantController extends WorldController implements ContactList
                 new Texture("counterright.png"), world, canvas));
 
         tables = new Array();
-        //addTable(16f, 11f, false);
-        //addTable(16f, 6f, true);
-        //addTable(10.25f, 11f, true);
-        //addTable(10.25f, 6f, false);
-        //addTable(4.5f, 11f, false);
+        addTable(16f, 11f, false);
+        addTable(16f, 6f, true);
+        addTable(10.25f, 11f, true);
+        addTable(10.25f, 6f, false);
+        addTable(4.5f, 11f, false);
         addTable(4.5f, 6f, true);
 
 
@@ -77,9 +77,9 @@ public class RestaurantController extends WorldController implements ContactList
 
         customers = new Array();
         customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,1));
-        //customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,2));
-        //customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,3));
-        //customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,4));
+        customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,2));
+        customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,3));
+        customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,4));
         Filter f = new Filter();
         f.categoryBits = 0x0002;
         f.maskBits = 0x0001;
@@ -124,7 +124,9 @@ public class RestaurantController extends WorldController implements ContactList
                     c.move();
                 }
                 if (c.collided == 1){
+                    System.out.println("here");
                     c.setPosition(c.position_on_table);
+                    c.collided =2;
                 }
             }
             collision.processCustomers(player,customers);
@@ -185,17 +187,22 @@ public class RestaurantController extends WorldController implements ContactList
             setVentCollision(true);
         }
         if ((body1.getUserData() instanceof Customer && body2.getUserData() instanceof TableObstacle)){
-            System.out.println("here");
+            //System.out.println("here");
             Customer c = (Customer) body1.getUserData();
-            c.setPosition(c.position_on_table);
+            TableObstacle t = (TableObstacle) body2.getUserData();
+            if (c.collided >= 1) {
+                c.collided = 2;
+            } else if (c.t.equals(t)){
+                c.collided= 1;
+            }
         }
         if ((body1.getUserData() instanceof TableObstacle && body2.getUserData() instanceof Customer)) {
-            System.out.println("here");
             Customer c = (Customer) body2.getUserData();
             TableObstacle t = (TableObstacle) body1.getUserData();
             if (c.collided >= 1) {
                 c.collided = 2;
             } else if (c.t.equals(t)){
+
                 c.collided= 1;
             }
         }

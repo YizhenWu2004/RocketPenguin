@@ -38,8 +38,7 @@ public class CustomerAIController implements AIController{
         }
         changeState();
         setGoal();
-        //System.out.println(state);
-        System.out.println(customer.getPosition());
+        //System.out.println(customer.getPosition());
         switch(state){
             case SPAWN:
             case WAIT:
@@ -52,7 +51,7 @@ public class CustomerAIController implements AIController{
                     temp.sub(customer.getPosition());
                     temp.nor();
                     temp.scl(3);
-                    System.out.println(goal);
+                    //System.out.println(goal);
 //                    if (temp.x <= 0.2 && temp.x >= -0.2) {
 //                        tick = 50;
 //                        temp.set(3, 0);
@@ -63,7 +62,7 @@ public class CustomerAIController implements AIController{
 //                    }
 
                     customer.setLinearVelocity(temp);
-                    System.out.println(customer.getLinearVelocity());
+                    //System.out.println(customer.getLinearVelocity());
                     break;
                // }
         }
@@ -80,6 +79,7 @@ public class CustomerAIController implements AIController{
             case SEAT:
                 if(customer.collided == 1){
                     state = FSMState.WAIT;
+                    customer.setBodyType(BodyType.StaticBody);
                 }
                 if (goal.dst(customer.getPosition()) <= 1){
                     customer.setPosition(goal);
