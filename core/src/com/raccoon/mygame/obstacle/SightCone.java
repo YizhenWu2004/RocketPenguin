@@ -3,11 +3,13 @@ package com.raccoon.mygame.obstacle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
@@ -29,14 +31,19 @@ public class SightCone extends BoxObstacle{
 
     RayCastCallback [] rays = new RayCastCallback[10];
 
-//    RayHandler rayHandler = new RayHandler(world);
-
     public SightCone(float x1, float y1, float width, float height, World world, GameCanvas c, Guard guard){
         super(width, height);
-        setPosition(x1, y1);
-        w = world;
+        this.canvas = canvas;
+        setFixedRotation(true);
+        setDensity(1);
+        setFriction(0);
+        setLinearDamping(0);
+        setPosition(x1,y1);
+        activatePhysics(world);
+        this.setBodyType(BodyDef.BodyType.KinematicBody);
         canvas = c;
-        g =guard;
+        w = world;
+        g = guard;
         create();
     }
 
@@ -82,6 +89,9 @@ public class SightCone extends BoxObstacle{
         }
         // End shape rendering
         shapeRenderer.end();
+    }
+    public void update(Vector2 speed){
+        setLinearVelocity(speed);
     }
 
     private void performRaycast(Vector2 origin, Vector2 target, World w) {

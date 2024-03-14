@@ -46,9 +46,7 @@ public class Guard extends BoxObstacle {
         activatePhysics(world);
         this.setBodyType(BodyType.KinematicBody);
         setDrawScale(scaleX, scaleY);
-        sight = new SightCone(x * scaleX, y * scaleY, 1, 1, world, canvas, this);
-        sight.setBodyType(BodyType.KinematicBody);
-
+        sight = new SightCone(x * scaleX, y * scaleY + 100, 1, 1, world, canvas, this);
         //world height and width currently hard coded in, consider changing later
         this.aiController = new GuardAIController(this.getX(), this.getY(), 32, 18, 150, 2);
 
@@ -69,17 +67,15 @@ public class Guard extends BoxObstacle {
     public float getTextureHeight() { return patrolTexture.getHeight() * TEXTURE_SY; }
 
     public void update(float delta, Array<Float> info) {
-//        this.setPosition(this.getPosition().add(new Vector2(aiController.getSpeed(this.getPosition(), this.getSight().getPosition(), delta, info))));
-        sight.setPosition(sight.getPosition().add(new Vector2(aiController.getSpeed(this.getPosition(), delta, info))));
-//        System.out.println(sight.getPosition());
         if (aiController != null) {
             this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
-            sight.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
+//            sight.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
+            sight.update(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
             //sight.setAngle((float) ((sight.getAngle() + 0.01f) % (2*Math.PI)));
-            //System.out.println(g.getLinearVelocity().x);
+            System.out.println("guard velocity: " + this.getLinearVelocity());
+            System.out.println("sight velocity: " + sight.getLinearVelocity());
         }
     }
-
     public void draw(float scaleX, float scaleY) {
         draw(canvas, scaleX,scaleY, 0, -600);
         sight.render();

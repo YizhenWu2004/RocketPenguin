@@ -74,7 +74,7 @@ public class GuardAIController {
             Vector2 direction = new Vector2(playerX - guardPosition.x, playerY - guardPosition.y).nor();
             Vector2 chaseSpeed = direction.scl(speed);
 
-            guardPosition.add(chaseSpeed.x * deltaTime, chaseSpeed.y * deltaTime);
+//            guardPosition.add(chaseSpeed.x * deltaTime, chaseSpeed.y * deltaTime);
             speedVector.set(chaseSpeed.x, chaseSpeed.y);
         }
 
