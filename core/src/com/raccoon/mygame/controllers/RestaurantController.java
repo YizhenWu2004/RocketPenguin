@@ -51,7 +51,7 @@ public class RestaurantController extends WorldController implements ContactList
         world = new World(new Vector2(0,0), false);
         this.canvas = canvas;
         this.background = texture;
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),sharedInv, canvas, world);
+        player = new Player(0f,0f,1,0.7f, new Texture("rockoReal.png"),sharedInv, canvas, world);
         obstacles = new Array();
         obstacles.add(new NormalObstacle(16f, 17f, 32f, 2.5f, 1f, 1f, 0f, 500f,
                 new Texture("restaurantwall.png"), world, canvas));
@@ -76,10 +76,10 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         customers = new Array();
-        customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,1));
-        customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,2));
-        customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,3));
-        customers.add(new Customer(0f,2f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,4));
+        customers.add(new Customer(0f,8.5f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,1));
+        customers.add(new Customer(0f,8.5f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,2));
+        customers.add(new Customer(0f,8.5f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,3));
+        customers.add(new Customer(0f,8.5f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,4));
         Filter f = new Filter();
         f.categoryBits = 0x0002;
         f.maskBits = 0x0001;
@@ -196,16 +196,16 @@ public class RestaurantController extends WorldController implements ContactList
                 c.collided= 1;
             }
         }
-        if ((body1.getUserData() instanceof TableObstacle && body2.getUserData() instanceof Customer)) {
-            Customer c = (Customer) body2.getUserData();
-            TableObstacle t = (TableObstacle) body1.getUserData();
-            if (c.collided >= 1) {
-                c.collided = 2;
-            } else if (c.t.equals(t)){
-
-                c.collided= 1;
-            }
-        }
+//        if ((body1.getUserData() instanceof TableObstacle && body2.getUserData() instanceof Customer)) {
+//            Customer c = (Customer) body2.getUserData();
+//            TableObstacle t = (TableObstacle) body1.getUserData();
+//            if (c.collided >= 1) {
+//                c.collided = 2;
+//            } else if (c.t.equals(t)){
+//
+//                c.collided= 1;
+//            }
+//        }
 
 
     }

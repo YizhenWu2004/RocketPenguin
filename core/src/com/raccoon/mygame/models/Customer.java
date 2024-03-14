@@ -37,6 +37,8 @@ public class Customer extends BoxObstacle {
     public Vector2 position_on_table;
     public TableObstacle t;
     public int collided = 0;
+    public int flipScale;
+    public boolean onRight;
 
     public Customer(float x, float y, float width, float height,Texture texture, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
@@ -59,7 +61,6 @@ public class Customer extends BoxObstacle {
             order = (new Ingredient("banana", 200, 200, new Texture("banana.png"), -1));
         } else if (ordernum == 3){
             order = new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1);
-
         } else {
             order = new Ingredient("orange",900,400,new Texture("orange.png"),-1);
         }
@@ -71,6 +72,8 @@ public class Customer extends BoxObstacle {
         patience = 100;
         controller = new CustomerAIController(tables, this);
         show = false;
+        flipScale = -1;
+        onRight = false;
 
     }
 
@@ -124,7 +127,7 @@ public class Customer extends BoxObstacle {
 
 
     public void draw(float scaleX, float scaleY) {
-        draw(canvas, scaleX,scaleY, 0, -600);
+        draw(canvas, flipScale * scaleX,scaleY, 0, -600);
         if (show){
             order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0,0);
         }
