@@ -26,15 +26,15 @@ public class TableObstacle extends NormalObstacle {
     }
 
     public Vector2 occupy(int index){
-        if (index == 0){
-            occupation[0] = true;
-            return this.getPosition();
             //i have to tweak the offset later such that this will return the vector corresponding
             // to the "chair" position which the animal will move towards to sit down
-        }else if (index == 1){
+       if (index == 1){
             occupation[1] = true;
-            return this.getPosition();
-        }
+            return new Vector2((float)(this.getX() + 1.85), (float)(this.getY()-0.8));
+        } else if (index == 0) {
+           occupation[0] = true;
+           return new Vector2((float) (this.getX() - 1.85), (float) (this.getY() - 0.8));
+       }
         return this.getPosition();
     }
 }

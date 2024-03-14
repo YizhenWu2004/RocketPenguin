@@ -8,6 +8,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -31,11 +33,15 @@ public class RestaurantController extends WorldController implements ContactList
 
     private VentObstacle vent1;
     private boolean ventCollision;
+    Array<TableObstacle> tables;
+    CollisionController collision;
 
     private int globalIndex = 0;
     private void addTable(float x, float y, boolean flip) {
-        obstacles.add(new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -0.25f : 0.25f), 0.25f, -50f, 50f,
-                new Texture("table.png"), world, canvas));
+        TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -0.25f : 0.25f), 0.25f, -50f, 50f,
+                new Texture("table.png"), world, canvas);
+        obstacles.add(t);
+        tables.add(t);
     }
     private void addWallBump(float x, float y) {
         obstacles.add(new TableObstacle(x, y, 2.5f, 5f, 1f, 1f, 0f, 0f,
@@ -45,9 +51,7 @@ public class RestaurantController extends WorldController implements ContactList
         world = new World(new Vector2(0,0), false);
         this.canvas = canvas;
         this.background = texture;
-        customers = new Array();
-        customers.add(new Customer(0f,1f,1f,0.7f,new Texture("rockoReal.png"),world, canvas));
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),sharedInv, canvas, world);
+        player = new Player(0f,0f,1,0.7f, new Texture("rockoReal.png"),sharedInv, canvas, world);
         obstacles = new Array();
         obstacles.add(new NormalObstacle(16f, 17f, 32f, 2.5f, 1f, 1f, 0f, 500f,
                 new Texture("restaurantwall.png"), world, canvas));
@@ -55,19 +59,38 @@ public class RestaurantController extends WorldController implements ContactList
                 new Texture("counterleft.png"), world, canvas));
         obstacles.add(new NormalObstacle(30.3f, 14.1f, 1.25f, 5f, 0.25f, 0.25f, 0f, 0f,
                 new Texture("counterright.png"), world, canvas));
-        addTable(4.5f, 6f, true);
-        addTable(4.5f, 11f, false);
-        addTable(10.25f, 6f, false);
-        addTable(10.25f, 11f, true);
-        addTable(16f, 6f, true);
+
+        tables = new Array();
         addTable(16f, 11f, false);
+        addTable(16f, 6f, true);
+        addTable(10.25f, 11f, true);
+        addTable(10.25f, 6f, false);
+        addTable(4.5f, 11f, false);
+        addTable(4.5f, 6f, true);
+
+
+        System.out.println(tables.size);
         addWallBump(6f, 16.5f);
         addWallBump(14.5f, 16.5f);
         addWallBump(23f, 16.5f);
+
+
+        customers = new Array();
+        customers.add(new Customer(0f,8.5f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,1));
+        customers.add(new Customer(0f,8.5f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,2));
+        customers.add(new Customer(0f,8.5f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,3));
+        customers.add(new Customer(0f,8.5f,1f,0.7f,new Texture("customer1.png"),world, canvas, tables,4));
+        Filter f = new Filter();
+        f.categoryBits = 0x0002;
+        f.maskBits = 0x0001;
+        for(Customer c:customers){
+            c.setFilterData(f);
+        }
         this.input = input;
 
         vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
 
+        collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
         active = true;
         world.setContactListener(this);
     }
@@ -96,6 +119,17 @@ public class RestaurantController extends WorldController implements ContactList
             player.setSpace(input.getSpace());
             player.setInteraction(input.getInteraction());
             player.getInventory().setSelected((int) input.getScroll());
+            for(Customer c:customers){
+                if (c.isActive()){
+                    c.move();
+                }
+                if (c.collided == 1){
+                    System.out.println("here");
+                    c.setPosition(c.position_on_table);
+                    c.collided =2;
+                }
+            }
+            collision.processCustomers(player,customers);
         }
         world.step(1/60f, 6,2);
 
@@ -110,13 +144,17 @@ public class RestaurantController extends WorldController implements ContactList
         }
         player.draw(0.25f,0.25f);
         for(Customer c : customers){
-            c.draw(0.25f,0.25f);
+            if (c.isActive()) {
+                c.draw(0.1f, 0.1f);
+            }
         }
     }
     public void debug(){
         player.drawDebug(canvas);
         for(Customer c : customers){
-            c.debug(canvas);
+            if (c.isActive()) {
+                c.debug(canvas);
+            }
         }
         vent1.drawDebug(canvas);
         for (NormalObstacle o: obstacles) {
@@ -126,6 +164,21 @@ public class RestaurantController extends WorldController implements ContactList
 
     @Override
     public void beginContact(Contact contact) {
+        System.out.println("contact");
+//
+//        Fixture fixtureA = contact.getFixtureA();
+//        Fixture fixtureB = contact.getFixtureB();
+//
+//        short categoryA = fixtureA.getFilterData().categoryBits;
+//        short categoryB = fixtureB.getFilterData().categoryBits;
+//
+//        // Check if both fixtures belong to BoxObstacle objects
+//        if ((categoryA & 0x0002) != 0 && (categoryB & 0x0002) != 0) {
+//            // Ignore collision between them
+//            contact.setEnabled(false);
+//            return;
+//        }
+
         Body body1 = contact.getFixtureA().getBody();
         Body body2 = contact.getFixtureB().getBody();
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle)|| (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)){
@@ -133,6 +186,28 @@ public class RestaurantController extends WorldController implements ContactList
             //execute
             setVentCollision(true);
         }
+        if ((body1.getUserData() instanceof Customer && body2.getUserData() instanceof TableObstacle)){
+            //System.out.println("here");
+            Customer c = (Customer) body1.getUserData();
+            TableObstacle t = (TableObstacle) body2.getUserData();
+            if (c.collided >= 1) {
+                c.collided = 2;
+            } else if (c.t.equals(t)){
+                c.collided= 1;
+            }
+        }
+//        if ((body1.getUserData() instanceof TableObstacle && body2.getUserData() instanceof Customer)) {
+//            Customer c = (Customer) body2.getUserData();
+//            TableObstacle t = (TableObstacle) body1.getUserData();
+//            if (c.collided >= 1) {
+//                c.collided = 2;
+//            } else if (c.t.equals(t)){
+//
+//                c.collided= 1;
+//            }
+//        }
+
+
     }
 
     @Override

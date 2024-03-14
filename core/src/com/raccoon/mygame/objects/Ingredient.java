@@ -90,6 +90,11 @@ public class Ingredient implements GameObject{
                     x, y, 0.0f, TEXTURE_SX, TEXTURE_SY);
         }
     }
+
+    public void drawTextBubble(GameCanvas canvas, float x, float y, float ox, float oy){
+        canvas.draw(texture, Color.WHITE, ox, oy,
+                x, y, 0.0f, TEXTURE_SX, TEXTURE_SY);
+    }
 }
 
 
