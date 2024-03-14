@@ -80,5 +80,4 @@ public class GuardAIController {
 
         return speedVector;
     }
-
 }
