@@ -48,7 +48,7 @@ public class Inventory {
     }
 
     //gets the item in the current selected slot
-    public GameObject getSelectedItem(){
+    public Ingredient getSelectedItem(){
         return items[selected];
     }
 

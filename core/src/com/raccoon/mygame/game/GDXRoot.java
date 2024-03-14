@@ -182,7 +182,7 @@ public void update(){
 			current = current == 0 ? 1: 0;
 			restaurant.setVentCollision(false);
 		}
-		System.out.println(current + "current");
+		//System.out.println(current + "current");
 //		if (collision.collide){
 //			player.setPosition(new Vector2());
 //			player.clearInv();

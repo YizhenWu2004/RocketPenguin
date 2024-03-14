@@ -109,7 +109,7 @@ public class StoreController extends WorldController implements ContactListener 
         //addShelfVertical(0f, 2.25f);
         active = false;
         world.setContactListener(this);
-        collision = new CollisionController(canvas.getWidth(), canvas.getHeight(),player, guards);
+        collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
     }
 
     public void setActive(boolean b){

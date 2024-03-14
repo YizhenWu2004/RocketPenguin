@@ -38,11 +38,11 @@ public class CollisionController{
      * @param width   Width of the screen
      * @param height  Height of the screen
      */
-    public CollisionController(float width, float height, Player p, Array<Guard> guards) {
+    public CollisionController(float width, float height) {
         this.width = width;
         this.height = height;
-        this.player = p;
-        this.guards = guards;
+        //this.player = p;
+        //this.guards = guards;
         //collide=false;
         //inSight=false;
     }
@@ -75,6 +75,20 @@ public class CollisionController{
         for (GameObject i: ingredients) {
             if(i instanceof Ingredient)
                 handleCollision(p, (Ingredient)i);
+        }
+    }
+
+    public void processCustomers(Player p, Array<Customer> customers){
+        for (Customer c:customers){
+            if(p.getInteraction() && p.getPosition().dst(c.getPosition()) <= 2){
+                if(!c.getShow()){
+                    c.setShow(true);
+                }
+                if(c.serve(p.getInventory().getSelectedItem())){
+                    c.setShow(false);
+                    p.getInventory().drop();
+                }
+            }
         }
     }
 
