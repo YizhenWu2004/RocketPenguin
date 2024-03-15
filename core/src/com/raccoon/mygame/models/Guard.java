@@ -10,9 +10,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.GuardAIController;
+import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.obstacle.SightCone;
 import com.raccoon.mygame.view.GameCanvas;
+
+import static com.raccoon.mygame.enums.enums.PatrolDirection;
 
 public class Guard extends BoxObstacle {
     protected static final float TEXTURE_SX = 0.1f;
@@ -23,26 +26,26 @@ public class Guard extends BoxObstacle {
     private SightCone sight;
     private GuardAIController aiController;
 
-//    private BoxObstacle sight;
-
     private final int WORLD_WIDTH = 32;
     private final int WORLD_HEIGHT = 18;
     private float scaleX;
     private float scaleY;
     private GameCanvas canvas;
 
-    public Guard(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas){
+    private PatrolDirection patrolDirection;
+
+    public Guard(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas) {
         super(width, height);
         patrolTexture = texture;
         setTexture(new TextureRegion(texture));
-        scaleX= canvas.getWidth()/WORLD_WIDTH;
-        scaleY = canvas.getHeight()/WORLD_HEIGHT;
+        scaleX = canvas.getWidth() / WORLD_WIDTH;
+        scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.canvas = canvas;
         setFixedRotation(true);
         setDensity(1);
         setFriction(0);
         setLinearDamping(0);
-        setPosition(x,y);
+        setPosition(x, y);
         activatePhysics(world);
         this.setBodyType(BodyType.KinematicBody);
         setDrawScale(scaleX, scaleY);
@@ -63,8 +66,13 @@ public class Guard extends BoxObstacle {
         //sight.drawDebug(canvas);
     }
 
-    public float getTextureWidth() { return patrolTexture.getWidth() * TEXTURE_SX; }
-    public float getTextureHeight() { return patrolTexture.getHeight() * TEXTURE_SY; }
+    public float getTextureWidth() {
+        return patrolTexture.getWidth() * TEXTURE_SX;
+    }
+
+    public float getTextureHeight() {
+        return patrolTexture.getHeight() * TEXTURE_SY;
+    }
 
     public void update(float delta, Array<Float> info) {
         if (aiController != null) {
@@ -81,8 +89,9 @@ public class Guard extends BoxObstacle {
             System.out.println("sight velocity: " + sight.getLinearVelocity());
         }
     }
+
     public void draw(float scaleX, float scaleY) {
-        draw(canvas, scaleX,scaleY, 0, -600);
+        draw(canvas, scaleX, scaleY, 0, -600);
         sight.render();
     }
 
@@ -90,7 +99,7 @@ public class Guard extends BoxObstacle {
         return sight;
     }
 
-    public void debug(GameCanvas canvas){
+    public void debug(GameCanvas canvas) {
         drawDebug(canvas);
         //sight.drawDebug(canvas);
     }

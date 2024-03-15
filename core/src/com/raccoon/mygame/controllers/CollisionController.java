@@ -12,21 +12,29 @@ import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.Obstacle;
 
 //detects collision for now
-public class CollisionController{
-    /** Maximum distance a player must be from an ingredient to pick it up */
+public class CollisionController {
+    /**
+     * Maximum distance a player must be from an ingredient to pick it up
+     */
     protected static final float PICKUP_RADIUS = 1.0f;
 
     protected static final float TRASH_RADIUS = 1.0f;
 
-    /** Maximum distance a player must be from a guard to be caught */
+    /**
+     * Maximum distance a player must be from a guard to be caught
+     */
     protected static final float GUARD_RADIUS = 2.0f;
 
     private final int WORLD_WIDTH = 32;
     private final int WORLD_HEIGHT = 18;
 
-    /** Width of the collision geometry */
+    /**
+     * Width of the collision geometry
+     */
     private float width;
-    /** Height of the collision geometry */
+    /**
+     * Height of the collision geometry
+     */
     private float height;
     private Player player;
 
@@ -35,8 +43,8 @@ public class CollisionController{
     /**
      * Creates a CollisionController for the given screen dimensions.
      *
-     * @param width   Width of the screen
-     * @param height  Height of the screen
+     * @param width  Width of the screen
+     * @param height Height of the screen
      */
     public CollisionController(float width, float height) {
         this.width = width;
@@ -50,16 +58,14 @@ public class CollisionController{
     public void processBounds(Player p) {
         if (p.getX() < 0) {
             p.setX(0);
-        }
-        else if (p.getX() >= width) {
-            p.setX(width-1);
+        } else if (p.getX() >= width) {
+            p.setX(width - 1);
         }
 
         if (p.getY() < 0) {
             p.setY(0);
-        }
-        else if (p.getY() >= height) {
-            p.setY(height-1);
+        } else if (p.getY() >= height) {
+            p.setY(height - 1);
         }
     }
 
@@ -69,22 +75,22 @@ public class CollisionController{
 //        }
 //    }
 
-    public void processIngredients(Player p, Array<Ingredient> ingredients){
+    public void processIngredients(Player p, Array<Ingredient> ingredients) {
         //I am sorry for changing this lol I really dont know what good it did
         //everything still works tho lolll
-        for (GameObject i: ingredients) {
-            if(i instanceof Ingredient)
-                handleCollision(p, (Ingredient)i);
+        for (GameObject i : ingredients) {
+            if (i instanceof Ingredient)
+                handleCollision(p, (Ingredient) i);
         }
     }
 
-    public void processCustomers(Player p, Array<Customer> customers){
-        for (Customer c:customers){
-            if(p.getInteraction() && p.getPosition().dst(c.getPosition()) <= 2){
-                if(!c.getShow()){
+    public void processCustomers(Player p, Array<Customer> customers) {
+        for (Customer c : customers) {
+            if (p.getInteraction() && p.getPosition().dst(c.getPosition()) <= 2) {
+                if (!c.getShow()) {
                     c.setShow(true);
                 }
-                if(c.serve(p.getInventory().getSelectedItem())){
+                if (c.serve(p.getInventory().getSelectedItem())) {
                     c.setShow(false);
                     p.getInventory().drop();
                 }
@@ -102,9 +108,9 @@ public class CollisionController{
 
     public void processGuards(Guard g, Guard[] guards, int i) {
 //        System.out.println(guards.size);
-        for (int j = i+1; j < guards.length; j++) {
+        for (int j = i + 1; j < guards.length; j++) {
 //            System.out.println(g.getY());
-            handleCollision(guards[j] , g);
+            handleCollision(guards[j], g);
         }
     }
 
@@ -114,8 +120,8 @@ public class CollisionController{
     }
 
     private void handleCollision(Player p, Ingredient i) {
-        Vector2 iPosCanvas = new Vector2(i.getXPosition() + i.getTextureWidth()/2f,
-                i.getYPosition() + i.getTextureHeight()/2f);
+        Vector2 iPosCanvas = new Vector2(i.getXPosition() + i.getTextureWidth() / 2f,
+                i.getYPosition() + i.getTextureHeight() / 2f);
 //        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
         Vector2 iPosWorld = canvasToWorld(iPosCanvas);
         if (p.getPosition().dst(iPosWorld) < PICKUP_RADIUS) {
@@ -145,35 +151,41 @@ public class CollisionController{
 //        Vector2 iPosWorld = canvasToWorld(iPosCanvas);
 //        System.out.println(p.getPosition().dst(iPosWorld));
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
-            if(p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS){
+            if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
 //            System.out.println(g.getY());
                 g.switchToChaseMode();
-        }}
+            }
+        }
     }
 
     private void handleCollision(Guard other, Guard g) {
         if (other.getPosition().x > g.getX() - 0.5 && other.getPosition().x < g.getX() + 0.5) {
-            if(other.getPosition().y > g.getY() - 0.5 && other.getPosition().y < g.getY() + 0.5){
+            if (other.getPosition().y > g.getY() - 0.5 && other.getPosition().y < g.getY() + 0.5) {
                 other.setX(other.getPosition().x + 0.1f);
-            }}
+            }
+        }
     }
 
-    public void handleCollision(Player p, NormalCollisionObject o){
+    public void handleCollision(Guard g, NormalCollisionObject o) {
 
-        Vector2 oPosCanvas = new Vector2(o.getX() + o.getWidth()/2f,
-                o.getY() + o.getHeight()/2f);
+    }
+
+    public void handleCollision(Player p, NormalCollisionObject o) {
+
+        Vector2 oPosCanvas = new Vector2(o.getX() + o.getWidth() / 2f,
+                o.getY() + o.getHeight() / 2f);
 //        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
         Vector2 oPosWorld = canvasToWorld(oPosCanvas);
 
         NormalCollisionObject goTo = o.getObjectToTeleportTo();
-        Vector2 oPosCanvas1 = new Vector2(goTo.getX() + goTo.getWidth()/2f,
-                goTo.getY() + goTo.getHeight()/2f);
+        Vector2 oPosCanvas1 = new Vector2(goTo.getX() + goTo.getWidth() / 2f,
+                goTo.getY() + goTo.getHeight() / 2f);
 //        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
         Vector2 oPosWorld1 = canvasToWorld(oPosCanvas1);
         if (p.getPosition().dst(oPosWorld) < PICKUP_RADIUS) {
             System.out.println("Colliding with Normal Collision Object");
-            if(o.getIsTeleporter()){
-                oPosWorld1.x+=2;
+            if (o.getIsTeleporter()) {
+                oPosWorld1.x += 2;
                 goTo.setBeingTeleportedTo(true);
                 p.setPosition(oPosWorld1);
                 p.setTeleporting(true);
@@ -183,8 +195,8 @@ public class CollisionController{
 
 
     public void handleCollision(Player p, Trash t) {
-        Vector2 tPosCanvas = new Vector2(t.getX() + t.getTextureWidth()/2f,
-                t.getY() + t.getTextureHeight()/2f);
+        Vector2 tPosCanvas = new Vector2(t.getX() + t.getTextureWidth() / 2f,
+                t.getY() + t.getTextureHeight() / 2f);
         Vector2 tPosWorld = canvasToWorld(tPosCanvas);
         if (p.getPosition().dst(tPosWorld) < TRASH_RADIUS) {
             if (p.getInteraction()) {
