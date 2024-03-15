@@ -39,7 +39,7 @@ public class CustomerAIController implements AIController {
         }
         changeState();
         setGoal();
-        //System.out.println(customer.getPosition());
+        //System.out.println(customer.getPosition()+" " + goal + " " + state);
         switch (state) {
             case SPAWN:
             case WAIT:
@@ -91,10 +91,10 @@ public class CustomerAIController implements AIController {
                 }
                 break;
             case SEAT:
-                if (customer.collided == 1) {
-                    state = FSMState.WAIT;
-                    customer.setBodyType(BodyType.StaticBody);
-                }
+//                if (customer.collided == 1) {
+//                    state = FSMState.WAIT;
+//                    customer.setBodyType(BodyType.StaticBody);
+//                }
                 if (goal.dst(customer.getPosition()) <= 0.5) {
                     customer.setPosition(goal);
                     state = FSMState.WAIT;
