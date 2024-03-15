@@ -35,6 +35,7 @@ public class StoreController extends WorldController implements ContactListener 
     private boolean ventCollision;
 
     private int globalIndex = 1;
+    private Vector2 localStartingPos;
 
     private Array<NormalObstacle> obstacles;
     public boolean playerGuardCollide;
@@ -71,7 +72,8 @@ public class StoreController extends WorldController implements ContactListener 
         ingredients.add(new Ingredient("apple", 2000, 300, new Texture("apple.png"), -1));
         guards = new Array();
 
-        vent1 = new VentObstacle(1.5f, 1f, 1.5f, 1.5f, 1, 1, 0, 0f, new Texture("vent.png"), world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
+        localStartingPos = new Vector2(vent1.getX()+1.5f, vent1.getY());
 
         guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
         guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
@@ -255,5 +257,13 @@ public class StoreController extends WorldController implements ContactListener 
 
     public void setVentCollision(boolean isColliding) {
         this.ventCollision = isColliding;
+    }
+
+    /**
+     * Called upon when this level is switched to.
+     *
+     * */
+    public void onSet(){
+        player.setPosition(localStartingPos);
     }
 }

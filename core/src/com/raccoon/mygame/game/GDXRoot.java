@@ -117,6 +117,7 @@ public class GDXRoot extends Game implements ScreenListener {
 //		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
 
 
+
     }
 
 
@@ -175,14 +176,16 @@ public class GDXRoot extends Game implements ScreenListener {
 
     public void update() {
         //store is supposed to be 1, if this is different we change current
-        if (store.getVentCollision()) {
-            current = current == 0 ? 1 : 0;
-            store.setVentCollision(false);
-        }
-        if (restaurant.getVentCollision()) {
-            current = current == 0 ? 1 : 0;
-            restaurant.setVentCollision(false);
-        }
+      if(store.getVentCollision()){
+        current = current == 0 ? 1: 0;
+        store.setVentCollision(false);
+        restaurant.onSet();
+      }
+      if(restaurant.getVentCollision()){
+        current = current == 0 ? 1: 0;
+        restaurant.setVentCollision(false);
+        store.onSet();
+      }
 //		if (collision.collide){
 //			player.setPosition(new Vector2());
 //			player.clearInv();
