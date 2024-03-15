@@ -41,6 +41,7 @@ public class StoreController extends WorldController implements ContactListener 
     public boolean playerGuardCollide;
     private CollisionController collision;
     boolean active;
+    public boolean playerJustDied;
 
     private void addShelfHorizontal(float x, float y) {
         obstacles.add(new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
@@ -117,6 +118,7 @@ public class StoreController extends WorldController implements ContactListener 
         active = false;
         world.setContactListener(this);
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
+        playerJustDied = false;
     }
 
     public void setActive(boolean b) {
@@ -144,6 +146,7 @@ public class StoreController extends WorldController implements ContactListener 
         if (playerGuardCollide) {
             player.setPosition(0, 0);
             player.clearInv();
+            playerJustDied = true;
             playerGuardCollide = false;
         }
         if (active) {

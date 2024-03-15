@@ -175,7 +175,13 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
+        //System.out.println("updated");
         //store is supposed to be 1, if this is different we change current
+      input.readInput();
+       if(store.playerJustDied){
+            current = 0;
+            store.playerJustDied = false;
+        }
       if(store.getVentCollision()){
         current = current == 0 ? 1: 0;
         store.setVentCollision(false);
@@ -204,10 +210,11 @@ public class GDXRoot extends Game implements ScreenListener {
             restaurant.setActive(false);
             store.setActive(true);
         }
-        input.readInput();
-
+        //System.out.println("updating store");
         store.update();
+        //System.out.println("updating resturant");
         restaurant.update();
+
         if (input.getReset()) {
             create();
         }
