@@ -12,7 +12,7 @@ import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
-public class Player extends BoxObstacle{
+public class Player extends BoxObstacle {
 
     protected static final float TEXTURE_SX = 0.1f;
     protected static final float TEXTURE_SY = 0.1f;
@@ -42,7 +42,7 @@ public class Player extends BoxObstacle{
 //		b.setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT); // Pixel width / world width
 
     public Player(float x, float y, float width, float height, Texture texture, Inventory inventory,
-            GameCanvas canvas, World world){
+                  GameCanvas canvas, World world) {
         super(width, height);
         this.inventory = inventory;
         setTexture(new TextureRegion(texture));
@@ -51,35 +51,37 @@ public class Player extends BoxObstacle{
         setDensity(1);
         setFriction(0);
         setLinearDamping(0);
-        setPosition(x,y);
+        setPosition(x, y);
         activatePhysics(world);
         this.setBodyType(BodyType.DynamicBody);
-        setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT);
+        setDrawScale(canvas.getWidth() / WORLD_WIDTH, canvas.getHeight() / WORLD_HEIGHT);
         this.getBody().setUserData(this);
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
-    public void pickUpItem(Ingredient object){
+    public void pickUpItem(Ingredient object) {
         //this is dependent on whether or not this method will exist which I am not sure if it does lol
         this.inventory.add(object);
     }
 
     //does what you think it would
-    public void removeItem(){
+    public void removeItem() {
         this.inventory.drop();
     }
 
-    public void setInteraction(boolean interaction){
+    public void setInteraction(boolean interaction) {
         this.interaction = interaction;
     }
-    public boolean getInteraction(){
+
+    public boolean getInteraction() {
         return this.interaction;
     }
 
-    public void setSpace(boolean space){
+    public void setSpace(boolean space) {
         this.space = space;
     }
-    public boolean getSpace(){
+
+    public boolean getSpace() {
         return this.space;
     }
 
@@ -87,20 +89,22 @@ public class Player extends BoxObstacle{
         return inventory;
     }
 
-    public void setTeleporting(boolean isTeleporting){
+    public void setTeleporting(boolean isTeleporting) {
         this.isTeleporting = isTeleporting;
     }
-    public boolean getTeleporting(){
+
+    public boolean getTeleporting() {
         return this.isTeleporting;
     }
 
 
     //draw with scale
-    public void draw(float scaleX, float scaleY){
+    public void draw(float scaleX, float scaleY) {
         draw(canvas, scaleX, scaleY, 0, -200);
         this.inventory.draw(canvas);
     }
-    public void clearInv(){
+
+    public void clearInv() {
         inventory.clearAll();
     }
 

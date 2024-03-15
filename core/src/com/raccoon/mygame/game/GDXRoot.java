@@ -37,7 +37,7 @@ import com.badlogic.gdx.utils.*;
 
 /**
  * Root class for a LibGDX.
- *
+ * <p>
  * This class is technically not the ROOT CLASS. Each platform has another class above
  * this (e.g. PC games use DesktopLauncher) which serves as the true root.  However,
  * those classes are unique to each platform, while this class is the same across all
@@ -45,62 +45,63 @@ import com.badlogic.gdx.utils.*;
  * and you would draw it as a root class in an architecture specification.
  */
 public class GDXRoot extends Game implements ScreenListener {
-	private GameCanvas canvas;
+    private GameCanvas canvas;
 
-	InputController input;
-	CollisionController collision;
-	Rectangle bounds;
-	private Array<GameObject> objects;
-	private Array<Guard> guards;
-	private Array<Customer> customers;
+    InputController input;
+    CollisionController collision;
+    Rectangle bounds;
+    private Array<GameObject> objects;
+    private Array<Guard> guards;
+    private Array<Customer> customers;
 
-	private Player player;
-	private Trash trash;
-	private NormalCollisionObject vent;
-	private NormalCollisionObject vent1;
-	private boolean win;
-	public Texture background;
-	public Texture winPic;
+    private Player player;
+    private Trash trash;
+    private NormalCollisionObject vent;
+    private NormalCollisionObject vent1;
+    private boolean win;
+    public Texture background;
+    public Texture winPic;
 
-	/*public OrthographicCamera camera;*/
+    /*public OrthographicCamera camera;*/
 
-	private Box2DDebugRenderer renderer;
+    private Box2DDebugRenderer renderer;
 
-	private World world;
+    private World world;
 
-	private final int WORLD_WIDTH = 32;
-	private final int WORLD_HEIGHT = 18;
+    private final int WORLD_WIDTH = 32;
+    private final int WORLD_HEIGHT = 18;
 
-	private Vector2 velCache;
+    private Vector2 velCache;
 
 
+    /**
+     * Creates a new game from the configuration settings.
+     * <p>
+     * This method configures the asset manager, but does not load any assets
+     * or assign any screen.
+     */
+    public GDXRoot() {
+    }
 
-	/**
-	 * Creates a new game from the configuration settings.
-	 *
-	 * This method configures the asset manager, but does not load any assets
-	 * or assign any screen.
-	 */
-	public GDXRoot() { }
+    /**
+     * Called when the Application is first created.
+     * <p>
+     * This is method immediately loads assets for the loading screen, and prepares
+     * the asynchronous loader for all other assets
+     */
 
-	/**
-	 * Called when the Application is first created.
-	 *
-	 * This is method immediately loads assets for the loading screen, and prepares
-	 * the asynchronous loader for all other assets
-	 */
+    StoreController store;
+    RestaurantController restaurant;
+    int current;
 
-	StoreController store;
-	RestaurantController restaurant;
-	int current;
-	public void create() {
-		//world = new World(new Vector2(0, 0), false);
-		canvas  = new GameCanvas();
-		input = new InputController();
-		Inventory inv = new Inventory(new Texture("inventorybar.png"));
-		restaurant = new RestaurantController(canvas, new Texture("restaurantfloor.png"), input, inv);
-		store = new StoreController(canvas,new Texture("groceryfloor2.png"), input, inv);
-		current = 0; //this means restaurant
+    public void create() {
+        //world = new World(new Vector2(0, 0), false);
+        canvas = new GameCanvas();
+        input = new InputController();
+        Inventory inv = new Inventory(new Texture("inventorybar.png"));
+        restaurant = new RestaurantController(canvas, new Texture("restaurantfloor.png"), input, inv);
+        store = new StoreController(canvas, new Texture("groceryfloor2.png"), input, inv);
+        current = 0; //this means restaurant
 //		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
 //
 //		vent = new NormalCollisionObject(new Texture("minecraft.png"), 100, 100, 100,100, true);
@@ -116,74 +117,75 @@ public class GDXRoot extends Game implements ScreenListener {
 //		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
 
 
-	}
+
+    }
 
 
-	/**
-	 * Called when the Application is destroyed.
-	 *
-	 * This is preceded by a call to pause().
-	 */
-	public void dispose() {
-		// Call dispose on our children
-		setScreen(null);
-		//world.dispose();
+    /**
+     * Called when the Application is destroyed.
+     * <p>
+     * This is preceded by a call to pause().
+     */
+    public void dispose() {
+        // Call dispose on our children
+        setScreen(null);
+        //world.dispose();
 
-		canvas.dispose();
-		canvas = null;
+        canvas.dispose();
+        canvas = null;
 
-		super.dispose();
-	}
+        super.dispose();
+    }
 
-	/**
-	 * Called when the Application is resized.
-	 *
-	 * This can happen at any point during a non-paused state but will never happen
-	 * before a call to create().
-	 *
-	 * @param width  The new width in pixels
-	 * @param height The new height in pixels
-	 */
-	public void resize(int width, int height) {
-		canvas.resize();
-		super.resize(width,height);
-	}
+    /**
+     * Called when the Application is resized.
+     * <p>
+     * This can happen at any point during a non-paused state but will never happen
+     * before a call to create().
+     *
+     * @param width  The new width in pixels
+     * @param height The new height in pixels
+     */
+    public void resize(int width, int height) {
+        canvas.resize();
+        super.resize(width, height);
+    }
 
-	/**
-	 * The given screen has made a request to exit its player mode.
-	 *
-	 * The value exitCode can be used to implement menu options.
-	 *
-	 * @param screen   The screen requesting to exit
-	 * @param exitCode The state of the screen upon exit
-	 */
-	public void exitScreen(Screen screen, int exitCode) {
-		// We quit the main application
-		Gdx.app.exit();
-	}
+    /**
+     * The given screen has made a request to exit its player mode.
+     * <p>
+     * The value exitCode can be used to implement menu options.
+     *
+     * @param screen   The screen requesting to exit
+     * @param exitCode The state of the screen upon exit
+     */
+    public void exitScreen(Screen screen, int exitCode) {
+        // We quit the main application
+        Gdx.app.exit();
+    }
 
-	@Override
-	public void render(){
-		update();
-		canvas.begin();
-		draw();
-		canvas.end();
-		drawDebug();
-	}
+    @Override
+    public void render() {
+        update();
+        canvas.begin();
+        draw();
+        canvas.end();
+        drawDebug();
+    }
 
 
-public void update(){
-		if(store.getVentCollision()){
-			current = current == 0 ? 1: 0;
-			store.setVentCollision(false);
-			restaurant.onSet();
-		}
-		if(restaurant.getVentCollision()){
-			current = current == 0 ? 1: 0;
-			restaurant.setVentCollision(false);
-			store.onSet();
-		}
-		//System.out.println(current + "current");
+    public void update() {
+        //store is supposed to be 1, if this is different we change current
+      if(store.getVentCollision()){
+        current = current == 0 ? 1: 0;
+        store.setVentCollision(false);
+        restaurant.onSet();
+      }
+      if(restaurant.getVentCollision()){
+        current = current == 0 ? 1: 0;
+        restaurant.setVentCollision(false);
+        store.onSet();
+      }
 //		if (collision.collide){
 //			player.setPosition(new Vector2());
 //			player.clearInv();
@@ -192,23 +194,23 @@ public void update(){
 //		if (collision.inSight){
 ////			System.out.println("I SEE YOU FUCKER");
 //		}
-		if (input.click){
-			current = current == 0 ? 1: 0;
-		}
-		if (current == 0){
-			restaurant.setActive(true);
-			store.setActive(false);
-		} else {
-			restaurant.setActive(false);
-			store.setActive(true);
-		}
-		input.readInput();
+        if (input.click) {
+            current = current == 0 ? 1 : 0;
+        }
+        if (current == 0) {
+            restaurant.setActive(true);
+            store.setActive(false);
+        } else {
+            restaurant.setActive(false);
+            store.setActive(true);
+        }
+        input.readInput();
 
-		store.update();
-		restaurant.update();
-		if (input.getReset()){
-			create();
-		}
+        store.update();
+        restaurant.update();
+        if (input.getReset()) {
+            create();
+        }
 
 //		collision.processBounds(player);
 //		collision.processGuards(player,guards);
@@ -218,8 +220,7 @@ public void update(){
 //		collision.handleCollision(player, vent1);
 
 
-
-		//if the player is in a teleporting state
+        //if the player is in a teleporting state
 //		if(player.getTeleporting()){
 //			//check which vent is being teleported to
 //			if(vent.getBeingTeleportedTo()){
@@ -236,31 +237,31 @@ public void update(){
 //			player.setTeleporting(false);
 //		}
 
-		//System.out.println(b.getLinearVelocity());
-	}
+        //System.out.println(b.getLinearVelocity());
+    }
 
-	public void draw(){
+    public void draw() {
 
-		if(current == 0){
-			restaurant.draw();
-		}else if (current == 1){
-			store.draw();
-		}
+        if (current == 0) {
+            restaurant.draw();
+        } else if (current == 1) {
+            store.draw();
+        }
 //		trash.draw(canvas);
 //
 //
 
 
-		//calls draw method to draw overlay(background) and all the other stuff)
-	}
+        //calls draw method to draw overlay(background) and all the other stuff)
+    }
 
-	public void drawDebug(){
-		canvas.beginDebug();
-		if(current == 1){
-			store.debug();
-		} else {
-			restaurant.debug();
-		}
-		canvas.endDebug();
-	}
+    public void drawDebug() {
+        canvas.beginDebug();
+        if (current == 1) {
+            store.debug();
+        } else {
+            restaurant.debug();
+        }
+        canvas.endDebug();
+    }
 }

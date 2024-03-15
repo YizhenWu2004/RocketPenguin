@@ -20,6 +20,7 @@ import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
+import static com.raccoon.mygame.enums.enums.PatrolDirection;
 
 public class StoreController extends WorldController implements ContactListener {
     private World world;
@@ -40,40 +41,44 @@ public class StoreController extends WorldController implements ContactListener 
     public boolean playerGuardCollide;
     private CollisionController collision;
     boolean active;
+
     private void addShelfHorizontal(float x, float y) {
         obstacles.add(new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
-                new Texture("groceryshelfhorizontal.png"),world, canvas));
+                new Texture("groceryshelfhorizontal.png"), world, canvas));
     }
+
     private void addShelfVertical(float x, float y) {
         obstacles.add(new NormalObstacle(x, y, 1f, 6f, 0.3f, 0.3f, 0f, 0f,
-                new Texture("groceryshelfvertical.png"),world, canvas));
+                new Texture("groceryshelfvertical.png"), world, canvas));
     }
+
     private void addFruitCrate(float x, float y) {
         obstacles.add(new NormalObstacle(x, y, 2f, 1f, 0.4f, 0.4f, 0f, 0f,
-                new Texture("fruitcrate.png"),world, canvas));
+                new Texture("fruitcrate.png"), world, canvas));
     }
-    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv){
-        world = new World(new Vector2(0,0), false);
+
+    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv) {
+        world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
-        player = new Player(0,0,1,0.7f, new Texture("rockoReal.png"),sharedInv, canvas, world);
+        player = new Player(0, 0, 1, 0.7f, new Texture("rockoReal.png"), sharedInv, canvas, world);
         this.input = input;
         ingredients = new Array<>();
-        ingredients.add(new Ingredient("apple",200,200,new Texture("apple.png"),-1));
-        ingredients.add(new Ingredient("banana",1600,300,new Texture("banana.png"),-1));
-        ingredients.add(new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1));
-        ingredients.add(new Ingredient("orange",900,400,new Texture("orange.png"),-1));
-        ingredients.add(new Ingredient("banana",1000,800,new Texture("banana.png"),-1));
-        ingredients.add(new Ingredient("apple",2000,300,new Texture("apple.png"),-1));
+        ingredients.add(new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
+        ingredients.add(new Ingredient("banana", 1600, 300, new Texture("banana.png"), -1));
+        ingredients.add(new Ingredient("greenpepper", 1500, 800, new Texture("greenpepper.png"), -1));
+        ingredients.add(new Ingredient("orange", 900, 400, new Texture("orange.png"), -1));
+        ingredients.add(new Ingredient("banana", 1000, 800, new Texture("banana.png"), -1));
+        ingredients.add(new Ingredient("apple", 2000, 300, new Texture("apple.png"), -1));
         guards = new Array();
 
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
         localStartingPos = new Vector2(vent1.getX()+1.5f, vent1.getY());
 
-        guards.add(new Guard(2.5f,5,1.67f,0.83f,new Texture("gooseReal.png"),world,canvas));
-        guards.add(new Guard(25,13.3f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-        guards.add(new Guard(12.5f,6.67f,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
-        guards.add(new Guard(23.3f,10,1.67f,0.83f,new Texture("gooseReal.png"),world, canvas));
+        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
+        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
+        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
+        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
         obstacles = new Array();
         addShelfHorizontal(2.5f, 16.5f);
         addShelfHorizontal(7.75f, 16.5f);
@@ -114,7 +119,7 @@ public class StoreController extends WorldController implements ContactListener 
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
     }
 
-    public void setActive(boolean b){
+    public void setActive(boolean b) {
         active = b;
     }
 
@@ -126,20 +131,25 @@ public class StoreController extends WorldController implements ContactListener 
         super.dispose();
     }
 
+    public World getWorld() {
+        return world;
+    }
+
     @Override
     public void render(float delta) {
 
     }
-    public void update(){
-        if (playerGuardCollide){
-            player.setPosition(0,0);
+
+    public void update() {
+        if (playerGuardCollide) {
+            player.setPosition(0, 0);
             player.clearInv();
             playerGuardCollide = false;
         }
-        if (active){
-            float x = 5f*input.getXMovement();
-            float y =5f*input.getYMovement();
-            player.setLinearVelocity(new Vector2(x,y));
+        if (active) {
+            float x = 5f * input.getXMovement();
+            float y = 5f * input.getYMovement();
+            player.setLinearVelocity(new Vector2(x, y));
             player.setSpace(input.getSpace());
             player.setInteraction(input.getInteraction());
             player.getInventory().setSelected((int) input.getScroll());
@@ -147,41 +157,42 @@ public class StoreController extends WorldController implements ContactListener 
         float delta = Gdx.graphics.getDeltaTime();
         for (Guard guard : guards) {
             guard.update(delta, generatePlayerInfo());
+//            guard.getSight().render();
         }
 
         collision.processBounds(player);
-        collision.processGuards(player,guards);
-        collision.processIngredients(player,ingredients);
-        world.step(1/60f, 6,2);
+//        collision.processGuards(player,guards);
+        collision.processIngredients(player, ingredients);
+        world.step(1 / 60f, 6, 2);
 
         Guard[] guards2 = new Guard[guards.size];
-        for(int i = 0; i < guards.size; i++){
+        for (int i = 0; i < guards.size; i++) {
             guards2[i] = guards.get(i);
         }
-        for(int i = 0; i < guards2.length - 1; i++){
+        for (int i = 0; i < guards2.length - 1; i++) {
             collision.processGuards(guards.get(i), guards2, i);
         }
     }
 
-    public void draw(){
+    public void draw() {
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
         vent1.draw();
-        for (NormalObstacle o : obstacles){
+        for (NormalObstacle o : obstacles) {
             o.draw();
         }
-        player.draw(0.25f,0.25f);
-        for (Ingredient i : ingredients){
+        player.draw(0.25f, 0.25f);
+        for (Ingredient i : ingredients) {
             i.draw(canvas);
         }
-        for(Guard g : guards){
-            g.draw(0.1f,0.1f);
+        for (Guard g : guards) {
+            g.draw(0.1f, 0.1f);
         }
     }
 
-    public void debug(){
+    public void debug() {
         player.drawDebug(canvas);
-        for(Guard g : guards){
+        for (Guard g : guards) {
             g.debug(canvas);
         }
         vent1.drawDebug(canvas);
@@ -202,10 +213,10 @@ public class StoreController extends WorldController implements ContactListener 
     public void beginContact(Contact contact) {
         Body body1 = contact.getFixtureA().getBody();
         Body body2 = contact.getFixtureB().getBody();
-        if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof Guard)|| (body2.getUserData() instanceof Player && body1.getUserData() instanceof Guard)){
+        if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof Guard) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof Guard)) {
             playerGuardCollide = true;
         }
-        if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle)|| (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)){
+        if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
             System.out.println("colliding with vent");
             setVentCollision(true);
             //execute
@@ -228,21 +239,23 @@ public class StoreController extends WorldController implements ContactListener 
 
     }
 
-    public int getIndex(){
+    public int getIndex() {
         return this.globalIndex;
     }
-    public void setIndex(int ind){
+
+    public void setIndex(int ind) {
         globalIndex = ind;
     }
 
-    public boolean getActive(){
+    public boolean getActive() {
         return this.active;
     }
 
-    public boolean getVentCollision(){
+    public boolean getVentCollision() {
         return this.ventCollision;
     }
-    public void setVentCollision(boolean isColliding){
+
+    public void setVentCollision(boolean isColliding) {
         this.ventCollision = isColliding;
     }
 

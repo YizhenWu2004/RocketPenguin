@@ -10,6 +10,7 @@ import com.raccoon.mygame.view.GameCanvas;
 
 public class TableObstacle extends NormalObstacle {
     private boolean[] occupation;
+
     public TableObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas) {
         super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas);
         this.occupation = new boolean[2];
@@ -17,24 +18,24 @@ public class TableObstacle extends NormalObstacle {
         occupation[1] = false;
     }
 
-    public boolean isOccupied(int index){
+    public boolean isOccupied(int index) {
         return occupation[index];
     }
 
-    public boolean isFullyOccupied(){
+    public boolean isFullyOccupied() {
         return isOccupied(0) && isOccupied(1);
     }
 
-    public Vector2 occupy(int index){
-            //i have to tweak the offset later such that this will return the vector corresponding
-            // to the "chair" position which the animal will move towards to sit down
-       if (index == 1){
+    public Vector2 occupy(int index) {
+        //i have to tweak the offset later such that this will return the vector corresponding
+        // to the "chair" position which the animal will move towards to sit down
+        if (index == 1) {
             occupation[1] = true;
-            return new Vector2((float)(this.getX() + 1.75), (float)(this.getY()-0.8));
+            return new Vector2((float) (this.getX() + 1.85), (float) (this.getY() - 0.8));
         } else if (index == 0) {
-           occupation[0] = true;
-           return new Vector2((float) (this.getX() - 1.75), (float) (this.getY() - 0.8));
-       }
+            occupation[0] = true;
+            return new Vector2((float) (this.getX() - 1.85), (float) (this.getY() - 0.8));
+        }
         return this.getPosition();
     }
 }

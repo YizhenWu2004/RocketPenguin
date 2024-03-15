@@ -2,16 +2,20 @@ package com.raccoon.mygame.controllers;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.enums.enums.PatrolDirection;
 
 public class GuardAIController {
     private enum AIState {
         WANDER,
         CHASE
     }
+
     private float leftBoundary;
     private float rightBoundary;
     private float speed;
     private boolean movingRight = true;
+
+    private PatrolDirection patrolDirection;
 
     private AIState currentState = AIState.WANDER;
 
@@ -21,8 +25,8 @@ public class GuardAIController {
         this.speed = speed;
     }
 
-    public void setAIStateChase(){
-        currentState =  AIState.CHASE;
+    public void setAIStateChase() {
+        currentState = AIState.CHASE;
     }
 
 //    public Vector2 updatePosition(Vector2 guardPosition, float deltaTime) {
@@ -74,11 +78,10 @@ public class GuardAIController {
             Vector2 direction = new Vector2(playerX - guardPosition.x, playerY - guardPosition.y).nor();
             Vector2 chaseSpeed = direction.scl(speed);
 
-            guardPosition.add(chaseSpeed.x * deltaTime, chaseSpeed.y * deltaTime);
+//            guardPosition.add(chaseSpeed.x * deltaTime, chaseSpeed.y * deltaTime);
             speedVector.set(chaseSpeed.x, chaseSpeed.y);
         }
 
         return speedVector;
     }
-
 }

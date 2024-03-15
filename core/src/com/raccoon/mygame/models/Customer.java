@@ -37,13 +37,15 @@ public class Customer extends BoxObstacle {
     public Vector2 position_on_table;
     public TableObstacle t;
     public int collided = 0;
+    public int flipScale;
+    public boolean onRight;
 
-    public Customer(float x, float y, float width, float height,Texture texture, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
+    public Customer(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
         this.texture = texture;
         setTexture(new TextureRegion(texture));
-        scaleX= canvas.getWidth()/WORLD_WIDTH;
-        scaleY = canvas.getHeight()/WORLD_HEIGHT;
+        scaleX = canvas.getWidth() / WORLD_WIDTH;
+        scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.canvas = canvas;
         setFixedRotation(true);
         setDensity(1);//heavy so player cant move them
@@ -53,17 +55,16 @@ public class Customer extends BoxObstacle {
         this.setBodyType(BodyType.DynamicBody);
         setDrawScale(scaleX, scaleY);
         this.getBody().setUserData(this);
-        if(ordernum == 1) {
+        if (ordernum == 1) {
             order = (new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
-        } else if (ordernum == 2){
+        } else if (ordernum == 2) {
             order = (new Ingredient("banana", 200, 200, new Texture("banana.png"), -1));
-        } else if (ordernum == 3){
-            order = new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1);
-
+        } else if (ordernum == 3) {
+            order = new Ingredient("greenpepper", 1500, 800, new Texture("greenpepper.png"), -1);
         } else {
-            order = new Ingredient("orange",900,400,new Texture("orange.png"),-1);
+            order = new Ingredient("orange", 900, 400, new Texture("orange.png"), -1);
         }
-       // order[0] = (new Ingredient("apple",200,200,new Texture("apple.png"),-1));
+        // order[0] = (new Ingredient("apple",200,200,new Texture("apple.png"),-1));
         //order[1] = (new Ingredient("banana",1600,300,new Texture("banana.png"),-1));
         //order[2] = (new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1));
         satisfied = false;
@@ -71,66 +72,72 @@ public class Customer extends BoxObstacle {
         patience = 100;
         controller = new CustomerAIController(tables, this);
         show = false;
+        flipScale = -1;
+        onRight = false;
 
     }
 
-    public Ingredient getOrder(){
+    public Ingredient getOrder() {
         return order;
     }
-    public boolean isSatisfied(){
+
+    public boolean isSatisfied() {
         return satisfied;
     }
-    public boolean isActive(){
+
+    public boolean isActive() {
         return isActive;
     }
 
-    public void deactivate(){
+    public void deactivate() {
         isActive = false;
     }
 
-    public int patience(){
+    public int patience() {
         return patience;
     }
 
-    public void decreasePatience(){
+    public void decreasePatience() {
         patience -= 1;
     }
 
-    public boolean isPatient(){
+    public boolean isPatient() {
         return patience > 0;
     }
 
-    public boolean getShow(){return show;}
-    public void setShow(boolean b){
+    public boolean getShow() {
+        return show;
+    }
+
+    public void setShow(boolean b) {
         show = b;
     }
 
-    public boolean serve(Ingredient ing){
+    public boolean serve(Ingredient ing) {
         //change later, order doesn't matter? or some other action?
-        if(ing == null){
+        if (ing == null) {
             return false;
         }
-        if (ing.type.equals(order.type)){
+        if (ing.type.equals(order.type)) {
             satisfied = true;
             return true;
         }
         return false;
     }
 
-    public void move(){
+    public void move() {
         controller.getAction();
     }
 
 
-
     public void draw(float scaleX, float scaleY) {
-        draw(canvas, scaleX,scaleY, 0, -600);
-        if (show){
-            order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0,0);
+        draw(canvas, flipScale * scaleX, scaleY, 0, -600);
+        if (show) {
+            order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
         }
     }
 
-    public void debug(GameCanvas canvas){
+    public void debug(GameCanvas canvas) {
         drawDebug(canvas);
     }
 }
