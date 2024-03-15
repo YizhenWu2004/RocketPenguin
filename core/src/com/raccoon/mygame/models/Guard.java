@@ -69,9 +69,14 @@ public class Guard extends BoxObstacle {
     public void update(float delta, Array<Float> info) {
         if (aiController != null) {
             this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
+
 //            sight.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
-            sight.update(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
+            Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); // Assuming scaleX and scaleY are the scales you need to apply
+            newPosition.add(0, 100); // Adjust this value based on where you want the sightcone relative to the guard
+            sight.updatePosition(newPosition);
+//            sight.update(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
             //sight.setAngle((float) ((sight.getAngle() + 0.01f) % (2*Math.PI)));
+
             System.out.println("guard velocity: " + this.getLinearVelocity());
             System.out.println("sight velocity: " + sight.getLinearVelocity());
         }

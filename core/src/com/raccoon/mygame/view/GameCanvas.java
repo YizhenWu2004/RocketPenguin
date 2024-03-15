@@ -24,10 +24,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Affine2;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 
@@ -120,6 +117,13 @@ public class GameCanvas {
 		local  = new Affine2();
 		global = new Matrix4();
 		vertex = new Vector2();
+	}
+
+	/**
+	 * @return camera
+	 */
+	public OrthographicCamera getCamera(){
+		return camera;
 	}
 		
     /**
@@ -1190,4 +1194,32 @@ public class GameCanvas {
 	public Vector3 getCameraPosition(){
 		return camera.position;
 	}
+
+	public void drawSightCone(Vector2 position, float direction, float fov, float range, Color color) {
+		if (active == DrawPass.STANDARD) {
+			spriteBatch.end();
+			active = DrawPass.INACTIVE;
+		}
+
+		if (active != DrawPass.DEBUG) {
+			debugRender.begin(ShapeRenderer.ShapeType.Line);
+			active = DrawPass.DEBUG;
+		}
+
+		debugRender.setColor(color);
+
+		float angleStep = fov / 30;
+		for (int i = 0; i <= 30; i++) {
+			float angle = direction - fov / 2 + angleStep * i;
+			float endX = position.x + range * MathUtils.cosDeg(angle);
+			float endY = position.y + range * MathUtils.sinDeg(angle);
+			debugRender.line(position.x, position.y, endX, endY);
+		}
+
+		debugRender.end();
+
+		spriteBatch.begin();
+		active = DrawPass.STANDARD;
+	}
+
 }

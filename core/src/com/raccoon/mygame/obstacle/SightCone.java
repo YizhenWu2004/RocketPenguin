@@ -1,19 +1,14 @@
-
 package com.raccoon.mygame.obstacle;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
-import com.raccoon.mygame.controllers.StoreController;
 import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.view.GameCanvas;
@@ -56,6 +51,8 @@ public class SightCone extends BoxObstacle{
     }
     public void create() {
         shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(canvas.getCamera().combined);
+
     }
 
     public void dispose() {
@@ -63,35 +60,25 @@ public class SightCone extends BoxObstacle{
     }
 
     public void render() {
-        // Clear screen
-//        Gdx.gl.glClearColor(0, 0, 0, 1);
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//        System.out.println("rendering sightcone");
-        // Begin shape rendering
-//        System.out.println(getPosition());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-
         Vector2 position = new Vector2(x,y);
         float direction = 180;
         float fov = 60;
         float range = 300;
 
-        // Calculate the vertices of the sight cone
-        Vector2[] vertices = calculateSightConeVertices(position, direction, fov, range);// Draw the sight cone
-        for (int i = 0; i < vertices.length; i++) {
-            int nextIndex = (i + 1) % vertices.length;
-            shapeRenderer.line(position.x, position.y, vertices[i].x, vertices[i].y);
-            shapeRenderer.line(position.x, position.y, vertices[nextIndex].x, vertices[nextIndex].y);
-        }
+        //shape render debug lines
+        canvas.drawSightCone(position, direction, fov, range, Color.YELLOW);
+
         for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
             performRaycast(new Vector2(position.x/canvas.getWidth() * 32, position.y/canvas.getHeight() * 18), new Vector2(vertex.x/canvas.getWidth() * 32, vertex.y/canvas.getHeight() * 18), w);
         }
-        // End shape rendering
-        shapeRenderer.end();
     }
     public void update(Vector2 speed){
         setLinearVelocity(speed);
+    }
+
+    public void updatePosition(Vector2 newPosition) {
+        this.x = newPosition.x;
+        this.y = newPosition.y;
     }
 
     private void performRaycast(Vector2 origin, Vector2 target, World w) {
