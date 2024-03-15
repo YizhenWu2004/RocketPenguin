@@ -20,6 +20,7 @@ import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
+import static com.raccoon.mygame.enums.enums.PatrolDirection;
 
 public class StoreController extends WorldController implements ContactListener {
     private World world;
@@ -72,10 +73,10 @@ public class StoreController extends WorldController implements ContactListener 
 
         vent1 = new VentObstacle(1.5f, 1f, 1.5f, 1.5f, 1, 1, 0, 0f, new Texture("vent.png"), world, canvas);
 
-        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas));
-        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas));
-        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas));
-        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas));
+        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
+        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
+        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
+        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
         obstacles = new Array();
         addShelfHorizontal(2.5f, 16.5f);
         addShelfHorizontal(7.75f, 16.5f);
