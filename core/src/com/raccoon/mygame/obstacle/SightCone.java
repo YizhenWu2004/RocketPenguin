@@ -16,7 +16,7 @@ import com.raccoon.mygame.view.GameCanvas;
 import java.awt.*;
 
 
-public class SightCone extends BoxObstacle{
+public class SightCone extends BoxObstacle {
     private ShapeRenderer shapeRenderer;
     private float x;
     private float y;
@@ -24,16 +24,16 @@ public class SightCone extends BoxObstacle{
     private Guard g;
     private GameCanvas canvas;
 
-    RayCastCallback [] rays = new RayCastCallback[10];
+    RayCastCallback[] rays = new RayCastCallback[10];
 
-    public SightCone(float x1, float y1, float width, float height, World world, GameCanvas c, Guard guard){
+    public SightCone(float x1, float y1, float width, float height, World world, GameCanvas c, Guard guard) {
         super(width, height);
         this.canvas = canvas;
         setFixedRotation(true);
         setDensity(1);
         setFriction(0);
         setLinearDamping(0);
-        setPosition(x1,y1);
+        setPosition(x1, y1);
         activatePhysics(world);
         this.setBodyType(BodyDef.BodyType.KinematicBody);
         canvas = c;
@@ -42,13 +42,15 @@ public class SightCone extends BoxObstacle{
         create();
     }
 
-    public void setPosition(float x1, float y1){
+    public void setPosition(float x1, float y1) {
         x = x1;
         y = y1;
     }
-    public Vector2 getPosition(){
+
+    public Vector2 getPosition() {
         return new Vector2(x, y);
     }
+
     public void create() {
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(canvas.getCamera().combined);
@@ -60,7 +62,7 @@ public class SightCone extends BoxObstacle{
     }
 
     public void render() {
-        Vector2 position = new Vector2(x,y);
+        Vector2 position = new Vector2(x, y);
         float direction = 180;
         float fov = 60;
         float range = 300;
@@ -69,10 +71,11 @@ public class SightCone extends BoxObstacle{
         canvas.drawSightCone(position, direction, fov, range, Color.YELLOW);
 
         for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
-            performRaycast(new Vector2(position.x/canvas.getWidth() * 32, position.y/canvas.getHeight() * 18), new Vector2(vertex.x/canvas.getWidth() * 32, vertex.y/canvas.getHeight() * 18), w);
+            performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w);
         }
     }
-    public void update(Vector2 speed){
+
+    public void update(Vector2 speed) {
         setLinearVelocity(speed);
     }
 
@@ -88,9 +91,9 @@ public class SightCone extends BoxObstacle{
             Object userData = fixture.getBody().getUserData();
             if (userData instanceof Player) {
 //            System.out.println("chasing from raycast");
-            g.switchToChaseMode();
-            return 0;
-        } else {
+                g.switchToChaseMode();
+                return 0;
+            } else {
                 return -1;
             }
         };

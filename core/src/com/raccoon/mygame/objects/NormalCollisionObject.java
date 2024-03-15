@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.raccoon.mygame.view.GameCanvas;
 
-public class NormalCollisionObject implements GameObject{
+public class NormalCollisionObject implements GameObject {
     private float xPos;
     private float yPos;
     private Texture texture;
@@ -16,7 +16,7 @@ public class NormalCollisionObject implements GameObject{
     private boolean isBeingTeleportedTo = false;
 
     //normal collision objects don't move or change properties. No getters or setters usually.
-    public NormalCollisionObject(Texture texture, float x, float y, float width, float height, boolean teleporter){
+    public NormalCollisionObject(Texture texture, float x, float y, float width, float height, boolean teleporter) {
         this.isActive = true;
         this.texture = texture;
         this.xPos = x;
@@ -26,7 +26,7 @@ public class NormalCollisionObject implements GameObject{
         this.isTeleporter = teleporter;
     }
 
-    public NormalCollisionObject(Texture texture, float x, float y, float width, float height){
+    public NormalCollisionObject(Texture texture, float x, float y, float width, float height) {
         this.isActive = true;
         this.texture = texture;
         this.xPos = x;
@@ -35,64 +35,68 @@ public class NormalCollisionObject implements GameObject{
         this.height = height;
     }
 
-    public float getX(){
+    public float getX() {
         return this.xPos;
     }
-    public float getY(){
+
+    public float getY() {
         return this.yPos;
     }
-    public float getWidth(){
+
+    public float getWidth() {
         return this.width;
     }
-    public float getHeight(){
+
+    public float getHeight() {
         return this.height;
     }
 
-    public void setObjectToTeleportTo(NormalCollisionObject objectToTeleportTo){
-        if(!this.isTeleporter)
+    public void setObjectToTeleportTo(NormalCollisionObject objectToTeleportTo) {
+        if (!this.isTeleporter)
             return;
         this.objectToTeleportTo = objectToTeleportTo;
         //this is so funy lol
         this.objectToTeleportTo.objectToTeleportTo = this;
     }
 
-    public boolean getIsTeleporter(){
+    public boolean getIsTeleporter() {
         return this.isTeleporter;
     }
 
-    public void setBeingTeleportedTo(boolean setTeleport){
+    public void setBeingTeleportedTo(boolean setTeleport) {
         this.isBeingTeleportedTo = setTeleport;
     }
-    public boolean getBeingTeleportedTo(){
+
+    public boolean getBeingTeleportedTo() {
         return this.isBeingTeleportedTo;
     }
 
-    public NormalCollisionObject getObjectToTeleportTo(){
+    public NormalCollisionObject getObjectToTeleportTo() {
         return this.objectToTeleportTo;
     }
 
-    public Vector2 getPosition(){
+    public Vector2 getPosition() {
         return new Vector2(this.getX(), this.getY());
     }
 
-    public Vector2 calculateCameraTranslation(){
+    public Vector2 calculateCameraTranslation() {
         Vector2 dist = this.objectToTeleportTo.getPosition().sub(this.getPosition());
         dist.x = Math.abs(dist.x);
         dist.y = Math.abs(dist.y);
         //if this vent is on the left of the other vent
-        if(this.getX() < this.objectToTeleportTo.getX()){
+        if (this.getX() < this.objectToTeleportTo.getX()) {
             dist.x = -dist.x;
             return dist;
         }
-        if(this.getX() >= this.objectToTeleportTo.getX()){
+        if (this.getX() >= this.objectToTeleportTo.getX()) {
 
             System.out.println(dist);
             return dist;
         }
-        return new Vector2(0,0);
+        return new Vector2(0, 0);
     }
 
-    public void draw(GameCanvas canvas){
+    public void draw(GameCanvas canvas) {
         canvas.draw(texture, xPos, yPos);
     }
 

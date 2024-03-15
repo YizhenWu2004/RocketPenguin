@@ -34,7 +34,7 @@ public class Guard extends BoxObstacle {
 
     private PatrolDirection patrolDirection;
 
-    public Guard(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas) {
+    public Guard(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas, PatrolDirection patrolDirection) {
         super(width, height);
         patrolTexture = texture;
         setTexture(new TextureRegion(texture));
@@ -52,6 +52,8 @@ public class Guard extends BoxObstacle {
         sight = new SightCone(x * scaleX, y * scaleY + 100, 1, 1, world, canvas, this);
         //world height and width currently hard coded in, consider changing later
         this.aiController = new GuardAIController(this.getX(), this.getY(), 32, 18, 150, 2);
+
+        this.patrolDirection = patrolDirection;
 
 //        sight = new BoxObstacle(50/scaleX, 1*getTextureHeight()/scaleY);
 //        sight.setDrawScale(1.0f, 1.0f);

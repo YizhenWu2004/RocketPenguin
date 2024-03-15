@@ -1,16 +1,21 @@
 package com.raccoon.mygame.controllers;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.*;
+
 import java.util.*;
+
 import com.badlogic.gdx.controllers.Controller;
 
-public class InputController{
-    /**for x and y movement, 1 represent up/right and -1 represent down/left
-     * for scroll, -1 represent left and 1 represent right scroll direction*/
+public class InputController {
+    /**
+     * for x and y movement, 1 represent up/right and -1 represent down/left
+     * for scroll, -1 represent left and 1 represent right scroll direction
+     */
     private float y_movement;
     private float x_movement;
     private int scroll;
@@ -20,73 +25,83 @@ public class InputController{
     private boolean reset;
     public boolean click;
 
-    public float getYMovement(){
+    public float getYMovement() {
         return y_movement;
     }
 
-    public float getXMovement(){
+    public float getXMovement() {
         return x_movement;
     }
-    public float getScroll(){
+
+    public float getScroll() {
         return scroll;
     }
 
-    public boolean getInteraction(){return interaction;}
-    public boolean getSpace(){return space;}
-    public boolean getReset(){return reset;}
+    public boolean getInteraction() {
+        return interaction;
+    }
+
+    public boolean getSpace() {
+        return space;
+    }
+
+    public boolean getReset() {
+        return reset;
+    }
 
 
-    public InputController(){
+    public InputController() {
         y_movement = 0;
         x_movement = 0;
         scroll = 0;
         interaction = false;
         click = false;
     }
-    public void readInput(){
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)){
+    public void readInput() {
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             y_movement = 1;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)){
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             y_movement = -1;
         } else {
             y_movement = 0;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D)){
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             x_movement = 1;
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)){
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             x_movement = -1;
         } else {
             x_movement = 0;
         }
 
-        if (Gdx.input.isKeyJustPressed(Keys.LEFT)){
+        if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
             scroll = -1;
-        } else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)){
+        } else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
             scroll = 1;
         } else {
             scroll = 0;
         }
 
-        if (Gdx.input.isKeyPressed(Keys.E)){
+        if (Gdx.input.isKeyPressed(Keys.E)) {
             interaction = true;
         } else {
             interaction = false;
         }
 
-        if (Gdx.input.isKeyPressed(Keys.SPACE)){
+        if (Gdx.input.isKeyPressed(Keys.SPACE)) {
             space = true;
         } else {
             space = false;
         }
 
-        if (Gdx.input.isKeyPressed(Keys.R)){
+        if (Gdx.input.isKeyPressed(Keys.R)) {
             reset = true;
         } else {
             reset = false;
         }
-        if(Gdx.input.isButtonPressed(Buttons.LEFT)){
+        if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
             click = true;
         } else {
             click = false;

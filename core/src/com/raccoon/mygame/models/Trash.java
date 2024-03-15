@@ -15,7 +15,7 @@ public class Trash {
 
     private Texture trashTexture;
 
-    public Trash(float x, float y, float width, float height, Texture texture){
+    public Trash(float x, float y, float width, float height, Texture texture) {
         position = new Vector2(x, y);
         this.width = width;
         this.height = height;
@@ -23,21 +23,46 @@ public class Trash {
     }
 
     //Setters
-    public void setX(float x){position.x = x;}
-    public void setY(float y){position.y = y;}
-    public void setPosition(Vector2 position){this.position = position;}
+    public void setX(float x) {
+        position.x = x;
+    }
+
+    public void setY(float y) {
+        position.y = y;
+    }
+
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
 
     //Getters
-    public float getX(){return this.position.x;}
-    public float getY(){return this.position.y;}
-    public Vector2 getPosition(){return this.position;}
+    public float getX() {
+        return this.position.x;
+    }
 
-    public float getWidth() { return width; }
+    public float getY() {
+        return this.position.y;
+    }
 
-    public float getHeight() { return height; }
+    public Vector2 getPosition() {
+        return this.position;
+    }
 
-    public float getTextureWidth() { return trashTexture.getWidth() * TEXTURE_SX; }
-    public float getTextureHeight() { return trashTexture.getHeight() * TEXTURE_SY; }
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public float getTextureWidth() {
+        return trashTexture.getWidth() * TEXTURE_SX;
+    }
+
+    public float getTextureHeight() {
+        return trashTexture.getHeight() * TEXTURE_SY;
+    }
 
     public void draw(GameCanvas canvas) {
         canvas.draw(trashTexture, Color.WHITE, 10, 10,

@@ -23,8 +23,8 @@ public class NormalObstacle extends BoxObstacle {
         super(x, y, width, height);
         this.texture = texture;
         setTexture(new TextureRegion(texture));
-        scaleX= canvas.getWidth()/WORLD_WIDTH;
-        scaleY = canvas.getHeight()/WORLD_HEIGHT;
+        scaleX = canvas.getWidth() / WORLD_WIDTH;
+        scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.sx = sx;
         this.sy = sy;
         this.ox = ox;
@@ -40,16 +40,27 @@ public class NormalObstacle extends BoxObstacle {
         this.getBody().setUserData(this);
     }
 
-    public float getOX() { return ox; }
-    public float getOY() { return oy; }
-    public float getSX() { return sx; }
-    public float getSY() { return sy; }
-
-    public void draw() {
-        draw(canvas, sx,sy, ox, oy);
+    public float getOX() {
+        return ox;
     }
 
-    public void debug(GameCanvas canvas){
+    public float getOY() {
+        return oy;
+    }
+
+    public float getSX() {
+        return sx;
+    }
+
+    public float getSY() {
+        return sy;
+    }
+
+    public void draw() {
+        draw(canvas, sx, sy, ox, oy);
+    }
+
+    public void debug(GameCanvas canvas) {
         drawDebug(canvas);
     }
 }
