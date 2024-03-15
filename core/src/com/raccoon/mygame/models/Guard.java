@@ -49,7 +49,7 @@ public class Guard extends BoxObstacle {
         activatePhysics(world);
         this.setBodyType(BodyType.KinematicBody);
         setDrawScale(scaleX, scaleY);
-        sight = new SightCone(x * scaleX, y * scaleY + 100, 1, 1, world, canvas, this);
+        sight = new SightCone(x * scaleX, y * scaleY, 1, 1, world, canvas, this);
         //world height and width currently hard coded in, consider changing later
         this.aiController = new GuardAIController(this.getX(), this.getY(), 32, 18, 150, 2);
 
@@ -82,7 +82,7 @@ public class Guard extends BoxObstacle {
 
 //            sight.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
             Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); // Assuming scaleX and scaleY are the scales you need to apply
-            newPosition.add(0, 100); // Adjust this value based on where you want the sightcone relative to the guard
+            newPosition.add(-40, 130); // Adjust this value based on where you want the sightcone relative to the guard
             sight.updatePosition(newPosition);
 //            sight.update(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
             //sight.setAngle((float) ((sight.getAngle() + 0.01f) % (2*Math.PI)));
