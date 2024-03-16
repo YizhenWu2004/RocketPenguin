@@ -24,6 +24,9 @@ import static com.raccoon.mygame.enums.enums.PatrolDirection;
 
 public class StoreController extends WorldController implements ContactListener {
     private World world;
+
+    private final int WORLD_WIDTH = 32;
+    private final int WORLD_HEIGHT = 18;
     private GameCanvas canvas;
     private Texture background;
     private InputController input;
@@ -42,6 +45,11 @@ public class StoreController extends WorldController implements ContactListener 
     private CollisionController collision;
     boolean active;
     public boolean playerJustDied;
+
+    private final int GRID_WIDTH = WORLD_WIDTH*3;
+    private final int GRID_HEIGHT = WORLD_HEIGHT*3;
+    private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
+
 
     private void addShelfHorizontal(float x, float y) {
         obstacles.add(new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
@@ -76,10 +84,7 @@ public class StoreController extends WorldController implements ContactListener 
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
         localStartingPos = new Vector2(vent1.getX()+1.5f, vent1.getY());
 
-        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
-        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
-        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
-        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
+
         obstacles = new Array();
         addShelfHorizontal(2.5f, 16.5f);
         addShelfHorizontal(7.75f, 16.5f);
@@ -118,7 +123,16 @@ public class StoreController extends WorldController implements ContactListener 
         active = false;
         world.setContactListener(this);
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
+
+
+        initializeCollisionLayer();
+
+        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
         playerJustDied = false;
+
     }
 
     public void setActive(boolean b) {
@@ -173,7 +187,7 @@ public class StoreController extends WorldController implements ContactListener 
             guards2[i] = guards.get(i);
         }
         for (int i = 0; i < guards2.length - 1; i++) {
-            collision.processGuards(guards.get(i), guards2, i);
+            collision.processGuards(guards.get(i), guards2, i, obstacles);
         }
     }
 
@@ -220,10 +234,13 @@ public class StoreController extends WorldController implements ContactListener 
             playerGuardCollide = true;
         }
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
-            System.out.println("colliding with vent");
             setVentCollision(true);
-            //execute
 
+        }
+        if ((body1.getUserData() instanceof Guard && body2.getUserData() instanceof NormalObstacle) ||
+                (body2.getUserData() instanceof Guard && body1.getUserData() instanceof NormalObstacle)) {
+            Guard guard = (body1.getUserData() instanceof Guard) ? (Guard) body1.getUserData() : (Guard) body2.getUserData();
+            guard.getAIController().reverseDirection();
         }
     }
 
@@ -262,7 +279,30 @@ public class StoreController extends WorldController implements ContactListener 
         this.ventCollision = isColliding;
     }
 
-    /**
+    private void initializeCollisionLayer() {
+        for (int i = 0; i < GRID_WIDTH; i++) {
+            for (int j = 0; j < GRID_HEIGHT; j++) {
+                collisionLayer[i][j] = false;
+            }
+        }
+
+        for (NormalObstacle obstacle : obstacles) {
+            Vector2 position = obstacle.getPosition();
+            Vector2 dimension = obstacle.getDimension();
+
+            int left = Math.max(0, (int) position.x - (int) (dimension.x / 2));
+            int bottom = Math.max(0, (int) position.y - (int) (dimension.y / 2));
+            int right = Math.min(GRID_WIDTH - 1, (int) position.x + (int) (dimension.x / 2));
+            int top = Math.min(GRID_HEIGHT - 1, (int) position.y + (int) (dimension.y / 2));
+
+            for (int i = left; i <= right; i++) {
+                for (int j = bottom; j <= top; j++) {
+                    collisionLayer[i][j] = true;
+                }
+            }
+        }
+    }
+
      * Called upon when this level is switched to.
      *
      * */

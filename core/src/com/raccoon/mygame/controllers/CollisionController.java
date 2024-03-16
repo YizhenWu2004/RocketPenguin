@@ -1,15 +1,9 @@
 package com.raccoon.mygame.controllers;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.utils.*;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
-import com.raccoon.mygame.obstacle.Obstacle;
 
 //detects collision for now
 public class CollisionController {
@@ -106,12 +100,17 @@ public class CollisionController {
 //        }
 //    }
 
-    public void processGuards(Guard g, Guard[] guards, int i) {
+    public void processGuards(Guard g, Guard[] guards, int i, Array<NormalObstacle> obstacles) {
 //        System.out.println(guards.size);
         for (int j = i + 1; j < guards.length; j++) {
 //            System.out.println(g.getY());
             handleCollision(guards[j], g);
         }
+//        for(NormalObstacle obstacle: obstacles) {
+//            if (handleCollision(g, obstacle)) {
+//                g.getAIController().reverseDirection();
+//            }
+//        }
     }
 
 
@@ -166,8 +165,24 @@ public class CollisionController {
         }
     }
 
-    public void handleCollision(Guard g, NormalCollisionObject o) {
+    public boolean handleCollision(Guard g, NormalObstacle o) {
+        Vector2 guardPosition = new Vector2(g.getX(), g.getY());
+        Vector2 obstaclePosition = new Vector2(o.getX(), o.getY());
 
+        float guardHalfWidth = g.getTextureWidth() / 2;
+        float guardHalfHeight = g.getTextureHeight() / 2;
+        float obstacleHalfWidth = o.getWidth() / 2;
+        float obstacleHalfHeight = o.getHeight() / 2;
+
+        float collisionBuffer = 10f;
+
+        float distX = Math.abs(guardPosition.x - obstaclePosition.x) - collisionBuffer;
+        float distY = Math.abs(guardPosition.y - obstaclePosition.y) - collisionBuffer;
+
+        if (distX <= (guardHalfWidth + obstacleHalfWidth) && distY <= (guardHalfHeight + obstacleHalfHeight)) {
+            return true;
+        }
+        return false;
     }
 
     public void handleCollision(Player p, NormalCollisionObject o) {
