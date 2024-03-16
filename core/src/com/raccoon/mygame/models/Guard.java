@@ -32,9 +32,9 @@ public class Guard extends BoxObstacle {
     private float scaleY;
     private GameCanvas canvas;
 
-    private PatrolDirection patrolDirection;
-
-    public Guard(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas, PatrolDirection patrolDirection) {
+    public Guard(float x, float y, float width, float height,
+                 Texture texture, World world, GameCanvas canvas,
+                 PatrolDirection patrolDirection, boolean[][] collisionLayer) {
         super(width, height);
         patrolTexture = texture;
         setTexture(new TextureRegion(texture));
@@ -51,22 +51,9 @@ public class Guard extends BoxObstacle {
         this.getBody().setUserData(this);
         setDrawScale(scaleX, scaleY);
         sight = new SightCone(x * scaleX, y * scaleY + 100, 1, 1, world, canvas, this);
-        //world height and width currently hard coded in, consider changing later
-        this.aiController = new GuardAIController(this.getX(), this.getY(), 32, 18, 150, 2, patrolDirection);
-
-        this.patrolDirection = patrolDirection;
-
-//        sight = new BoxObstacle(50/scaleX, 1*getTextureHeight()/scaleY);
-//        sight.setDrawScale(1.0f, 1.0f);
-//
-//        sight.setSensor(true);
-//        sight.setDensity(1.0f);
-//        sight.activatePhysics(world);
-//        sight.setPosition((x + getTextureWidth())/scaleX, (y + getTextureHeight()*5)/scaleY);
-//        sight.setBodyType(BodyType.DynamicBody);
-//        this.getBody().setUserData(this);
-//        sight.getBody().setUserData(this);
-        //sight.drawDebug(canvas);
+        this.aiController =
+                new GuardAIController(this.getX(), this.getY(), 32, 18,
+                        150, 2, patrolDirection, collisionLayer, this.getDimension());
     }
 
     public float getTextureWidth() {
@@ -85,15 +72,12 @@ public class Guard extends BoxObstacle {
         if (aiController != null) {
             this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
 
-//            sight.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
-            Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); // Assuming scaleX and scaleY are the scales you need to apply
-            newPosition.add(0, 100); // Adjust this value based on where you want the sightcone relative to the guard
+            Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY);
+            newPosition.add(0, 100);
             sight.updatePosition(newPosition);
-//            sight.update(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
-            //sight.setAngle((float) ((sight.getAngle() + 0.01f) % (2*Math.PI)));
 
-            System.out.println("guard velocity: " + this.getLinearVelocity());
-            System.out.println("sight velocity: " + sight.getLinearVelocity());
+//            System.out.println("guard velocity: " + this.getLinearVelocity());
+//            System.out.println("sight velocity: " + sight.getLinearVelocity());
         }
     }
 
@@ -108,11 +92,10 @@ public class Guard extends BoxObstacle {
 
     public void debug(GameCanvas canvas) {
         drawDebug(canvas);
-        //sight.drawDebug(canvas);
+//        aiController.debugDrawPath(canvas);
     }
 
     public void switchToChaseMode() {
-//        System.out.println("I SEE YOU CHASE");
         this.aiController.setAIStateChase();
     }
 }
