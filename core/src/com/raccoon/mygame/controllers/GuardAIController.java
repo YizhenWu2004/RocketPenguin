@@ -25,6 +25,7 @@ public class GuardAIController {
 
     boolean[][] collisionLayer;
 
+    int counter;
     private AIState currentState = AIState.WANDER;
 
     private Array<Vector2> currentPath;
@@ -51,6 +52,7 @@ public class GuardAIController {
         this.currentPathIndex = 0;
 
         this.guardDimension = guardDimension;
+        this.counter = 0;
     }
 
     public void setAIStateChase() {
@@ -58,6 +60,13 @@ public class GuardAIController {
     }
 
     public void reverseDirection() {
+        if(patrolDirection == PatrolDirection.LEFT_RIGHT){
+            if(counter == 1){
+            movingRight = false;
+            counter = 0;
+            }  else {movingRight = true;
+            counter++;}
+        }
         movingPositive = !movingPositive;
     }
 
@@ -239,5 +248,9 @@ public class GuardAIController {
         }
 
         return null;
+    }
+    public boolean getDirection(){
+        //returns true if moving right
+        return movingRight;
     }
 }

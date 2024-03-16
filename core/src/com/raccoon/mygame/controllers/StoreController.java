@@ -174,6 +174,9 @@ public class StoreController extends WorldController implements ContactListener 
         float delta = Gdx.graphics.getDeltaTime();
         for (Guard guard : guards) {
             guard.update(delta, generatePlayerInfo());
+//            if(guard.getAIController().getDirection()){
+//                canvas.flipGuard(guard, guard.getX(), guard.getY());
+//            }
 //            guard.getSight().render();
         }
 
