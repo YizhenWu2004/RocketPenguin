@@ -38,11 +38,13 @@ public class StoreController extends WorldController implements ContactListener 
     private boolean ventCollision;
 
     private int globalIndex = 1;
+    private Vector2 localStartingPos;
 
     private Array<NormalObstacle> obstacles;
     public boolean playerGuardCollide;
     private CollisionController collision;
     boolean active;
+    public boolean playerJustDied;
 
     private final int GRID_WIDTH = WORLD_WIDTH*3;
     private final int GRID_HEIGHT = WORLD_HEIGHT*3;
@@ -79,7 +81,8 @@ public class StoreController extends WorldController implements ContactListener 
         ingredients.add(new Ingredient("apple", 2000, 300, new Texture("apple.png"), -1));
         guards = new Array();
 
-        vent1 = new VentObstacle(1.5f, 1f, 1.5f, 1.5f, 1, 1, 0, 0f, new Texture("vent.png"), world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
+        localStartingPos = new Vector2(vent1.getX()+1.5f, vent1.getY());
 
 
         obstacles = new Array();
@@ -121,12 +124,15 @@ public class StoreController extends WorldController implements ContactListener 
         world.setContactListener(this);
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
 
+
         initializeCollisionLayer();
 
         guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
         guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
         guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
         guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+        playerJustDied = false;
+
     }
 
     public void setActive(boolean b) {
@@ -154,6 +160,7 @@ public class StoreController extends WorldController implements ContactListener 
         if (playerGuardCollide) {
             player.setPosition(0, 0);
             player.clearInv();
+            playerJustDied = true;
             playerGuardCollide = false;
         }
         if (active) {
@@ -272,11 +279,6 @@ public class StoreController extends WorldController implements ContactListener 
         this.ventCollision = isColliding;
     }
 
-    /**
-     * initializes the collision layer based on the list of obstacles
-     * if a grid has an obstacle on it, it is intialized to true
-     * this collision layer is used in dijskra's algorithm in Guard AI
-     */
     private void initializeCollisionLayer() {
         for (int i = 0; i < GRID_WIDTH; i++) {
             for (int j = 0; j < GRID_HEIGHT; j++) {
@@ -301,4 +303,10 @@ public class StoreController extends WorldController implements ContactListener 
         }
     }
 
+     * Called upon when this level is switched to.
+     *
+     * */
+    public void onSet(){
+        player.setPosition(localStartingPos);
+    }
 }

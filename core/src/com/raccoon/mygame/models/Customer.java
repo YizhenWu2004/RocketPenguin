@@ -34,9 +34,9 @@ public class Customer extends BoxObstacle {
     private int patience;
     private boolean show;
     private CustomerAIController controller;
-    public Vector2 position_on_table;
-    public TableObstacle t;
-    public int collided = 0;
+    //public Vector2 position_on_table;
+    //public TableObstacle t;
+    //public int collided = 0;
     public int flipScale;
     public boolean onRight;
 

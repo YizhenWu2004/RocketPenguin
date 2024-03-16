@@ -54,6 +54,7 @@ public class Guard extends BoxObstacle {
         this.aiController =
                 new GuardAIController(this.getX(), this.getY(), 32, 18,
                         150, 2, patrolDirection, collisionLayer, this.getDimension());
+
     }
 
     public float getTextureWidth() {
@@ -71,13 +72,9 @@ public class Guard extends BoxObstacle {
     public void update(float delta, Array<Float> info) {
         if (aiController != null) {
             this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
-
-            Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY);
-            newPosition.add(0, 100);
+            Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); // Assuming scaleX and scaleY are the scales you need to apply
+            newPosition.add(-40, 130); // Adjust this value based on where you want the sightcone relative to the guard
             sight.updatePosition(newPosition);
-
-//            System.out.println("guard velocity: " + this.getLinearVelocity());
-//            System.out.println("sight velocity: " + sight.getLinearVelocity());
         }
     }
 
