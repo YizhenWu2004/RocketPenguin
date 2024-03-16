@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.raccoon.mygame.models.Guard;
 
 /**
  * Primary view class for the game, abstracting the basic graphics calls.
@@ -1246,7 +1247,7 @@ public class GameCanvas {
         return camera.position;
     }
 
-    public void drawSightCone(Vector2 position, float direction, float fov, float range, Color color) {
+    public void drawSightCone(Vector2 position, float direction, float fov, float range, Color color, Guard g) {
         if (active == DrawPass.STANDARD) {
             spriteBatch.end();
             active = DrawPass.INACTIVE;
@@ -1258,19 +1259,35 @@ public class GameCanvas {
         }
 
         debugRender.setColor(color);
-
-        float angleStep = fov / 30;
-        for (int i = 0; i <= 30; i++) {
-            float angle = direction - fov / 2 + angleStep * i;
-            float endX = position.x + range * MathUtils.cosDeg(angle);
-            float endY = position.y + range * MathUtils.sinDeg(angle);
-            debugRender.line(position.x, position.y, endX, endY);
+        if(g.getAIController().getDirection()) {
+            float angleStep = fov / 30;
+            for (int i = 0; i <= 30; i++) {
+                float angle = direction - fov / 2 + angleStep * i;
+                float endX = position.x + range * MathUtils.cosDeg(angle);
+                float endY = position.y + range * MathUtils.sinDeg(angle);
+                debugRender.line(position.x, position.y, endX, endY);
+            }
+        } else {
+            float angleStep2 = fov / 30;
+            for (int i = 0; i <= 30; i++) {
+                float angle = direction - fov / 2 + angleStep2 * i;
+                float flippedAngle = angle + 180;  // Flip the angle by adding 180 degrees
+                float endX = position.x + range * MathUtils.cosDeg(flippedAngle);
+                float endY = position.y + range * MathUtils.sinDeg(flippedAngle);
+                debugRender.line(position.x + 30, position.y, endX, endY);
+            }
         }
-
         debugRender.end();
 
         spriteBatch.begin();
         active = DrawPass.STANDARD;
     }
 
+//    public void flipGuard(Guard g, float x, float y){
+////        spriteBatch.draw(holder, x, y);
+//
+//        holder.flip(true, false); // Flip horizontally
+//        spriteBatch.draw(holder, x + holder.getRegionWidth(), y);
+//        System.out.println("flipping");
+//    }
 }

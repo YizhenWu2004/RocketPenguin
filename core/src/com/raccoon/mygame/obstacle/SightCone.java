@@ -41,7 +41,6 @@ public class SightCone extends BoxObstacle {
         g = guard;
         create();
     }
-
     public void setPosition(float x1, float y1) {
         x = x1;
         y = y1;
@@ -68,12 +67,24 @@ public class SightCone extends BoxObstacle {
         float range = 300;
 
         //shape render debug lines
-        canvas.drawSightCone(position, direction, fov, range, Color.YELLOW);
+        canvas.drawSightCone(position, direction, fov, range, Color.YELLOW, this.g);
+        if(g.getAIController().getDirection()) {
+            for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
+                performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w);
+            }
+        } else {
+            for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
+                float flippedDirection = direction + 180;
 
-        for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
-            performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w);
-        }
-    }
+                float endX = position.x + range * MathUtils.cosDeg(flippedDirection);
+                float endY = position.y + range * MathUtils.sinDeg(flippedDirection);
+
+                performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
+                        new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
+                        w);
+            }
+    }}
+
 
     public void update(Vector2 speed) {
         setLinearVelocity(speed);
