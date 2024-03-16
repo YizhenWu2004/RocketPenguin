@@ -47,11 +47,12 @@ public class Guard extends BoxObstacle {
         setLinearDamping(0);
         setPosition(x, y);
         activatePhysics(world);
-        this.setBodyType(BodyType.KinematicBody);
+        this.setBodyType(BodyType.DynamicBody);
+        this.getBody().setUserData(this);
         setDrawScale(scaleX, scaleY);
         sight = new SightCone(x * scaleX, y * scaleY + 100, 1, 1, world, canvas, this);
         //world height and width currently hard coded in, consider changing later
-        this.aiController = new GuardAIController(this.getX(), this.getY(), 32, 18, 150, 2);
+        this.aiController = new GuardAIController(this.getX(), this.getY(), 32, 18, 150, 2, patrolDirection);
 
         this.patrolDirection = patrolDirection;
 
@@ -74,6 +75,10 @@ public class Guard extends BoxObstacle {
 
     public float getTextureHeight() {
         return patrolTexture.getHeight() * TEXTURE_SY;
+    }
+
+    public GuardAIController getAIController(){
+        return aiController;
     }
 
     public void update(float delta, Array<Float> info) {

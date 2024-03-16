@@ -73,8 +73,8 @@ public class StoreController extends WorldController implements ContactListener 
 
         vent1 = new VentObstacle(1.5f, 1f, 1.5f, 1.5f, 1, 1, 0, 0f, new Texture("vent.png"), world, canvas);
 
-        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
-        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
+        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT));
+        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT));
         guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
         guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN));
         obstacles = new Array();
@@ -168,7 +168,7 @@ public class StoreController extends WorldController implements ContactListener 
             guards2[i] = guards.get(i);
         }
         for (int i = 0; i < guards2.length - 1; i++) {
-            collision.processGuards(guards.get(i), guards2, i);
+            collision.processGuards(guards.get(i), guards2, i, obstacles);
         }
     }
 
@@ -219,6 +219,13 @@ public class StoreController extends WorldController implements ContactListener 
             setVentCollision(true);
             //execute
 
+        }
+        if ((body1.getUserData() instanceof Guard && body2.getUserData() instanceof NormalObstacle) ||
+                (body2.getUserData() instanceof Guard && body1.getUserData() instanceof NormalObstacle)) {
+            Guard guard = (body1.getUserData() instanceof Guard) ? (Guard) body1.getUserData() : (Guard) body2.getUserData();
+            guard.getAIController().reverseDirection();
+
+            System.out.println("Guard collided with an obstacle and reversed direction.");
         }
     }
 
