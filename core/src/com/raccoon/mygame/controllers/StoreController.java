@@ -303,9 +303,6 @@ public class StoreController extends WorldController implements ContactListener 
         }
     }
 
-     * Called upon when this level is switched to.
-     *
-     * */
     public void onSet(){
         player.setPosition(localStartingPos);
     }
