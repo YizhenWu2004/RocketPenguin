@@ -79,8 +79,13 @@ public class Guard extends BoxObstacle {
     }
 
     public void draw(float scaleX, float scaleY) {
+        if(getAIController().getDirection()){
         draw(canvas, scaleX, scaleY, 0, -600);
-        sight.render();
+        sight.render();}
+        if(!getAIController().getDirection()){
+            draw(canvas, -scaleX, scaleY, 0, -600);
+            sight.render();
+        }
     }
 
     public SightCone getSight() {
