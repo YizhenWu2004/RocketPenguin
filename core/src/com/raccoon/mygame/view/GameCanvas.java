@@ -1274,7 +1274,7 @@ public class GameCanvas {
                 float flippedAngle = angle + 180;  // Flip the angle by adding 180 degrees
                 float endX = position.x + range * MathUtils.cosDeg(flippedAngle);
                 float endY = position.y + range * MathUtils.sinDeg(flippedAngle);
-                debugRender.line(position.x + 30, position.y, endX, endY);
+                debugRender.line(position.x + 80, position.y, endX, endY);
             }
         }
         debugRender.end();
