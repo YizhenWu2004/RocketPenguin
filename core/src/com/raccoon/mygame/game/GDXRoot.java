@@ -102,22 +102,6 @@ public class GDXRoot extends Game implements ScreenListener {
         restaurant = new RestaurantController(canvas, new Texture("restaurantfloor.png"), input, inv);
         store = new StoreController(canvas, new Texture("groceryfloor2.png"), input, inv);
         current = 0; //this means restaurant
-//		bounds = new Rectangle(0,0,canvas.getWidth(),canvas.getHeight());
-//
-//		vent = new NormalCollisionObject(new Texture("minecraft.png"), 100, 100, 100,100, true);
-//		vent1 = new NormalCollisionObject(new Texture("minecraft.png"), 1000, 100, 100,100, true);
-//		vent.setObjectToTeleportTo(vent1);
-
-
-//
-//		objects.add(vent);
-//		objects.add(vent1);
-//
-
-//		trash = new Trash(100, 800, 10, 10, new Texture("trash.png"));
-
-
-
     }
 
 
@@ -180,10 +164,21 @@ public class GDXRoot extends Game implements ScreenListener {
       input.readInput();
        if(store.playerJustDied){
             current = 0;
+//            store.totalReset = true;
+//           store.guardTotalReset();
+           store.guardWanderReset();
             store.playerJustDied = false;
         }
       if(store.getVentCollision()){
-        current = current == 0 ? 1: 0;
+        if(current == 1){
+            current = 0;
+            store.guardWanderReset();
+//            store.guardTotalReset();
+//            store.totalReset = true;
+        }
+        else{
+            current = 1;
+        }
         store.setVentCollision(false);
         restaurant.onSet();
       }

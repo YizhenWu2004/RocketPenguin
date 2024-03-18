@@ -71,6 +71,10 @@ public class GuardAIController {
         currentState = AIState.CHASE;
     }
 
+    public void setAIStateWander() {
+        currentState = AIState.WANDER;
+    }
+
     public void reverseDirection() {
         if(patrolDirection == PatrolDirection.LEFT_RIGHT){
             if(counter == 1){

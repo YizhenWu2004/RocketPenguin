@@ -20,6 +20,9 @@ import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
+import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
+import jdk.internal.net.http.common.Pair;
+
 import static com.raccoon.mygame.enums.enums.PatrolDirection;
 
 public class StoreController extends WorldController implements ContactListener {
@@ -33,6 +36,10 @@ public class StoreController extends WorldController implements ContactListener 
     private Player player;
     private Array<Ingredient> ingredients;
     private Array<Guard> guards;
+
+    private Array<Float> guardX;
+
+    private Array<Float> guardY;
 
     private VentObstacle vent1;
     private boolean ventCollision;
@@ -50,6 +57,9 @@ public class StoreController extends WorldController implements ContactListener 
     private final int GRID_HEIGHT = WORLD_HEIGHT*3;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
 
+
+
+//    public boolean totalReset = false;
 
     private void addShelfHorizontal(float x, float y) {
         obstacles.add(new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
@@ -127,10 +137,21 @@ public class StoreController extends WorldController implements ContactListener 
 
         initializeCollisionLayer();
 
+        guardX = new Array<>();
+        guardY = new Array<>();
+
         guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guardX.add(2.5f);
+        guardY.add(5f);
         guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guardX.add(25f);
+        guardY.add(13.3f);
         guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+        guardX.add(12.5f);
+        guardY.add(6.67f);
         guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+        guardX.add(23.3f);
+        guardY.add(10f);
         playerJustDied = false;
 
     }
@@ -157,6 +178,11 @@ public class StoreController extends WorldController implements ContactListener 
     }
 
     public void update() {
+//        if(totalReset){
+//            guardTotalReset();
+//            totalReset = false;
+//        }
+
         if (playerGuardCollide) {
             player.setPosition(0, 0);
             player.clearInv();
@@ -309,4 +335,23 @@ public class StoreController extends WorldController implements ContactListener 
     public void onSet(){
         player.setPosition(localStartingPos);
     }
+
+    public void guardWanderReset(){
+        for(int i = 0; i < guards.size; i++){
+            guards.get(i).setPosition(guardX.get(i),guardY.get(i));
+            guards.get(i).switchToWanderMode();
+        }
+    }
+
+//    public void guardTotalReset(){
+//        Array<Guard> guardsTemp = new Array<>();
+//        guardsTemp.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+//        guardsTemp.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+//        guardsTemp.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+//        guardsTemp.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+//        guards = guardsTemp;
+////        for(Guard g : guards){
+////            g.switchToWanderMode();
+////        }
+//    }
 }

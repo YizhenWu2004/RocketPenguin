@@ -98,4 +98,8 @@ public class Guard extends BoxObstacle {
     public void switchToChaseMode() {
         this.aiController.setAIStateChase();
     }
+
+    public void switchToWanderMode() {
+        this.aiController.setAIStateWander();
+    }
 }
