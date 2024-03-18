@@ -71,7 +71,14 @@ public class Guard extends BoxObstacle {
         if (aiController != null) {
             this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
             Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); // Assuming scaleX and scaleY are the scales you need to apply
-            newPosition.add(-40, 130); // Adjust this value based on where you want the sightcone relative to the guard
+            if(getY() < 10){
+            newPosition.add(-40, 130);} else if(getY() < 13){
+                newPosition.add(-40, 150);
+                // Adjust this value based on where you want the sightcone relative to the guard
+            }else{
+                newPosition.add(-40, 160);
+            }
+//            System.out.println("goose height is: " + getY());
             sight.updatePosition(newPosition);
         }
     }
