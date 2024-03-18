@@ -41,7 +41,7 @@ public class GuardAIController {
      * constant that determines after how many updates, findPath is called in
      * updateChaseMode
      */
-    int CHASE_COUNTER_CONSTANT = 50;
+    int CHASE_COUNTER_CONSTANT = 25;
 
     public GuardAIController(float x, float y, float worldWidth,
                              float worldHeight, float patrolRange,
