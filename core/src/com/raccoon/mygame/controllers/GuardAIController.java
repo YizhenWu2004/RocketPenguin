@@ -17,6 +17,8 @@ public class GuardAIController {
     private float upperBoundary;
     private float lowerBoundary;
     private float speed;
+
+    private float chaseSpeed;
     private boolean movingRight = true;
 
     private boolean movingPositive = true;
@@ -53,6 +55,7 @@ public class GuardAIController {
 
         this.guardDimension = guardDimension;
         this.counter = 0;
+        this.chaseSpeed = speed*3;
     }
 
     public void setAIStateChase() {
@@ -244,7 +247,7 @@ public class GuardAIController {
 
             Vector2 direction = new Vector2(nextStep.x - guardPosition.x, nextStep.y - guardPosition.y).nor();
             System.out.println("direction" + direction);
-            return direction.scl(speed);
+            return direction.scl(chaseSpeed);
         }
 
         return null;
