@@ -35,6 +35,14 @@ public class GuardAIController {
 
     Vector2 guardDimension;
 
+    private int chaseCounter;
+
+    /**
+     * constant that determines after how many updates, findPath is called in
+     * updateChaseMode
+     */
+    int CHASE_COUNTER_CONSTANT = 50;
+
     public GuardAIController(float x, float y, float worldWidth,
                              float worldHeight, float patrolRange,
                              float speed, PatrolDirection patrolDirection,
@@ -56,6 +64,7 @@ public class GuardAIController {
         this.guardDimension = guardDimension;
         this.counter = 0;
         this.chaseSpeed = speed*3;
+        this.chaseCounter = 0;
     }
 
     public void setAIStateChase() {
@@ -110,8 +119,13 @@ public class GuardAIController {
                     break;
             }
         } else if (currentState == AIState.CHASE) {
+            chaseCounter++;
             Vector2 playerPosition = new Vector2(info.get(0), info.get(1));
-            Vector2 chaseSpeed = updateChaseMode(guardPosition, playerPosition);
+            Vector2 chaseSpeed = updateChaseMode(guardPosition, playerPosition,chaseCounter);
+            if(chaseCounter >= CHASE_COUNTER_CONSTANT){
+                System.out.println("CHASE COUNTER");
+                chaseCounter = 0;
+            }
             if (chaseSpeed != null) {
                 return chaseSpeed;
             }
@@ -230,8 +244,12 @@ public class GuardAIController {
 
     //Other problem right now, guard sometimes get stuck on NormalObstacles
     //may be able to be fixed by altering get neighbors and canFitInPosition functions
-    public Vector2 updateChaseMode(Vector2 guardPosition, Vector2 playerPosition) {
-        if (currentPath.isEmpty() || currentPathIndex >= currentPath.size || playerPosition.dst(guardPosition) > 10) {
+    public Vector2 updateChaseMode(Vector2 guardPosition, Vector2 playerPosition, int chaseCounter) {
+        if(chaseCounter >=CHASE_COUNTER_CONSTANT){
+            currentPath = findPath(guardPosition, playerPosition);
+            currentPathIndex = 0;
+        }
+        else if (currentPath.isEmpty() || currentPathIndex >= currentPath.size || playerPosition.dst(guardPosition) > 10) {
             currentPath = findPath(guardPosition, playerPosition);
             currentPathIndex = 0;
         }
