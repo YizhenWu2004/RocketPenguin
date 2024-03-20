@@ -100,6 +100,7 @@ public class Player extends BoxObstacle {
 
     //draw with scale
     public void draw(float scaleX, float scaleY) {
+        System.out.println(scaleX+";"+scaleY);
         draw(canvas, scaleX, scaleY, 0, -200);
         this.inventory.draw(canvas);
     }

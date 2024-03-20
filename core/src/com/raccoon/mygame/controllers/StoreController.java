@@ -53,8 +53,8 @@ public class StoreController extends WorldController implements ContactListener 
     boolean active;
     public boolean playerJustDied;
 
-    private final int GRID_WIDTH = WORLD_WIDTH*3;
-    private final int GRID_HEIGHT = WORLD_HEIGHT*3;
+    private final int GRID_WIDTH = WORLD_WIDTH*50;
+    private final int GRID_HEIGHT = WORLD_HEIGHT*50;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
 
 

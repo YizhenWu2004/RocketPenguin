@@ -87,6 +87,7 @@ public class GuardAIController {
     }
 
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
+        System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
 
         if (currentState == AIState.WANDER) {
