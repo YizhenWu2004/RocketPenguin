@@ -11,11 +11,12 @@ import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.obstacle.SightCone;
+import com.raccoon.mygame.obstacle.WheelObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 import static com.raccoon.mygame.enums.enums.PatrolDirection;
 
-public class Guard extends BoxObstacle {
+public class Guard extends WheelObstacle {
     protected static final float TEXTURE_SX = 0.1f;
     protected static final float TEXTURE_SY = 0.1f;
 
@@ -33,7 +34,7 @@ public class Guard extends BoxObstacle {
     public Guard(float x, float y, float width, float height,
                  Texture texture, World world, GameCanvas canvas,
                  PatrolDirection patrolDirection, boolean[][] collisionLayer) {
-        super(width, height);
+        super(width/3);
         patrolTexture = texture;
         setTexture(new TextureRegion(texture));
         scaleX = canvas.getWidth() / WORLD_WIDTH;
@@ -51,7 +52,7 @@ public class Guard extends BoxObstacle {
         sight = new SightCone(x * scaleX, y * scaleY + 100, 1, 1, world, canvas, this);
         this.aiController =
                 new GuardAIController(this.getX(), this.getY(), 32, 18,
-                        150, 2, patrolDirection, collisionLayer, this.getDimension());
+                        150, 2, patrolDirection, collisionLayer, new Vector2(width,height));
 
     }
 
