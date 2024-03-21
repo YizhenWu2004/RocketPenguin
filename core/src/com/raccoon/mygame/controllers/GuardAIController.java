@@ -63,7 +63,7 @@ public class GuardAIController {
 
         this.guardDimension = guardDimension;
         this.counter = 0;
-        this.chaseSpeed = speed*2;
+        this.chaseSpeed = speed*3;
         this.chaseCounter = 0;
     }
 
