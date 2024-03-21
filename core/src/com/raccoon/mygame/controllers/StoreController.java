@@ -53,8 +53,8 @@ public class StoreController extends WorldController implements ContactListener 
     boolean active;
     public boolean playerJustDied;
 
-    private final int GRID_WIDTH = WORLD_WIDTH*50;
-    private final int GRID_HEIGHT = WORLD_HEIGHT*50;
+    private final int GRID_WIDTH = WORLD_WIDTH;
+    private final int GRID_HEIGHT = WORLD_HEIGHT;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
 
 
@@ -247,10 +247,26 @@ public class StoreController extends WorldController implements ContactListener 
         }
     }
 
+    /**
+     *
+     * @return an array of information, as follows
+     * index 0: player's X
+     * index 1: player's Y
+     * index 2: player's midpoint X
+     * index 3: player's midpoint Y
+     */
     public Array<Float> generatePlayerInfo() {
         Array<Float> playerInfo = new Array<Float>();
         playerInfo.add(player.getX());
         playerInfo.add(player.getY());
+        float playerMidX = player.getX() + 0.5f;
+        float playerMidY = player.getY() + 0.35f;
+        playerInfo.add(playerMidX);
+        playerInfo.add(playerMidY);
+        float playerTopRightX = player.getX() + 1f;
+        float playerTopRightY = player.getY() + 0.7f;
+        playerInfo.add(playerTopRightX);
+        playerInfo.add(playerTopRightY);
         return playerInfo;
     }
 

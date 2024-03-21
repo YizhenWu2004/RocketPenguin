@@ -63,7 +63,7 @@ public class GuardAIController {
 
         this.guardDimension = guardDimension;
         this.counter = 0;
-        this.chaseSpeed = speed*3;
+        this.chaseSpeed = speed*2;
         this.chaseCounter = 0;
     }
 
@@ -125,8 +125,8 @@ public class GuardAIController {
             }
         } else if (currentState == AIState.CHASE) {
             chaseCounter++;
-            Vector2 playerPosition = new Vector2(info.get(0), info.get(1));
-            Vector2 chaseSpeed = updateChaseMode(guardPosition, playerPosition,chaseCounter);
+            Vector2 playerPosition = new Vector2(info.get(2), info.get(3));
+            Vector2 chaseSpeed = updateChaseMode(guardPosition, info ,chaseCounter);
             if(chaseCounter >= CHASE_COUNTER_CONSTANT){
                 System.out.println("CHASE COUNTER");
                 chaseCounter = 0;
@@ -139,10 +139,28 @@ public class GuardAIController {
         return speedVector;
     }
 
+    public Array<Vector2> findPathMain(Vector2 start, Array<Float> info){
+        Vector2 lower = new Vector2(info.get(0),info.get(1));
+        Vector2 mid = new Vector2(info.get(2),info.get(3));
+        Vector2 upper = new Vector2(info.get(4),info.get(5));
+
+        Array<Vector2> pathLower = findPath(start, lower);
+        if(pathLower.size != 0){
+            return pathLower;
+        }
+
+        Array<Vector2> pathMid = findPath(start, mid);
+        if(pathMid.size != 0){
+            return pathMid;
+        }
+
+        return findPath(start,upper);
+    }
+
     /**
      * runs dijskra's and finds the shortest path from start to goal
      * @param start guard's position
-     * @param goal player's position
+     * @param goal the goal tile
      * @return array of coordinates that the guard should take to reach to goal
      */
     public Array<Vector2> findPath(Vector2 start, Vector2 goal) {
@@ -234,7 +252,7 @@ public class GuardAIController {
      * Then,
      *
      * @param guardPosition position of guard right now
-     * @param playerPosition position of player
+     * @param info information (see store controller)
      * @return the appropriate velocity according to shortest path
      */
 
@@ -249,13 +267,14 @@ public class GuardAIController {
 
     //Other problem right now, guard sometimes get stuck on NormalObstacles
     //may be able to be fixed by altering get neighbors and canFitInPosition functions
-    public Vector2 updateChaseMode(Vector2 guardPosition, Vector2 playerPosition, int chaseCounter) {
+    public Vector2 updateChaseMode(Vector2 guardPosition, Array<Float> info, int chaseCounter) {
+        Vector2 playerPosition = new Vector2(info.get(0),info.get(1));
         if(chaseCounter >=CHASE_COUNTER_CONSTANT){
-            currentPath = findPath(guardPosition, playerPosition);
+            currentPath = findPathMain(guardPosition, info);
             currentPathIndex = 0;
         }
         else if (currentPath.isEmpty() || currentPathIndex >= currentPath.size || playerPosition.dst(guardPosition) > 10) {
-            currentPath = findPath(guardPosition, playerPosition);
+            currentPath = findPathMain(guardPosition, info);
             currentPathIndex = 0;
         }
 
