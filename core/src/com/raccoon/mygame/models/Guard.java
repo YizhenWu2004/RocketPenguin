@@ -110,4 +110,7 @@ public class Guard extends WheelObstacle {
     public void switchToWanderMode() {
         this.aiController.setAIStateWander();
     }
+    public PatrolDirection getP(){
+        return this.aiController.getPatrolDirection();
+    }
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.view.GameCanvas;
@@ -68,6 +69,7 @@ public class SightCone extends BoxObstacle {
 
         //shape render debug lines
         canvas.drawSightCone(position, direction, fov, range, Color.YELLOW, this.g);
+        if(g.getP() == enums.PatrolDirection.LEFT_RIGHT){
         if(g.getAIController().getDirection()) {
             for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
                 performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w);
@@ -82,8 +84,33 @@ public class SightCone extends BoxObstacle {
                 performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                         new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
                         w);
+            }}
+    } else {
+            if(g.getAIController().getDirection2()){
+                for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
+                    float flippedDirection = direction + 90;
+
+                    float endX = position.x + range * MathUtils.cosDeg(flippedDirection);
+                    float endY = position.y + range * MathUtils.sinDeg(flippedDirection);
+
+                    performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
+                            new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
+                            w);
+                }
+            } else {
+                for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
+                    float flippedDirection = direction - 90;
+
+                    float endX = position.x + range * MathUtils.cosDeg(flippedDirection);
+                    float endY = position.y + range * MathUtils.sinDeg(flippedDirection);
+
+                    performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
+                            new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
+                            w);
+                }
             }
-    }}
+        }
+    }
 
 
     public void update(Vector2 speed) {

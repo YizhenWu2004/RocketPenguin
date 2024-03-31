@@ -21,6 +21,7 @@ public class GuardAIController {
     private float chaseSpeed;
     private boolean movingRight = true;
 
+    private boolean movingup = true;
     private boolean movingPositive = true;
 
     private PatrolDirection patrolDirection;
@@ -28,6 +29,7 @@ public class GuardAIController {
     boolean[][] collisionLayer;
 
     int counter;
+    int counter2;
     private AIState currentState = AIState.WANDER;
 
     private Array<Vector2> currentPath;
@@ -65,6 +67,7 @@ public class GuardAIController {
         this.counter = 0;
         this.chaseSpeed = speed*3;
         this.chaseCounter = 0;
+        this.counter2 = 0;
     }
 
     public void setAIStateChase() {
@@ -84,6 +87,15 @@ public class GuardAIController {
             counter++;}
         }
         movingPositive = !movingPositive;
+        if(patrolDirection == PatrolDirection.UP_DOWN){
+            if(counter2 == 1){
+                movingup = false;
+                counter2 = 0;
+            } else {
+                movingup = true;
+                 counter2++;
+            }
+        }
     }
 
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
@@ -297,5 +309,11 @@ public class GuardAIController {
     public boolean getDirection(){
         //returns true if moving right
         return movingRight;
+    }
+    public boolean getDirection2(){
+        return movingup;
+    }
+    public PatrolDirection getPatrolDirection(){
+        return this.patrolDirection;
     }
 }
