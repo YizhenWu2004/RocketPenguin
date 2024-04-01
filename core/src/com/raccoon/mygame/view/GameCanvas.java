@@ -944,6 +944,8 @@ public class GameCanvas {
             return;
         }
         GlyphLayout layout = new GlyphLayout(font, text);
+        font.setColor(Color.WHITE);
+//        font.getData().setScale(2);
         font.draw(spriteBatch, layout, x, y);
     }
 
