@@ -70,6 +70,7 @@ public class Inventory {
             if (!filled[i]) {
                 items[i] = object;
                 filled[i] = true;
+                //this seems to cause a crash sometimes?
                 items[i].setPosInv(i);
                 items[i].setPosition(-100, -100);
                 break;
