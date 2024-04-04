@@ -75,9 +75,9 @@ public class StoreController extends WorldController implements ContactListener 
         drawableObjects.add(obstacle);
     }
 
-    private void addFruitCrate(float x, float y) {
+    private void addFruitCrate(float x, float y, Ingredient ingredient) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 0.4f, 0.4f, 0f, 0f,
-                new Texture("fruitcrate.png"), world, canvas);
+                new Texture(ingredient.type + ".png"), world, canvas, ingredient);
         obstacles.add(obstacle);
         drawableObjects.add(obstacle);
     }
@@ -122,10 +122,10 @@ public class StoreController extends WorldController implements ContactListener 
         addShelfHorizontal(18.5f, 12.5f);
         addShelfHorizontal(23.75f, 12.5f);
 
-        addFruitCrate(28.5f, 5f);
-        addFruitCrate(24f, 5f);
-        addFruitCrate(28.5f, 9f);
-        addFruitCrate(24f, 9f);
+        addFruitCrate(28.5f, 5f, new Ingredient("orange", new Texture("orange.png"), -1));
+        addFruitCrate(24f, 5f, new Ingredient("apple", new Texture("apple.png"), -1));
+        addFruitCrate(28.5f, 9f, new Ingredient("banana", new Texture("banana.png"), -1));
+        addFruitCrate(24f, 9f, new Ingredient("greenpepper", new Texture("greenpepper.png"), -1));
         addShelfHorizontal(23.5f, 0.5f);
         addShelfHorizontal(28.75f, 0.5f);
 
@@ -236,6 +236,15 @@ public class StoreController extends WorldController implements ContactListener 
         for (int i = 0; i < guards2.length - 1; i++) {
             collision.processGuards(guards.get(i), guards2, i, obstacles);
         }
+
+        for(NormalObstacle obstacle : obstacles){
+            boolean colliding = collision.handleCollision(player, obstacle);
+            if(colliding && obstacle.getIngredient()!=null){
+                if(input.getSpace()){
+                    player.pickUpItem(obstacle.getIngredient());
+                }
+            }
+        }
     }
 
     private float getYPosOfAnyObject(Object obj){
@@ -283,7 +292,6 @@ public class StoreController extends WorldController implements ContactListener 
         boolean swapped;
         for (int i = 0; i < drawableObjects.size-1; i++) {
             swapped = false;
-            System.out.println(drawableObjects.get(i).getClass());
             for(int j = 0; j < drawableObjects.size-1-i; j++){
                 float currentY = getYPosOfAnyObject(drawableObjects.get(j));
                 float nextY = getYPosOfAnyObject(drawableObjects.get(j+1));
@@ -366,6 +374,7 @@ public class StoreController extends WorldController implements ContactListener 
             Guard guard = (body1.getUserData() instanceof Guard) ? (Guard) body1.getUserData() : (Guard) body2.getUserData();
             guard.getAIController().reverseDirection();
         }
+
     }
 
     @Override
