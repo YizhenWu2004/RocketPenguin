@@ -90,7 +90,7 @@ public class InputController {
             interaction = false;
         }
 
-        if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
             space = true;
         } else {
             space = false;

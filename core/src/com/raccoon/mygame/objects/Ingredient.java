@@ -32,6 +32,15 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
         this.name = 0;
     }
 
+    public Ingredient(String name, Texture texture, int posInInventory){
+        this.type = name;
+        this.texture = texture;
+        this.isActive = true;
+        this.posInInventory = posInInventory;
+        this.posInPot = -1;
+        this.name = 0;
+    }
+
 
     public float getXPosition() {
         return x;
