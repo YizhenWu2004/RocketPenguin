@@ -16,7 +16,7 @@ public class LevelLoader {
         gatherAssets(directory);
         levels = new ArrayList<>();
         for (int i = 0; i < levelJson.size; i++) {
-            levels.add(new LevelModel(levelJson.get(i)));
+            levels.add(new LevelModel(levelJson.get(i), restaurantJson));
         }
     }
     public void gatherAssets(AssetDirectory directory) {
