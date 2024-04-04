@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.objects.CookingStationObject;
+import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.objects.NormalObstacle;
@@ -43,6 +45,7 @@ public class RestaurantController extends WorldController implements ContactList
     private int globalIndex = 0;
     private int tick;
     private Vector2 localStartingPos;
+    Array<CookingStationObject> stations;
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -0.25f : 0.25f), 0.25f, -50f, 50f,
@@ -73,15 +76,17 @@ public class RestaurantController extends WorldController implements ContactList
         obstacles.add(normalOb1);
         drawableObjects.add(normalOb1);
 
-        NormalObstacle normalOb2 = (new NormalObstacle(28f, 15f, 3.25f, 4f, 0.25f, 0.25f, 0f, 0f,
-                new Texture("counterleft.png"), world, canvas));
-        obstacles.add(normalOb2);
-        drawableObjects.add(normalOb2);
-
-        NormalObstacle normalOb3 = new NormalObstacle(30.3f, 14.1f, 1.25f, 5f, 0.25f, 0.25f, 0f, 0f,
-                new Texture("counterright.png"), world, canvas);
-        obstacles.add(normalOb3);
-        drawableObjects.add(normalOb3);
+        stations = new Array<>();
+        CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 0.25f, 0.25f, 0f, 0f,
+                new Texture("counterleft.png"), world, canvas, player, 1);
+        obstacles.add(temp);
+        stations.add(temp);
+        drawableObjects.add(temp);
+        temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 0.25f, 0.25f, 0f, 0f,
+                new Texture("counterright.png"), world, canvas, player, 2);
+        obstacles.add(temp);
+        stations.add(temp);
+        drawableObjects.add(temp);
 
         tables = new Array();
         addTable(16f, 11f, false);
@@ -92,7 +97,7 @@ public class RestaurantController extends WorldController implements ContactList
         addTable(4.5f, 6f, true);
 
 
-        System.out.println(tables.size);
+        //System.out.println(tables.size);
         addWallBump(6f, 16.5f);
         addWallBump(14.5f, 16.5f);
         addWallBump(23f, 16.5f);
@@ -166,12 +171,11 @@ public class RestaurantController extends WorldController implements ContactList
             if (c.isActive()) {
                 c.move();
             }
-//            if (c.collided == 1) {
-//                System.out.println("here");
-//                c.setPosition(c.position_on_table);
-//                c.collided = 2;
-//            }
         }
+        for (CookingStationObject c : stations){
+            c.update();
+        }
+
         world.step(1 / 60f, 6, 2);
 
     }
@@ -262,6 +266,28 @@ public class RestaurantController extends WorldController implements ContactList
 
     @Override
     public void beginContact(Contact contact) {
+
+
+        Body body1 = contact.getFixtureA().getBody();
+        Body body2 = contact.getFixtureB().getBody();
+        if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
+            //System.out.println("colliding with vent");
+            //execute
+            setVentCollision(true);
+        }
+
+        if (body1.getUserData() instanceof Player && body2.getUserData() instanceof CookingStationObject){
+            CookingStationObject obj = (CookingStationObject) body2.getUserData();
+            obj.interacting = true;
+            obj.interacting_with = obj.id;
+        }
+        else if (body1.getUserData() instanceof CookingStationObject && body2.getUserData() instanceof Player){
+            CookingStationObject obj = (CookingStationObject) body1.getUserData();
+            obj.interacting = true;
+            obj.interacting_with = obj.id;
+        }
+
+
         //System.out.println("contact");
 //
 //        Fixture fixtureA = contact.getFixtureA();
@@ -277,13 +303,6 @@ public class RestaurantController extends WorldController implements ContactList
 //            return;
 //        }
 
-        Body body1 = contact.getFixtureA().getBody();
-        Body body2 = contact.getFixtureB().getBody();
-        if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
-            //System.out.println("colliding with vent");
-            //execute
-            setVentCollision(true);
-        }
 //        if ((body1.getUserData() instanceof Customer && body2.getUserData() instanceof TableObstacle)) {
 //            //System.out.println("here");
 //            Customer c = (Customer) body1.getUserData();
@@ -310,6 +329,15 @@ public class RestaurantController extends WorldController implements ContactList
 
     @Override
     public void endContact(Contact contact) {
+        Body body1 = contact.getFixtureA().getBody();
+        Body body2 = contact.getFixtureB().getBody();
+        if (body1.getUserData() instanceof Player && body2.getUserData() instanceof CookingStationObject){
+            CookingStationObject obj = (CookingStationObject) body2.getUserData();
+            obj.interacting = false;
+        } else if (body1.getUserData() instanceof CookingStationObject && body2.getUserData() instanceof Player){
+            CookingStationObject obj = (CookingStationObject) body1.getUserData();
+            obj.interacting = false;
+        }
 
     }
 

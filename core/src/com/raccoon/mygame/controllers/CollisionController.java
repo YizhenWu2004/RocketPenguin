@@ -81,13 +81,27 @@ public class CollisionController {
     public void processCustomers(Player p, Array<Customer> customers) {
         for (Customer c : customers) {
             if (p.getInteraction() && p.getPosition().dst(c.getPosition()) <= 2) {
-                if (!c.getShow()) {
+                if (!c.getShow() && !c.isSatisfied()) {
                     c.setShow(true);
                 }
-                if (c.serve(p.getInventory().getSelectedItem())) {
-                    c.setShow(false);
-                    p.getInventory().drop();
+                if(p.dishInventory.leftFilled()){
+                    if (c.serve(p.dishInventory.get(0))){
+                        System.out.println("served");
+                        p.dishInventory.clear(0);
+                        c.setShow(false);
+                        System.out.println(c.getShow());
+                    }
                 }
+                if (p.dishInventory.rightFilled()){
+                    if (c.serve(p.dishInventory.get(1))){
+                        p.dishInventory.clear(1);
+                        c.setShow(false);
+                    }
+                }
+//                if (c.serve(p.getInventory().getSelectedItem())) {
+//                    c.setShow(false);
+//                    //p.getInventory().drop();
+//                }
             }
         }
     }

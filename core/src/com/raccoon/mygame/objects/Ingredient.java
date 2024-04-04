@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.raccoon.mygame.view.GameCanvas;
 
-public class Ingredient implements GameObject {
+public class Ingredient implements GameObject, Comparable<Ingredient> {
     private static final float TEXTURE_SX = 0.2f;
     private static final float TEXTURE_SY = 0.2f;
     public int name;
@@ -76,10 +76,10 @@ public class Ingredient implements GameObject {
     public int posInPot() {
         return posInPot;
     }
-
-    public void inPot(int index) {
+    public void setPosInPot(int index) {
         posInPot = index;
     }
+
 
     public float getTextureWidth() {
         return texture.getWidth() * TEXTURE_SX;
@@ -91,6 +91,9 @@ public class Ingredient implements GameObject {
 
     @Override
     public void draw(GameCanvas canvas) {
+        if(posInInventory == 100){
+            return;
+        }
         if (posInInventory < 0) {
             canvas.draw(texture, Color.WHITE, 10, 10,
                     x, y, 0.0f, TEXTURE_SX, TEXTURE_SY);
@@ -100,6 +103,11 @@ public class Ingredient implements GameObject {
     public void drawTextBubble(GameCanvas canvas, float x, float y, float ox, float oy) {
         canvas.draw(texture, Color.WHITE, ox, oy,
                 x, y, 0.0f, TEXTURE_SX, TEXTURE_SY);
+    }
+
+    @Override
+    public int compareTo(Ingredient other) {
+        return String.CASE_INSENSITIVE_ORDER.compare(this.type, other.type);
     }
 }
 

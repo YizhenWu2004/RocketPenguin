@@ -85,6 +85,10 @@ public class Inventory {
         filled[selected] = false;
     }
 
+    public boolean isCurrFilled(){
+        return filled[selected];
+    }
+
     //clears all objects in the inventory. Used when the player is caught
     public void clearAll() {
         for (int i = 0; i < filled.length; i++) {

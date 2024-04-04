@@ -13,6 +13,9 @@ import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Customer extends BoxObstacle {
     protected static final float TEXTURE_SX = 0.1f;
@@ -28,7 +31,7 @@ public class Customer extends BoxObstacle {
     private float scaleY;
     private GameCanvas canvas;
 
-    private Ingredient order;
+    private Ingredient[] order;
     private boolean satisfied;
     private boolean isActive;
     private int patience;
@@ -55,15 +58,18 @@ public class Customer extends BoxObstacle {
         this.setBodyType(BodyType.DynamicBody);
         setDrawScale(scaleX, scaleY);
         this.getBody().setUserData(this);
-        if (ordernum == 1) {
-            order = (new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
-        } else if (ordernum == 2) {
-            order = (new Ingredient("banana", 200, 200, new Texture("banana.png"), -1));
-        } else if (ordernum == 3) {
-            order = new Ingredient("greenpepper", 1500, 800, new Texture("greenpepper.png"), -1);
-        } else {
-            order = new Ingredient("orange", 900, 400, new Texture("orange.png"), -1);
-        }
+        order = new Ingredient[3];
+        order[0] = (new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
+        order[1] = (new Ingredient("banana", 200, 200, new Texture("banana.png"), -1));
+//        if (ordernum == 1) {
+//            order = (new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
+//        } else if (ordernum == 2) {
+//            order = (new Ingredient("banana", 200, 200, new Texture("banana.png"), -1));
+//        } else if (ordernum == 3) {
+//            order = new Ingredient("greenpepper", 1500, 800, new Texture("greenpepper.png"), -1);
+//        } else {
+//            order = new Ingredient("orange", 900, 400, new Texture("orange.png"), -1);
+//        }
         // order[0] = (new Ingredient("apple",200,200,new Texture("apple.png"),-1));
         //order[1] = (new Ingredient("banana",1600,300,new Texture("banana.png"),-1));
         //order[2] = (new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1));
@@ -77,7 +83,7 @@ public class Customer extends BoxObstacle {
 
     }
 
-    public Ingredient getOrder() {
+    public Ingredient[] getOrder() {
         return order;
     }
 
@@ -113,16 +119,63 @@ public class Customer extends BoxObstacle {
         show = b;
     }
 
-    public boolean serve(Ingredient ing) {
-        //change later, order doesn't matter? or some other action?
-        if (ing == null) {
+    public boolean serve(Dish d) {
+        if(d == null){
             return false;
         }
-        if (ing.type.equals(order.type)) {
-            satisfied = true;
-            return true;
+        ArrayList<Ingredient> temp1 = new ArrayList<>();
+        ArrayList<Ingredient> temp2 = new ArrayList<>();
+        for(int i = 0; i < 3; i++){
+            if (d.type[i] != null){
+                temp1.add(d.type[i]);
+                System.out.println(d.type[i]);
+            }
         }
-        return false;
+        for(int i = 0; i < 3; i++){
+            if (order[i] != null){
+                temp2.add(order[i]);
+            }
+        }
+        if(temp1.size() != temp2.size()){
+            System.out.println("stopped here");
+            return false;
+        }
+        Collections.sort(temp1);
+        Collections.sort(temp2);
+
+        for(int i = 0; i < temp1.size(); i++){
+            if (!(temp1.get(i).type).equals(temp2.get(i).type)){
+                System.out.println("stopper here");
+                return false;
+            }
+        }
+        satisfied = true;
+        return true;
+
+//        if(!temp1.equals(temp2)){
+//            System.out.println("hello");
+//            for(Ingredient i : temp1){
+//                System.out.println(i.type);
+//            }
+//            System.out.println("space");
+//            for(Ingredient i : temp2){
+//                System.out.println(i.type);
+//            }
+//            return false;
+//        }else{
+//            satisfied = true;
+//            return true;
+//        }
+
+        //change later, order doesn't matter? or some other action?
+//        if (ing == null) {
+//            return false;
+//        }
+//        if (ing.type.equals(order.type)) {
+//            satisfied = true;
+//            return true;
+//        }
+//        return false;
     }
 
     public void move() {
@@ -132,8 +185,14 @@ public class Customer extends BoxObstacle {
 
     public void draw(float scaleX, float scaleY) {
         draw(canvas, flipScale * scaleX, scaleY, 0, -600);
+
         if (show) {
-            order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
+            for(int i = 0; i < order.length; i++){
+                if (order[i] != null){
+                    order[i].drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
+                }
+            }
+            //order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
         }
     }
 
