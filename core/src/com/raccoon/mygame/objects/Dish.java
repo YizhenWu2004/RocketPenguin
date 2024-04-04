@@ -1,6 +1,7 @@
 
 package com.raccoon.mygame.objects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.raccoon.mygame.view.GameCanvas;
 
@@ -21,7 +22,6 @@ public class Dish implements GameObject {
         this.isActive = true;
         this.posInInventory = posInInventory;
         this.name = 0;
-
     }
 
     @Override
@@ -47,7 +47,24 @@ public class Dish implements GameObject {
 
     @Override
     public void draw(GameCanvas canvas) {
+
         //doesn't draw anything yet
         return;
+    }
+
+    public boolean check(Dish dish){
+        if(this.type.length != dish.type.length){
+            return false;
+        }
+        for(int i = 0; i < dish.type.length; i++){
+            if (this.type[i].name != dish.type[i].name){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void draw(GameCanvas canvas, float x, float y, float sclx, float scly, float ox, float oy){
+        canvas.draw(texture, Color.WHITE, ox, oy,x*60, y*60, 0, sclx, scly);
     }
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.obstacle.BoxObstacle;
@@ -20,17 +21,18 @@ public class Player extends BoxObstacle {
     private final int WORLD_HEIGHT = 18;
 
     //the interaction boolean from the InputController to be used to handle inputs
-    private boolean interaction;
+    public boolean interaction;
 
     //this should be a list of game objects instead
     //holds 3 items at a time
-    private Inventory inventory;
+    public Inventory inventory;
+    public DishInventory dishInventory;
 
     private Texture playerTexture;
     private GameCanvas canvas;
 
 
-    private boolean space;
+    public boolean space;
 
     //not sure if this should go here uhhh
     private boolean isTeleporting = false;
@@ -45,6 +47,7 @@ public class Player extends BoxObstacle {
                   GameCanvas canvas, World world) {
         super(width, height);
         this.inventory = inventory;
+        this.dishInventory = new DishInventory(new Texture("inventorybar.png"));
         setTexture(new TextureRegion(texture));
         this.canvas = canvas;
         setFixedRotation(true);
@@ -100,9 +103,15 @@ public class Player extends BoxObstacle {
 
     //draw with scale
     public void draw(float scaleX, float scaleY) {
-        System.out.println(scaleX+";"+scaleY);
+        //System.out.println(scaleX+";"+scaleY);
         draw(canvas, scaleX, scaleY, 0, -200);
         this.inventory.draw(canvas);
+        if(dishInventory.leftFilled()){
+            dishInventory.get(0).draw(canvas, this.getX() , this.getY(), 0.25f,0.25f, 30f, 0);
+        }
+        if(dishInventory.rightFilled()){
+            dishInventory.get(1).draw(canvas, this.getX(), this.getY(),0.25f,0.25f, -30f,0);
+        }
     }
 
     public void clearInv() {

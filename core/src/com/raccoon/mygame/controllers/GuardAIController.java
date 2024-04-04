@@ -99,7 +99,7 @@ public class GuardAIController {
     }
 
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
-        System.out.println(currentState);
+       // System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
 
         if (currentState == AIState.WANDER) {
@@ -140,7 +140,7 @@ public class GuardAIController {
             Vector2 playerPosition = new Vector2(info.get(2), info.get(3));
             Vector2 chaseSpeed = updateChaseMode(guardPosition, info ,chaseCounter);
             if(chaseCounter >= CHASE_COUNTER_CONSTANT){
-                System.out.println("CHASE COUNTER");
+                //System.out.println("CHASE COUNTER");
                 chaseCounter = 0;
             }
             if (chaseSpeed != null) {
@@ -300,7 +300,7 @@ public class GuardAIController {
             }
 
             Vector2 direction = new Vector2(nextStep.x - guardPosition.x, nextStep.y - guardPosition.y).nor();
-            System.out.println("direction" + direction);
+            //System.out.println("direction" + direction);
             return direction.scl(chaseSpeed);
         }
 
