@@ -283,7 +283,6 @@ public class StoreController extends WorldController implements ContactListener 
         boolean swapped;
         for (int i = 0; i < drawableObjects.size-1; i++) {
             swapped = false;
-            System.out.println(drawableObjects.get(i).getClass());
             for(int j = 0; j < drawableObjects.size-1-i; j++){
                 float currentY = getYPosOfAnyObject(drawableObjects.get(j));
                 float nextY = getYPosOfAnyObject(drawableObjects.get(j+1));
