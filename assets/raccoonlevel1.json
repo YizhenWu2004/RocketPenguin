@@ -1,0 +1,91 @@
+{
+	"levels": 
+		[
+			{
+				"level": 1
+				"obstacles":
+					[
+						{
+							"type": "vent",
+							"transformations": [1.5, 1.0, 1.5, 1.5, 1.0, 1.0, 0.0, 0.0]
+						}
+					],
+				"ingredients":
+					[
+						{
+							"type": "apple",
+							"position": [200.0, 200.0]
+						},
+						{
+							"type": "banana",
+							"position": [1600.0, 300.0]
+						},
+						{
+							"type": "greenpepper",
+							"position": [1500.0, 800.0]
+						},
+						{
+							"type": "orange",
+							"position": [900.0, 400.0]
+						},
+						{
+							"type": "banana",
+							"position": [1000.0, 800.0]
+						},
+						{
+							"type": "apple",
+							"position": [2000.0, 300.0]
+						}
+					],
+				"horizontalShelves":
+					[
+						[2.5, 16.5],
+						[7.75, 16.5],
+						[13.0, 16.5],
+						[18.25, 16.5],
+						[23.5, 16.5],
+						[28.75, 16.5],
+						[7.5, 12.5],
+						[12.75, 12.5],
+						[18.5, 12.5],
+						[23.75, 12.5],
+						[23.5, 0.5],
+						[28.75, 0.5],
+						[3.0, 8.5],
+						[13.0, 8.5],
+						[18.25, 8.5],
+						[18.25, 4.5]
+					],
+				"verticalShelves":
+					[
+						[20.5, 7.0],
+						[10.5, 2.0],
+						[32.0, 14.75],
+						[32.0, 8.5],
+						[32.0, 2.25],
+						[0.0, 14.75],
+						[0.0, 8.5]
+					],
+				"guards":
+					[
+						{
+							"direction": "leftRight",
+							"position": [2.5, 5.0]
+						},
+						{
+							"direction": "leftRight",
+							"position": [25.0, 13.3]
+						},
+						{
+							"direction": "upDown",
+							"position": [12.5, 6.67]
+						},
+						{
+							"direction": "upDown",
+							"position": [23.3, 10.0]
+						}
+					]
+			}
+		]
+}
+						
