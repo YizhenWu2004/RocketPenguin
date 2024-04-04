@@ -18,10 +18,13 @@ import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.CookingStationObject;
 import com.raccoon.mygame.objects.Dish;
+import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.view.GameCanvas;
+
+import java.lang.reflect.GenericArrayType;
 
 public class RestaurantController extends WorldController implements ContactListener {
     private World world;
@@ -37,6 +40,7 @@ public class RestaurantController extends WorldController implements ContactList
     private boolean ventCollision;
     Array<TableObstacle> tables;
     CollisionController collision;
+    private Array<Object> drawableObjects = new Array<>();
 
     private int globalIndex = 0;
     private int tick;
@@ -47,12 +51,15 @@ public class RestaurantController extends WorldController implements ContactList
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -0.25f : 0.25f), 0.25f, -50f, 50f,
                 new Texture("table.png"), world, canvas);
         obstacles.add(t);
+        drawableObjects.add(t);
         tables.add(t);
     }
 
     private void addWallBump(float x, float y) {
-        obstacles.add(new TableObstacle(x, y, 2.5f, 5f, 1f, 1f, 0f, 0f,
-                new Texture("wallbump.png"), world, canvas));
+        TableObstacle t = new TableObstacle(x, y, 2.5f, 5f, 1f, 1f, 0f, 0f,
+                new Texture("wallbump.png"), world, canvas);
+        obstacles.add(t);
+        drawableObjects.add(t);
     }
 
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv) {
@@ -60,19 +67,26 @@ public class RestaurantController extends WorldController implements ContactList
         this.canvas = canvas;
         this.background = texture;
         player = new Player(0f, 0f, 1, 0.7f, new Texture("rockoReal.png"), sharedInv, canvas, world);
+        drawableObjects.add(player);
+
         obstacles = new Array();
-        obstacles.add(new NormalObstacle(16f, 17f, 32f, 2.5f, 1f, 1f, 0f, 500f,
+
+        NormalObstacle normalOb1 = (new NormalObstacle(16f, 17f, 32f, 2.5f, 1f, 1f, 0f, 500f,
                 new Texture("restaurantwall.png"), world, canvas));
+        obstacles.add(normalOb1);
+        drawableObjects.add(normalOb1);
 
         stations = new Array<>();
         CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 0.25f, 0.25f, 0f, 0f,
                 new Texture("counterleft.png"), world, canvas, player, 1);
         obstacles.add(temp);
         stations.add(temp);
+        drawableObjects.add(temp);
         temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 0.25f, 0.25f, 0f, 0f,
                 new Texture("counterright.png"), world, canvas, player, 2);
         obstacles.add(temp);
         stations.add(temp);
+        drawableObjects.add(temp);
 
         tables = new Array();
         addTable(16f, 11f, false);
@@ -90,7 +104,10 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         customers = new Array();
-        customers.add(new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 1));
+        Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 1);
+        customers.add(customer1);
+        drawableObjects.add(customer1);
+
         Filter f = new Filter();
         f.categoryBits = 0x0002;
         f.maskBits = 0x0001;
@@ -101,6 +118,7 @@ public class RestaurantController extends WorldController implements ContactList
 
         vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
         localStartingPos = new Vector2(vent1.getX()-1.5f, vent1.getY());
+        drawableObjects.add(vent1);
 
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
         active = true;
@@ -127,11 +145,18 @@ public class RestaurantController extends WorldController implements ContactList
     public void update() {
         tick += 1;
         if (tick == 100){
-            customers.add(new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 2));
+            Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 2);
+            customers.add(customer1);
+            drawableObjects.add(customer1);
+
         }else if (tick == 200){
-            customers.add(new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 3));
+            Customer customer2 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 3);
+            customers.add(customer2);
+            drawableObjects.add(customer2);
         }else if (tick == 300){
-            customers.add(new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4));
+            Customer customer3 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4);
+            customers.add(customer3);
+            drawableObjects.add(customer3);
         }
         if (active) {
             float x = 5f * input.getXMovement();
@@ -155,19 +180,75 @@ public class RestaurantController extends WorldController implements ContactList
 
     }
 
+    private float getYPosOfAnyObject(Object obj){
+        if(obj instanceof VentObstacle)
+            return ((VentObstacle) obj).getPosition().y;
+        if(obj instanceof TableObstacle)
+            return ((TableObstacle) obj).getPosition().y;
+        if(obj instanceof Player)
+            return ((Player) obj).getPosition().y;
+        if(obj instanceof NormalObstacle)
+            return ((NormalObstacle) obj).getPosition().y;
+        if(obj instanceof Customer)
+            return (((Customer) obj).getPosition().y);
+
+        //shouldn't get here.
+        return 0f;
+    }
+
+    private void drawAnyType(Object obj){
+        if(obj instanceof VentObstacle)
+            ((VentObstacle) obj).draw();
+        if(obj instanceof TableObstacle)
+            ((TableObstacle) obj).draw();
+        if(obj instanceof Player)
+            ((Player) obj).draw(0.25f, 0.25f);
+        if(obj instanceof NormalObstacle)
+            ((NormalObstacle) obj).draw();
+        if(obj instanceof Customer)
+            ((Customer) obj).draw(0.1f, 0.1f);
+    }
+
     public void draw() {
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
-        vent1.draw();
-        for (NormalObstacle o : obstacles) {
-            o.draw();
-        }
-        player.draw(0.25f, 0.25f);
-        for (Customer c : customers) {
-            if (c.isActive()) {
-                c.draw(0.1f, 0.1f);
+
+
+
+        //bubble sort for drawing
+        boolean swapped;
+        for (int i = 0; i < drawableObjects.size-1; i++) {
+            swapped = false;
+            System.out.println(drawableObjects.get(i).getClass());
+            for(int j = 0; j < drawableObjects.size-1-i; j++){
+                float currentY = getYPosOfAnyObject(drawableObjects.get(j));
+                float nextY = getYPosOfAnyObject(drawableObjects.get(j+1));
+                if(currentY <= nextY){
+                    Object tempNext = drawableObjects.get(j+1);
+                    drawableObjects.set(j+1, drawableObjects.get(j));
+                    drawableObjects.set(j, tempNext);
+                    swapped = true;
+                }
             }
+            if(!swapped)
+                break;
         }
+
+        for(Object obj : drawableObjects){
+            drawAnyType(obj);
+        }
+
+
+//        vent1.draw();
+//        for (NormalObstacle o : obstacles) {
+//            o.draw();
+//        }
+//        player.draw(0.25f, 0.25f);
+//        for (Customer c : customers) {
+//            if (c.isActive()) {
+//                c.draw(0.1f, 0.1f);
+//            }
+//        }
     }
 
     public void debug() {

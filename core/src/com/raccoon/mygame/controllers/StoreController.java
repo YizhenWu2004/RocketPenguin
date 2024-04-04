@@ -11,13 +11,11 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
-import com.raccoon.mygame.objects.GameObject;
-import com.raccoon.mygame.objects.Ingredient;
-import com.raccoon.mygame.objects.VentObstacle;
-import com.raccoon.mygame.objects.NormalObstacle;
+import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
@@ -57,30 +55,41 @@ public class StoreController extends WorldController implements ContactListener 
     private final int GRID_HEIGHT = WORLD_HEIGHT;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
 
+    private Array<Object> drawableObjects = new Array<>();
+
 
 
 //    public boolean totalReset = false;
 
     private void addShelfHorizontal(float x, float y) {
-        obstacles.add(new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
-                new Texture("groceryshelfhorizontal.png"), world, canvas));
+        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
+                new Texture("groceryshelfhorizontal.png"), world, canvas);
+        obstacles.add(obstacle);
+        drawableObjects.add(obstacle);
     }
 
     private void addShelfVertical(float x, float y) {
-        obstacles.add(new NormalObstacle(x, y, 1f, 6f, 0.3f, 0.3f, 0f, 0f,
-                new Texture("groceryshelfvertical.png"), world, canvas));
+        NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 6f, 0.3f, 0.3f, 0f, 0f,
+                new Texture("groceryshelfvertical.png"), world, canvas);
+        obstacles.add(obstacle);
+        drawableObjects.add(obstacle);
     }
 
     private void addFruitCrate(float x, float y) {
-        obstacles.add(new NormalObstacle(x, y, 2f, 1f, 0.4f, 0.4f, 0f, 0f,
-                new Texture("fruitcrate.png"), world, canvas));
+        NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 0.4f, 0.4f, 0f, 0f,
+                new Texture("fruitcrate.png"), world, canvas);
+        obstacles.add(obstacle);
+        drawableObjects.add(obstacle);
     }
 
     public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
+
         player = new Player(0, 0, 1, 0.7f, new Texture("rockoReal.png"), sharedInv, canvas, world);
+        drawableObjects.add(player);
+
         this.input = input;
         ingredients = new Array<>();
         ingredients.add(new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
@@ -89,9 +98,14 @@ public class StoreController extends WorldController implements ContactListener 
         ingredients.add(new Ingredient("orange", 900, 400, new Texture("orange.png"), -1));
         ingredients.add(new Ingredient("banana", 1000, 800, new Texture("banana.png"), -1));
         ingredients.add(new Ingredient("apple", 2000, 300, new Texture("apple.png"), -1));
-        guards = new Array();
+        for (Ingredient in: ingredients) {
+            drawableObjects.add(in);
+        }
 
+        guards = new Array();
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
+        drawableObjects.add(vent1);
+
         localStartingPos = new Vector2(vent1.getX()+1.5f, vent1.getY());
 
 
@@ -152,6 +166,10 @@ public class StoreController extends WorldController implements ContactListener 
         guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
         guardX.add(23.3f);
         guardY.add(10f);
+        for (Guard guard: guards) {
+            drawableObjects.add(guard);
+        }
+
         playerJustDied = false;
 
     }
@@ -220,20 +238,81 @@ public class StoreController extends WorldController implements ContactListener 
         }
     }
 
+    private float getYPosOfAnyObject(Object obj){
+        if(obj instanceof VentObstacle)
+            return ((VentObstacle) obj).getPosition().y;
+        if(obj instanceof TableObstacle)
+            return ((TableObstacle) obj).getPosition().y;
+        if(obj instanceof Player)
+            return ((Player) obj).getPosition().y;
+        if(obj instanceof NormalObstacle)
+            return ((NormalObstacle) obj).getPosition().y;
+        if(obj instanceof Customer)
+            return (((Customer) obj).getPosition().y);
+        if(obj instanceof Ingredient)
+            return ((Ingredient) obj).getYPosition();
+        if(obj instanceof Guard)
+            return ((Guard) obj).getPosition().y;
+        //shouldn't get here.
+        System.out.println("I don't know what this object type is!");
+        return 0f;
+    }
+
+    private void drawAnyType(Object obj){
+        if(obj instanceof VentObstacle)
+            ((VentObstacle) obj).draw();
+        if(obj instanceof TableObstacle)
+            ((TableObstacle) obj).draw();
+        if(obj instanceof Player)
+            ((Player) obj).draw(0.25f, 0.25f);
+        if(obj instanceof NormalObstacle)
+            ((NormalObstacle) obj).draw();
+        if(obj instanceof Customer)
+            ((Customer) obj).draw(0.1f, 0.1f);
+        if(obj instanceof Ingredient)
+            ((Ingredient) obj).draw(canvas);
+        if(obj instanceof Guard)
+            ((Guard) obj).draw(0.1f, 0.1f);
+    }
+
     public void draw() {
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
-        vent1.draw();
-        for (NormalObstacle o : obstacles) {
-            o.draw();
+
+        //bubble sort for drawing
+        boolean swapped;
+        for (int i = 0; i < drawableObjects.size-1; i++) {
+            swapped = false;
+            System.out.println(drawableObjects.get(i).getClass());
+            for(int j = 0; j < drawableObjects.size-1-i; j++){
+                float currentY = getYPosOfAnyObject(drawableObjects.get(j));
+                float nextY = getYPosOfAnyObject(drawableObjects.get(j+1));
+                if(currentY <= nextY){
+                    Object tempNext = drawableObjects.get(j+1);
+                    drawableObjects.set(j+1, drawableObjects.get(j));
+                    drawableObjects.set(j, tempNext);
+                    swapped = true;
+                }
+            }
+            if(!swapped)
+                break;
         }
-        player.draw(0.25f, 0.25f);
-        for (Ingredient i : ingredients) {
-            i.draw(canvas);
+
+        for(Object obj : drawableObjects){
+            drawAnyType(obj);
         }
-        for (Guard g : guards) {
-            g.draw(0.1f, 0.1f);
-        }
+
+//        vent1.draw();
+//        for (NormalObstacle o : obstacles) {
+//            o.draw();
+//        }
+//        player.draw(0.25f, 0.25f);
+//        for (Ingredient i : ingredients) {
+//            i.draw(canvas);
+//        }
+//        for (Guard g : guards) {
+//            g.draw(0.1f, 0.1f);
+//        }
     }
 
     public void debug() {
