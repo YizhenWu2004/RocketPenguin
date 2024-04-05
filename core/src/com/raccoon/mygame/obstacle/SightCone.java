@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 import java.awt.*;
@@ -74,35 +75,35 @@ public class SightCone extends BoxObstacle {
             for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
                 performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w);
             }
+            System.out.println("actual x:" + position.x / canvas.getWidth() * 32);
+            System.out.println("actual y:" + position.y / canvas.getHeight() * 18);
         } else {
-            for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
-                float flippedDirection = direction + 180;
-
-                float endX = position.x + range * MathUtils.cosDeg(flippedDirection);
-                float endY = position.y + range * MathUtils.sinDeg(flippedDirection);
-
+            for (Vector2 vertex : calculateSightConeVertices(position, direction + 180, fov, range)) {
+//                float flippedDirection = direction + 180;
+                float endX = vertex.x ;
+                float endY = vertex.y ;
                 performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                         new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
                         w);
+                System.out.println("actual x:" + endX / canvas.getWidth() * 32);
+                System.out.println("actual y:" + endY / canvas.getHeight() * 18);
             }}
     } else {
             if(g.getAIController().getDirection2()){
-                for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
-                    float flippedDirection = direction + 90;
-
-                    float endX = position.x + range * MathUtils.cosDeg(flippedDirection);
-                    float endY = position.y + range * MathUtils.sinDeg(flippedDirection);
+                for (Vector2 vertex : calculateSightConeVertices(position, direction+90, fov, range)) {
+//                    float flippedDirection = direction + 90;
+                    float endX = vertex.x;
+                    float endY = vertex.y;
 
                     performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                             new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
                             w);
                 }
             } else {
-                for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
-                    float flippedDirection = direction - 90;
+                for (Vector2 vertex : calculateSightConeVertices(position, direction-90, fov, range)) {
 
-                    float endX = position.x + range * MathUtils.cosDeg(flippedDirection);
-                    float endY = position.y + range * MathUtils.sinDeg(flippedDirection);
+                    float endX = vertex.x;
+                    float endY = vertex.y;
 
                     performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                             new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
@@ -127,7 +128,11 @@ public class SightCone extends BoxObstacle {
 //        System.out.println(target);
         RayCastCallback callback = (fixture, point, normal, fraction) -> {
             Object userData = fixture.getBody().getUserData();
-            if (userData instanceof Player) {
+            if(userData instanceof NormalObstacle){
+                System.out.println("sightcone hitting a wall");
+                return fraction;
+            }
+            else if (userData instanceof Player) {
 //            System.out.println("chasing from raycast");
                 g.switchToChaseMode();
                 return 0;
