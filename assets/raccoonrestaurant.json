@@ -1,0 +1,60 @@
+{
+	"obstacles":
+		[
+			{
+				"type": "restaurantwall",
+				"transformations": [16.0, 17.0, 32.0, 2.5, 1.0, 1.0, 0.0, 500.0]
+			},
+			{
+				"type": "counterleft",
+				"transformations": [28.0, 15.0, 3.25, 4.0, 0.25, 0.25, 0.0, 0.0]
+			},
+			{
+				"type": "counterright",
+				"transformations": [30.3, 14.1, 1.25, 5.0, 0.25, 0.25, 0.0, 0.0]
+			},
+			{
+				"type": "vent",
+				"transformations": [30.5, 1.0, 1.5, 1.5, 1.0, 1.0, 0.0, 0.0]
+			}
+		],
+	"tables":
+		[
+			{
+				"flip": false,
+				"position": [16.0, 11.0]
+			},
+			{
+				"flip": true,
+				"position": [16.0, 6.0]
+			},
+			{
+				"flip": true,
+				"position": [10.25, 11.0]
+			},
+			{
+				"flip": false,
+				"position": [10.25, 6.0]
+			},
+			{
+				"flip": false,
+				"position": [4.5, 11.0]
+			},
+			{
+				"flip": true,
+				"position": [4.5, 6.0]
+			}
+		],
+	"wallbumps":
+		[
+			{
+				"position": [6.0, 16.5]
+			},
+			{
+				"position": [14.5, 16.5]
+			},
+			{
+				"position": [23.0, 16.5]
+			}
+		]
+}
