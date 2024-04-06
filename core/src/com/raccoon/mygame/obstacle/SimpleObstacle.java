@@ -24,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 /**
@@ -44,6 +45,11 @@ public abstract class SimpleObstacle extends Obstacle {
      * The texture for the shape.
      */
     protected TextureRegion texture;
+
+    /**
+     *
+     * */
+    protected FilmStrip sprite;
 
     /**
      * The texture origin for drawing
@@ -790,6 +796,17 @@ public abstract class SimpleObstacle extends Obstacle {
         //System.out.println(origin.x+" "+origin.y);
         if (texture != null) {
             canvas.draw(texture, Color.WHITE, origin.x + ox, origin.y + oy, getX() * drawScale.x, getY() * drawScale.x, getAngle(), scaleX, scaleY);
+        }
+    }
+
+    /**
+     * This one is for animation
+     *
+     * */
+    public void drawSprite(GameCanvas canvas, float scaleX, float scaleY, float ox, float oy) {
+        //System.out.println(origin.x+" "+origin.y);
+        if (sprite != null) {
+            canvas.draw(this.sprite,Color.WHITE,origin.x+ox,origin.y+oy,this.getX()*drawScale.x,this.getY()*drawScale.y,getAngle(),scaleX,scaleY);
         }
     }
 

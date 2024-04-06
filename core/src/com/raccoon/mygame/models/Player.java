@@ -11,6 +11,7 @@ import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.obstacle.BoxObstacle;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Player extends BoxObstacle {
@@ -28,8 +29,8 @@ public class Player extends BoxObstacle {
     public Inventory inventory;
     public DishInventory dishInventory;
 
-    private Texture playerTexture;
     private GameCanvas canvas;
+
 
 
     public boolean space;
@@ -38,17 +39,25 @@ public class Player extends BoxObstacle {
     private boolean isTeleporting = false;
 
 
+    /** How fast we change frames (one frame per 4 calls to update) */
+    private static final float ANIMATION_SPEED = 0.10f;
+    /** The number of animation frames in our filmstrip */
+    private int   NUM_ANIM_FRAMES = 1;
+    //current animation frame
+    private float animeframe = 0;
+
+
 //    b = new BoxObstacle(1,1);
 //		b.setDensity(1.0f);
 //		b.activatePhysics(world);
 //		b.setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT); // Pixel width / world width
 
-    public Player(float x, float y, float width, float height, Texture texture, Inventory inventory,
+    public Player(float x, float y, float width, float height, FilmStrip defaultPlayerSprite, Inventory inventory,
                   GameCanvas canvas, World world) {
         super(width, height);
         this.inventory = inventory;
         this.dishInventory = new DishInventory(new Texture("inventorybar.png"));
-        setTexture(new TextureRegion(texture));
+//        setTexture(new TextureRegion(texture));
         this.canvas = canvas;
         setFixedRotation(true);
         setDensity(1);
@@ -59,6 +68,10 @@ public class Player extends BoxObstacle {
         this.setBodyType(BodyType.DynamicBody);
         setDrawScale(canvas.getWidth() / WORLD_WIDTH, canvas.getHeight() / WORLD_HEIGHT);
         this.getBody().setUserData(this);
+
+        //Because we dont have a loader yet, we need to have a default sprite.
+        this.sprite = defaultPlayerSprite;
+        NUM_ANIM_FRAMES = defaultPlayerSprite.getSize();
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
@@ -100,11 +113,36 @@ public class Player extends BoxObstacle {
         return this.isTeleporting;
     }
 
+    public FilmStrip getFilmStrip() {
+        return sprite;
+    }
+
+    public void setFilmStrip(FilmStrip value) {
+        NUM_ANIM_FRAMES = value.getSize();
+        sprite = value;
+        //set to 0th frame
+        if(animeframe > NUM_ANIM_FRAMES)
+            animeframe = 0;
+        sprite.setFrame((int)animeframe);
+    }
+    public void setFrame(int frameNumber){
+        sprite.setFrame(frameNumber);
+    }
+    public void update(float delta){
+        // Increase animation frame
+        animeframe += ANIMATION_SPEED;
+        if (animeframe >= NUM_ANIM_FRAMES) {
+            animeframe -= NUM_ANIM_FRAMES;
+        }
+    }
 
     //draw with scale
     public void draw(float scaleX, float scaleY) {
         //System.out.println(scaleX+";"+scaleY);
-        draw(canvas, scaleX, scaleY, 0, -200);
+
+        //not sure why the x offset needs to be 200 for it to look right
+        drawSprite(canvas, scaleX, scaleY, (float)this.sprite.getRegionWidth()/2, 20);
+//        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
         this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){
             dishInventory.get(0).draw(canvas, this.getX() , this.getY(), 0.25f,0.25f, 30f, 0);

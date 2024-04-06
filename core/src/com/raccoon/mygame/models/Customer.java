@@ -59,8 +59,8 @@ public class Customer extends BoxObstacle {
         setDrawScale(scaleX, scaleY);
         this.getBody().setUserData(this);
         order = new Ingredient[3];
-        order[0] = (new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
-        order[1] = (new Ingredient("banana", 200, 200, new Texture("banana.png"), -1));
+        order[0] = (new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
+        order[1] = (new Ingredient("banana", 200, 200, new Texture("720/banana.png"), -1));
 //        if (ordernum == 1) {
 //            order = (new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
 //        } else if (ordernum == 2) {
@@ -184,7 +184,7 @@ public class Customer extends BoxObstacle {
 
 
     public void draw(float scaleX, float scaleY) {
-        draw(canvas, flipScale * scaleX, scaleY, 0, -600);
+        draw(canvas, (flipScale*-1) * scaleX, scaleY, 0, -50);
 
         if (show) {
             for(int i = 0; i < order.length; i++){

@@ -17,6 +17,7 @@ import com.raccoon.mygame.view.GameCanvas;
 import static com.raccoon.mygame.enums.enums.PatrolDirection;
 
 public class Guard extends WheelObstacle {
+    //initially 0.1, changing to 1
     protected static final float TEXTURE_SX = 0.1f;
     protected static final float TEXTURE_SY = 0.1f;
 
@@ -86,10 +87,10 @@ public class Guard extends WheelObstacle {
 
     public void draw(float scaleX, float scaleY) {
         if(getAIController().getDirection()){
-        draw(canvas, scaleX, scaleY, 0, -600);
+        draw(canvas, scaleX, scaleY, 0, -50);
         sight.render();}
         if(!getAIController().getDirection()){
-            draw(canvas, -scaleX, scaleY, 0, -600);
+            draw(canvas, -scaleX, scaleY, 0, -50);
             sight.render();
         }
     }
