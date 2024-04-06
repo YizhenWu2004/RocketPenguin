@@ -12,14 +12,12 @@ import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.objects.CookingStationObject;
 import com.raccoon.mygame.view.GameCanvas;
-import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.enums.enums;
 
 public class LevelModel {
     private World restaurantWorld;
     private World storeWorld;
     private GameCanvas canvas;
-    private Player player;
     private Array<NormalObstacle> restaurantObjects = new Array<>();
     private Array<TableObstacle> restaurantTables = new Array<>();
     private Array<CookingStationObject> restaurantCounters = new Array<>();
@@ -61,17 +59,16 @@ public class LevelModel {
         restaurantWorld = new World(new Vector2(0, 0), false);
         storeWorld = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
-        player = new Player(0f, 0f, 1, 0.7f, new Texture("rockoReal.png"), sharedInv, canvas, world);
     }
 
     private void gatherRestaurantObstacles(JsonValue data) {
         for (JsonValue obstacle : data) {
             switch (obstacle.getString("type")) {
                 case "counterleft":
-                    CookingStationObject c = new CookingStationObject(28f, 15f, 3.25f, 4f, 0.25f, 0.25f, 0f, 0f,
+                    /*CookingStationObject c = new CookingStationObject(28f, 15f, 3.25f, 4f, 0.25f, 0.25f, 0f, 0f,
                             new Texture("counterleft.png"), restaurantWorld, canvas, player, 1);
                     restaurantObjects.add(c);
-                    restaurantCounters.add(c);
+                    restaurantCounters.add(c);*/
                     break;
                 default:
                     break;
