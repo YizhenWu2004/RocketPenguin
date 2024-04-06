@@ -1288,6 +1288,8 @@ public class GameCanvas {
                 float endX = position.x + range * MathUtils.cosDeg(angle);
                 float endY = position.y + range * MathUtils.sinDeg(angle);
                 debugRender.line(position.x, position.y, endX, endY);
+                System.out.println("the shape x:" + endX);
+                System.out.println("the shape y:" + endY);
             }
         } else {
                 float angleStep = fov / 30;
@@ -1296,6 +1298,8 @@ public class GameCanvas {
                     float endX = position.x - range * MathUtils.cosDeg(angle) + 80;
                     float endY = position.y + range * MathUtils.sinDeg(angle);
                     debugRender.line(position.x + 80, position.y, endX, endY);
+                    System.out.println("the shape x:" + endX);
+                    System.out.println("the shape y:" + endY);
                 }
             }
         }

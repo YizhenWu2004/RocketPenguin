@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.CustomerAIController;
 import com.raccoon.mygame.controllers.GuardAIController;
+import com.raccoon.mygame.controllers.PatienceMeter;
 import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.objects.TableObstacle;
@@ -30,7 +31,7 @@ public class Customer extends BoxObstacle {
     private float scaleX;
     private float scaleY;
     private GameCanvas canvas;
-
+    private PatienceMeter pat;
     private Ingredient[] order;
     private boolean satisfied;
     private boolean isActive;
@@ -75,12 +76,13 @@ public class Customer extends BoxObstacle {
         //order[2] = (new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1));
         satisfied = false;
         isActive = true;
-        patience = 100;
         controller = new CustomerAIController(tables, this);
         show = false;
         flipScale = -1;
         onRight = false;
-
+        pat = new PatienceMeter(60, canvas, this);
+        pat.create();
+//        pat.draw();
     }
 
     public Ingredient[] getOrder() {
@@ -185,7 +187,7 @@ public class Customer extends BoxObstacle {
 
     public void draw(float scaleX, float scaleY) {
         draw(canvas, flipScale * scaleX, scaleY, 0, -600);
-
+        pat.draw();
         if (show) {
             for(int i = 0; i < order.length; i++){
                 if (order[i] != null){
