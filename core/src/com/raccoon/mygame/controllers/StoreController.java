@@ -163,16 +163,26 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
 
-        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0]));
         guardX.add(2.5f);
         guardY.add(5f);
-        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0]));
         guardX.add(25f);
         guardY.add(13.3f);
-        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
         guardX.add(12.5f);
         guardY.add(6.67f);
-        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+
+        //this is the guard that is moving on a node base system (near the fruit crates)
+        Vector2[] crateGuardNodes = new Vector2[4];
+
+        float nodOff = 1.5f;
+
+        crateGuardNodes[0] = new Vector2(29.5f+nodOff,10+nodOff);
+        crateGuardNodes[1] = new Vector2(29.5f+nodOff,4-nodOff);
+        crateGuardNodes[2] = new Vector2(23-nodOff,4-nodOff);
+        crateGuardNodes[3] = new Vector2(23-nodOff,10+nodOff);
+        guards.add(new Guard(23.3f, 10+nodOff, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,crateGuardNodes));
         guardX.add(23.3f);
         guardY.add(10f);
         for (Guard guard: guards) {

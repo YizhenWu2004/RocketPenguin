@@ -35,7 +35,8 @@ public class Guard extends WheelObstacle {
 
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
-                 PatrolDirection patrolDirection, boolean[][] collisionLayer) {
+                 PatrolDirection patrolDirection, boolean[][] collisionLayer,
+                 Vector2[] nodes) {
         super(width/3);
 //        patrolTexture = texture;
 //        setTexture(new TextureRegion(texture));
@@ -55,7 +56,8 @@ public class Guard extends WheelObstacle {
         sight = new SightCone(x * scaleX, y * scaleY + 100, 1, 1, world, canvas, this);
         this.aiController =
                 new GuardAIController(this.getX(), this.getY(), 32, 18,
-                        150, 2, patrolDirection, collisionLayer, new Vector2(width,height));
+                        150, 2, patrolDirection, collisionLayer, new Vector2(width,height)
+                ,nodes);
 
     }
 

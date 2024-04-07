@@ -45,10 +45,14 @@ public class GuardAIController {
      */
     int CHASE_COUNTER_CONSTANT = 25;
 
+    Vector2[] nodes;
+    private int currentNodeIndex = 0;
+
     public GuardAIController(float x, float y, float worldWidth,
                              float worldHeight, float patrolRange,
                              float speed, PatrolDirection patrolDirection,
-                             boolean[][] collisionLayer, Vector2 guardDimension) {
+                             boolean[][] collisionLayer, Vector2 guardDimension,
+                             Vector2[] nodes) {
         this.speed = speed;
         this.patrolDirection = patrolDirection;
         this.collisionLayer = collisionLayer;
@@ -68,6 +72,8 @@ public class GuardAIController {
         this.chaseSpeed = speed*3;
         this.chaseCounter = 0;
         this.counter2 = 0;
+
+        this.nodes = nodes;
     }
 
     public void setAIStateChase() {
@@ -101,8 +107,16 @@ public class GuardAIController {
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
        // System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
+        if (currentState == AIState.WANDER && nodes.length > 0) {
+            Vector2 targetNode = nodes[currentNodeIndex];
+            Vector2 direction = new Vector2(targetNode.x - guardPosition.x, targetNode.y - guardPosition.y).nor();
+            speedVector.set(direction.scl(speed));
 
-        if (currentState == AIState.WANDER) {
+            if (guardPosition.dst(targetNode) < 1f) {
+                currentNodeIndex = (currentNodeIndex + 1) % nodes.length;
+            }
+        }
+        else if (currentState == AIState.WANDER) {
             switch (patrolDirection) {
                 case LEFT_RIGHT:
                     if (movingPositive) {
