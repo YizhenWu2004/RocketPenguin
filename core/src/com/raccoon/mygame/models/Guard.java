@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.enums.enums;
+import com.raccoon.mygame.objects.Expression;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.obstacle.SightCone;
 import com.raccoon.mygame.obstacle.WheelObstacle;
@@ -31,7 +32,15 @@ public class Guard extends WheelObstacle {
     private final int WORLD_HEIGHT = 18;
     private float scaleX;
     private float scaleY;
+
+    private float height;
+    private float width;
     private GameCanvas canvas;
+
+    private float CHASE_DELAY = 0.0f;
+    private float chaseDelay = CHASE_DELAY;
+    private boolean isChaseMode = false;
+    private Expression exclam;
 
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
@@ -43,6 +52,8 @@ public class Guard extends WheelObstacle {
         this.sprite = defaultAnimation;
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
+        this.height = height;
+        this.width = width;
         this.canvas = canvas;
         setFixedRotation(true);
         setDensity(1);
@@ -59,6 +70,8 @@ public class Guard extends WheelObstacle {
                         150, 2, patrolDirection, collisionLayer, new Vector2(width,height)
                 ,nodes);
 
+        exclam = new Expression("exclamation",x,y);
+
     }
 
     public float getTextureWidth() {
@@ -74,30 +87,46 @@ public class Guard extends WheelObstacle {
     }
 
     public void update(float delta, Array<Float> info) {
-        if (aiController != null) {
-            this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
-            Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); // Assuming scaleX and scaleY are the scales you need to apply
-//            if(getY() < 10){
-//            newPosition.add(-40, 130);} else if(getY() < 13){
-//                newPosition.add(-40, 150);
-//                // Adjust this value based on where you want the sightcone relative to the guard
-//            }else{
-//                newPosition.add(-40, 160);
-//            }
-////            System.out.println("goose height is: " + getY());
-//            sight.updatePosition(newPosition);
-            if(getAIController().getOrien() == GuardAIController.GuardOrientation.LEFT){
+    if (aiController != null) {
+        this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
+        Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); 
+
+        if (getY() < 10) {
+            newPosition.add(-40, 130);
+        } else if (getY() < 13) {
+            newPosition.add(-40, 150);
+        } else {
+            newPosition.add(-40, 160);
+        }
+        
+        switch (getAIController().getOrien()) {
+            case LEFT:
                 newPosition.add(-30, 100);
-            } else if(getAIController().getOrien() == GuardAIController.GuardOrientation.RIGHT){
+                break;
+            case RIGHT:
                 newPosition.add(-60, 100);
-            } else if((getAIController().getOrien() == GuardAIController.GuardOrientation.UP)){
+                break;
+            case UP: 
+            default:
                 newPosition.add(0, 100);
-            } else {
-                newPosition.add(0, 100);
-            }
-            sight.updatePosition(newPosition);
+                break;
+        }
+        
+        sight.updatePosition(newPosition);
+
+        float exclamationX = this.getX() * scaleX;
+        float exclamationY = (this.getY() + height + 1) * scaleY;
+        exclam.setPosition(exclamationX, exclamationY);
+    }
+
+    if (isChaseMode && chaseDelay > 0) {
+        chaseDelay -= delta;
+        if (chaseDelay <= 0) {
+            chaseDelay = 0;
         }
     }
+  }
+
 
     public void draw(float scaleX, float scaleY) {
         if(getAIController().getDirection()){
@@ -106,6 +135,9 @@ public class Guard extends WheelObstacle {
         if(!getAIController().getDirection()){
             drawSprite(canvas, -scaleX, scaleY, 30, 20);
             sight.render();
+        }
+        if (isChaseMode) {
+            exclam.draw(canvas);
         }
     }
 
@@ -120,10 +152,13 @@ public class Guard extends WheelObstacle {
 
     public void switchToChaseMode() {
         this.aiController.setAIStateChase();
+        isChaseMode = true;
+        chaseDelay = CHASE_DELAY;
     }
 
     public void switchToWanderMode() {
         this.aiController.setAIStateWander();
+        isChaseMode = false;
     }
     public PatrolDirection getP(){
         return this.aiController.getPatrolDirection();
