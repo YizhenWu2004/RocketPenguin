@@ -75,18 +75,26 @@ public class Guard extends WheelObstacle {
         if (aiController != null) {
             this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
             Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); // Assuming scaleX and scaleY are the scales you need to apply
-            if(getY() < 10){
-            newPosition.add(-40, 130);} else if(getY() < 13){
-                newPosition.add(-40, 150);
-                // Adjust this value based on where you want the sightcone relative to the guard
-            }else{
-                newPosition.add(-40, 160);
+
+
+            if (getAIController().getPatrolDirection() == PatrolDirection.LEFT_RIGHT) {
+                if (aiController.getDirection()) {
+                    newPosition.add(-20, 80);
+                } else {
+                    newPosition.add(-70, 80);
+                }
+            } else {
+                if (aiController.getDirection()) {
+                    newPosition.add(0, 80);
+                } else {
+                    newPosition.add(0, 80);
+                }
             }
 //            System.out.println("goose height is: " + getY());
             sight.updatePosition(newPosition);
         }
-    }
 
+    }
     public void draw(float scaleX, float scaleY) {
         if(getAIController().getDirection()){
         drawSprite(canvas, scaleX, scaleY, 30, 20);
