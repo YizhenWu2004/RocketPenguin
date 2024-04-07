@@ -39,12 +39,9 @@ public class Player extends BoxObstacle {
     private boolean isTeleporting = false;
 
 
-    /** How fast we change frames (one frame per 4 calls to update) */
-    private static final float ANIMATION_SPEED = 0.10f;
-    /** The number of animation frames in our filmstrip */
-    private int   NUM_ANIM_FRAMES = 1;
-    //current animation frame
-    private float animeframe = 0;
+    //objects should store their own animations
+    public FilmStrip playerWalk = new FilmStrip(new Texture("720/rockorun.png"), 1, 5, 5);
+    public FilmStrip playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
 
 
 //    b = new BoxObstacle(1,1);
@@ -111,29 +108,6 @@ public class Player extends BoxObstacle {
 
     public boolean getTeleporting() {
         return this.isTeleporting;
-    }
-
-    public FilmStrip getFilmStrip() {
-        return sprite;
-    }
-
-    public void setFilmStrip(FilmStrip value) {
-        NUM_ANIM_FRAMES = value.getSize();
-        sprite = value;
-        //set to 0th frame
-        if(animeframe > NUM_ANIM_FRAMES)
-            animeframe = 0;
-        sprite.setFrame((int)animeframe);
-    }
-    public void setFrame(int frameNumber){
-        sprite.setFrame(frameNumber);
-    }
-    public void update(float delta){
-        // Increase animation frame
-        animeframe += ANIMATION_SPEED;
-        if (animeframe >= NUM_ANIM_FRAMES) {
-            animeframe -= NUM_ANIM_FRAMES;
-        }
     }
 
     //draw with scale

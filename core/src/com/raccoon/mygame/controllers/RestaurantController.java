@@ -49,8 +49,10 @@ public class RestaurantController extends WorldController implements ContactList
     private Vector2 localStartingPos;
     Array<CookingStationObject> stations;
 
-    private FilmStrip playerWalk;
     private FilmStrip playerIdle;
+    private FilmStrip goatIdle;
+
+    private AnimationController animator;
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
@@ -72,7 +74,6 @@ public class RestaurantController extends WorldController implements ContactList
         this.canvas = canvas;
         this.background = texture;
 
-        playerWalk = new FilmStrip(new Texture("720/rockorun.png"), 1, 5, 5);
         playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
         player = new Player(0f, 0f, 1, 0.7f, playerIdle, sharedInv, canvas, world);
         drawableObjects.add(player);
@@ -113,7 +114,9 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         customers = new Array();
-        Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("720/goat.png"), world, canvas, tables, 1);
+
+        goatIdle = new FilmStrip(new Texture("720/goat.png"), 1,4,4);
+        Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
         customers.add(customer1);
         drawableObjects.add(customer1);
 
@@ -133,6 +136,8 @@ public class RestaurantController extends WorldController implements ContactList
         active = true;
         tick = 0;
         world.setContactListener(this);
+
+        animator = new AnimationController(input);
     }
 
     public void setActive(boolean b) {
@@ -154,16 +159,16 @@ public class RestaurantController extends WorldController implements ContactList
     public void update() {
         tick += 1;
         if (tick == 100){
-            Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("720/goat.png"), world, canvas, tables, 2);
+            Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
             customers.add(customer1);
             drawableObjects.add(customer1);
 
         }else if (tick == 200){
-            Customer customer2 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("720/goat.png"), world, canvas, tables, 3);
+            Customer customer2 = new Customer(0f, 8.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 3);
             customers.add(customer2);
             drawableObjects.add(customer2);
         }else if (tick == 300){
-            Customer customer3 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("720/goat.png"), world, canvas, tables, 4);
+            Customer customer3 = new Customer(0f, 8.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
             customers.add(customer3);
             drawableObjects.add(customer3);
         }
@@ -185,13 +190,11 @@ public class RestaurantController extends WorldController implements ContactList
             c.update();
         }
 
-        player.update(tick);
-        if(input.getXMovement()!=0){
-            player.setFilmStrip(playerWalk);
-        }
-        else{
-            player.setFilmStrip(playerIdle);
-        }
+        animator.handleAnimation(player, tick);
+        animator.processCustomers(customers, tick);
+
+
+
         world.step(1 / 60f, 6, 2);
     }
 

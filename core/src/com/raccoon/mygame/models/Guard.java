@@ -12,6 +12,7 @@ import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.obstacle.SightCone;
 import com.raccoon.mygame.obstacle.WheelObstacle;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 import static com.raccoon.mygame.enums.enums.PatrolDirection;
@@ -33,11 +34,12 @@ public class Guard extends WheelObstacle {
     private GameCanvas canvas;
 
     public Guard(float x, float y, float width, float height,
-                 Texture texture, World world, GameCanvas canvas,
+                 FilmStrip defaultAnimation, World world, GameCanvas canvas,
                  PatrolDirection patrolDirection, boolean[][] collisionLayer) {
         super(width/3);
-        patrolTexture = texture;
-        setTexture(new TextureRegion(texture));
+//        patrolTexture = texture;
+//        setTexture(new TextureRegion(texture));
+        this.sprite = defaultAnimation;
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.canvas = canvas;
@@ -87,10 +89,10 @@ public class Guard extends WheelObstacle {
 
     public void draw(float scaleX, float scaleY) {
         if(getAIController().getDirection()){
-        draw(canvas, scaleX, scaleY, 0, -50);
+        drawSprite(canvas, scaleX, scaleY, 50, -50);
         sight.render();}
         if(!getAIController().getDirection()){
-            draw(canvas, -scaleX, scaleY, 0, -50);
+            drawSprite(canvas, -scaleX, scaleY, 50, -50);
             sight.render();
         }
     }

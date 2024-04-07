@@ -58,7 +58,10 @@ public class StoreController extends WorldController implements ContactListener 
 
     private Array<Object> drawableObjects = new Array<>();
 
-    private FilmStrip playerWalk;
+    private FilmStrip playerIdle;
+    private FilmStrip guardIdle;
+
+    private AnimationController animator;
 
 
 
@@ -90,9 +93,10 @@ public class StoreController extends WorldController implements ContactListener 
         this.canvas = canvas;
         this.background = texture;
 
-        playerWalk = new FilmStrip(new Texture("720/rockorun.png"), 1, 5, 5);
+        playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
+        guardIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
 
-        player = new Player(0, 0, 1, 0.7f,  playerWalk, sharedInv, canvas, world);
+        player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
         drawableObjects.add(player);
 
         this.input = input;
@@ -159,16 +163,16 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
 
-        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("720/gooseidle.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
         guardX.add(2.5f);
         guardY.add(5f);
-        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("720/gooseidle.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
         guardX.add(25f);
         guardY.add(13.3f);
-        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("720/gooseidle.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
         guardX.add(12.5f);
         guardY.add(6.67f);
-        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("720/gooseidle.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
         guardX.add(23.3f);
         guardY.add(10f);
         for (Guard guard: guards) {
@@ -177,6 +181,7 @@ public class StoreController extends WorldController implements ContactListener 
 
         playerJustDied = false;
 
+        animator = new AnimationController(input);
     }
 
     public void setActive(boolean b) {
@@ -250,6 +255,9 @@ public class StoreController extends WorldController implements ContactListener 
                 }
             }
         }
+
+        animator.processGuards(guards, delta);
+        animator.handleAnimation(player, delta);
     }
 
     private float getYPosOfAnyObject(Object obj){

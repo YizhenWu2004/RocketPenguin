@@ -12,6 +12,7 @@ import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.obstacle.BoxObstacle;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,10 +44,11 @@ public class Customer extends BoxObstacle {
     public int flipScale;
     public boolean onRight;
 
-    public Customer(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
+    public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
-        this.texture = texture;
-        setTexture(new TextureRegion(texture));
+//        this.texture = texture;
+//        setTexture(new TextureRegion(texture));
+        this.sprite = defaultCustomerSprite;
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.canvas = canvas;
@@ -184,7 +186,7 @@ public class Customer extends BoxObstacle {
 
 
     public void draw(float scaleX, float scaleY) {
-        draw(canvas, (flipScale*-1) * scaleX, scaleY, 0, -50);
+        drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, 50, 0);
 
         if (show) {
             for(int i = 0; i < order.length; i++){

@@ -56,6 +56,12 @@ public abstract class SimpleObstacle extends Obstacle {
      */
     protected Vector2 origin;
 
+    /** The number of animation frames in our filmstrip */
+    protected int   NUM_ANIM_FRAMES = 1;
+    //current animation frame
+    protected float animeframe = 0;
+    protected float ANIMATION_SPEED = 0.10f;
+
     /// BodyDef Methods
 
     /**
@@ -86,6 +92,29 @@ public abstract class SimpleObstacle extends Obstacle {
         } else {
             super.setBodyType(value);
         }
+    }
+
+    public FilmStrip getFilmStrip() {
+        return sprite;
+    }
+    public void setFrame(int frameNumber){
+        sprite.setFrame(frameNumber);
+    }
+    public void updateAnimation(float delta){
+        // Increase animation frame
+        animeframe += ANIMATION_SPEED;
+        if (animeframe >= NUM_ANIM_FRAMES) {
+            animeframe -= NUM_ANIM_FRAMES;
+        }
+    }
+
+    public void setFilmStrip(FilmStrip value) {
+        NUM_ANIM_FRAMES = value.getSize();
+        sprite = value;
+        //set to 0th frame
+        if(animeframe > NUM_ANIM_FRAMES)
+            animeframe = 0;
+        sprite.setFrame((int)animeframe);
     }
 
     /**
