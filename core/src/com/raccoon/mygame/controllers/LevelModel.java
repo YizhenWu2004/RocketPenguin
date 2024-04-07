@@ -11,6 +11,7 @@ import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.objects.CookingStationObject;
+import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.view.GameCanvas;
 import com.raccoon.mygame.enums.enums;
 
@@ -22,6 +23,7 @@ public class LevelModel {
     private Array<TableObstacle> restaurantTables = new Array<>();
     private Array<CookingStationObject> restaurantCounters = new Array<>();
     private Array<NormalObstacle> storeObjects = new Array<>();
+    private Array<Ingredient> ingredients = new Array<>();
     private Array<Guard> guards = new Array<>();
 
     private void addTable(float x, float y, boolean flip) {
