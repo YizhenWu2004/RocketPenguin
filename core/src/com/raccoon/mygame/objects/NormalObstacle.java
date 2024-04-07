@@ -87,5 +87,8 @@ public class NormalObstacle extends BoxObstacle {
         drawDebug(canvas);
     }
 
-    public Ingredient getIngredient(){return this.ingredient;}
+    public Ingredient getIngredient(){
+        if (this.ingredient == null) return null;
+        return this.ingredient.clone();
+    }
 }
