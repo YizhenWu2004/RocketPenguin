@@ -53,13 +53,15 @@ public class Inventory {
 
     //draws the objects in items
     public void draw(GameCanvas canvas) {
+        float midpoint = (float)canvas.getWidth()/2 - (float)this.itexture.getWidth()/2;
         canvas.draw(itexture, Color.WHITE, 10, 10,
-                500, 0, 0.0f, 0.5f, 0.5f);
-        Texture h = new Texture("inventoryselected.png");
-        canvas.draw(h, Color.WHITE, 0, 5, selected * (94 - selected) + 480, 0, 0.0f, 0.5f, 0.5f);
+                midpoint, 0, 0.0f, 1, 1);
+        Texture h = new Texture("720/inventoryselect.png");
+        //selected * (94 - selected) + 480
+        canvas.draw(h, Color.WHITE, 0, 5, selected * (itexture.getWidth()/5.6f) + midpoint + 8, 0, 0.0f, 1, 1);
         for (int i = 0; i < items.length; i++) {
             if (filled[i]) {
-                canvas.draw(items[i].getTexture(), Color.WHITE, 10, 10, i * 90 + 506, 5, 0.0f, 1, 1);
+                canvas.draw(items[i].getTexture(), Color.WHITE, 10, 10, i * (itexture.getWidth()/5.6f) + midpoint + 33, itexture.getHeight()/2f-items[i].getTextureHeight()/2, 0.0f, 1, 1);
             }
         }
     }

@@ -28,7 +28,7 @@ public class CookingStationObject extends NormalObstacle{
             World world, GameCanvas canvas, Player player, int id) {
         super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas);
         interacting = false;
-        pot = new CookingInventory(new Texture("inventorybar.png"));
+        pot = new CookingInventory(new Texture("720/potbar.png"));
         state = 0;
         this.p= player;
         this.canvas = canvas;

@@ -191,7 +191,7 @@ public class Customer extends BoxObstacle {
         if (show) {
             for(int i = 0; i < order.length; i++){
                 if (order[i] != null){
-                    order[i].drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
+                    order[i].drawTextBubble(canvas, this.getX() * 40, (this.getY()+2) * 40, 0, 0);
                 }
             }
             //order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);

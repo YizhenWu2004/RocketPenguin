@@ -38,6 +38,9 @@ public class Player extends BoxObstacle {
     //not sure if this should go here uhhh
     private boolean isTeleporting = false;
 
+    //-1 is right
+    private int direction = -1;
+
 
     //objects should store their own animations
     public FilmStrip playerWalk = new FilmStrip(new Texture("720/rockorun.png"), 1, 5, 5);
@@ -53,7 +56,7 @@ public class Player extends BoxObstacle {
                   GameCanvas canvas, World world) {
         super(width, height);
         this.inventory = inventory;
-        this.dishInventory = new DishInventory(new Texture("inventorybar.png"));
+        this.dishInventory = new DishInventory(new Texture("720/inventorynew.png"));
 //        setTexture(new TextureRegion(texture));
         this.canvas = canvas;
         setFixedRotation(true);
@@ -110,19 +113,29 @@ public class Player extends BoxObstacle {
         return this.isTeleporting;
     }
 
+    private void setDirection(){
+        if(this.getVX() > 0)
+            this.direction = -1;
+        if(this.getVX() < 0)
+            this.direction = 1;
+        if(this.getVX() == 0)
+            this.direction = this.direction;
+    }
+    private int getDirection(){return direction;}
+
     //draw with scale
     public void draw(float scaleX, float scaleY) {
         //System.out.println(scaleX+";"+scaleY);
-
+        setDirection();
         //not sure why the x offset needs to be 200 for it to look right
-        drawSprite(canvas, scaleX, scaleY, (float)this.sprite.getRegionWidth()/2, 20);
+        drawSprite(canvas, scaleX*this.getDirection(), scaleY, (float)this.sprite.getRegionWidth()/2, 20);
 //        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
         this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){
-            dishInventory.get(0).draw(canvas, this.getX() , this.getY(), 0.25f,0.25f, 30f, 0);
+            dishInventory.get(0).draw(canvas, (this.getX()-3) * 40 , this.getY() * 40, 1,1, 0f, 0);
         }
         if(dishInventory.rightFilled()){
-            dishInventory.get(1).draw(canvas, this.getX(), this.getY(),0.25f,0.25f, -30f,0);
+            dishInventory.get(1).draw(canvas, (this.getX()+1) * 40, this.getY() * 40,1,1, 0,0);
         }
     }
 

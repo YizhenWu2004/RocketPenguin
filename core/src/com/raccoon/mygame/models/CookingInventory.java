@@ -48,10 +48,10 @@ public class CookingInventory {
 
     public void draw(GameCanvas canvas) {
         canvas.draw(texture, Color.WHITE, 10, 10,
-                1400, 600, 0.0f, 1, 1);
+                canvas.getWidth()/2f, canvas.getHeight()-100f, 0.0f, 1, 1);
         for(int i = 0; i < inv.length; i++){
             if (filled[i]){
-                canvas.draw(inv[i].getTexture(), Color.WHITE, 10, 10, 1410+ inv[i].posInPot()*90, 610, 0.0f, 1, 1);
+                canvas.draw(inv[i].getTexture(), Color.WHITE, 10, 10,i * (texture.getWidth()/3.45f) + canvas.getWidth()/2f+ 33, canvas.getHeight()-79f, 0.0f, 1, 1);
             }
         }
     }

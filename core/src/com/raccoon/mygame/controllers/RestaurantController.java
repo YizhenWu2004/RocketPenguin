@@ -87,13 +87,13 @@ public class RestaurantController extends WorldController implements ContactList
         drawableObjects.add(normalOb1);
 
         stations = new Array<>();
-        CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 0.25f, 0.25f, 0f, 0f,
-                new Texture("720/kitchen.png"), world, canvas, player, 1);
+        CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 1, 1, 0f, 0f,
+                new Texture("720/kitchenleft.png"), world, canvas, player, 1);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
-        temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 0.25f, 0.25f, 0f, 0f,
-                new Texture("720/kitchen.png"), world, canvas, player, 2);
+        temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 1, 1, 0f, -32f,
+                new Texture("720/kitchenright.png"), world, canvas, player, 2);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
@@ -128,7 +128,7 @@ public class RestaurantController extends WorldController implements ContactList
         }
         this.input = input;
 
-        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
+        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("720/vent.png"),world, canvas);
         localStartingPos = new Vector2(vent1.getX()-1.5f, vent1.getY());
         drawableObjects.add(vent1);
 
