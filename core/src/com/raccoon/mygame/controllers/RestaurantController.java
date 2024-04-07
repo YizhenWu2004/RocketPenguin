@@ -28,6 +28,7 @@ import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 import java.awt.Font;
+
 import java.lang.reflect.GenericArrayType;
 
 public class RestaurantController extends WorldController implements ContactListener {
