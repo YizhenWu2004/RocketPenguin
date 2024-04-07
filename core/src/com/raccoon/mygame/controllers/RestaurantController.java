@@ -98,12 +98,12 @@ public class RestaurantController extends WorldController implements ContactList
         stations = new Array<>();
 
         CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 1, 1, 0f, 0f,
-                new Texture("720/kitchenleft.png"), world, canvas, player, 1);
+                new Texture("720/kitchenleft.png"), world, canvas, 1);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
         temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 1, 1, 0f, -32f,
-                new Texture("720/kitchenright.png"), world, canvas, player, 2);
+                new Texture("720/kitchenright.png"), world, canvas, 2);
       
         obstacles.add(temp);
         stations.add(temp);
@@ -190,7 +190,7 @@ public class RestaurantController extends WorldController implements ContactList
             drawableObjects.add(customer3);
             t.action_round=true;
         }else if (t.getTime() == 60&& !t.action_round){
-            Customer customer4 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4);
+            Customer customer4 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
             customers.add(customer4);
             drawableObjects.add(customer4);
             t.action_round=true;
