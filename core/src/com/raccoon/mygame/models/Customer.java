@@ -61,7 +61,7 @@ public class Customer extends BoxObstacle {
         setFriction(0);
         setLinearDamping(0);
         activatePhysics(world);
-        this.setBodyType(BodyType.DynamicBody);
+        this.setBodyType(BodyType.KinematicBody);
         setDrawScale(scaleX, scaleY);
         this.getBody().setUserData(this);
         order = new Ingredient[3];
@@ -133,10 +133,10 @@ public class Customer extends BoxObstacle {
             }
         }
         if(temp1.size() != temp2.size()){
-            System.out.println("stopped here");
+            //System.out.println("stopped here");
             return false;
         }
-        System.out.println("HERE");
+        //System.out.println("HERE");
         Collections.sort(temp1);
         for(Ingredient i :temp1){
             if (i != null){

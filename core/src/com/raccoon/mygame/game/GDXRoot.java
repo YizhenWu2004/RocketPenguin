@@ -247,7 +247,7 @@ public class GDXRoot extends Game implements ScreenListener {
         } else if (current == 1) {
             store.draw();
         }
-        w.draw();
+        w.draw(20, 700);
 //		trash.draw(canvas);
 //
 //

@@ -21,6 +21,7 @@ import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.CookingStationObject;
 import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.GameObject;
+import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.objects.TableObstacle;
@@ -85,12 +86,12 @@ public class RestaurantController extends WorldController implements ContactList
 
         stations = new Array<>();
         CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 0.25f, 0.25f, 0f, 0f,
-                new Texture("counterleft.png"), world, canvas, player, 1);
+                new Texture("counterleft.png"), world, canvas, 1);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
         temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 0.25f, 0.25f, 0f, 0f,
-                new Texture("counterright.png"), world, canvas, player, 2);
+                new Texture("counterright.png"), world, canvas, 2);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
@@ -113,7 +114,7 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         customers = new Array();
-        Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 1);
+        Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 1);
         customers.add(customer1);
         drawableObjects.add(customer1);
 
@@ -153,20 +154,29 @@ public class RestaurantController extends WorldController implements ContactList
     }
     public void update() {
         tick += 1;
-        if (tick == 100){
-            //Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 2);
-            //customers.add(customer1);
-            //drawableObjects.add(customer1);
+        if (t.getTime() == 170 && !t.action_round){
+            Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 2);
+            customers.add(customer1);
+            drawableObjects.add(customer1);
+            t.action_round=true;
 
-        }else if (tick == 200){
-            //Customer customer2 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 3);
-            //customers.add(customer2);
-            //drawableObjects.add(customer2);
-        }else if (tick == 300){
-            //Customer customer3 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4);
-            //customers.add(customer3);
-            //drawableObjects.add(customer3);
-        }
+        }else if (t.getTime() == 120&& !t.action_round){
+            Customer customer2 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 3);
+            customers.add(customer2);
+            drawableObjects.add(customer2);
+            t.action_round=true;
+        }else if (t.getTime() == 90&& !t.action_round){
+            Customer customer3 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4);
+            customers.add(customer3);
+            drawableObjects.add(customer3);
+            t.action_round=true;
+        }else if (t.getTime() == 60&& !t.action_round){
+            Customer customer4 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4);
+            customers.add(customer4);
+            drawableObjects.add(customer4);
+            t.action_round=true;
+    }
+
         if (active) {
             float x = 5f * input.getXMovement();
             float y = 5f * input.getYMovement();
@@ -191,7 +201,38 @@ public class RestaurantController extends WorldController implements ContactList
             }
         }
         for (CookingStationObject c : stations){
-            c.update();
+            if (c.state == 0){
+                if(c.pot.size != 0 && player.interaction && c.interacting){
+                    c.ticks = 0;
+                    c.state = 1;
+                } else if (c.pot.size != 0 && !c.interacting){
+                    Ingredient[] temp = c.pot.drop();
+                    for(Ingredient i : temp){
+                        if(i != null) {
+                            player.inventory.add(i);
+                        }
+                    }
+                    c.pot.clearAll();
+                } else if (player.space && c.pot.size < 3 && player.inventory.isCurrFilled() && c.interacting){
+                    c.pot.add(player.inventory.getSelectedItem());
+                    player.inventory.drop();
+                }
+            }else if (c.state == 1){
+                if (c.ticks == 100){
+                    c.state = 2;
+                }
+                c.ticks += 1;
+            } else if (c.state == 2){
+                if(c.interacting && player.space){
+                    if (!player.dishInventory.leftFilled() || !player.dishInventory.rightFilled()) {
+                        player.dishInventory.fill(c.getCookedDish());
+                        c.state = 0;
+                    }
+                }
+                c.ticks += 1;
+                //burnt timer not implemented yet
+            }
+
         }
 
         world.step(1 / 60f, 6, 2);

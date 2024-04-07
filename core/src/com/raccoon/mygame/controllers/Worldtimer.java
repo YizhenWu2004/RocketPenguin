@@ -12,10 +12,12 @@ import com.raccoon.mygame.view.GameCanvas;
 public class Worldtimer extends ApplicationAdapter {
     private int countdownSeconds;
     private GameCanvas gameCanvas;
+    public boolean action_round;
 
     public Worldtimer(int count, GameCanvas canvas){
         countdownSeconds = count;
         gameCanvas = canvas;
+        action_round = false;
     }
     public void create() {
 //        System.out.println("starting timer");
@@ -24,6 +26,7 @@ public class Worldtimer extends ApplicationAdapter {
             @Override
             public void run() {
                 countdownSeconds--;
+                action_round = false;
                 if (countdownSeconds <= 0) {
                     Gdx.app.log("Countdown Timer", "Countdown finished!");
                     this.cancel(); // Stop the timer
@@ -31,7 +34,11 @@ public class Worldtimer extends ApplicationAdapter {
             }
         }, 1, 1);
     }
-    public void draw(){
-        gameCanvas.drawText(Integer.toString(countdownSeconds), new BitmapFont(), 20, 700 );
+    public void draw(int x, int y){
+        gameCanvas.drawText(Integer.toString(countdownSeconds), new BitmapFont(), x,y);
+    }
+
+    public int getTime(){
+        return countdownSeconds;
     }
 }
