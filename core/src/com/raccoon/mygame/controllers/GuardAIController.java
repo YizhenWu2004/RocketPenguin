@@ -14,6 +14,13 @@ public class GuardAIController {
         CHASE
     }
 
+    public enum GuardOrientation {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN
+    }
+
     private float upperBoundary;
     private float lowerBoundary;
     private float speed;
@@ -31,6 +38,7 @@ public class GuardAIController {
     int counter;
     int counter2;
     private AIState currentState = AIState.WANDER;
+    private GuardOrientation orien = GuardOrientation.LEFT;
 
     private Array<Vector2> currentPath;
     private int currentPathIndex;
@@ -154,7 +162,6 @@ public class GuardAIController {
             Vector2 playerPosition = new Vector2(info.get(2), info.get(3));
             Vector2 chaseSpeed = updateChaseMode(guardPosition, info ,chaseCounter);
             if(chaseCounter >= CHASE_COUNTER_CONSTANT){
-                //System.out.println("CHASE COUNTER");
                 chaseCounter = 0;
             }
             if (chaseSpeed != null) {
@@ -162,7 +169,24 @@ public class GuardAIController {
             }
         }
 
+        updateOrien(speedVector);
         return speedVector;
+    }
+
+    private void updateOrien(Vector2 speedVector) {
+        if (Math.abs(speedVector.x) > Math.abs(speedVector.y)) {
+            if (speedVector.x > 0) {
+                orien = GuardOrientation.RIGHT;
+            } else {
+                orien = GuardOrientation.LEFT;
+            }
+        } else if (Math.abs(speedVector.y) >= Math.abs(speedVector.x)) {
+            if (speedVector.y > 0) {
+                orien = GuardOrientation.UP;
+            } else {
+                orien = GuardOrientation.DOWN;
+            }
+        }
     }
 
     public Array<Vector2> findPathMain(Vector2 start, Array<Float> info){
@@ -281,18 +305,6 @@ public class GuardAIController {
      * @param info information (see store controller)
      * @return the appropriate velocity according to shortest path
      */
-
-    //THE CAUSE OF THE OSCCILATION ISSUE IS pathfinding when the target
-    // (in this case, the player) is moving and the pathfinder
-    // (the guard) gets stuck oscillating between two points or
-    // directions because it's constantly recalculating the path
-    // based on the player's new position.
-    //THIS can be fixed by changed the constant in playerPosition.dst(guardPosition) > 10
-    //drawback: the larger the constant, the less osccilation but guard has inaccurate
-    //estimate of player location
-
-    //Other problem right now, guard sometimes get stuck on NormalObstacles
-    //may be able to be fixed by altering get neighbors and canFitInPosition functions
     public Vector2 updateChaseMode(Vector2 guardPosition, Array<Float> info, int chaseCounter) {
         Vector2 playerPosition = new Vector2(info.get(0),info.get(1));
         if(chaseCounter >=CHASE_COUNTER_CONSTANT){
