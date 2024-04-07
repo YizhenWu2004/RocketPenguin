@@ -21,6 +21,9 @@ public class CookingInventory {
     }
 
     public void clearAll(){
+//        for(Ingredient i:inv){
+//            i.discard();
+//        }
         inv = new Ingredient[3];
         filled = new boolean[3];
         size = 0;

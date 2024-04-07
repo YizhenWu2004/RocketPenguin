@@ -93,13 +93,15 @@ public class GDXRoot extends Game implements ScreenListener {
     public void create() {
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
-        input = new InputController();
-        Inventory inv = new Inventory(new Texture("720/inventorynew.png"));
-        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv);
-        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
-        current = 0; //this means restaurant
-        w = new Worldtimer(60, canvas);
+        w = new Worldtimer(180, canvas);
         w.create();
+        input = new InputController();
+
+        Inventory inv = new Inventory(new Texture("720/inventorynew.png"));
+        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
+        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
+
+        current = 0; //this means restaurant
     }
 
 
@@ -247,7 +249,7 @@ public class GDXRoot extends Game implements ScreenListener {
         } else if (current == 1) {
             store.draw();
         }
-        w.draw();
+        w.draw(20, 700);
 //		trash.draw(canvas);
 //
 //
