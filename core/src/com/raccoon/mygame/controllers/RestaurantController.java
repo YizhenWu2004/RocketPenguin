@@ -3,6 +3,7 @@ package com.raccoon.mygame.controllers;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
@@ -25,6 +26,7 @@ import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.objects.TableObstacle;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 import java.awt.Font;
@@ -56,9 +58,14 @@ public class RestaurantController extends WorldController implements ContactList
     BitmapFont f = new BitmapFont();
     GlyphLayout layout = new GlyphLayout(f, "");
 
+    private FilmStrip playerIdle;
+    private FilmStrip goatIdle;
+
+    private AnimationController animator;
+
     private void addTable(float x, float y, boolean flip) {
-        TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -0.25f : 0.25f), 0.25f, -50f, 50f,
-                new Texture("table.png"), world, canvas);
+        TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
+                new Texture("720/table.png"), world, canvas);
         obstacles.add(t);
         drawableObjects.add(t);
         tables.add(t);
@@ -66,7 +73,7 @@ public class RestaurantController extends WorldController implements ContactList
 
     private void addWallBump(float x, float y) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 5f, 1f, 1f, 0f, 0f,
-                new Texture("wallbump.png"), world, canvas);
+                new Texture("720/wallbump.png"), world, canvas);
         obstacles.add(t);
         drawableObjects.add(t);
     }
@@ -75,24 +82,29 @@ public class RestaurantController extends WorldController implements ContactList
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
-        player = new Player(0f, 0f, 1, 0.7f, new Texture("rockoReal.png"), sharedInv, canvas, world);
+
+        playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
+        player = new Player(0f, 0f, 1, 0.7f, playerIdle, sharedInv, canvas, world);
         drawableObjects.add(player);
 
         obstacles = new Array();
 
-        NormalObstacle normalOb1 = (new NormalObstacle(16f, 17f, 32f, 2.5f, 1f, 1f, 0f, 500f,
-                new Texture("restaurantwall.png"), world, canvas));
+        //this seems pointless now im not sure
+        NormalObstacle normalOb1 = (new NormalObstacle(16f, 17f, 32f, 2.5f, 1f, 1f, 0f, 320f,
+                new Texture("720/wallrestaurant.png"), world, canvas));
         obstacles.add(normalOb1);
         drawableObjects.add(normalOb1);
 
         stations = new Array<>();
-        CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 0.25f, 0.25f, 0f, 0f,
-                new Texture("counterleft.png"), world, canvas, 1);
+
+        CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 1, 1, 0f, 0f,
+                new Texture("720/kitchenleft.png"), world, canvas, 1);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
-        temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 0.25f, 0.25f, 0f, 0f,
-                new Texture("counterright.png"), world, canvas, 2);
+        temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 1, 1, 0f, -32f,
+                new Texture("720/kitchenright.png"), world, canvas, 2);
+      
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
@@ -115,7 +127,10 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         customers = new Array();
-        Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 1);
+
+        goatIdle = new FilmStrip(new Texture("720/goat.png"), 1,4,4);
+        Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
+      
         customers.add(customer1);
         drawableObjects.add(customer1);
 
@@ -127,7 +142,7 @@ public class RestaurantController extends WorldController implements ContactList
         }
         this.input = input;
 
-        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
+        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("720/vent.png"),world, canvas);
         localStartingPos = new Vector2(vent1.getX()-1.5f, vent1.getY());
         drawableObjects.add(vent1);
 
@@ -135,6 +150,8 @@ public class RestaurantController extends WorldController implements ContactList
         active = true;
         tick = 0;
         world.setContactListener(this);
+
+        animator = new AnimationController(input);
     }
 
     public void setActive(boolean b) {
@@ -155,24 +172,25 @@ public class RestaurantController extends WorldController implements ContactList
     }
     public void update() {
         tick += 1;
+
         if (t.getTime() == 170 && !t.action_round){
-            Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 2);
+            Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
+
             customers.add(customer1);
             drawableObjects.add(customer1);
             t.action_round=true;
-
         }else if (t.getTime() == 120&& !t.action_round){
-            Customer customer2 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 3);
+            Customer customer2 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 3);
             customers.add(customer2);
             drawableObjects.add(customer2);
             t.action_round=true;
         }else if (t.getTime() == 90&& !t.action_round){
-            Customer customer3 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4);
+            Customer customer3 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
             customers.add(customer3);
             drawableObjects.add(customer3);
             t.action_round=true;
         }else if (t.getTime() == 60&& !t.action_round){
-            Customer customer4 = new Customer(0f, 2.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4);
+            Customer customer4 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
             customers.add(customer4);
             drawableObjects.add(customer4);
             t.action_round=true;
@@ -236,8 +254,12 @@ public class RestaurantController extends WorldController implements ContactList
 
         }
 
-        world.step(1 / 60f, 6, 2);
+        animator.handleAnimation(player, tick);
+        animator.processCustomers(customers, tick);
 
+
+
+        world.step(1 / 60f, 6, 2);
     }
 
     private float getYPosOfAnyObject(Object obj){
@@ -262,11 +284,11 @@ public class RestaurantController extends WorldController implements ContactList
         if(obj instanceof TableObstacle)
             ((TableObstacle) obj).draw();
         if(obj instanceof Player)
-            ((Player) obj).draw(0.25f, 0.25f);
+            ((Player) obj).draw(1, 1);
         if(obj instanceof NormalObstacle)
             ((NormalObstacle) obj).draw();
         if(obj instanceof Customer)
-            ((Customer) obj).draw(0.1f, 0.1f);
+            ((Customer) obj).draw(1, 1);
     }
 
     public void draw() {

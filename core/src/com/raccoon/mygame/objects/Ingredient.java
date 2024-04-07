@@ -6,8 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Ingredient implements GameObject, Comparable<Ingredient> {
-    private static final float TEXTURE_SX = 0.2f;
-    private static final float TEXTURE_SY = 0.2f;
+
+    //Initially 0.2, changed to 1
+    private static final float TEXTURE_SX = 1f;
+    private static final float TEXTURE_SY = 1f;
+
     public int name;
     public String type;
     private float x;

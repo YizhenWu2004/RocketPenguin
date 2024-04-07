@@ -27,7 +27,7 @@ public class CookingStationObject extends NormalObstacle{
             World world, GameCanvas canvas, int id) {
         super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas);
         interacting = false;
-        pot = new CookingInventory(new Texture("inventorybar.png"));
+        pot = new CookingInventory(new Texture("720/potbar.png"));
         state = 0;
         this.canvas = canvas;
         this.t = texture;
@@ -38,7 +38,7 @@ public class CookingStationObject extends NormalObstacle{
     public Dish getCookedDish(){
         Ingredient[] dish = Arrays.copyOf(pot.inv, pot.inv.length);
         pot.clearAll();
-        return new Dish(dish, new Texture("pot.png"), -1);
+        return new Dish(dish, new Texture("720/pot.png"), -1);
     }
 
     @Override

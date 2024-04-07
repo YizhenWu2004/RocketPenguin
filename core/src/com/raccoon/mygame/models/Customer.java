@@ -13,6 +13,7 @@ import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.obstacle.BoxObstacle;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,13 +47,11 @@ public class Customer extends BoxObstacle {
     public boolean onRight;
 
     public boolean justSatisfied;
-
-
-
-    public Customer(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
+    public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
-        this.texture = texture;
-        setTexture(new TextureRegion(texture));
+//        this.texture = texture;
+//        setTexture(new TextureRegion(texture));
+        this.sprite = defaultCustomerSprite;
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.canvas = canvas;
@@ -66,12 +65,11 @@ public class Customer extends BoxObstacle {
         this.getBody().setUserData(this);
         order = new Ingredient[3];
 
-
         Array<Ingredient> menu = new Array<Ingredient>();
-        menu.add(new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
-        menu.add(new Ingredient("banana", 200, 200, new Texture("banana.png"), -1));
-        menu.add(new Ingredient("orange", 200, 200, new Texture("orange.png"), -1));
-        menu.add(new Ingredient("greenpepper", 200, 200, new Texture("greenpepper.png"), -1));
+        menu.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
+        menu.add(new Ingredient("banana", 200, 200, new Texture("720/banana.png"), -1));
+        menu.add(new Ingredient("orange", 200, 200, new Texture("720/orange.png"), -1));
+        menu.add(new Ingredient("greenpepper", 200, 200, new Texture("720/greenpepper.png"), -1));
 
         Random random = new Random();
         int r = random.nextInt(3) + 1;
@@ -179,12 +177,13 @@ public class Customer extends BoxObstacle {
 
 
     public void draw(float scaleX, float scaleY) {
-        draw(canvas, flipScale * scaleX, scaleY, 0, -600);
+//0, -600 for the final 2 parameters???
+        drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, 50, 0);
         pat.draw();
         if (show) {
             for(int i = 0; i < order.length; i++){
                 if (order[i] != null){
-                    order[i].drawTextBubble(canvas, this.getX() * 60+i*50, this.getY() * 60, 0, 0);
+                    order[i].drawTextBubble(canvas, this.getX() * 40, (this.getY()+2) * 40, 0, 0);
                 }
             }
             //order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);

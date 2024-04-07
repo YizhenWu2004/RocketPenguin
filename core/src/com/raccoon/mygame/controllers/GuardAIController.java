@@ -9,7 +9,7 @@ import com.raccoon.mygame.view.GameCanvas;
 import java.util.PriorityQueue;
 
 public class GuardAIController {
-    private enum AIState {
+    public enum AIState {
         WANDER,
         CHASE
     }
@@ -315,5 +315,9 @@ public class GuardAIController {
     }
     public PatrolDirection getPatrolDirection(){
         return this.patrolDirection;
+    }
+
+    public AIState getCurrentState() {
+        return currentState;
     }
 }

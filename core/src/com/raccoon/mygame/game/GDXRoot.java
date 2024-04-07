@@ -96,9 +96,11 @@ public class GDXRoot extends Game implements ScreenListener {
         w = new Worldtimer(180, canvas);
         w.create();
         input = new InputController();
-        Inventory inv = new Inventory(new Texture("inventorybar.png"));
-        restaurant = new RestaurantController(canvas, new Texture("restaurantfloor.png"), input, inv, w);
-        store = new StoreController(canvas, new Texture("groceryfloor2.png"), input, inv);
+
+        Inventory inv = new Inventory(new Texture("720/inventorynew.png"));
+        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
+        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
+
         current = 0; //this means restaurant
     }
 

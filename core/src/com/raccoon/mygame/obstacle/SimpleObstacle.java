@@ -24,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 /**
@@ -46,9 +47,20 @@ public abstract class SimpleObstacle extends Obstacle {
     protected TextureRegion texture;
 
     /**
+     *
+     * */
+    protected FilmStrip sprite;
+
+    /**
      * The texture origin for drawing
      */
     protected Vector2 origin;
+
+    /** The number of animation frames in our filmstrip */
+    protected int   NUM_ANIM_FRAMES = 1;
+    //current animation frame
+    protected float animeframe = 0;
+    protected float ANIMATION_SPEED = 0.10f;
 
     /// BodyDef Methods
 
@@ -80,6 +92,29 @@ public abstract class SimpleObstacle extends Obstacle {
         } else {
             super.setBodyType(value);
         }
+    }
+
+    public FilmStrip getFilmStrip() {
+        return sprite;
+    }
+    public void setFrame(int frameNumber){
+        sprite.setFrame(frameNumber);
+    }
+    public void updateAnimation(float delta){
+        // Increase animation frame
+        animeframe += ANIMATION_SPEED;
+        if (animeframe >= NUM_ANIM_FRAMES) {
+            animeframe -= NUM_ANIM_FRAMES;
+        }
+    }
+
+    public void setFilmStrip(FilmStrip value) {
+        NUM_ANIM_FRAMES = value.getSize();
+        sprite = value;
+        //set to 0th frame
+        if(animeframe > NUM_ANIM_FRAMES)
+            animeframe = 0;
+        sprite.setFrame((int)animeframe);
     }
 
     /**
@@ -790,6 +825,17 @@ public abstract class SimpleObstacle extends Obstacle {
         //System.out.println(origin.x+" "+origin.y);
         if (texture != null) {
             canvas.draw(texture, Color.WHITE, origin.x + ox, origin.y + oy, getX() * drawScale.x, getY() * drawScale.x, getAngle(), scaleX, scaleY);
+        }
+    }
+
+    /**
+     * This one is for animation
+     *
+     * */
+    public void drawSprite(GameCanvas canvas, float scaleX, float scaleY, float ox, float oy) {
+        //System.out.println(origin.x+" "+origin.y);
+        if (sprite != null) {
+            canvas.draw(this.sprite,Color.WHITE,origin.x+ox,origin.y+oy,this.getX()*drawScale.x,this.getY()*drawScale.y,getAngle(),scaleX,scaleY);
         }
     }
 
