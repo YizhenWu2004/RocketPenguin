@@ -3,6 +3,8 @@ package com.raccoon.mygame.controllers;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -24,6 +26,7 @@ import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
+import java.awt.Font;
 import java.lang.reflect.GenericArrayType;
 
 public class RestaurantController extends WorldController implements ContactListener {
@@ -46,6 +49,10 @@ public class RestaurantController extends WorldController implements ContactList
     private int tick;
     private Vector2 localStartingPos;
     Array<CookingStationObject> stations;
+    private Worldtimer t;
+    private int score;
+    BitmapFont f = new BitmapFont();
+    GlyphLayout layout = new GlyphLayout(f, "");
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -0.25f : 0.25f), 0.25f, -50f, 50f,
@@ -62,7 +69,7 @@ public class RestaurantController extends WorldController implements ContactList
         drawableObjects.add(t);
     }
 
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv) {
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
@@ -87,6 +94,8 @@ public class RestaurantController extends WorldController implements ContactList
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
+        t = sharedtimer;
+        score = 0;
 
         tables = new Array();
         addTable(16f, 11f, false);
@@ -145,18 +154,18 @@ public class RestaurantController extends WorldController implements ContactList
     public void update() {
         tick += 1;
         if (tick == 100){
-            Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 2);
-            customers.add(customer1);
-            drawableObjects.add(customer1);
+            //Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 2);
+            //customers.add(customer1);
+            //drawableObjects.add(customer1);
 
         }else if (tick == 200){
-            Customer customer2 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 3);
-            customers.add(customer2);
-            drawableObjects.add(customer2);
+            //Customer customer2 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 3);
+            //customers.add(customer2);
+            //drawableObjects.add(customer2);
         }else if (tick == 300){
-            Customer customer3 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4);
-            customers.add(customer3);
-            drawableObjects.add(customer3);
+            //Customer customer3 = new Customer(0f, 8.5f, 1f, 0.7f, new Texture("customer1.png"), world, canvas, tables, 4);
+            //customers.add(customer3);
+            //drawableObjects.add(customer3);
         }
         if (active) {
             float x = 5f * input.getXMovement();
@@ -168,8 +177,17 @@ public class RestaurantController extends WorldController implements ContactList
             collision.processCustomers(player, customers);
         }
         for (Customer c : customers) {
+            if (c.justSatisfied){
+                if (c.time() > 0){
+                    score += 30 * c.time() / c.maxTime();
+                }
+                c.justSatisfied = false;
+            }
             if (c.isActive()) {
                 c.move();
+            }
+            if(c.time() <= 0){
+                c.timeOut();
             }
         }
         for (CookingStationObject c : stations){
@@ -213,8 +231,8 @@ public class RestaurantController extends WorldController implements ContactList
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
 
-
-
+        canvas.drawText("Score:", f,20, 800,2,2, layout);
+        canvas.drawText(Integer.toString(score), f, 130, 800, 2, 2,layout);
         //bubble sort for drawing
         boolean swapped;
         for (int i = 0; i < drawableObjects.size-1; i++) {

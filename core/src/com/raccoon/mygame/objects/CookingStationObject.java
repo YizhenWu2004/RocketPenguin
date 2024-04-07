@@ -12,9 +12,9 @@ import java.util.Arrays;
 
 public class CookingStationObject extends NormalObstacle{
     public boolean interacting;
-    private CookingInventory pot;
+    public CookingInventory pot;
     private Player p;
-    private int state; //0 = idle, 1 = cooking, 2 = finished, 3 = burnt(?)
+    public int state; //0 = idle, 1 = cooking, 2 = finished, 3 = burnt(?)
     private int ticks;
     //public boolean isCookPressed;
     //public boolean isPickUpPressed;

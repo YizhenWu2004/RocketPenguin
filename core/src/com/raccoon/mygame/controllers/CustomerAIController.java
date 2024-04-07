@@ -15,6 +15,7 @@ public class CustomerAIController implements AIController {
     }
 
     private FSMState state;
+
     private int tick = 0;
     private int move;
     private Array<TableObstacle> tables;
@@ -60,23 +61,10 @@ public class CustomerAIController implements AIController {
                     customer.setLinearVelocity(new Vector2(0, y));
                 } else {
                     customer.setLinearVelocity(new Vector2(-4, 0));
+                    if(customer.getX() <= -20) {
+                        customer.setActive(false);
+                    }
                 }
-                //temp.set(goal);
-                //temp.sub(customer.getPosition());
-                //temp.nor();
-                //temp.scl(3);
-                //System.out.println(goal);
-//                    if (temp.x <= 0.2 && temp.x >= -0.2) {
-//                        tick = 50;
-//                        temp.set(3, 0);
-//                    } else if (temp.y <= 0.2 && temp.y >= -0.2) {
-//                        //System.out.println("tick" + tick);
-//                        tick = 80;
-//                        temp.set(0, 3);
-//                    }
-
-                //customer.setLinearVelocity(temp);
-                //System.out.println(customer.getLinearVelocity());
                 break;
             // }
         }
@@ -91,10 +79,7 @@ public class CustomerAIController implements AIController {
                 }
                 break;
             case SEAT:
-//                if (customer.collided == 1) {
-//                    state = FSMState.WAIT;
-//                    customer.setBodyType(BodyType.StaticBody);
-//                }
+//
                 if (goal.dst(customer.getPosition()) <= 0.5) {
                     customer.setPosition(goal);
                     state = FSMState.WAIT;
@@ -109,6 +94,7 @@ public class CustomerAIController implements AIController {
                     state = FSMState.LEAVE;
                     customer.setBodyType(BodyType.DynamicBody);
                 }
+
                 break;
             case LEAVE:
                 customer.flipScale = 1;
@@ -123,13 +109,9 @@ public class CustomerAIController implements AIController {
                     if (!t.isOccupied(1)) {
                         goal = t.occupy(1);
                         customer.onRight = true;
-                        //customer.position_on_table = t.occupy(1);
-                        //customer.t = t;
                         break;
                     } else if (!t.isOccupied(0)) {
                         goal = t.occupy(0);
-                        //customer.position_on_table = t.occupy(0);
-                        //customer.t = t;
                         break;
                     }
                 }
@@ -137,5 +119,10 @@ public class CustomerAIController implements AIController {
             case LEAVE:
                 goal = new Vector2(-0.5f, 8.5f);
         }
+    }
+
+    public void timeOut(){
+        state = FSMState.LEAVE;
+        customer.setBodyType(BodyType.DynamicBody);
     }
 }

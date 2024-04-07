@@ -151,24 +151,24 @@ public class StoreController extends WorldController implements ContactListener 
 
         initializeCollisionLayer();
 
-        guardX = new Array<>();
-        guardY = new Array<>();
-
-        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
-        guardX.add(2.5f);
-        guardY.add(5f);
-        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
-        guardX.add(25f);
-        guardY.add(13.3f);
-        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
-        guardX.add(12.5f);
-        guardY.add(6.67f);
-        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
-        guardX.add(23.3f);
-        guardY.add(10f);
-        for (Guard guard: guards) {
-            drawableObjects.add(guard);
-        }
+//        guardX = new Array<>();
+//        guardY = new Array<>();
+//
+//        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+//        guardX.add(2.5f);
+//        guardY.add(5f);
+//        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+//        guardX.add(25f);
+//        guardY.add(13.3f);
+//        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+//        guardX.add(12.5f);
+//        guardY.add(6.67f);
+//        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+//        guardX.add(23.3f);
+//        guardY.add(10f);
+//        for (Guard guard: guards) {
+//            drawableObjects.add(guard);
+//        }
 
         playerJustDied = false;
 

@@ -118,6 +118,10 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
     public int compareTo(Ingredient other) {
         return String.CASE_INSENSITIVE_ORDER.compare(this.type, other.type);
     }
+
+    public Ingredient clone(){
+        return new Ingredient(this.type,x,y,texture, posInInventory);
+    }
 }
 
 
