@@ -84,7 +84,7 @@ public class Guard extends WheelObstacle {
                     newPosition.add(-70, 80);
                 }
             } else {
-                if (aiController.getDirection()) {
+                if (aiController.getDirection2()) {
                     newPosition.add(0, 80);
                 } else {
                     newPosition.add(0, 80);
