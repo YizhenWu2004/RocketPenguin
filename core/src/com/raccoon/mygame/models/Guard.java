@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.objects.Expression;
+import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.obstacle.SightCone;
 import com.raccoon.mygame.obstacle.WheelObstacle;
@@ -42,6 +43,8 @@ public class Guard extends WheelObstacle {
     private boolean isChaseMode = false;
     private Expression exclam;
 
+    private Shadow shadow;
+
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
                  PatrolDirection patrolDirection, boolean[][] collisionLayer,
@@ -71,6 +74,8 @@ public class Guard extends WheelObstacle {
                 ,nodes);
 
         exclam = new Expression("exclamation",x,y);
+
+        shadow = new Shadow(x,y,0.8f,0.8f);
 
     }
 
@@ -109,6 +114,20 @@ public class Guard extends WheelObstacle {
         float exclamationX = this.getX() * scaleX;
         float exclamationY = (this.getY() + height + 1) * scaleY;
         exclam.setPosition(exclamationX, exclamationY);
+
+        float shadowX = this.getX()* scaleX-shadow.getTextureWidth()/2;
+        float shadowY = (this.getY() * scaleY) - (this.height * scaleY / 2);
+        float offsetCons = shadow.getTextureWidth()/3;
+        if(aiController.getOrien() == GuardAIController.GuardOrientation.LEFT){
+            shadow.setPosition(shadowX+offsetCons, shadowY);
+        }
+        else if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
+            shadow.setPosition(shadowX-offsetCons, shadowY);
+        }
+        else{
+            shadow.setPosition(shadowX, shadowY);
+        }
+
     }
 
     if (isChaseMode && chaseDelay > 0) {
@@ -121,6 +140,7 @@ public class Guard extends WheelObstacle {
 
 
     public void draw(float scaleX, float scaleY) {
+        shadow.draw(canvas);
         if(getAIController().getOrien() == GuardAIController.GuardOrientation.LEFT){
             drawSprite(canvas, scaleX, scaleY, 30, 20);
             sight.render();
