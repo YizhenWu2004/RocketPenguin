@@ -70,6 +70,12 @@ public class AnimationController {
             o.updateAnimation(delta);
             return;
         }
+        if(o.getVX()>1 || o.getVX() < -1){
+            //horizontal
+            o.setFilmStrip(gooseWalk);
+            o.updateAnimation(delta);
+            return;
+        }
         if(o.getVY() > 0){
             //up
             o.setFilmStrip(gooseWalkBack);
@@ -82,13 +88,8 @@ public class AnimationController {
             o.updateAnimation(delta);
             return;
         }
-        if(o.getVX()>0 || o.getVX() < 0){
-            //horizontal
-            o.setFilmStrip(gooseWalk);
-        }
-        else{
-            o.setFilmStrip(gooseIdle);
-        }
+
+        o.setFilmStrip(gooseIdle);
         o.updateAnimation(delta);
     }
 
