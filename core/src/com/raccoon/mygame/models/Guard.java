@@ -87,31 +87,46 @@ public class Guard extends WheelObstacle {
     }
 
     public void update(float delta, Array<Float> info) {
-        if (isChaseMode && chaseDelay > 0) {
-            chaseDelay -= delta;
-            if (chaseDelay <= 0) {
-                chaseDelay = 0;
-            }
-        } else {
-            if (aiController != null) {
-                this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
-                Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); // Assuming scaleX and scaleY are the scales you need to apply
-                if (getY() < 10) {
-                    newPosition.add(-40, 130);
-                } else if (getY() < 13) {
-                    newPosition.add(-40, 150);
-                } else {
-                    newPosition.add(-40, 160);
-                }
-//            System.out.println("goose height is: " + getY());
-                sight.updatePosition(newPosition);
+    if (aiController != null) {
+        this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
+        Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY); 
 
-                float exclamationX = this.getX() * scaleX;
-                float exclamationY = (this.getY() + height + 1) * scaleY;
-                exclam.setPosition(exclamationX, exclamationY);
-            }
+        if (getY() < 10) {
+            newPosition.add(-40, 130);
+        } else if (getY() < 13) {
+            newPosition.add(-40, 150);
+        } else {
+            newPosition.add(-40, 160);
+        }
+        
+        switch (getAIController().getOrien()) {
+            case LEFT:
+                newPosition.add(-30, 100);
+                break;
+            case RIGHT:
+                newPosition.add(-60, 100);
+                break;
+            case UP: 
+            default:
+                newPosition.add(0, 100);
+                break;
+        }
+        
+        sight.updatePosition(newPosition);
+
+        float exclamationX = this.getX() * scaleX;
+        float exclamationY = (this.getY() + height + 1) * scaleY;
+        exclam.setPosition(exclamationX, exclamationY);
+    }
+
+    if (isChaseMode && chaseDelay > 0) {
+        chaseDelay -= delta;
+        if (chaseDelay <= 0) {
+            chaseDelay = 0;
         }
     }
+  }
+
 
     public void draw(float scaleX, float scaleY) {
         if(getAIController().getDirection()){

@@ -347,4 +347,7 @@ public class GuardAIController {
     public AIState getCurrentState() {
         return currentState;
     }
+    public GuardOrientation getOrien(){
+        return orien;
+    }
 }
