@@ -86,6 +86,7 @@ public class GuardAIController {
 
     public void setAIStateChase() {
         currentState = AIState.CHASE;
+
     }
 
     public void setAIStateWander() {
@@ -159,7 +160,7 @@ public class GuardAIController {
             }
         } else if (currentState == AIState.CHASE) {
             chaseCounter++;
-            Vector2 playerPosition = new Vector2(info.get(2), info.get(3));
+//            Vector2 playerPosition = new Vector2(info.get(2), info.get(3));
             Vector2 chaseSpeed = updateChaseMode(guardPosition, info ,chaseCounter);
             if(chaseCounter >= CHASE_COUNTER_CONSTANT){
                 chaseCounter = 0;
@@ -303,7 +304,7 @@ public class GuardAIController {
      *
      * @param guardPosition position of guard right now
      * @param info information (see store controller)
-     * @return the appropriate velocity according to shortest path
+     * @return the appropriate velocity according to the shortest path
      */
     public Vector2 updateChaseMode(Vector2 guardPosition, Array<Float> info, int chaseCounter) {
         Vector2 playerPosition = new Vector2(info.get(0),info.get(1));
