@@ -132,10 +132,10 @@ public class Player extends BoxObstacle {
 //        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
         this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){
-            dishInventory.get(0).draw(canvas, (this.getX()-3) * 40 , this.getY() * 40, 1,1, 0f, 0);
+            dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0);
         }
         if(dishInventory.rightFilled()){
-            dishInventory.get(1).draw(canvas, (this.getX()+1) * 40, this.getY() * 40,1,1, 0,0);
+            dishInventory.get(1).draw(canvas, (this.getX()+0.5f) * 40, (this.getY()+1) * 40,1,1, 0,0);
         }
     }
 
