@@ -98,7 +98,7 @@ public class GDXRoot extends Game implements ScreenListener {
         restaurant = new RestaurantController(canvas, new Texture("restaurantfloor.png"), input, inv);
         store = new StoreController(canvas, new Texture("groceryfloor2.png"), input, inv);
         current = 0; //this means restaurant
-        w = new Worldtimer(60, canvas);
+        w = new Worldtimer(180, canvas);
         w.create();
     }
 
