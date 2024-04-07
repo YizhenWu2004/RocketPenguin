@@ -14,6 +14,13 @@ public class GuardAIController {
         CHASE
     }
 
+    public enum GuardOrientation {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN
+    }
+
     private float upperBoundary;
     private float lowerBoundary;
     private float speed;
@@ -31,6 +38,7 @@ public class GuardAIController {
     int counter;
     int counter2;
     private AIState currentState = AIState.WANDER;
+    private GuardOrientation orien = GuardOrientation.LEFT;
 
     private Array<Vector2> currentPath;
     private int currentPathIndex;
@@ -45,10 +53,14 @@ public class GuardAIController {
      */
     int CHASE_COUNTER_CONSTANT = 25;
 
+    Vector2[] nodes;
+    private int currentNodeIndex = 0;
+
     public GuardAIController(float x, float y, float worldWidth,
                              float worldHeight, float patrolRange,
                              float speed, PatrolDirection patrolDirection,
-                             boolean[][] collisionLayer, Vector2 guardDimension) {
+                             boolean[][] collisionLayer, Vector2 guardDimension,
+                             Vector2[] nodes) {
         this.speed = speed;
         this.patrolDirection = patrolDirection;
         this.collisionLayer = collisionLayer;
@@ -68,10 +80,13 @@ public class GuardAIController {
         this.chaseSpeed = speed*3;
         this.chaseCounter = 0;
         this.counter2 = 0;
+
+        this.nodes = nodes;
     }
 
     public void setAIStateChase() {
         currentState = AIState.CHASE;
+
     }
 
     public void setAIStateWander() {
@@ -101,8 +116,16 @@ public class GuardAIController {
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
        // System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
+        if (currentState == AIState.WANDER && nodes.length > 0) {
+            Vector2 targetNode = nodes[currentNodeIndex];
+            Vector2 direction = new Vector2(targetNode.x - guardPosition.x, targetNode.y - guardPosition.y).nor();
+            speedVector.set(direction.scl(speed));
 
-        if (currentState == AIState.WANDER) {
+            if (guardPosition.dst(targetNode) < 1f) {
+                currentNodeIndex = (currentNodeIndex + 1) % nodes.length;
+            }
+        }
+        else if (currentState == AIState.WANDER) {
             switch (patrolDirection) {
                 case LEFT_RIGHT:
                     if (movingPositive) {
@@ -137,10 +160,9 @@ public class GuardAIController {
             }
         } else if (currentState == AIState.CHASE) {
             chaseCounter++;
-            Vector2 playerPosition = new Vector2(info.get(2), info.get(3));
+//            Vector2 playerPosition = new Vector2(info.get(2), info.get(3));
             Vector2 chaseSpeed = updateChaseMode(guardPosition, info ,chaseCounter);
             if(chaseCounter >= CHASE_COUNTER_CONSTANT){
-                //System.out.println("CHASE COUNTER");
                 chaseCounter = 0;
             }
             if (chaseSpeed != null) {
@@ -148,7 +170,24 @@ public class GuardAIController {
             }
         }
 
+        updateOrien(speedVector);
         return speedVector;
+    }
+
+    private void updateOrien(Vector2 speedVector) {
+        if (Math.abs(speedVector.x) > Math.abs(speedVector.y)) {
+            if (speedVector.x > 0) {
+                orien = GuardOrientation.RIGHT;
+            } else {
+                orien = GuardOrientation.LEFT;
+            }
+        } else if (Math.abs(speedVector.y) >= Math.abs(speedVector.x)) {
+            if (speedVector.y > 0) {
+                orien = GuardOrientation.UP;
+            } else {
+                orien = GuardOrientation.DOWN;
+            }
+        }
     }
 
     public Array<Vector2> findPathMain(Vector2 start, Array<Float> info){
@@ -265,20 +304,8 @@ public class GuardAIController {
      *
      * @param guardPosition position of guard right now
      * @param info information (see store controller)
-     * @return the appropriate velocity according to shortest path
+     * @return the appropriate velocity according to the shortest path
      */
-
-    //THE CAUSE OF THE OSCCILATION ISSUE IS pathfinding when the target
-    // (in this case, the player) is moving and the pathfinder
-    // (the guard) gets stuck oscillating between two points or
-    // directions because it's constantly recalculating the path
-    // based on the player's new position.
-    //THIS can be fixed by changed the constant in playerPosition.dst(guardPosition) > 10
-    //drawback: the larger the constant, the less osccilation but guard has inaccurate
-    //estimate of player location
-
-    //Other problem right now, guard sometimes get stuck on NormalObstacles
-    //may be able to be fixed by altering get neighbors and canFitInPosition functions
     public Vector2 updateChaseMode(Vector2 guardPosition, Array<Float> info, int chaseCounter) {
         Vector2 playerPosition = new Vector2(info.get(0),info.get(1));
         if(chaseCounter >=CHASE_COUNTER_CONSTANT){
@@ -319,5 +346,8 @@ public class GuardAIController {
 
     public AIState getCurrentState() {
         return currentState;
+    }
+    public GuardOrientation getOrien(){
+        return orien;
     }
 }
