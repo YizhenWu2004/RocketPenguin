@@ -34,11 +34,23 @@ public class Worldtimer extends ApplicationAdapter {
             }
         }, 1, 1);
     }
-    public void draw(int x, int y){
-        gameCanvas.drawText(Integer.toString(countdownSeconds), new BitmapFont(), x,y);
+  
+   public void draw(int x,int y) {
+        int mins = 0;
+        int secs = 0;
+        if (countdownSeconds > 60) {
+            mins = countdownSeconds / 60;
+            secs = countdownSeconds % 60;
+        }
+        if (secs < 10) {
+            gameCanvas.drawText(Integer.toString(mins) + ":0" + Integer.toString(secs),
+                    f, 20, 700, 2, 2,layout);
+        } else {
+            gameCanvas.drawText(Integer.toString(mins) + ":" + Integer.toString(secs),
+                    f, 20, 700,2,2,layout);
+        }
     }
 
-    public int getTime(){
-        return countdownSeconds;
+
     }
 }
