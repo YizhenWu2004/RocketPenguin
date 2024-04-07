@@ -121,14 +121,6 @@ public class Guard extends WheelObstacle {
 
 
     public void draw(float scaleX, float scaleY) {
-//        if(getAIController().getDirection()){
-//            drawSprite(canvas, scaleX, scaleY, 30, 20);
-//            sight.render();
-//        }
-//        if(!getAIController().getDirection()){
-//            drawSprite(canvas, -scaleX, scaleY, 30, 20);
-//            sight.render();
-//        }
         if(getAIController().getOrien() == GuardAIController.GuardOrientation.LEFT){
             drawSprite(canvas, scaleX, scaleY, 30, 20);
             sight.render();
