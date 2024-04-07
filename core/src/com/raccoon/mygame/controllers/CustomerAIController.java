@@ -15,11 +15,13 @@ public class CustomerAIController implements AIController {
     }
 
     private FSMState state;
+
     private int tick = 0;
     private int move;
     private Array<TableObstacle> tables;
     private Vector2 goal;
-    Vector2 temp = new Vector2();
+    Vector2 zero = new Vector2();
+    Vector2 temp;
     private Customer customer;
 
     public CustomerAIController(Array<TableObstacle> tables, Customer customer) {
@@ -28,6 +30,7 @@ public class CustomerAIController implements AIController {
         state = FSMState.SPAWN;
         move = CONTROL_NO_ACTION;
         goal = null;
+        temp=new Vector2();
     }
 
     @Override
@@ -39,44 +42,33 @@ public class CustomerAIController implements AIController {
         }
         changeState();
         setGoal();
+        //System.out.println(goal);
         //System.out.println(customer.getPosition()+" " + goal + " " + state);
         switch (state) {
             case SPAWN:
             case WAIT:
-                customer.setLinearVelocity(new Vector2());
+                customer.setLinearVelocity(zero);
                 break;
             case SEAT:
                 if (goal.x > customer.getX()) {
-                    customer.setLinearVelocity(new Vector2(4, 0));
+                    customer.setLinearVelocity(temp.set(4, 0));
                 } else {
                     float y = goal.y < customer.getY() ? -4 : 4;
-                    customer.setLinearVelocity(new Vector2(0, y));
+                    customer.setLinearVelocity(temp.set(0, y));
                 }
                 break;
             case LEAVE:
                 //if(tick <= 0) {
                 if (Math.abs(goal.y - customer.getY()) > 0.05) {
                     float y = goal.y < customer.getY() ? -4 : 4;
-                    customer.setLinearVelocity(new Vector2(0, y));
-                } else {
-                    customer.setLinearVelocity(new Vector2(-4, 0));
+                    customer.setLinearVelocity(temp.set(0, y));
+                }else {
+                    customer.setLinearVelocity(temp.set(-4, 0));
                 }
-                //temp.set(goal);
-                //temp.sub(customer.getPosition());
-                //temp.nor();
-                //temp.scl(3);
-                //System.out.println(goal);
-//                    if (temp.x <= 0.2 && temp.x >= -0.2) {
-//                        tick = 50;
-//                        temp.set(3, 0);
-//                    } else if (temp.y <= 0.2 && temp.y >= -0.2) {
-//                        //System.out.println("tick" + tick);
-//                        tick = 80;
-//                        temp.set(0, 3);
-//                    }
-
-                //customer.setLinearVelocity(temp);
-                //System.out.println(customer.getLinearVelocity());
+//                } else if (Math.abs(goal.x - customer.getX()) > 0.05){
+//                    float x = goal.x < customer.getX() ? -4 : 4;
+//                    customer.setLinearVelocity(new Vector2(x, 0));
+//                }
                 break;
             // }
         }
@@ -91,10 +83,7 @@ public class CustomerAIController implements AIController {
                 }
                 break;
             case SEAT:
-//                if (customer.collided == 1) {
-//                    state = FSMState.WAIT;
-//                    customer.setBodyType(BodyType.StaticBody);
-//                }
+//
                 if (goal.dst(customer.getPosition()) <= 0.5) {
                     customer.setPosition(goal);
                     state = FSMState.WAIT;
@@ -107,8 +96,9 @@ public class CustomerAIController implements AIController {
                 }
                 if (customer.isSatisfied()) {
                     state = FSMState.LEAVE;
-                    customer.setBodyType(BodyType.DynamicBody);
+                    customer.setBodyType(BodyType.KinematicBody);
                 }
+
                 break;
             case LEAVE:
                 customer.flipScale = 1;
@@ -123,19 +113,29 @@ public class CustomerAIController implements AIController {
                     if (!t.isOccupied(1)) {
                         goal = t.occupy(1);
                         customer.onRight = true;
-                        //customer.position_on_table = t.occupy(1);
-                        //customer.t = t;
                         break;
                     } else if (!t.isOccupied(0)) {
                         goal = t.occupy(0);
-                        //customer.position_on_table = t.occupy(0);
-                        //customer.t = t;
                         break;
                     }
                 }
                 break;
             case LEAVE:
-                goal = new Vector2(-0.5f, 8.5f);
+//                if (Math.abs(customer.getY()-13) >= 0.05){
+//                    goal = new Vector2(customer.getX(), 13);
+//                }else if (Math.abs(customer.getX()-1) >= 0.05) {
+//                    System.out.println("herex");
+//                    goal = new Vector2(1, customer.getY());
+//                }else{
+//                    System.out.println("here");
+//                    goal = new Vector2(-0.5f, 2.5f);
+//                }
+                goal.set(-0.5f, 2f);
         }
+    }
+
+    public void timeOut(){
+        state = FSMState.LEAVE;
+        customer.setBodyType(BodyType.KinematicBody);
     }
 }

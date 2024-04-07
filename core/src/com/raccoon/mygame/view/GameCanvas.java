@@ -945,8 +945,44 @@ public class GameCanvas {
         }
         GlyphLayout layout = new GlyphLayout(font, text);
         font.setColor(Color.WHITE);
-//        font.getData().setScale(2);
+        //font.getData().setScale(2);
+        font.getData().spaceXadvance = 1;
         font.draw(spriteBatch, layout, x, y);
+    }
+
+    public void drawText(String text, BitmapFont font, float x, float y, int offset, int scale, GlyphLayout layout) {
+        if (active != DrawPass.STANDARD) {
+            Gdx.app.error("GameCanvas", "Cannot draw without active begin()", new IllegalStateException());
+            return;
+        }
+        font.getData().setScale(scale);
+
+        // Calculate the width of a single digit
+        //float singleDigitWidth = font.getData().l;
+
+        // Calculate the width of the text
+        //GlyphLayout layout = new GlyphLayout(font, text);
+
+        // Calculate the total width of the text
+        float totalWidth = layout.width;
+
+        // Calculate the number of spaces needed between digits
+        int numSpaces = text.length() - 1;
+
+        // Calculate the width of each space
+
+
+        // Calculate the adjusted x position for drawing
+        float adjustedX = x - (totalWidth + numSpaces * offset) / 2;
+
+        // Draw the text with spaces between each digit
+        for (int i = 0; i < text.length(); i++) {
+            char character = text.charAt(i);
+            layout.setText(font,String.valueOf(character));
+            //GlyphLayout characterLayout = new GlyphLayout(font, String.valueOf(character));
+            font.draw(spriteBatch, layout, adjustedX, y);
+            adjustedX += layout.width + offset; // Add space between characters
+        }
     }
 
     /**

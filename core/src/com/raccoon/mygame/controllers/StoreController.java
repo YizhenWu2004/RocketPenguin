@@ -17,6 +17,7 @@ import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
 import jdk.internal.net.http.common.Pair;
@@ -57,27 +58,32 @@ public class StoreController extends WorldController implements ContactListener 
 
     private Array<Object> drawableObjects = new Array<>();
 
+    private FilmStrip playerIdle;
+    private FilmStrip guardIdle;
+
+    private AnimationController animator;
+
 
 
 //    public boolean totalReset = false;
 
     private void addShelfHorizontal(float x, float y) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
-                new Texture("groceryshelfhorizontal.png"), world, canvas);
+        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -40f,
+                new Texture("720/groceryshelfhorizontal.png"), world, canvas);
         obstacles.add(obstacle);
         drawableObjects.add(obstacle);
     }
 
     private void addShelfVertical(float x, float y) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 6f, 0.3f, 0.3f, 0f, 0f,
-                new Texture("groceryshelfvertical.png"), world, canvas);
+        NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 4f, 0.95f, 1, 0f, 0f,
+                new Texture("720/shelfvertical.png"), world, canvas);
         obstacles.add(obstacle);
         drawableObjects.add(obstacle);
     }
 
     private void addFruitCrate(float x, float y, Ingredient ingredient) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 0.4f, 0.4f, 0f, 0f,
-                new Texture(ingredient.type + ".png"), world, canvas, ingredient);
+        NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 1, 1, 0f, 0f,
+                new Texture("720/"+ ingredient.type + ".png"), world, canvas, ingredient);
         obstacles.add(obstacle);
         drawableObjects.add(obstacle);
     }
@@ -87,23 +93,26 @@ public class StoreController extends WorldController implements ContactListener 
         this.canvas = canvas;
         this.background = texture;
 
-        player = new Player(0, 0, 1, 0.7f, new Texture("rockoReal.png"), sharedInv, canvas, world);
+        playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
+        guardIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
+
+        player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
         drawableObjects.add(player);
 
         this.input = input;
         ingredients = new Array<>();
-        ingredients.add(new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
-        ingredients.add(new Ingredient("banana", 1600, 300, new Texture("banana.png"), -1));
-        ingredients.add(new Ingredient("greenpepper", 1500, 800, new Texture("greenpepper.png"), -1));
-        ingredients.add(new Ingredient("orange", 900, 400, new Texture("orange.png"), -1));
-        ingredients.add(new Ingredient("banana", 1000, 800, new Texture("banana.png"), -1));
-        ingredients.add(new Ingredient("apple", 2000, 300, new Texture("apple.png"), -1));
+        ingredients.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
+        ingredients.add(new Ingredient("banana", 1600, 300, new Texture("720/banana.png"), -1));
+        ingredients.add(new Ingredient("orange", 1500, 800, new Texture("720/orange.png"), -1));
+        ingredients.add(new Ingredient("orange", 900, 400, new Texture("720/orange.png"), -1));
+        ingredients.add(new Ingredient("banana", 1000, 800, new Texture("720/banana.png"), -1));
+        ingredients.add(new Ingredient("apple", 2000, 300, new Texture("720/apple.png"), -1));
         for (Ingredient in: ingredients) {
             drawableObjects.add(in);
         }
 
         guards = new Array();
-        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("vent.png"),world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("720/vent.png"),world, canvas);
         drawableObjects.add(vent1);
 
         localStartingPos = new Vector2(vent1.getX()+1.5f, vent1.getY());
@@ -122,10 +131,10 @@ public class StoreController extends WorldController implements ContactListener 
         addShelfHorizontal(18.5f, 12.5f);
         addShelfHorizontal(23.75f, 12.5f);
 
-        addFruitCrate(28.5f, 5f, new Ingredient("orange", new Texture("orange.png"), -1));
-        addFruitCrate(24f, 5f, new Ingredient("apple", new Texture("apple.png"), -1));
-        addFruitCrate(28.5f, 9f, new Ingredient("banana", new Texture("banana.png"), -1));
-        addFruitCrate(24f, 9f, new Ingredient("greenpepper", new Texture("greenpepper.png"), -1));
+        addFruitCrate(28.5f, 5f, new Ingredient("orange", new Texture("720/orange.png"), -1));
+        addFruitCrate(24f, 5f, new Ingredient("apple", new Texture("720/apple.png"), -1));
+        addFruitCrate(28.5f, 9f, new Ingredient("banana", new Texture("720/banana.png"), -1));
+        addFruitCrate(24f, 9f, new Ingredient("orange", new Texture("720/orange.png"), -1));
         addShelfHorizontal(23.5f, 0.5f);
         addShelfHorizontal(28.75f, 0.5f);
 
@@ -154,16 +163,16 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
 
-        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
         guardX.add(2.5f);
         guardY.add(5f);
-        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
+        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
         guardX.add(25f);
         guardY.add(13.3f);
-        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
         guardX.add(12.5f);
         guardY.add(6.67f);
-        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
+        guards.add(new Guard(23.3f, 10, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
         guardX.add(23.3f);
         guardY.add(10f);
         for (Guard guard: guards) {
@@ -172,6 +181,7 @@ public class StoreController extends WorldController implements ContactListener 
 
         playerJustDied = false;
 
+        animator = new AnimationController(input);
     }
 
     public void setActive(boolean b) {
@@ -245,6 +255,9 @@ public class StoreController extends WorldController implements ContactListener 
                 }
             }
         }
+
+        animator.processGuards(guards, delta);
+        animator.handleAnimation(player, delta);
     }
 
     private float getYPosOfAnyObject(Object obj){
@@ -263,7 +276,7 @@ public class StoreController extends WorldController implements ContactListener 
         if(obj instanceof Guard)
             return ((Guard) obj).getPosition().y;
         //shouldn't get here.
-        System.out.println("I don't know what this object type is!");
+        System.out.println("I don't know what this object type is: " + obj.getClass().getSimpleName() +"!");
         return 0f;
     }
 
@@ -273,15 +286,15 @@ public class StoreController extends WorldController implements ContactListener 
         if(obj instanceof TableObstacle)
             ((TableObstacle) obj).draw();
         if(obj instanceof Player)
-            ((Player) obj).draw(0.25f, 0.25f);
+            ((Player) obj).draw(1f, 1f);
         if(obj instanceof NormalObstacle)
             ((NormalObstacle) obj).draw();
         if(obj instanceof Customer)
-            ((Customer) obj).draw(0.1f, 0.1f);
+            ((Customer) obj).draw(1f, 1f);
         if(obj instanceof Ingredient)
             ((Ingredient) obj).draw(canvas);
         if(obj instanceof Guard)
-            ((Guard) obj).draw(0.1f, 0.1f);
+            ((Guard) obj).draw(1, 1);
     }
 
     public void draw() {

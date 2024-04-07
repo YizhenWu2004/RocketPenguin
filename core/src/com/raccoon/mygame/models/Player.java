@@ -11,6 +11,7 @@ import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.obstacle.BoxObstacle;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Player extends BoxObstacle {
@@ -28,8 +29,8 @@ public class Player extends BoxObstacle {
     public Inventory inventory;
     public DishInventory dishInventory;
 
-    private Texture playerTexture;
     private GameCanvas canvas;
+
 
 
     public boolean space;
@@ -37,18 +38,26 @@ public class Player extends BoxObstacle {
     //not sure if this should go here uhhh
     private boolean isTeleporting = false;
 
+    //-1 is right
+    private int direction = -1;
+
+
+    //objects should store their own animations
+    public FilmStrip playerWalk = new FilmStrip(new Texture("720/rockorun.png"), 1, 5, 5);
+    public FilmStrip playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
+
 
 //    b = new BoxObstacle(1,1);
 //		b.setDensity(1.0f);
 //		b.activatePhysics(world);
 //		b.setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT); // Pixel width / world width
 
-    public Player(float x, float y, float width, float height, Texture texture, Inventory inventory,
+    public Player(float x, float y, float width, float height, FilmStrip defaultPlayerSprite, Inventory inventory,
                   GameCanvas canvas, World world) {
         super(width, height);
         this.inventory = inventory;
-        this.dishInventory = new DishInventory(new Texture("inventorybar.png"));
-        setTexture(new TextureRegion(texture));
+        this.dishInventory = new DishInventory(new Texture("720/inventorynew.png"));
+//        setTexture(new TextureRegion(texture));
         this.canvas = canvas;
         setFixedRotation(true);
         setDensity(1);
@@ -59,6 +68,10 @@ public class Player extends BoxObstacle {
         this.setBodyType(BodyType.DynamicBody);
         setDrawScale(canvas.getWidth() / WORLD_WIDTH, canvas.getHeight() / WORLD_HEIGHT);
         this.getBody().setUserData(this);
+
+        //Because we dont have a loader yet, we need to have a default sprite.
+        this.sprite = defaultPlayerSprite;
+        NUM_ANIM_FRAMES = defaultPlayerSprite.getSize();
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
@@ -100,17 +113,29 @@ public class Player extends BoxObstacle {
         return this.isTeleporting;
     }
 
+    private void setDirection(){
+        if(this.getVX() > 0)
+            this.direction = -1;
+        if(this.getVX() < 0)
+            this.direction = 1;
+        if(this.getVX() == 0)
+            this.direction = this.direction;
+    }
+    private int getDirection(){return direction;}
 
     //draw with scale
     public void draw(float scaleX, float scaleY) {
         //System.out.println(scaleX+";"+scaleY);
-        draw(canvas, scaleX, scaleY, 0, -200);
+        setDirection();
+        //not sure why the x offset needs to be 200 for it to look right
+        drawSprite(canvas, scaleX*this.getDirection(), scaleY, (float)this.sprite.getRegionWidth()/2, 20);
+//        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
         this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){
-            dishInventory.get(0).draw(canvas, this.getX() , this.getY(), 0.25f,0.25f, 30f, 0);
+            dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0);
         }
         if(dishInventory.rightFilled()){
-            dishInventory.get(1).draw(canvas, this.getX(), this.getY(),0.25f,0.25f, -30f,0);
+            dishInventory.get(1).draw(canvas, (this.getX()+0.5f) * 40, (this.getY()+1) * 40,1,1, 0,0);
         }
     }
 

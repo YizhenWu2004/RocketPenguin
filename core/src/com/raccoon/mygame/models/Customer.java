@@ -13,10 +13,12 @@ import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.obstacle.BoxObstacle;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 public class Customer extends BoxObstacle {
     protected static final float TEXTURE_SX = 0.1f;
@@ -44,10 +46,12 @@ public class Customer extends BoxObstacle {
     public int flipScale;
     public boolean onRight;
 
-    public Customer(float x, float y, float width, float height, Texture texture, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
+    public boolean justSatisfied;
+    public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
-        this.texture = texture;
-        setTexture(new TextureRegion(texture));
+//        this.texture = texture;
+//        setTexture(new TextureRegion(texture));
+        this.sprite = defaultCustomerSprite;
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.canvas = canvas;
@@ -56,24 +60,24 @@ public class Customer extends BoxObstacle {
         setFriction(0);
         setLinearDamping(0);
         activatePhysics(world);
-        this.setBodyType(BodyType.DynamicBody);
+        this.setBodyType(BodyType.KinematicBody);
         setDrawScale(scaleX, scaleY);
         this.getBody().setUserData(this);
         order = new Ingredient[3];
-        order[0] = (new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
-        order[1] = (new Ingredient("banana", 200, 200, new Texture("banana.png"), -1));
-//        if (ordernum == 1) {
-//            order = (new Ingredient("apple", 200, 200, new Texture("apple.png"), -1));
-//        } else if (ordernum == 2) {
-//            order = (new Ingredient("banana", 200, 200, new Texture("banana.png"), -1));
-//        } else if (ordernum == 3) {
-//            order = new Ingredient("greenpepper", 1500, 800, new Texture("greenpepper.png"), -1);
-//        } else {
-//            order = new Ingredient("orange", 900, 400, new Texture("orange.png"), -1);
-//        }
-        // order[0] = (new Ingredient("apple",200,200,new Texture("apple.png"),-1));
-        //order[1] = (new Ingredient("banana",1600,300,new Texture("banana.png"),-1));
-        //order[2] = (new Ingredient("greenpepper",1500,800,new Texture("greenpepper.png"),-1));
+
+        Array<Ingredient> menu = new Array<Ingredient>();
+        menu.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
+        menu.add(new Ingredient("banana", 200, 200, new Texture("720/banana.png"), -1));
+        menu.add(new Ingredient("orange", 200, 200, new Texture("720/orange.png"), -1));
+        menu.add(new Ingredient("greenpepper", 200, 200, new Texture("720/greenpepper.png"), -1));
+
+        Random random = new Random();
+        int r = random.nextInt(3) + 1;
+        for(int i = 0; i < r; i++){
+            int r_ing = random.nextInt(menu.size);
+            order[i] = menu.get(r_ing).clone();
+            System.out.println(menu.get(r_ing).type);
+        }
         satisfied = false;
         isActive = true;
         controller = new CustomerAIController(tables, this);
@@ -82,7 +86,7 @@ public class Customer extends BoxObstacle {
         onRight = false;
         pat = new PatienceMeter(60, canvas, this);
         pat.create();
-//        pat.draw();
+        justSatisfied=false;
     }
 
     public Ingredient[] getOrder() {
@@ -99,18 +103,6 @@ public class Customer extends BoxObstacle {
 
     public void deactivate() {
         isActive = false;
-    }
-
-    public int patience() {
-        return patience;
-    }
-
-    public void decreasePatience() {
-        patience -= 1;
-    }
-
-    public boolean isPatient() {
-        return patience > 0;
     }
 
     public boolean getShow() {
@@ -130,7 +122,7 @@ public class Customer extends BoxObstacle {
         for(int i = 0; i < 3; i++){
             if (d.type[i] != null){
                 temp1.add(d.type[i]);
-                System.out.println(d.type[i]);
+                //System.out.println(d.type[i]);
             }
         }
         for(int i = 0; i < 3; i++){
@@ -139,59 +131,59 @@ public class Customer extends BoxObstacle {
             }
         }
         if(temp1.size() != temp2.size()){
-            System.out.println("stopped here");
+            //System.out.println("stopped here");
             return false;
         }
+        //System.out.println("HERE");
         Collections.sort(temp1);
+        for(Ingredient i :temp1){
+            if (i != null){
+                System.out.println(i.type);
+            }
+        }
         Collections.sort(temp2);
+        for(Ingredient i :temp2){
+            if (i != null){
+                System.out.println(i.type);
+            }
+        }
 
         for(int i = 0; i < temp1.size(); i++){
             if (!(temp1.get(i).type).equals(temp2.get(i).type)){
-                System.out.println("stopper here");
+                //System.out.println("stopper here");
                 return false;
             }
         }
         satisfied = true;
+        justSatisfied =true;
         return true;
-
-//        if(!temp1.equals(temp2)){
-//            System.out.println("hello");
-//            for(Ingredient i : temp1){
-//                System.out.println(i.type);
-//            }
-//            System.out.println("space");
-//            for(Ingredient i : temp2){
-//                System.out.println(i.type);
-//            }
-//            return false;
-//        }else{
-//            satisfied = true;
-//            return true;
-//        }
-
-        //change later, order doesn't matter? or some other action?
-//        if (ing == null) {
-//            return false;
-//        }
-//        if (ing.type.equals(order.type)) {
-//            satisfied = true;
-//            return true;
-//        }
-//        return false;
     }
 
     public void move() {
         controller.getAction();
     }
 
+    public int time(){
+        return pat.getTime();
+    }
+
+    public int maxTime(){
+        return pat.getMaxTime();
+    }
+
+    public void timeOut(){
+        controller.timeOut();
+    }
+
 
     public void draw(float scaleX, float scaleY) {
-        draw(canvas, flipScale * scaleX, scaleY, 0, -600);
+//0, -600 for the final 2 parameters???
+        drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, 50, 0);
         pat.draw();
         if (show) {
             for(int i = 0; i < order.length; i++){
                 if (order[i] != null){
-                    order[i].drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
+                    order[i].drawTextBubble(canvas, this.getX() * 40, (this.getY()+2) * 40, 0, 0);
                 }
             }
             //order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);

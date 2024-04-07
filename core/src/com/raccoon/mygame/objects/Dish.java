@@ -65,6 +65,6 @@ public class Dish implements GameObject {
     }
 
     public void draw(GameCanvas canvas, float x, float y, float sclx, float scly, float ox, float oy){
-        canvas.draw(texture, Color.WHITE, ox, oy,x*60, y*60, 0, sclx, scly);
+        canvas.draw(texture, Color.WHITE, ox, oy,x, y, 0, sclx, scly);
     }
 }
