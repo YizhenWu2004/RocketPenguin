@@ -7,14 +7,14 @@ import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.objects.TableObstacle;
 
 public class CustomerAIController implements AIController {
-    private static enum FSMState {
+    public static enum FSMState {
         SPAWN,
         SEAT,
         WAIT,
         LEAVE
     }
 
-    private FSMState state;
+    public FSMState state;
 
     private int tick = 0;
     private int move;
@@ -33,8 +33,16 @@ public class CustomerAIController implements AIController {
         temp=new Vector2();
     }
 
+
     @Override
     public int getAction() {
+<<<<<<< Updated upstream
+=======
+        float shadowX = customer.getX()* customerInfo[0]-shadow.getTextureWidth()/2;
+        float shadowY = (customer.getY() * customerInfo[1]) - (customerInfo[2] * customerInfo[1] / 2);
+        shadow.setPosition(shadowX,shadowY);
+
+>>>>>>> Stashed changes
         tick -= 1;
         //(tick);
         if (customer.getX() < 0) {

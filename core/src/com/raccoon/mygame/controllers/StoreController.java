@@ -268,6 +268,8 @@ public class StoreController extends WorldController implements ContactListener 
             }
         }
 
+        player.update(delta);
+
         animator.processGuards(guards, delta);
         animator.handleAnimation(player, delta);
     }
