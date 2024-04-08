@@ -203,10 +203,10 @@ public class GuardAIController {
                 chaseCounter = 0;
             }
             if (chaseSpeed != null) {
+                updateOrien(chaseSpeed);
                 return chaseSpeed;
             }
         }
-
         updateOrien(speedVector);
         return speedVector;
     }
