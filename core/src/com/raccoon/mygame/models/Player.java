@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
+import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
@@ -47,12 +48,17 @@ public class Player extends BoxObstacle {
     public FilmStrip playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
 
 
+    private float height;
+    private float width;
+
+    private Shadow shadow;
 //    b = new BoxObstacle(1,1);
 //		b.setDensity(1.0f);
 //		b.activatePhysics(world);
 //		b.setDrawScale(canvas.getWidth()/WORLD_WIDTH, canvas.getHeight()/WORLD_HEIGHT); // Pixel width / world width
 
-    public Player(float x, float y, float width, float height, FilmStrip defaultPlayerSprite, Inventory inventory,
+    public Player(float x, float y, float width, float height,
+                  FilmStrip defaultPlayerSprite, Inventory inventory,
                   GameCanvas canvas, World world) {
         super(width, height);
         this.inventory = inventory;
@@ -72,6 +78,20 @@ public class Player extends BoxObstacle {
         //Because we dont have a loader yet, we need to have a default sprite.
         this.sprite = defaultPlayerSprite;
         NUM_ANIM_FRAMES = defaultPlayerSprite.getSize();
+
+        this.height = height;
+        this.width = width;
+
+        shadow = new Shadow(x,y,1.4f,1.4f);
+    }
+    public void update(float delta) {
+        updateShadow();
+    }
+
+    private void updateShadow() {
+        float shadowX = getX()-getWidth() / 2;
+        float shadowY = getY() - getHeight() / 2;
+        shadow.setPosition(shadowX*40, shadowY*40);
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
@@ -125,7 +145,9 @@ public class Player extends BoxObstacle {
 
     //draw with scale
     public void draw(float scaleX, float scaleY) {
-        //System.out.println(scaleX+";"+scaleY);
+        System.out.println(this.drawScale.x +  " " +this.drawScale.y);
+
+        shadow.draw(canvas);
         setDirection();
         //not sure why the x offset needs to be 200 for it to look right
         drawSprite(canvas, scaleX*this.getDirection(), scaleY, (float)this.sprite.getRegionWidth()/2, 20);

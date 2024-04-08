@@ -17,7 +17,7 @@ public class CollisionController {
     /**
      * Maximum distance a player must be from a guard to be caught
      */
-    protected static final float GUARD_RADIUS = 2.0f;
+    protected static final float GUARD_RADIUS = 1.0f;
 
     private final int WORLD_WIDTH = 32;
     private final int WORLD_HEIGHT = 18;
@@ -86,10 +86,10 @@ public class CollisionController {
                 }
                 if(p.dishInventory.leftFilled()){
                     if (c.serve(p.dishInventory.get(0))){
-                        System.out.println("served");
+//                        System.out.println("served");
                         p.dishInventory.clear(0);
                         c.setShow(false);
-                        System.out.println(c.getShow());
+//                        System.out.println(c.getShow());
                     }
                 }
                 if (p.dishInventory.rightFilled()){
@@ -145,7 +145,7 @@ public class CollisionController {
         }
     }
 
-    private void handleCollision(Player p, Guard g) {
+    void handleCollision(Player p, Guard g) {
 //        Vector2 pPos = p.getPosition();
 //        Vector2 gPos = g.getPosition();
 //
@@ -166,6 +166,7 @@ public class CollisionController {
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
             if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
 //            System.out.println(g.getY());
+
                 g.switchToChaseMode();
             }
         }
@@ -236,7 +237,7 @@ public class CollisionController {
 //        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
         Vector2 oPosWorld1 = canvasToWorld(oPosCanvas1);
         if (p.getPosition().dst(oPosWorld) < PICKUP_RADIUS) {
-            System.out.println("Colliding with Normal Collision Object");
+//            System.out.println("Colliding with Normal Collision Object");
             if (o.getIsTeleporter()) {
                 oPosWorld1.x += 2;
                 goTo.setBeingTeleportedTo(true);

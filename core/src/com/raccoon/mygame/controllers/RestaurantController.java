@@ -1,6 +1,7 @@
 package com.raccoon.mygame.controllers;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -129,7 +130,7 @@ public class RestaurantController extends WorldController implements ContactList
         customers = new Array();
 
         goatIdle = new FilmStrip(new Texture("720/goat.png"), 1,4,4);
-        Customer customer1 = new Customer(0f, 8.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
+        Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
       
         customers.add(customer1);
         drawableObjects.add(customer1);
@@ -172,6 +173,9 @@ public class RestaurantController extends WorldController implements ContactList
     }
     public void update() {
         tick += 1;
+
+        float delta = Gdx.graphics.getDeltaTime();
+        player.update(delta);
 
         if (t.getTime() == 170 && !t.action_round){
             Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
@@ -295,8 +299,6 @@ public class RestaurantController extends WorldController implements ContactList
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
 
-        canvas.drawText("Score:", f,20, 800,2,2, layout);
-        canvas.drawText(Integer.toString(score), f, 130, 800, 2, 2,layout);
         //bubble sort for drawing
         boolean swapped;
         for (int i = 0; i < drawableObjects.size-1; i++) {
@@ -315,21 +317,13 @@ public class RestaurantController extends WorldController implements ContactList
                 break;
         }
 
+        System.out.println("DRAWING");
         for(Object obj : drawableObjects){
+
             drawAnyType(obj);
         }
-
-
-//        vent1.draw();
-//        for (NormalObstacle o : obstacles) {
-//            o.draw();
-//        }
-//        player.draw(0.25f, 0.25f);
-//        for (Customer c : customers) {
-//            if (c.isActive()) {
-//                c.draw(0.1f, 0.1f);
-//            }
-//        }
+        canvas.drawText("Score:", f,20, 600,2,2, layout);
+        canvas.drawText(Integer.toString(score), f, 130, 600, 2, 2,layout);
     }
 
     public void debug() {

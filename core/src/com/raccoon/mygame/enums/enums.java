@@ -3,7 +3,8 @@ package com.raccoon.mygame.enums;
 public class enums {
     public enum PatrolDirection {
         UP_DOWN,
-        LEFT_RIGHT
+        LEFT_RIGHT,
+        SLEEP_WAKE
     }
 
     public enum RestaurantObject {

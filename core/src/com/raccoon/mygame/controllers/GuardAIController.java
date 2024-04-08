@@ -11,7 +11,9 @@ import java.util.PriorityQueue;
 public class GuardAIController {
     public enum AIState {
         WANDER,
-        CHASE
+        CHASE,
+        SLEEP,
+        WAKE
     }
 
     public enum GuardOrientation {
@@ -31,13 +33,13 @@ public class GuardAIController {
     private boolean movingup = true;
     private boolean movingPositive = true;
 
-    private PatrolDirection patrolDirection;
+    public PatrolDirection patrolDirection;
 
     boolean[][] collisionLayer;
 
     int counter;
     int counter2;
-    private AIState currentState = AIState.WANDER;
+    private AIState currentState;
     private GuardOrientation orien = GuardOrientation.LEFT;
 
     private Array<Vector2> currentPath;
@@ -56,6 +58,10 @@ public class GuardAIController {
     Vector2[] nodes;
     private int currentNodeIndex = 0;
 
+    private static final float AWAKE_DURATION = 5.0f;
+    private static final float SLEEP_DURATION = 3.0f;
+    private float sleepWakeTimer = AWAKE_DURATION;
+
     public GuardAIController(float x, float y, float worldWidth,
                              float worldHeight, float patrolRange,
                              float speed, PatrolDirection patrolDirection,
@@ -65,11 +71,16 @@ public class GuardAIController {
         this.patrolDirection = patrolDirection;
         this.collisionLayer = collisionLayer;
         if (patrolDirection == PatrolDirection.LEFT_RIGHT) {
+            currentState = AIState.WANDER;
             this.lowerBoundary = Math.max(x - patrolRange, 0);
             this.upperBoundary = Math.min(x + patrolRange, worldWidth);
-        } else {
+        } else if (patrolDirection == PatrolDirection.UP_DOWN) {
+            currentState = AIState.WANDER;
             this.lowerBoundary = Math.max(y - patrolRange, 0);
             this.upperBoundary = Math.min(y + patrolRange, worldHeight);
+        }
+        else if(patrolDirection == PatrolDirection.SLEEP_WAKE){
+            currentState = AIState.WAKE;
         }
 
         this.currentPath = new Array<>();
@@ -91,6 +102,14 @@ public class GuardAIController {
 
     public void setAIStateWander() {
         currentState = AIState.WANDER;
+    }
+
+    public void setAIStateWake() {
+        currentState = AIState.WAKE;
+    }
+
+    public boolean isSleep(){
+        return currentState == AIState.SLEEP;
     }
 
     public void reverseDirection() {
@@ -116,6 +135,24 @@ public class GuardAIController {
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
        // System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
+
+        sleepWakeTimer -= deltaTime;
+        if (currentState == AIState.WAKE && sleepWakeTimer <= 0) {
+            currentState = AIState.SLEEP;
+            sleepWakeTimer = SLEEP_DURATION;
+        } else if (currentState == AIState.SLEEP && sleepWakeTimer <= 0) {
+            currentState = AIState.WAKE;
+            sleepWakeTimer = AWAKE_DURATION;
+        }
+
+        if(currentState == AIState.SLEEP){
+            System.out.println("SLEEP");
+            return speedVector;
+        }
+        if(currentState == AIState.WAKE){
+            System.out.println("WAKE");
+            return speedVector;
+        }
         if (currentState == AIState.WANDER && nodes.length > 0) {
             Vector2 targetNode = nodes[currentNodeIndex];
             Vector2 direction = new Vector2(targetNode.x - guardPosition.x, targetNode.y - guardPosition.y).nor();

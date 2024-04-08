@@ -166,13 +166,14 @@ public class StoreController extends WorldController implements ContactListener 
         guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0]));
         guardX.add(2.5f);
         guardY.add(5f);
-        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0]));
-        guardX.add(25f);
+        guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0]));
+        guardX.add(28f);
         guardY.add(13.3f);
         guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
         guardX.add(12.5f);
         guardY.add(6.67f);
-
+//        guards.get(0).getSight().deactivateSight();
+//        guards.get(0).getSight().reactivateSight();
         //this is the guard that is moving on a node base system (near the fruit crates)
         Vector2[] crateGuardNodes = new Vector2[4];
 
@@ -238,6 +239,7 @@ public class StoreController extends WorldController implements ContactListener 
         float delta = Gdx.graphics.getDeltaTime();
         for (Guard guard : guards) {
             guard.update(delta, generatePlayerInfo());
+            collision.handleCollision(player, guard);
 //            if(guard.getAIController().getDirection()){
 //                canvas.flipGuard(guard, guard.getX(), guard.getY());
 //            }
@@ -266,6 +268,8 @@ public class StoreController extends WorldController implements ContactListener 
             }
         }
 
+        player.update(delta);
+
         animator.processGuards(guards, delta);
         animator.handleAnimation(player, delta);
     }
@@ -286,7 +290,7 @@ public class StoreController extends WorldController implements ContactListener 
         if(obj instanceof Guard)
             return ((Guard) obj).getPosition().y;
         //shouldn't get here.
-        System.out.println("I don't know what this object type is: " + obj.getClass().getSimpleName() +"!");
+//        System.out.println("I don't know what this object type is: " + obj.getClass().getSimpleName() +"!");
         return 0f;
     }
 
@@ -466,7 +470,7 @@ public class StoreController extends WorldController implements ContactListener 
     public void guardWanderReset(){
         for(int i = 0; i < guards.size; i++){
             guards.get(i).setPosition(guardX.get(i),guardY.get(i));
-            guards.get(i).switchToWanderMode();
+            guards.get(i).switchToDefaultMode();
         }
     }
 

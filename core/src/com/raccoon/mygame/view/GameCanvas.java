@@ -27,6 +27,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.models.Guard;
 
@@ -1298,9 +1299,27 @@ public class GameCanvas {
         }
 
         debugRender.setColor(color);
-
-        if(g.getP() == enums.PatrolDirection.UP_DOWN){
-        if(g.getAIController().getDirection2()){
+        if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.LEFT){
+            float angleStep = fov / 30;
+            for (int i = 0; i <= 30; i++) {
+                 float angle = direction - fov / 2 + angleStep * i;
+                float endX = position.x + range * MathUtils.cosDeg(angle);
+                float endY = position.y + range * MathUtils.sinDeg(angle);
+                debugRender.line(position.x, position.y, endX, endY);
+//                System.out.println("the shape x:" + endX);
+//                System.out.println("the shape y:" + endY);
+            }
+        } else if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.RIGHT){
+                float angleStep = fov / 30;
+                for (int i = 0; i <= 30; i++) {
+                    float angle = direction - fov / 2 + angleStep * i;
+                    float endX = position.x - range * MathUtils.cosDeg(angle) + 80;
+                    float endY = position.y + range * MathUtils.sinDeg(angle);
+                    debugRender.line(position.x + 80, position.y, endX, endY);
+//                    System.out.println("the shape x:" + endX);
+//                    System.out.println("the shape y:" + endY);
+                }
+        } else if(g.getAIController().getOrien()== GuardAIController.GuardOrientation.DOWN){
             float angleStep = fov / 30;
             for (int i = 0; i <= 30; i++) {
                 float angle = direction - fov / 2 + angleStep * i + 90;
@@ -1316,29 +1335,48 @@ public class GameCanvas {
                     float endY = position.y + range * MathUtils.sinDeg(angle);
                     debugRender.line(position.x, position.y, endX, endY);
                 }
-        }} else {
-        if(g.getAIController().getDirection()) {
-            float angleStep = fov / 30;
-            for (int i = 0; i <= 30; i++) {
-                 float angle = direction - fov / 2 + angleStep * i;
-                float endX = position.x + range * MathUtils.cosDeg(angle);
-                float endY = position.y + range * MathUtils.sinDeg(angle);
-                debugRender.line(position.x, position.y, endX, endY);
-                System.out.println("the shape x:" + endX);
-                System.out.println("the shape y:" + endY);
-            }
-        } else {
-                float angleStep = fov / 30;
-                for (int i = 0; i <= 30; i++) {
-                    float angle = direction - fov / 2 + angleStep * i;
-                    float endX = position.x - range * MathUtils.cosDeg(angle) + 80;
-                    float endY = position.y + range * MathUtils.sinDeg(angle);
-                    debugRender.line(position.x + 80, position.y, endX, endY);
-                    System.out.println("the shape x:" + endX);
-                    System.out.println("the shape y:" + endY);
-                }
-            }
         }
+
+//        if(g.getAIController().getOrien() == GuardAIController.GuardOrientation.UP){
+//        if(g.getAIController().getDirection2()){
+//            float angleStep = fov / 30;
+//            for (int i = 0; i <= 30; i++) {
+//                float angle = direction - fov / 2 + angleStep * i + 90;
+//                float endX = position.x + range * MathUtils.cosDeg(angle);
+//                float endY = position.y + range * MathUtils.sinDeg(angle);
+//                debugRender.line(position.x, position.y, endX, endY);
+//            }
+//        } else {
+//            float angleStep = fov / 30;
+//                for (int i = 0; i <= 30; i++) {
+//                    float angle = direction - fov / 2 + angleStep * i - 90;
+//                    float endX = position.x + range * MathUtils.cosDeg(angle);
+//                    float endY = position.y + range * MathUtils.sinDeg(angle);
+//                    debugRender.line(position.x, position.y, endX, endY);
+//                }
+//        }} else {
+//        if(g.getAIController().getDirection()) {
+//            float angleStep = fov / 30;
+//            for (int i = 0; i <= 30; i++) {
+//                 float angle = direction - fov / 2 + angleStep * i;
+//                float endX = position.x + range * MathUtils.cosDeg(angle);
+//                float endY = position.y + range * MathUtils.sinDeg(angle);
+//                debugRender.line(position.x, position.y, endX, endY);
+////                System.out.println("the shape x:" + endX);
+////                System.out.println("the shape y:" + endY);
+//            }
+//        } else {
+//                float angleStep = fov / 30;
+//                for (int i = 0; i <= 30; i++) {
+//                    float angle = direction - fov / 2 + angleStep * i;
+//                    float endX = position.x - range * MathUtils.cosDeg(angle) + 80;
+//                    float endY = position.y + range * MathUtils.sinDeg(angle);
+//                    debugRender.line(position.x + 80, position.y, endX, endY);
+////                    System.out.println("the shape x:" + endX);
+////                    System.out.println("the shape y:" + endY);
+//                }
+//            }
+//        }
         debugRender.end();
 
         spriteBatch.begin();
