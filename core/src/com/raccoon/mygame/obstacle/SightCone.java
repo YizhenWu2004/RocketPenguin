@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.models.Player;
@@ -25,7 +26,7 @@ public class SightCone extends BoxObstacle {
     private World w;
     private Guard g;
     private GameCanvas canvas;
-
+    private boolean isActivated;
     RayCastCallback[] rays = new RayCastCallback[10];
 
     public SightCone(float x1, float y1, float width, float height, World world, GameCanvas c, Guard guard) {
@@ -42,6 +43,7 @@ public class SightCone extends BoxObstacle {
         w = world;
         g = guard;
         create();
+        isActivated = true;
     }
     public void setPosition(float x1, float y1) {
         x = x1;
@@ -63,57 +65,91 @@ public class SightCone extends BoxObstacle {
     }
 
     public void render() {
-        Vector2 position = new Vector2(x, y);
-        float direction = 180;
-        float fov = 60;
-        float range = 300;
+        if (isActivated) {
+            Vector2 position = new Vector2(x, y);
+            float direction = 180;
+            float fov = 60;
+            float range = 300;
 
-        //shape render debug lines
-        canvas.drawSightCone(position, direction, fov, range, Color.YELLOW, this.g);
-        if(g.getP() == enums.PatrolDirection.LEFT_RIGHT){
-        if(g.getAIController().getDirection()) {
-            for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
-                performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w);
-            }
-            System.out.println("actual x:" + position.x / canvas.getWidth() * 32);
-            System.out.println("actual y:" + position.y / canvas.getHeight() * 18);
-        } else {
-            for (Vector2 vertex : calculateSightConeVertices(position, direction + 180, fov, range)) {
+            //shape render debug lines
+            canvas.drawSightCone(position, direction, fov, range, Color.YELLOW, this.g);
+            if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.LEFT){
+                for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
+                    performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w);
+                }
+            } else if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.RIGHT){
+                for (Vector2 vertex : calculateSightConeVertices(position, direction + 180, fov, range)) {
 //                float flippedDirection = direction + 180;
-                float endX = vertex.x ;
-                float endY = vertex.y ;
-                performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
-                        new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
-                        w);
-                System.out.println("actual x:" + endX / canvas.getWidth() * 32);
-                System.out.println("actual y:" + endY / canvas.getHeight() * 18);
-            }}
-    } else {
-            if(g.getAIController().getDirection2()){
-                for (Vector2 vertex : calculateSightConeVertices(position, direction+90, fov, range)) {
-//                    float flippedDirection = direction + 90;
                     float endX = vertex.x;
                     float endY = vertex.y;
-
+                    performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
+                            new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
+                            w);
+                }
+            } else if(g.getAIController().getOrien()== GuardAIController.GuardOrientation.DOWN){
+                for (Vector2 vertex : calculateSightConeVertices(position, direction + 90, fov, range)) {
+//                float flippedDirection = direction + 180;
+                    float endX = vertex.x;
+                    float endY = vertex.y;
                     performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                             new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
                             w);
                 }
             } else {
-                for (Vector2 vertex : calculateSightConeVertices(position, direction-90, fov, range)) {
-
+                for (Vector2 vertex : calculateSightConeVertices(position, direction -90, fov, range)) {
+//                float flippedDirection = direction + 180;
                     float endX = vertex.x;
                     float endY = vertex.y;
-
                     performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                             new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
                             w);
                 }
             }
+//            if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.RIGHT) {
+//                if (g.getAIController().getDirection()) {
+//                    for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
+//                        performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w);
+//                    }
+//                } else {
+//                    for (Vector2 vertex : calculateSightConeVertices(position, direction + 180, fov, range)) {
+////                float flippedDirection = direction + 180;
+//                        float endX = vertex.x;
+//                        float endY = vertex.y;
+//                        performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
+//                                new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
+//                                w);
+//                    }
+//                }
+//            } else {
+//                if (g.getAIController().getDirection2()) {
+//                    for (Vector2 vertex : calculateSightConeVertices(position, direction + 90, fov, range)) {
+//                        float endX = vertex.x;
+//                        float endY = vertex.y;
+//
+//                        performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
+//                                new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
+//                                w);
+//                    }
+//                } else {
+//                    for (Vector2 vertex : calculateSightConeVertices(position, direction - 90, fov, range)) {
+//
+//                        float endX = vertex.x;
+//                        float endY = vertex.y;
+//
+//                        performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
+//                                new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
+//                                w);
+//                    }
+//                }
+            }
         }
+
+    public void deactivateSight(){
+        isActivated = false;
     }
-
-
+    public void reactivateSight(){
+        isActivated = true;
+    }
     public void update(Vector2 speed) {
         setLinearVelocity(speed);
     }
@@ -129,7 +165,7 @@ public class SightCone extends BoxObstacle {
         RayCastCallback callback = (fixture, point, normal, fraction) -> {
             Object userData = fixture.getBody().getUserData();
             if(userData instanceof NormalObstacle){
-                System.out.println("sightcone hitting a wall");
+//                System.out.println("sightcone hitting a wall");
                 return fraction;
             }
             else if (userData instanceof Player) {
@@ -160,5 +196,8 @@ public class SightCone extends BoxObstacle {
         }
 
         return vertices;
+    }
+    public boolean getActivation(){
+        return isActivated;
     }
 }
