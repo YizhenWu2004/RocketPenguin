@@ -89,9 +89,17 @@ public class Player extends BoxObstacle {
     }
 
     private void updateShadow() {
-        float shadowX = getX()-getWidth() / 2;
-        float shadowY = getY() - getHeight() / 2;
-        shadow.setPosition(shadowX*40, shadowY*40);
+        if(direction == -1){
+            float shadowX = getX()-getWidth() / 2;
+            float shadowY = getY() - getHeight() / 2;
+            shadow.setPosition(shadowX*40, shadowY*40);
+        }
+        else{
+            float shadowX = getX()-getWidth()*1.2f;
+            float shadowY = getY() - getHeight() / 2;
+            shadow.setPosition(shadowX*40, shadowY*40);
+        }
+
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
