@@ -50,20 +50,20 @@ public class PatienceMeter extends ApplicationAdapter{
     public int getMaxTime(){
         return max_countdown;
     }
-    public void draw(){
+    public void draw(float scalex, float scaley){
         //System.out.println("drawing patience meter");
         if (countdownSeconds >= 2*max_countdown/3){
             gameCanvas.draw(high, Color.WHITE, 0, 0,
-                    customer.getX() * gameCanvas.getWidth() / 32 + 30, customer.getY() * gameCanvas.getHeight()/ 18 + 10, 0.0f, 0.25f, 0.25f);
+                    customer.getX() * scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
         } else if (countdownSeconds >= max_countdown/3){
             gameCanvas.draw(mid, Color.WHITE, 0, 0,
-                    customer.getX() * gameCanvas.getWidth() / 32 + 30, customer.getY() * gameCanvas.getHeight()/ 18 + 10, 0.0f, 0.25f, 0.25f);
+                    customer.getX() *  scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
         } else if(countdownSeconds >= 0) {
             gameCanvas.draw(low, Color.WHITE, 0, 0,
-                    customer.getX() * gameCanvas.getWidth() / 32 + 30, customer.getY() * gameCanvas.getHeight()/ 18 + 10, 0.0f, 0.25f, 0.25f);
+                    customer.getX() * scalex + 30, customer.getY() * scalex + 10, 0.0f, 0.25f, 0.25f);
         }
 
-        gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * gameCanvas.getWidth() / 32+55, customer.getY() * gameCanvas.getHeight()/ 18 + 10, 2, 2, layout);
+        gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex+55, customer.getY() * scaley + 10, 2, 2, layout);
     }
 }
 
