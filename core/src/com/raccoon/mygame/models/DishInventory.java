@@ -21,6 +21,8 @@ public class DishInventory {
     public boolean rightFilled(){
         return filled[1];
     }
+
+    public boolean oneFilled(){return (filled[0]|| filled[1]);}
     public void clear(int index){
         filled[index] = false;
     }
