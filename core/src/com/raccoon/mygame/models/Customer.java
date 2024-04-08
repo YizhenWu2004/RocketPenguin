@@ -1,5 +1,6 @@
 package com.raccoon.mygame.models;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -52,6 +53,11 @@ public class Customer extends BoxObstacle {
     float height;
     float width;
     private Shadow shadow;
+
+    public int orderSize;
+    private Texture one = new Texture("singleorder.png");
+    private Texture two = new Texture("doubleorder.png");
+    private Texture three = new Texture("tripleorder.png");
     public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
 //        this.texture = texture;
@@ -78,6 +84,7 @@ public class Customer extends BoxObstacle {
 
         Random random = new Random();
         int r = random.nextInt(3) + 1;
+        orderSize = r;
         for(int i = 0; i < r; i++){
             int r_ing = random.nextInt(menu.size);
             order[i] = menu.get(r_ing).clone();
@@ -191,11 +198,22 @@ public class Customer extends BoxObstacle {
     public void draw(float scaleX, float scaleY) {
 //0, -600 for the final 2 parameters???
         drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, 50, 0);
-        pat.draw();
+        if (pat.getTime() > 0){
+            pat.draw(this.drawScale.x, this.drawScale.y);
+        }
+        //Texture image, Color tint, float ox, float oy,
+        //float x, float y, float angle, float sx, float sy
         if (show) {
+            if(orderSize == 1){
+                canvas.draw(one, Color.WHITE, 0,-150,this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y,0,0.8f,0.8f);
+            } else if (orderSize ==2){
+                canvas.draw(two, Color.WHITE, 0,-150,this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y,0,0.8f,0.8f);
+            } else if (orderSize ==3){
+                canvas.draw(three, Color.WHITE, 0,-150,this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y,0,0.8f,0.8f);
+            }
             for(int i = 0; i < order.length; i++){
                 if (order[i] != null){
-                    order[i].drawTextBubble(canvas, this.getX() * 40, (this.getY()+2) * 40, 0, 0);
+                    order[i].drawTextBubble(canvas, this.getX() * this.drawScale.x, (this.getY()) * drawScale.y, -20-45*i, -140);
                 }
             }
             //order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
