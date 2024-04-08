@@ -145,7 +145,7 @@ public class CollisionController {
         }
     }
 
-    private void handleCollision(Player p, Guard g) {
+    void handleCollision(Player p, Guard g) {
 //        Vector2 pPos = p.getPosition();
 //        Vector2 gPos = g.getPosition();
 //
@@ -166,6 +166,7 @@ public class CollisionController {
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
             if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
 //            System.out.println(g.getY());
+
                 g.switchToChaseMode();
             }
         }
