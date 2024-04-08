@@ -21,6 +21,9 @@ public class Expression {
         if(name == "exclamation"){
             this.texture = new Texture("720/"+ "exclamation" + ".png");
         }
+        if(name == "zzz"){
+            this.texture = new Texture("720/"+ "zzz" + ".png");
+        }
     }
 
     public float getXPosition() {

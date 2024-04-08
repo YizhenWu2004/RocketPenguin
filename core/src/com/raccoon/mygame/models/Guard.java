@@ -43,6 +43,8 @@ public class Guard extends WheelObstacle {
     private boolean isChaseMode = false;
     private Expression exclam;
 
+    private Expression zzz;
+
     private Shadow shadow;
 
     public Guard(float x, float y, float width, float height,
@@ -74,6 +76,7 @@ public class Guard extends WheelObstacle {
                 ,nodes);
 
         exclam = new Expression("exclamation",x,y);
+        zzz = new Expression("zzz",x,y);
 
         shadow = new Shadow(x,y,0.8f,0.8f);
 
@@ -115,6 +118,8 @@ public class Guard extends WheelObstacle {
         float exclamationY = (this.getY() + height + 1) * scaleY;
         exclam.setPosition(exclamationX, exclamationY);
 
+        zzz.setPosition(exclamationX,exclamationY);
+
         float shadowX = this.getX()* scaleX-shadow.getTextureWidth()/2;
         float shadowY = (this.getY() * scaleY) - (this.height * scaleY / 2);
         float offsetCons = shadow.getTextureWidth()/3;
@@ -136,6 +141,13 @@ public class Guard extends WheelObstacle {
             chaseDelay = 0;
         }
     }
+
+    if (isChaseMode || aiController.isSleep()){
+        sight.deactivateSight();
+    }
+    else{
+        sight.reactivateSight();
+    }
   }
 
 
@@ -156,6 +168,9 @@ public class Guard extends WheelObstacle {
         if (isChaseMode) {
             exclam.draw(canvas);
         }
+        if(aiController.isSleep()){
+            zzz.draw(canvas);
+        }
     }
 
     public SightCone getSight() {
@@ -173,8 +188,13 @@ public class Guard extends WheelObstacle {
         chaseDelay = CHASE_DELAY;
     }
 
-    public void switchToWanderMode() {
-        this.aiController.setAIStateWander();
+    public void switchToDefaultMode() {
+        if(aiController.patrolDirection ==  PatrolDirection.SLEEP_WAKE){
+            this.aiController.setAIStateWake();
+        }
+        else {
+            this.aiController.setAIStateWander();
+        }
         isChaseMode = false;
     }
     public PatrolDirection getP(){
