@@ -319,7 +319,9 @@ public class RestaurantController extends WorldController implements ContactList
                 break;
         }
 
+        System.out.println("DRAWING");
         for(Object obj : drawableObjects){
+
             drawAnyType(obj);
         }
 
