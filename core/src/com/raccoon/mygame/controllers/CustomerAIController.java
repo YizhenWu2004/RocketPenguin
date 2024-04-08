@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Customer;
+import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.objects.TableObstacle;
 
 public class CustomerAIController implements AIController {
@@ -24,17 +25,39 @@ public class CustomerAIController implements AIController {
     Vector2 temp;
     private Customer customer;
 
-    public CustomerAIController(Array<TableObstacle> tables, Customer customer) {
+    private Shadow shadow;
+
+    /** element:description as follows
+     *  0:scaleX
+     *  1:scaleY
+     *  2:height
+     *  3:textureWidth
+     */
+
+    private float[] customerInfo;
+
+    public CustomerAIController(Array<TableObstacle> tables, Customer customer,Shadow shadow,float[] customerInfo) {
         this.tables = tables;
         this.customer = customer;
         state = FSMState.SPAWN;
         move = CONTROL_NO_ACTION;
         goal = null;
         temp=new Vector2();
+
+        this.customerInfo = customerInfo;
+        this.shadow = shadow;
     }
 
     @Override
     public int getAction() {
+        System.out.println("YESAS");
+        float shadowX = customer.getX()* customerInfo[0]-shadow.getTextureWidth()/2;
+        float shadowY = (customer.getY() * customerInfo[1]) - (customerInfo[2] * customerInfo[1] / 2);
+//        float shadowX = customer.getX();
+//        float shadowY = customer.getY();
+        System.out.println(shadowX + " " + shadowY);
+        shadow.setPosition(shadowX,shadowY);
+
         tick -= 1;
         //(tick);
         if (customer.getX() < 0) {

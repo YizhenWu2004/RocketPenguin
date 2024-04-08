@@ -11,6 +11,7 @@ import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.controllers.PatienceMeter;
 import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.Ingredient;
+import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
@@ -47,6 +48,10 @@ public class Customer extends BoxObstacle {
     public boolean onRight;
 
     public boolean justSatisfied;
+
+    float height;
+    float width;
+    private Shadow shadow;
     public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
 //        this.texture = texture;
@@ -80,13 +85,20 @@ public class Customer extends BoxObstacle {
         }
         satisfied = false;
         isActive = true;
-        controller = new CustomerAIController(tables, this);
+
+        shadow = new Shadow(x,y,1f,1f);
+
+        controller = new CustomerAIController(tables, this,shadow,
+                new float[]{scaleX,scaleY,this.height});
         show = false;
         flipScale = -1;
         onRight = false;
         pat = new PatienceMeter(60, canvas, this);
         pat.create();
         justSatisfied=false;
+
+        this.height = height;
+        this.width = width;
     }
 
     public Ingredient[] getOrder() {
@@ -188,6 +200,7 @@ public class Customer extends BoxObstacle {
             }
             //order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
         }
+        shadow.draw(canvas);
     }
 
     public void debug(GameCanvas canvas) {
