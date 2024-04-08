@@ -138,13 +138,13 @@ public class Customer extends BoxObstacle {
         Collections.sort(temp1);
         for(Ingredient i :temp1){
             if (i != null){
-                System.out.println(i.type);
+//                System.out.println(i.type);
             }
         }
         Collections.sort(temp2);
         for(Ingredient i :temp2){
             if (i != null){
-                System.out.println(i.type);
+//                System.out.println(i.type);
             }
         }
 
