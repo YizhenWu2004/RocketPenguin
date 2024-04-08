@@ -8,14 +8,14 @@ import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.objects.TableObstacle;
 
 public class CustomerAIController implements AIController {
-    private static enum FSMState {
+    public static enum FSMState {
         SPAWN,
         SEAT,
         WAIT,
         LEAVE
     }
 
-    private FSMState state;
+    public FSMState state;
 
     private int tick = 0;
     private int move;
@@ -48,6 +48,7 @@ public class CustomerAIController implements AIController {
         this.shadow = shadow;
     }
 
+
     @Override
     public int getAction() {
         System.out.println("YESAS");
@@ -57,7 +58,6 @@ public class CustomerAIController implements AIController {
 //        float shadowY = customer.getY();
         System.out.println(shadowX + " " + shadowY);
         shadow.setPosition(shadowX,shadowY);
-
         tick -= 1;
         //(tick);
         if (customer.getX() < 0) {

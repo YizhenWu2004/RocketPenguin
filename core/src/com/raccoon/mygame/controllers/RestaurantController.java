@@ -1,6 +1,7 @@
 package com.raccoon.mygame.controllers;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -172,6 +173,9 @@ public class RestaurantController extends WorldController implements ContactList
     }
     public void update() {
         tick += 1;
+
+        float delta = Gdx.graphics.getDeltaTime();
+        player.update(delta);
 
         if (t.getTime() == 170 && !t.action_round){
             Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);

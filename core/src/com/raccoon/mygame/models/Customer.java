@@ -81,7 +81,7 @@ public class Customer extends BoxObstacle {
         for(int i = 0; i < r; i++){
             int r_ing = random.nextInt(menu.size);
             order[i] = menu.get(r_ing).clone();
-            System.out.println(menu.get(r_ing).type);
+//            System.out.println(menu.get(r_ing).type);
         }
         satisfied = false;
         isActive = true;
@@ -150,13 +150,13 @@ public class Customer extends BoxObstacle {
         Collections.sort(temp1);
         for(Ingredient i :temp1){
             if (i != null){
-                System.out.println(i.type);
+//                System.out.println(i.type);
             }
         }
         Collections.sort(temp2);
         for(Ingredient i :temp2){
             if (i != null){
-                System.out.println(i.type);
+//                System.out.println(i.type);
             }
         }
 
@@ -200,7 +200,9 @@ public class Customer extends BoxObstacle {
             }
             //order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
         }
-        shadow.draw(canvas);
+        if(isActive && controller.state != CustomerAIController.FSMState.WAIT){
+            shadow.draw(canvas);
+        }
     }
 
     public void debug(GameCanvas canvas) {

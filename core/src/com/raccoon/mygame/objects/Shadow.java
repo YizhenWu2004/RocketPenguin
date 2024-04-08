@@ -49,4 +49,9 @@ public class Shadow {
         canvas.draw(texture, Color.WHITE, 10, 10,
                 x, y, 0.0f, texture_sx, texture_sy);
     }
+    public void draw(GameCanvas canvas, float scaleX, float scaleY, float ox, float oy) {
+        float originX = texture.getWidth() / 2.0f;
+        float originY = texture.getHeight() / 2.0f;
+
+        canvas.draw(texture,Color.WHITE,originX+ox,originY+oy,x,y,scaleX,scaleY);    }
 }
