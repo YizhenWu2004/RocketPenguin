@@ -105,7 +105,7 @@ public class AnimationController {
     }
 
     public void handleAnimation(Customer o, float delta){
-        if(o.getVX() > 0 || o.getVX() < 0){
+        if(o.getVX() > 0 || o.getVX() < 0 || o.getVY() > 0 || o.getVY() < 0){
             o.setFilmStrip(goatWalk);
         }
         else{

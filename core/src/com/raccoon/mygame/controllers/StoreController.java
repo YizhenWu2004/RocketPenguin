@@ -166,8 +166,8 @@ public class StoreController extends WorldController implements ContactListener 
         guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0]));
         guardX.add(2.5f);
         guardY.add(5f);
-        guards.add(new Guard(25, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0]));
-        guardX.add(25f);
+        guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0]));
+        guardX.add(28f);
         guardY.add(13.3f);
         guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
         guardX.add(12.5f);
@@ -472,7 +472,7 @@ public class StoreController extends WorldController implements ContactListener 
     public void guardWanderReset(){
         for(int i = 0; i < guards.size; i++){
             guards.get(i).setPosition(guardX.get(i),guardY.get(i));
-            guards.get(i).switchToWanderMode();
+            guards.get(i).switchToDefaultMode();
         }
     }
 

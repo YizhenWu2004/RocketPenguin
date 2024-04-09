@@ -89,9 +89,31 @@ public class Player extends BoxObstacle {
     }
 
     private void updateShadow() {
-        float shadowX = getX()-getWidth() / 2;
-        float shadowY = getY() - getHeight() / 2;
-        shadow.setPosition(shadowX*40, shadowY*40);
+        if(dishInventory.oneFilled()){
+            if(direction == -1){
+                float shadowX = getX()-getWidth();
+                float shadowY = getY() - getHeight() / 2;
+                shadow.setPosition(shadowX*40, shadowY*40);
+            }
+            else{
+                float shadowX = getX()-getWidth()*1.2f;
+                float shadowY = getY() - getHeight() / 2;
+                shadow.setPosition(shadowX*40, shadowY*40);
+            }
+        }
+        else{
+            if(direction == -1){
+                float shadowX = getX()-getWidth() / 2;
+                float shadowY = getY() - getHeight() / 2;
+                shadow.setPosition(shadowX*40, shadowY*40);
+            }
+            else{
+                float shadowX = getX()-getWidth()*1.2f;
+                float shadowY = getY() - getHeight() / 2;
+                shadow.setPosition(shadowX*40, shadowY*40);
+            }
+        }
+
     }
 
     //im not adding a pick up method because the inventory seems to handle that just fine?
@@ -153,7 +175,12 @@ public class Player extends BoxObstacle {
 //        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
         this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){
-            dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0);
+            if(direction == -1){
+                dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0);
+            }
+            else{
+                dishInventory.get(0).draw(canvas, (this.getX()-2.3f) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0);
+            }
         }
         if(dishInventory.rightFilled()){
             dishInventory.get(1).draw(canvas, (this.getX()+0.5f) * 40, (this.getY()+1) * 40,1,1, 0,0);

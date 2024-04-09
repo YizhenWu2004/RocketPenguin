@@ -203,6 +203,11 @@ public class Customer extends BoxObstacle {
 
 
     public void draw(float scaleX, float scaleY) {
+
+        if(isActive && controller.state != CustomerAIController.FSMState.WAIT){
+            shadow.draw(canvas);
+        }
+
 //0, -600 for the final 2 parameters???
         drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, 50, 0);
         if (pat.getTime() > 0){
@@ -234,9 +239,7 @@ public class Customer extends BoxObstacle {
             }
             //order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
         }
-        if(isActive && controller.state != CustomerAIController.FSMState.WAIT){
-            shadow.draw(canvas);
-        }
+
     }
 
     public void debug(GameCanvas canvas) {
