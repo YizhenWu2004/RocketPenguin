@@ -51,12 +51,12 @@ public class CustomerAIController implements AIController {
 
     @Override
     public int getAction() {
-        System.out.println("YESAS");
+        //System.out.println("YESAS");
         float shadowX = customer.getX()* customerInfo[0]-shadow.getTextureWidth()/2;
         float shadowY = (customer.getY() * customerInfo[1]) - (customerInfo[2] * customerInfo[1] / 2);
 //        float shadowX = customer.getX();
 //        float shadowY = customer.getY();
-        System.out.println(shadowX + " " + shadowY);
+        //System.out.println(shadowX + " " + shadowY);
         shadow.setPosition(shadowX,shadowY);
         tick -= 1;
         //(tick);

@@ -132,7 +132,7 @@ public class GDXRoot extends Game implements ScreenListener {
      */
     public void resize(int width, int height) {
         canvas.resize();
-        canvas.setSize(1280,720);
+        canvas.setSize(1280, 720);
         super.resize(width, height);
     }
 
@@ -160,7 +160,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
-        //System.out.println("updated");
+        //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
       input.readInput();
        if(store.playerJustDied){

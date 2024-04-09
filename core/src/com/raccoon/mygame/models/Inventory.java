@@ -54,6 +54,9 @@ public class Inventory {
     //draws the objects in items
     public void draw(GameCanvas canvas) {
         float midpoint = (float)canvas.getWidth()/2 - (float)this.itexture.getWidth()/2;
+//        System.out.println("HERE");
+//        System.out.println(canvas.getWidth());
+//        System.out.println(midpoint);
         canvas.draw(itexture, Color.WHITE, 10, 10,
                 midpoint, 0, 0.0f, 1, 1);
         Texture h = new Texture("720/inventoryselect.png");
