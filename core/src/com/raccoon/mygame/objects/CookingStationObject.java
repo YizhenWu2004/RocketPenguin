@@ -22,6 +22,8 @@ public class CookingStationObject extends NormalObstacle{
     public int interacting_with;
     public Worldtimer timer;
     public int maxTime;
+    private Texture wok_pic =new Texture("wok.png");
+    private Texture pot_pic = new Texture("pot.png");
 
     public CookingStationObject(float x, float y, float width, float height, float sx, float sy,
             float ox, float oy, Texture texture,
@@ -49,6 +51,14 @@ public class CookingStationObject extends NormalObstacle{
         super.draw();
         if(interacting){
             pot.draw(canvas);
+        }
+        if(station_type == 0) {
+            canvas.draw(wok_pic, Color.WHITE, 35, 50,
+                    this.getX() * this.getDrawScale().x, this.getY() * this.getDrawScale().y,
+                    0.0f, 1f, 1f);
+        }else{
+            canvas.draw(pot_pic, Color.WHITE, 30, -5,
+                    this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y, 0.0f, 1f, 1f);
         }
         if(timer != null){
             //System.out.println("HERE" + timer.getTime());
