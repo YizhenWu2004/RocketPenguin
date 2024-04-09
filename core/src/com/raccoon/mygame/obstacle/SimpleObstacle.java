@@ -825,6 +825,7 @@ public abstract class SimpleObstacle extends Obstacle {
         //System.out.println(origin.x+" "+origin.y);
         if (texture != null) {
             canvas.draw(texture, Color.WHITE, origin.x + ox, origin.y + oy, getX() * drawScale.x, getY() * drawScale.x, getAngle(), scaleX, scaleY);
+            //System.out.println("DRAW"+drawScale.x);
         }
     }
 

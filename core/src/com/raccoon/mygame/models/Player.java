@@ -145,7 +145,6 @@ public class Player extends BoxObstacle {
 
     //draw with scale
     public void draw(float scaleX, float scaleY) {
-        System.out.println(this.drawScale.x +  " " +this.drawScale.y);
 
         shadow.draw(canvas);
         setDirection();

@@ -99,12 +99,12 @@ public class RestaurantController extends WorldController implements ContactList
         stations = new Array<>();
 
         CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 1, 1, 0f, 0f,
-                new Texture("720/kitchenleft.png"), world, canvas, 1);
+                new Texture("720/kitchenleft.png"), world, canvas, 1,1);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
         temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 1, 1, 0f, -32f,
-                new Texture("720/kitchenright.png"), world, canvas, 2);
+                new Texture("720/kitchenright.png"), world, canvas, 2,0);
       
         obstacles.add(temp);
         stations.add(temp);
@@ -226,8 +226,17 @@ public class RestaurantController extends WorldController implements ContactList
         for (CookingStationObject c : stations){
             if (c.state == 0){
                 if(c.pot.size != 0 && player.interaction && c.interacting){
-                    c.ticks = 0;
                     c.state = 1;
+                    int time;
+                    if(c.pot.size == 1){
+                        time = 5;
+                    } else if(c.pot.size == 2){
+                        time =10;
+                    }else {
+                        time = 15;
+                    }
+                    c.timer = new Worldtimer(time, canvas);
+                    c.timer.create();
                 } else if (c.pot.size != 0 && !c.interacting){
                     Ingredient[] temp = c.pot.drop();
                     for(Ingredient i : temp){
@@ -241,19 +250,18 @@ public class RestaurantController extends WorldController implements ContactList
                     player.inventory.drop();
                 }
             }else if (c.state == 1){
-                if (c.ticks == 100){
+                //System.out.println(c.timer.getTime());
+                if (c.timer.getTime() <= 0){
                     c.state = 2;
                 }
-                c.ticks += 1;
             } else if (c.state == 2){
                 if(c.interacting && player.space){
                     if (!player.dishInventory.leftFilled() || !player.dishInventory.rightFilled()) {
                         player.dishInventory.fill(c.getCookedDish());
                         c.state = 0;
+                        c.timer = null;
                     }
                 }
-                c.ticks += 1;
-                //burnt timer not implemented yet
             }
 
         }
@@ -317,7 +325,7 @@ public class RestaurantController extends WorldController implements ContactList
                 break;
         }
 
-        System.out.println("DRAWING");
+        //System.out.println("DRAWING");
         for(Object obj : drawableObjects){
 
             drawAnyType(obj);

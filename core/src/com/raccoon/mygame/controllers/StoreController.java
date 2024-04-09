@@ -134,7 +134,7 @@ public class StoreController extends WorldController implements ContactListener 
         addFruitCrate(28.5f, 5f, new Ingredient("orange", new Texture("720/orange.png"), -1));
         addFruitCrate(24f, 5f, new Ingredient("apple", new Texture("720/apple.png"), -1));
         addFruitCrate(28.5f, 9f, new Ingredient("banana", new Texture("720/banana.png"), -1));
-        addFruitCrate(24f, 9f, new Ingredient("orange", new Texture("720/orange.png"), -1));
+        addFruitCrate(24f, 9f, new Ingredient("greenpepper", new Texture("720/greenpepper.png"), -1));
         addShelfHorizontal(23.5f, 0.5f);
         addShelfHorizontal(28.75f, 0.5f);
 
@@ -172,6 +172,8 @@ public class StoreController extends WorldController implements ContactListener 
         guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
         guardX.add(12.5f);
         guardY.add(6.67f);
+
+
 //        guards.get(0).getSight().deactivateSight();
 //        guards.get(0).getSight().reactivateSight();
         //this is the guard that is moving on a node base system (near the fruit crates)
