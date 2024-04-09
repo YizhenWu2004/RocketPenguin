@@ -203,10 +203,10 @@ public class GuardAIController {
                 chaseCounter = 0;
             }
             if (chaseSpeed != null) {
+                updateOrienChase(chaseSpeed);
                 return chaseSpeed;
             }
         }
-
         updateOrien(speedVector);
         return speedVector;
     }
@@ -224,6 +224,14 @@ public class GuardAIController {
             } else {
                 orien = GuardOrientation.DOWN;
             }
+        }
+    }
+
+    private void updateOrienChase(Vector2 speedVector) {
+        if (speedVector.x > 0) {
+            orien = GuardOrientation.RIGHT;
+        } else {
+            orien = GuardOrientation.LEFT;
         }
     }
 

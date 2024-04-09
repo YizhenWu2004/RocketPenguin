@@ -127,7 +127,7 @@ public class Guard extends WheelObstacle {
             shadow.setPosition(shadowX+offsetCons, shadowY);
         }
         else if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
-            shadow.setPosition(shadowX-offsetCons, shadowY);
+            shadow.setPosition(shadowX-offsetCons*0.5f, shadowY);
         }
         else{
             shadow.setPosition(shadowX, shadowY);
