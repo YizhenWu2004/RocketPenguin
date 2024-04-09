@@ -265,7 +265,7 @@ public class RestaurantController extends WorldController implements ContactList
                 }
             }
             if(c.timer!=null) {
-                if (Math.abs(c.timer.getTime() - c.getMaxTime()) < 2) {
+                if (Math.abs(c.timer.getTime() - c.getMaxTime()) < 1) {
                     player.playerIsCooking = true;
                 } else {
                     player.playerIsCooking = false;
