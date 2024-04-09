@@ -21,6 +21,7 @@ public class CookingStationObject extends NormalObstacle{
     public int id;
     public int interacting_with;
     public Worldtimer timer;
+    public int maxTime;
 
     public CookingStationObject(float x, float y, float width, float height, float sx, float sy,
             float ox, float oy, Texture texture,
@@ -53,6 +54,13 @@ public class CookingStationObject extends NormalObstacle{
             //System.out.println("HERE" + timer.getTime());
             timer.drawNoFormat(this.getX()*this.drawScale.x, this.getY()*this.drawScale.y);
         }
+    }
+
+    public void setMaxTime(){
+        this.maxTime = timer.getTime();
+    }
+    public int getMaxTime(){
+        return this.maxTime;
     }
 
     
