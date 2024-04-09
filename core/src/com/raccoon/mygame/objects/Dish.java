@@ -18,9 +18,12 @@ public class Dish implements GameObject {
     private Texture one = new Texture("singleorder.png");
     private Texture two = new Texture("doubleorder.png");
     private Texture three = new Texture("tripleorder.png");
+    private Texture wok =new Texture("wok.png");
+    private Texture pot = new Texture("pot.png");
+    public int station_type;
 
 
-    public Dish(Ingredient[] type, Texture texture, int posInInventory) {
+    public Dish(Ingredient[] type, Texture texture, int posInInventory, int station_type) {
         this.type = type;
         size = type.length;
         this.texture = texture;
@@ -28,6 +31,7 @@ public class Dish implements GameObject {
         this.posInInventory = posInInventory;
         this.name = 0;
         dishSize =0;
+        this.station_type = station_type;
         for(Ingredient i : type){
             if (i != null){
                 dishSize += 1;
@@ -77,14 +81,21 @@ public class Dish implements GameObject {
 
     public void draw(GameCanvas canvas, float x, float y, float sclx, float scly, float ox, float oy){
         if (dishSize == 1){
-            canvas.draw(one, Color.WHITE, ox-20, oy-50,x, y, 0, 0.8f, 0.8f);
+            canvas.draw(two, Color.WHITE, ox-20, oy-50,x, y, 0, 1f, 0.8f);
         } else if (dishSize == 2){
-            canvas.draw(two, Color.WHITE, ox-20, oy-50,x, y, 0, 0.8f, 0.8f);
+            canvas.draw(three, Color.WHITE, ox-20, oy-50,x, y, 0, 0.9f, 0.8f);
         } else if (dishSize == 3){
-            canvas.draw(three, Color.WHITE, ox-20, oy-50,x, y, 0, 0.8f, 0.8f);
+            canvas.draw(three, Color.WHITE, ox-20, oy-50,x, y, 0, 1.1f, 0.8f);
+        }
+        if(station_type == 0) {
+            canvas.draw(wok, Color.WHITE, -30,-50,x, y,
+                    0.0f, 1f, 1f);
+        }else{
+            canvas.draw(pot, Color.WHITE, -30,-50,x, y,
+                    0.0f, 1f, 1f);
         }
         for(int i = 0; i <dishSize; i++){
-            type[i].drawTextBubble(canvas, x, y, -30-45*i, -55);
+            type[i].drawTextBubble(canvas, x, y, -40-50*(i+1), -55);
         }
         canvas.draw(texture, Color.WHITE, ox, oy,x, y, 0, sclx, scly);
     }
