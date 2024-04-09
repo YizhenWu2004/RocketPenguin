@@ -17,10 +17,8 @@ import com.raccoon.mygame.objects.TableObstacle;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
+
+import java.util.*;
 
 public class Customer extends BoxObstacle {
     protected static final float TEXTURE_SX = 0.1f;
@@ -54,6 +52,11 @@ public class Customer extends BoxObstacle {
     float height;
     float width;
     private Shadow shadow;
+    private String customerType;
+    public String[] types = new String[]{"goat","cat","otter","ferret","bear"};
+
+    private float offsetX = 0;
+    private float offsetY = 0;
 
     public int orderSize;
     private Texture one = new Texture("singleorder.png");
@@ -110,6 +113,8 @@ public class Customer extends BoxObstacle {
 
         this.height = height;
         this.width = width;
+
+        setCustomerType();
     }
 
     public Ingredient[] getOrder() {
@@ -134,6 +139,12 @@ public class Customer extends BoxObstacle {
 
     public void setShow(boolean b) {
         show = b;
+    }
+
+    public String getCustomerType(){return this.customerType;}
+
+    private void setCustomerType(){
+        this.customerType = types[(int)(Math.random()*types.length)];
     }
 
     public boolean serve(Dish d) {
@@ -201,6 +212,17 @@ public class Customer extends BoxObstacle {
         controller.timeOut();
     }
 
+    private float provideOXoffset(){
+        return 0;
+    }
+
+    public void setOffsetX(float offsetX){
+        this.offsetX = offsetX;
+    }
+    public void setOffsetY(float offsetY){
+        this.offsetY = offsetY;
+    }
+
 
     public void draw(float scaleX, float scaleY) {
 
@@ -208,8 +230,8 @@ public class Customer extends BoxObstacle {
             shadow.draw(canvas);
         }
 
-//0, -600 for the final 2 parameters???
-        drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, 50, 0);
+        //somehow give the ability to specify the ox and oy offset
+        drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, this.sprite.getRegionWidth()/2f + offsetX, offsetY);
         if (pat.getTime() > 0){
             pat.draw(this.drawScale.x, this.drawScale.y);
         }
