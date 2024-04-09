@@ -237,6 +237,7 @@ public class RestaurantController extends WorldController implements ContactList
                     }
                     c.timer = new Worldtimer(time, canvas);
                     c.timer.create();
+                    c.setMaxTime();
                 } else if (c.pot.size != 0 && !c.interacting){
                     Ingredient[] temp = c.pot.drop();
                     for(Ingredient i : temp){
@@ -261,6 +262,13 @@ public class RestaurantController extends WorldController implements ContactList
                         c.state = 0;
                         c.timer = null;
                     }
+                }
+            }
+            if(c.timer!=null) {
+                if (Math.abs(c.timer.getTime() - c.getMaxTime()) < 2) {
+                    player.playerIsCooking = true;
+                } else {
+                    player.playerIsCooking = false;
                 }
             }
 

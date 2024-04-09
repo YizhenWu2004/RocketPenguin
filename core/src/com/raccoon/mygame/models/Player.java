@@ -51,6 +51,8 @@ public class Player extends BoxObstacle {
     private float height;
     private float width;
 
+    public boolean playerIsCooking = false;
+
     private Shadow shadow;
 //    b = new BoxObstacle(1,1);
 //		b.setDensity(1.0f);

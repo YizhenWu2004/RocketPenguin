@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.objects.CookingStationObject;
 import com.raccoon.mygame.objects.VentObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 
@@ -20,6 +21,7 @@ public class AnimationController {
     private final FilmStrip playerIdle;
     private final FilmStrip playerServe;
     private final FilmStrip playerServeIdle;
+    private final FilmStrip playerCook;
 
     private final FilmStrip goatWalk;
     private final FilmStrip goatIdle;
@@ -51,6 +53,7 @@ public class AnimationController {
         playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
         playerServe = new FilmStrip(new Texture("720/rockodish.png"), 1, 4, 4);
         playerServeIdle = new FilmStrip(new Texture("720/rockodishidle.png"),1,1,1);
+        playerCook = new FilmStrip(new Texture("720/rockocook.png"),1,5,5);
 
         goatWalk = new FilmStrip(new Texture("720/goatwalk.png"), 1, 4, 4);
         goatIdle = new FilmStrip(new Texture("720/goatsit.png"), 1,1,1);
@@ -75,6 +78,11 @@ public class AnimationController {
     }
 
     public void handleAnimation(Player o, float delta){
+        if(o.playerIsCooking){
+            o.setFilmStrip(playerCook);
+            o.updateAnimation(delta);
+            return;
+        }
         if((o.dishInventory.leftFilled() && (o.getVX() !=0 || o.getVY()!=0)) || (o.dishInventory.rightFilled() && (o.getVX()!=0 || o.getVY()!=0))){
             o.setFilmStrip(playerServe);
             o.updateAnimation(delta);
