@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 public class GuardAIController {
     public enum AIState {
         WANDER,
+        SUS,
         CHASE,
         SLEEP,
         WAKE
@@ -48,6 +49,8 @@ public class GuardAIController {
     Vector2 guardDimension;
 
     private int chaseCounter;
+
+    float susMeter;
 
     /**
      * constant that determines after how many updates, findPath is called in
@@ -93,11 +96,29 @@ public class GuardAIController {
         this.counter2 = 0;
 
         this.nodes = nodes;
+
+        susMeter = 0;
     }
 
     public void setAIStateChase() {
         currentState = AIState.CHASE;
 
+    }
+
+    public void setAIStateSus(){
+        currentState = AIState.SUS;
+    }
+
+    public void incrementSusMeter(float scale){
+        susMeter += scale*0.166;
+    }
+
+    public void decrementSusMeter(float scale){
+        susMeter = (float) Math.max(susMeter-0.166*scale, 0);
+    }
+
+    public float getSusMeter(){
+        return susMeter;
     }
 
     public void setAIStateWander() {
@@ -111,6 +132,10 @@ public class GuardAIController {
     public boolean isSleep(){
         return currentState == AIState.SLEEP;
     }
+
+    public boolean isSus(){return currentState == AIState.SUS;}
+
+    public boolean isChase(){return currentState == AIState.CHASE;}
 
     public void reverseDirection() {
         if(patrolDirection == PatrolDirection.LEFT_RIGHT){
@@ -136,6 +161,18 @@ public class GuardAIController {
        // System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
 
+        if(susMeter != 0){
+            System.out.println("SUS" + susMeter);
+        }
+
+        if(susMeter >= 50){
+            setAIStateChase();
+        }
+
+        if(susMeter <= 0){
+            setAIStateWander();
+        }
+
         sleepWakeTimer -= deltaTime;
         if (currentState == AIState.WAKE && sleepWakeTimer <= 0) {
             currentState = AIState.SLEEP;
@@ -153,7 +190,7 @@ public class GuardAIController {
             System.out.println("WAKE");
             return speedVector;
         }
-        if (currentState == AIState.WANDER && nodes.length > 0) {
+        if ((currentState == AIState.WANDER || currentState == AIState.SUS) && nodes.length > 0) {
             Vector2 targetNode = nodes[currentNodeIndex];
             Vector2 direction = new Vector2(targetNode.x - guardPosition.x, targetNode.y - guardPosition.y).nor();
             speedVector.set(direction.scl(speed));
@@ -162,7 +199,7 @@ public class GuardAIController {
                 currentNodeIndex = (currentNodeIndex + 1) % nodes.length;
             }
         }
-        else if (currentState == AIState.WANDER) {
+        else if (currentState == AIState.WANDER || currentState == AIState.SUS) {
             switch (patrolDirection) {
                 case LEFT_RIGHT:
                     if (movingPositive) {

@@ -30,6 +30,9 @@ public class SightCone extends BoxObstacle {
     RayCastCallback[] rays = new RayCastCallback[10];
 
     private float range;
+
+    private boolean playerDetected;
+
     public SightCone(float x1, float y1, float width, float height, World world, GameCanvas c, Guard guard) {
         super(width, height);
 //        this.canvas = c;
@@ -69,8 +72,13 @@ public class SightCone extends BoxObstacle {
         shapeRenderer.dispose();
     }
 
+    public boolean isPlayerDetected() {
+        return playerDetected;
+    }
+
     public void render() {
 //        range = range * 40;
+        playerDetected = false;
         System.out.println("the range is: " + range);
         if (isActivated) {
             Vector2 position = new Vector2(x, y);
@@ -134,18 +142,25 @@ public class SightCone extends BoxObstacle {
         RayCastCallback callback = (fixture, point, normal, fraction) -> {
             Object userData = fixture.getBody().getUserData();
             if (userData instanceof Player) {
-                g.switchToChaseMode();
+//                g.switchToChaseMode();
+                g.getAIController().setAIStateSus();
+                g.getAIController().incrementSusMeter(1);
+                System.out.println("SUS meter" + g.getAIController().getSusMeter());
                 range = 300;
+                playerDetected = true;
                 return 0;
             }
-            if (userData instanceof NormalObstacle) {
-                    float temp = origin.dst(point) * 40;
-//                    System.out.println("temp is: " + temp);
-                    range = Math.min(temp, 300);
-//                    System.out.println("the range is: " + range);
-//                    System.out.println("the obstacle is: " + userData);
-                return fraction;
-            }
+            /**
+             * commented out cuz not working right now
+             */
+//            if (userData instanceof NormalObstacle) {
+//                    float temp = origin.dst(point) * 40;
+////                    System.out.println("temp is: " + temp);
+//                    range = Math.min(temp, 300);
+////                    System.out.println("the range is: " + range);
+////                    System.out.println("the obstacle is: " + userData);
+//                return fraction;
+//            }
             else {
 //                System.out.println("else is being called");
                 range = 300;

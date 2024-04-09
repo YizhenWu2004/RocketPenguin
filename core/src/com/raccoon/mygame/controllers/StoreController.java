@@ -473,16 +473,4 @@ public class StoreController extends WorldController implements ContactListener 
             guards.get(i).switchToDefaultMode();
         }
     }
-
-//    public void guardTotalReset(){
-//        Array<Guard> guardsTemp = new Array<>();
-//        guardsTemp.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
-//        guardsTemp.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
-//        guardsTemp.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
-//        guardsTemp.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
-//        guards = guardsTemp;
-////        for(Guard g : guards){
-////            g.switchToWanderMode();
-////        }
-//    }
 }

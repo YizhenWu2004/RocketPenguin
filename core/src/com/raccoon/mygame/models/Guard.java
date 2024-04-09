@@ -38,12 +38,11 @@ public class Guard extends WheelObstacle {
     private float width;
     private GameCanvas canvas;
 
-    private float CHASE_DELAY = 0.0f;
-    private float chaseDelay = CHASE_DELAY;
-    private boolean isChaseMode = false;
     private Expression exclam;
 
     private Expression zzz;
+
+    private Expression question;
 
     private Shadow shadow;
 
@@ -77,6 +76,7 @@ public class Guard extends WheelObstacle {
 
         exclam = new Expression("exclamation",x,y);
         zzz = new Expression("zzz",x,y);
+        question = new Expression("question",x,y);
 
         shadow = new Shadow(x,y,0.8f,0.8f);
 
@@ -113,12 +113,17 @@ public class Guard extends WheelObstacle {
         }
         
         sight.updatePosition(newPosition);
+        if(!sight.isPlayerDetected()){
+            aiController.decrementSusMeter(1);
+        }
 
         float exclamationX = this.getX() * scaleX;
         float exclamationY = (this.getY() + height + 1) * scaleY;
         exclam.setPosition(exclamationX, exclamationY);
 
         zzz.setPosition(exclamationX,exclamationY);
+
+        question.setPosition(exclamationX,exclamationY);
 
         float shadowX = this.getX()* scaleX-shadow.getTextureWidth()/2;
         float shadowY = (this.getY() * scaleY) - (this.height * scaleY / 2);
@@ -135,14 +140,7 @@ public class Guard extends WheelObstacle {
 
     }
 
-    if (isChaseMode && chaseDelay > 0) {
-        chaseDelay -= delta;
-        if (chaseDelay <= 0) {
-            chaseDelay = 0;
-        }
-    }
-
-    if (isChaseMode || aiController.isSleep()){
+    if (aiController.isChase() || aiController.isSleep()){
         sight.deactivateSight();
     }
     else{
@@ -165,11 +163,14 @@ public class Guard extends WheelObstacle {
             drawSprite(canvas, -scaleX, scaleY, 30, 20);
             sight.render();
         }
-        if (isChaseMode) {
+        if (aiController.isChase()) {
             exclam.draw(canvas);
         }
-        if(aiController.isSleep()){
+        else if(aiController.isSleep()){
             zzz.draw(canvas);
+        }
+        else if(aiController.isSus()){
+            question.draw(canvas);
         }
     }
 
@@ -184,8 +185,7 @@ public class Guard extends WheelObstacle {
 
     public void switchToChaseMode() {
         this.aiController.setAIStateChase();
-        isChaseMode = true;
-        chaseDelay = CHASE_DELAY;
+//        chaseDelay = CHASE_DELAY;
     }
 
     public void switchToDefaultMode() {
@@ -195,7 +195,7 @@ public class Guard extends WheelObstacle {
         else {
             this.aiController.setAIStateWander();
         }
-        isChaseMode = false;
+//        isChaseMode = false;
     }
     public PatrolDirection getP(){
         return this.aiController.getPatrolDirection();
