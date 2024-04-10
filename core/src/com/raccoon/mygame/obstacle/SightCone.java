@@ -17,6 +17,7 @@ import com.raccoon.mygame.objects.NormalObstacle;
 import com.raccoon.mygame.view.GameCanvas;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class SightCone extends BoxObstacle {
@@ -29,7 +30,7 @@ public class SightCone extends BoxObstacle {
     private boolean isActivated;
     RayCastCallback[] rays = new RayCastCallback[10];
 
-    private float range;
+    private ArrayList<Float> range;
 
     private boolean playerDetected;
 
@@ -48,21 +49,28 @@ public class SightCone extends BoxObstacle {
         g = guard;
         create();
         isActivated = true;
-        range = 300;
+        range = new ArrayList<>();
+        for(int i = 0; i < 31; i++){
+            range.add(300f);
+        }
+//        range = 300;
     }
     public void setPosition(float x1, float y1) {
         x = x1;
         y = y1;
+//        System.out.println("range in setPosition: " + range);
     }
 
-    public float getRange(){
-        return range;
-    }
+//    public float getRange(){
+//        return range;
+//    }
     public Vector2 getPosition() {
+//        System.out.println("range in getPosition: " + range);
         return new Vector2(x, y);
     }
 
     public void create() {
+//        System.out.println("range in create: " + range);
         shapeRenderer = new ShapeRenderer();
         shapeRenderer.setProjectionMatrix(canvas.getCamera().combined);
 
@@ -73,13 +81,15 @@ public class SightCone extends BoxObstacle {
     }
 
     public boolean isPlayerDetected() {
+//        System.out.println("range in isPLayerDetected: " + range);
         return playerDetected;
     }
 
     public void render() {
 //        range = range * 40;
+        System.out.println("range in render: " + range);
         playerDetected = false;
-        System.out.println("the range is: " + range);
+//        System.out.println("the range is: " + range);
         if (isActivated) {
             Vector2 position = new Vector2(x, y);
             float direction = 180;
@@ -88,35 +98,43 @@ public class SightCone extends BoxObstacle {
             //shape render debug lines
             canvas.drawSightCone(position, direction, fov, range, Color.YELLOW, this.g);
             if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.LEFT){
+                int count = 0;
                 for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
-                    performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w);
+                    performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18), new Vector2(vertex.x / canvas.getWidth() * 32, vertex.y / canvas.getHeight() * 18), w, count);
+                    count++;
                 }
             } else if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.RIGHT){
+                int count = 0;
                 for (Vector2 vertex : calculateSightConeVertices(position, direction + 180, fov, range)) {
 //                float flippedDirection = direction + 180;
                     float endX = vertex.x;
                     float endY = vertex.y;
                     performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                             new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
-                            w);
+                            w, count);
+                    count++;
                 }
             } else if(g.getAIController().getOrien()== GuardAIController.GuardOrientation.DOWN){
+                int count = 0;
                 for (Vector2 vertex : calculateSightConeVertices(position, direction + 90, fov, range)) {
 //                float flippedDirection = direction + 180;
                     float endX = vertex.x;
                     float endY = vertex.y;
                     performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                             new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
-                            w);
+                            w,count);
+                    count++;
                 }
             } else {
+                int count = 0;
                 for (Vector2 vertex : calculateSightConeVertices(position, direction -90, fov, range)) {
 //                float flippedDirection = direction + 180;
                     float endX = vertex.x;
                     float endY = vertex.y;
                     performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                             new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
-                            w);
+                            w, count);
+                    count++;
                 }
             }
             }
@@ -133,37 +151,40 @@ public class SightCone extends BoxObstacle {
     }
 
     public void updatePosition(Vector2 newPosition) {
+//        System.out.println("range in updatePosition: " + range);
         this.x = newPosition.x;
         this.y = newPosition.y;
     }
 
-    private void performRaycast(Vector2 origin, Vector2 target, World w) {
-        range = 300;
+    private void performRaycast(Vector2 origin, Vector2 target, World w, int count) {
+        range.set(count, 300f);
+        System.out.println("range in performRaycast: " + range);
+//        range = 300;
         RayCastCallback callback = (fixture, point, normal, fraction) -> {
             Object userData = fixture.getBody().getUserData();
             if (userData instanceof Player) {
 //                g.switchToChaseMode();
                 g.getAIController().setAIStateSus();
                 g.getAIController().incrementSusMeter(1);
-                System.out.println("SUS meter" + g.getAIController().getSusMeter());
-                range = 300;
+//                System.out.println("SUS meter" + g.getAIController().getSusMeter());
+                range.set(count, 300f);
                 playerDetected = true;
                 return 0;
             }
             /**
              * commented out cuz not working right now
              */
-//            if (userData instanceof NormalObstacle) {
-//                    float temp = origin.dst(point) * 40;
-////                    System.out.println("temp is: " + temp);
-//                    range = Math.min(temp, 300);
-////                    System.out.println("the range is: " + range);
-////                    System.out.println("the obstacle is: " + userData);
-//                return fraction;
-//            }
+            if (userData instanceof NormalObstacle) {
+                    float temp = origin.dst(point) * 40;
+//                    System.out.println("temp is: " + temp);
+                    range.set(count, Math.min(temp, 300));
+//                    System.out.println("the range is: " + range);
+//                    System.out.println("the obstacle is: " + userData);
+                return fraction;
+            }
             else {
-//                System.out.println("else is being called");
-                range = 300;
+                System.out.println("else is being called");
+                range.set(count, 300f);
                 return -1;
             }
         };
@@ -171,7 +192,10 @@ public class SightCone extends BoxObstacle {
         w.rayCast(callback, origin, target);
     }
 
-    private Vector2[] calculateSightConeVertices(Vector2 position, float direction, float fov, float range) {
+    private Vector2[] calculateSightConeVertices(Vector2 position, float direction, float fov, ArrayList<Float> range2) {
+        System.out.println("range in calculateSightconeVertices: " + range);
+        System.out.println("range2 in calculateSightConeVertices: " + range2);
+
         int numVertices = 30; // Number of vertices for the cone
 
         Vector2[] vertices = new Vector2[numVertices];
@@ -181,8 +205,8 @@ public class SightCone extends BoxObstacle {
 
         for (int i = 0; i < numVertices; i++) {
             float angle = startAngle + angleIncrement * i;
-            float x = position.x + range * MathUtils.cosDeg(angle);
-            float y = position.y + range * MathUtils.sinDeg(angle);
+            float x = position.x + range2.get(i) * MathUtils.cosDeg(angle);
+            float y = position.y + range2.get(i) * MathUtils.sinDeg(angle);
             vertices[i] = new Vector2(x, y);
         }
         return vertices;
