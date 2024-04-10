@@ -101,14 +101,14 @@ public class Guard extends WheelObstacle {
         
         switch (getAIController().getOrien()) {
             case LEFT:
-                newPosition.add(-30, 100);
+                newPosition.add(0, 10);
                 break;
             case RIGHT:
-                newPosition.add(-60, 100);
+                newPosition.add(-70, 20);
                 break;
             case UP: 
             default:
-                newPosition.add(0, 100);
+                newPosition.add(0, 20);
                 break;
         }
         

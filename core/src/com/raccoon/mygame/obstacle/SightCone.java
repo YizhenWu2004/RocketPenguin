@@ -87,7 +87,7 @@ public class SightCone extends BoxObstacle {
 
     public void render() {
 //        range = range * 40;
-        System.out.println("range in render: " + range);
+//        System.out.println("range in render: " + range);
         playerDetected = false;
 //        System.out.println("the range is: " + range);
         if (isActivated) {
@@ -158,7 +158,7 @@ public class SightCone extends BoxObstacle {
 
     private void performRaycast(Vector2 origin, Vector2 target, World w, int count) {
         range.set(count, 300f);
-        System.out.println("range in performRaycast: " + range);
+//        System.out.println("range in performRaycast: " + range);
 //        range = 300;
         RayCastCallback callback = (fixture, point, normal, fraction) -> {
             Object userData = fixture.getBody().getUserData();
@@ -183,7 +183,7 @@ public class SightCone extends BoxObstacle {
                 return fraction;
             }
             else {
-                System.out.println("else is being called");
+//                System.out.println("else is being called");
                 range.set(count, 300f);
                 return -1;
             }
@@ -193,8 +193,8 @@ public class SightCone extends BoxObstacle {
     }
 
     private Vector2[] calculateSightConeVertices(Vector2 position, float direction, float fov, ArrayList<Float> range2) {
-        System.out.println("range in calculateSightconeVertices: " + range);
-        System.out.println("range2 in calculateSightConeVertices: " + range2);
+//        System.out.println("range in calculateSightconeVertices: " + range);
+//        System.out.println("range2 in calculateSightConeVertices: " + range2);
 
         int numVertices = 30; // Number of vertices for the cone
 
