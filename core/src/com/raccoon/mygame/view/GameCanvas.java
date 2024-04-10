@@ -31,6 +31,8 @@ import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.models.Guard;
 
+import java.util.ArrayList;
+
 /**
  * Primary view class for the game, abstracting the basic graphics calls.
  * <p>
@@ -1287,7 +1289,7 @@ public class GameCanvas {
         return camera.position;
     }
 
-    public void drawSightCone(Vector2 position, float direction, float fov, float range, Color color, Guard g) {
+    public void drawSightCone(Vector2 position, float direction, float fov, ArrayList<Float> range, Color color, Guard g) {
         if (active == DrawPass.STANDARD) {
             spriteBatch.end();
             active = DrawPass.INACTIVE;
@@ -1301,38 +1303,38 @@ public class GameCanvas {
         debugRender.setColor(color);
         if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.LEFT){
             float angleStep = fov / 30;
-            for (int i = 0; i <= 30; i++) {
+            for (int i = 0; i < 30; i++) {
                  float angle = direction - fov / 2 + angleStep * i;
-                float endX = position.x + range * MathUtils.cosDeg(angle);
-                float endY = position.y + range * MathUtils.sinDeg(angle);
+                float endX = position.x + range.get(i) * MathUtils.cosDeg(angle);
+                float endY = position.y + range.get(i) * MathUtils.sinDeg(angle);
                 debugRender.line(position.x, position.y, endX, endY);
 //                System.out.println("the shape x:" + endX);
 //                System.out.println("the shape y:" + endY);
             }
         } else if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.RIGHT){
                 float angleStep = fov / 30;
-                for (int i = 0; i <= 30; i++) {
+                for (int i = 0; i < 30; i++) {
                     float angle = direction - fov / 2 + angleStep * i;
-                    float endX = position.x - range * MathUtils.cosDeg(angle) + 80;
-                    float endY = position.y + range * MathUtils.sinDeg(angle);
+                    float endX = position.x - range.get(i) * MathUtils.cosDeg(angle) + 80;
+                    float endY = position.y + range.get(i) * MathUtils.sinDeg(angle);
                     debugRender.line(position.x + 80, position.y, endX, endY);
 //                    System.out.println("the shape x:" + endX);
 //                    System.out.println("the shape y:" + endY);
                 }
         } else if(g.getAIController().getOrien()== GuardAIController.GuardOrientation.DOWN){
             float angleStep = fov / 30;
-            for (int i = 0; i <= 30; i++) {
+            for (int i = 0; i < 30; i++) {
                 float angle = direction - fov / 2 + angleStep * i + 90;
-                float endX = position.x + range * MathUtils.cosDeg(angle);
-                float endY = position.y + range * MathUtils.sinDeg(angle);
+                float endX = position.x + range.get(i) * MathUtils.cosDeg(angle);
+                float endY = position.y + range.get(i) * MathUtils.sinDeg(angle);
                 debugRender.line(position.x, position.y, endX, endY);
             }
         } else {
             float angleStep = fov / 30;
-                for (int i = 0; i <= 30; i++) {
+                for (int i = 0; i < 30; i++) {
                     float angle = direction - fov / 2 + angleStep * i - 90;
-                    float endX = position.x + range * MathUtils.cosDeg(angle);
-                    float endY = position.y + range * MathUtils.sinDeg(angle);
+                    float endX = position.x + range.get(i) * MathUtils.cosDeg(angle);
+                    float endY = position.y + range.get(i) * MathUtils.sinDeg(angle);
                     debugRender.line(position.x, position.y, endX, endY);
                 }
         }
