@@ -127,6 +127,7 @@ public class StoreController extends WorldController implements ContactListener 
 
 
         obstacles = new Array();
+        //keep these
         addShelfHorizontal(2.5f, 15.7f);
         addShelfHorizontal(7.75f, 15.7f);
         addShelfHorizontal(13f, 15.7f);
@@ -135,6 +136,7 @@ public class StoreController extends WorldController implements ContactListener 
         addShelfHorizontal(28.75f, 15.7f);
 
 
+        //keep these
         addFruitCrate(4, 13f, new Ingredient("orange", new Texture("720/orange.png"), -1));
         addFruitCrate(24f, 14f, new Ingredient("apple", new Texture("720/apple.png"), -1));
         addFruitCrate(28.5f, 2f, new Ingredient("banana", new Texture("720/banana.png"), -1));
@@ -149,35 +151,42 @@ public class StoreController extends WorldController implements ContactListener 
         addShelfHorizontal(24.8f, -2.3f);
         addShelfHorizontal(30, -2.3f);
 
+        //keep these
         addShelfHorizontal(3f, 10f);
         addShelfHorizontal(13.05f, 10f);
         addShelfHorizontal(18.25f, 10f);
         addShelfHorizontal(28.65f, 10f);
 
 
+        //keep these
         addShelfHorizontal(18.25f, 4.5f);
 //        addShelfHorizontal(23.45f, 4.5f);
         addShelfHorizontal(28.65f, 4.5f);
 
+        //keep these
         addShelfVertical(31.7f, 15.75f);
         addShelfVertical(31.7f, 11.5f);
         addShelfVertical(31.7f, 7.25f);
         addShelfVertical(31.7f, 3);
         addShelfVertical(31.7f, 0);
 
+        //keep these
         addShelfVertical(0f, 14.75f);
         addShelfVertical(0f, 10.5f);
         addShelfVertical(0f, 6.25f);
 
+        //keep these
         addDecoration(9,0,"ventwallvertical",0.6f,2,1,1,0,-70f, false);
         addDecoration(2.5f,4,"ventwallhorizontal",5,1,1,1,0,-60f, false);
         addDecoration(2,3.2f,"janitoritems",1f,0.5f,1,1,0,-50f, false);
 
+        //keep these
         addDecoration(1,9.5f,"boxmedium",1,1,1,1,0,0,false);
         addDecoration(1.2f,12.5f,"boxlarge",1.2f,-0.5f,1,1,0,0,false);
         addDecoration(1.2f,15.5f,"boxlarge",1.2f,-0.5f,1,1,0,0,false);
         addDecoration(3.2f,14.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
 
+        //keep these
         addDecoration(30.2f,14.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
         addDecoration(30.2f,3.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
         //addShelfVertical(0f, 2.25f);
