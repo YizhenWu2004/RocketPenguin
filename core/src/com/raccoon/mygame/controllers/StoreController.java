@@ -109,10 +109,10 @@ public class StoreController extends WorldController implements ContactListener 
 
         this.input = input;
         ingredients = new Array<>();
-//        ingredients.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
+        ingredients.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
         ingredients.add(new Ingredient("banana", 1600, 300, new Texture("720/banana.png"), -1));
         ingredients.add(new Ingredient("orange", 1500, 800, new Texture("720/orange.png"), -1));
-//        ingredients.add(new Ingredient("orange", 900, 400, new Texture("720/orange.png"), -1));
+        ingredients.add(new Ingredient("orange", 900, 400, new Texture("720/orange.png"), -1));
         ingredients.add(new Ingredient("banana", 1000, 800, new Texture("720/banana.png"), -1));
         ingredients.add(new Ingredient("apple", 2000, 300, new Texture("720/apple.png"), -1));
         for (Ingredient in: ingredients) {
@@ -127,6 +127,7 @@ public class StoreController extends WorldController implements ContactListener 
 
 
         obstacles = new Array();
+      
         //keep these
         addShelfHorizontal(2.5f, 15.7f);
         addShelfHorizontal(7.75f, 15.7f);
@@ -157,8 +158,6 @@ public class StoreController extends WorldController implements ContactListener 
         addShelfHorizontal(18.25f, 10f);
         addShelfHorizontal(28.65f, 10f);
 
-
-        //keep these
         addShelfHorizontal(18.25f, 4.5f);
 //        addShelfHorizontal(23.45f, 4.5f);
         addShelfHorizontal(28.65f, 4.5f);
@@ -206,15 +205,11 @@ public class StoreController extends WorldController implements ContactListener 
         guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0]));
         guardX.add(28f);
         guardY.add(13.3f);
-
-        //taken out to make the game actually playable
-//        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
-//        guardX.add(12.5f);
-//        guardY.add(6.67f);
-
-
-//        guards.get(0).getSight().deactivateSight();
-//        guards.get(0).getSight().reactivateSight();
+        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
+        guardX.add(12.5f);
+        guardY.add(6.67f);
+        guards.get(0).getSight().deactivateSight();
+        guards.get(0).getSight().reactivateSight();
         //this is the guard that is moving on a node base system (near the fruit crates)
         Vector2[] crateGuardNodes = new Vector2[4];
 
@@ -514,16 +509,4 @@ public class StoreController extends WorldController implements ContactListener 
             guards.get(i).switchToDefaultMode();
         }
     }
-
-//    public void guardTotalReset(){
-//        Array<Guard> guardsTemp = new Array<>();
-//        guardsTemp.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
-//        guardsTemp.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
-//        guardsTemp.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
-//        guardsTemp.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
-//        guards = guardsTemp;
-////        for(Guard g : guards){
-////            g.switchToWanderMode();
-////        }
-//    }
 }

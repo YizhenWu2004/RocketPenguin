@@ -24,6 +24,9 @@ public class Expression {
         if(name == "zzz"){
             this.texture = new Texture("720/"+ "zzz" + ".png");
         }
+        if(name == "question"){
+            this.texture = new Texture("720/"+ "question" + ".png");
+        }
     }
 
     public float getXPosition() {

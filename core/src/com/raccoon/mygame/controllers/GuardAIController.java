@@ -11,6 +11,7 @@ import java.util.PriorityQueue;
 public class GuardAIController {
     public enum AIState {
         WANDER,
+        SUS,
         CHASE,
         SLEEP,
         WAKE
@@ -49,6 +50,8 @@ public class GuardAIController {
 
     private int chaseCounter;
 
+    float susMeter;
+
     /**
      * constant that determines after how many updates, findPath is called in
      * updateChaseMode
@@ -78,8 +81,7 @@ public class GuardAIController {
             currentState = AIState.WANDER;
             this.lowerBoundary = Math.max(y - patrolRange, 0);
             this.upperBoundary = Math.min(y + patrolRange, worldHeight);
-        }
-        else if(patrolDirection == PatrolDirection.SLEEP_WAKE){
+        } else if (patrolDirection == PatrolDirection.SLEEP_WAKE) {
             currentState = AIState.WAKE;
         }
 
@@ -88,16 +90,34 @@ public class GuardAIController {
 
         this.guardDimension = guardDimension;
         this.counter = 0;
-        this.chaseSpeed = speed*3;
+        this.chaseSpeed = speed * 3;
         this.chaseCounter = 0;
         this.counter2 = 0;
 
         this.nodes = nodes;
+
+        susMeter = 0;
     }
 
     public void setAIStateChase() {
         currentState = AIState.CHASE;
 
+    }
+
+    public void setAIStateSus() {
+        currentState = AIState.SUS;
+    }
+
+    public void incrementSusMeter(float scale) {
+        susMeter += scale * 0.166;
+    }
+
+    public void decrementSusMeter(float scale) {
+        susMeter = (float) Math.max(susMeter - 0.166 * scale, 0);
+    }
+
+    public float getSusMeter() {
+        return susMeter;
     }
 
     public void setAIStateWander() {
@@ -108,33 +128,56 @@ public class GuardAIController {
         currentState = AIState.WAKE;
     }
 
-    public boolean isSleep(){
+    public boolean isSleep() {
         return currentState == AIState.SLEEP;
     }
 
+    public boolean isSus() {
+        return currentState == AIState.SUS;
+    }
+
+    public boolean isChase() {
+        return currentState == AIState.CHASE;
+    }
+
     public void reverseDirection() {
-        if(patrolDirection == PatrolDirection.LEFT_RIGHT){
-            if(counter == 1){
-            movingRight = false;
-            counter = 0;
-            }  else {movingRight = true;
-            counter++;}
+        if (patrolDirection == PatrolDirection.LEFT_RIGHT) {
+            if (counter == 1) {
+                movingRight = false;
+                counter = 0;
+            } else {
+                movingRight = true;
+                counter++;
+            }
         }
         movingPositive = !movingPositive;
-        if(patrolDirection == PatrolDirection.UP_DOWN){
-            if(counter2 == 1){
+        if (patrolDirection == PatrolDirection.UP_DOWN) {
+            if (counter2 == 1) {
                 movingup = false;
                 counter2 = 0;
             } else {
                 movingup = true;
-                 counter2++;
+                counter2++;
             }
         }
     }
 
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
-       // System.out.println(currentState);
+        // System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
+//        if (susMeter != 0) {
+//            System.out.println("SUS" + susMeter);
+//        }
+
+        if (susMeter >= 50) {
+            setAIStateChase();
+        }
+
+        if (susMeter <= 0) {
+            if(currentState == AIState.SUS){
+                setAIStateWander();
+            }
+        }
 
         sleepWakeTimer -= deltaTime;
         if (currentState == AIState.WAKE && sleepWakeTimer <= 0) {
@@ -145,15 +188,15 @@ public class GuardAIController {
             sleepWakeTimer = AWAKE_DURATION;
         }
 
-        if(currentState == AIState.SLEEP){
+        if (currentState == AIState.SLEEP) {
             System.out.println("SLEEP");
             return speedVector;
         }
-        if(currentState == AIState.WAKE){
+        if (currentState == AIState.WAKE) {
             System.out.println("WAKE");
             return speedVector;
         }
-        if (currentState == AIState.WANDER && nodes.length > 0) {
+        if ((currentState == AIState.WANDER || currentState == AIState.SUS) && nodes.length > 0) {
             Vector2 targetNode = nodes[currentNodeIndex];
             Vector2 direction = new Vector2(targetNode.x - guardPosition.x, targetNode.y - guardPosition.y).nor();
             speedVector.set(direction.scl(speed));
@@ -161,8 +204,7 @@ public class GuardAIController {
             if (guardPosition.dst(targetNode) < 1f) {
                 currentNodeIndex = (currentNodeIndex + 1) % nodes.length;
             }
-        }
-        else if (currentState == AIState.WANDER) {
+        } else if (currentState == AIState.WANDER || currentState == AIState.SUS) {
             switch (patrolDirection) {
                 case LEFT_RIGHT:
                     if (movingPositive) {
@@ -198,8 +240,8 @@ public class GuardAIController {
         } else if (currentState == AIState.CHASE) {
             chaseCounter++;
 //            Vector2 playerPosition = new Vector2(info.get(2), info.get(3));
-            Vector2 chaseSpeed = updateChaseMode(guardPosition, info ,chaseCounter);
-            if(chaseCounter >= CHASE_COUNTER_CONSTANT){
+            Vector2 chaseSpeed = updateChaseMode(guardPosition, info, chaseCounter);
+            if (chaseCounter >= CHASE_COUNTER_CONSTANT) {
                 chaseCounter = 0;
             }
             if (chaseSpeed != null) {
@@ -235,28 +277,29 @@ public class GuardAIController {
         }
     }
 
-    public Array<Vector2> findPathMain(Vector2 start, Array<Float> info){
-        Vector2 lower = new Vector2(info.get(0),info.get(1));
-        Vector2 mid = new Vector2(info.get(2),info.get(3));
-        Vector2 upper = new Vector2(info.get(4),info.get(5));
+    public Array<Vector2> findPathMain(Vector2 start, Array<Float> info) {
+        Vector2 lower = new Vector2(info.get(0), info.get(1));
+        Vector2 mid = new Vector2(info.get(2), info.get(3));
+        Vector2 upper = new Vector2(info.get(4), info.get(5));
 
         Array<Vector2> pathLower = findPath(start, lower);
-        if(pathLower.size != 0){
+        if (pathLower.size != 0) {
             return pathLower;
         }
 
         Array<Vector2> pathMid = findPath(start, mid);
-        if(pathMid.size != 0){
+        if (pathMid.size != 0) {
             return pathMid;
         }
 
-        return findPath(start,upper);
+        return findPath(start, upper);
     }
 
     /**
      * runs dijskra's and finds the shortest path from start to goal
+     *
      * @param start guard's position
-     * @param goal the goal tile
+     * @param goal  the goal tile
      * @return array of coordinates that the guard should take to reach to goal
      */
     public Array<Vector2> findPath(Vector2 start, Vector2 goal) {
@@ -276,11 +319,11 @@ public class GuardAIController {
             }
 
             for (Vector2 next : getNeighbors(current.position, guardDimension.x, guardDimension.y)) {
-                if (!visited[(int)next.x][(int)next.y]) {
-                    visited[(int)next.x][(int)next.y] = true;
+                if (!visited[(int) next.x][(int) next.y]) {
+                    visited[(int) next.x][(int) next.y] = true;
                     float newCost = current.cost + 1;
                     frontier.add(new Node(next, current, newCost));
-                    cameFrom[(int)next.x][(int)next.y] = current;
+                    cameFrom[(int) next.x][(int) next.y] = current;
                 }
             }
         }
@@ -309,8 +352,8 @@ public class GuardAIController {
         int guardHeightCells = 2;
 
         for (int[] direction : directions) {
-            int nx = (int)position.x + direction[0];
-            int ny = (int)position.y + direction[1];
+            int nx = (int) position.x + direction[0];
+            int ny = (int) position.y + direction[1];
 
             if (canFitInPosition(nx, ny, guardWidthCells, guardHeightCells)) {
                 neighbors.add(new Vector2(nx, ny));
@@ -320,8 +363,6 @@ public class GuardAIController {
     }
 
     /**
-     *
-     *
      * @param x
      * @param y
      * @param widthCells
@@ -344,20 +385,19 @@ public class GuardAIController {
     /**
      * First finds a path, if necessary, calling findPath, storing it in
      * currentPath, then initializing currentPathIndex to 0
-     *
+     * <p>
      * Then,
      *
      * @param guardPosition position of guard right now
-     * @param info information (see store controller)
+     * @param info          information (see store controller)
      * @return the appropriate velocity according to the shortest path
      */
     public Vector2 updateChaseMode(Vector2 guardPosition, Array<Float> info, int chaseCounter) {
-        Vector2 playerPosition = new Vector2(info.get(0),info.get(1));
-        if(chaseCounter >=CHASE_COUNTER_CONSTANT){
+        Vector2 playerPosition = new Vector2(info.get(0), info.get(1));
+        if (chaseCounter >= CHASE_COUNTER_CONSTANT) {
             currentPath = findPathMain(guardPosition, info);
             currentPathIndex = 0;
-        }
-        else if (currentPath.isEmpty() || currentPathIndex >= currentPath.size || playerPosition.dst(guardPosition) > 10) {
+        } else if (currentPath.isEmpty() || currentPathIndex >= currentPath.size || playerPosition.dst(guardPosition) > 10) {
             currentPath = findPathMain(guardPosition, info);
             currentPathIndex = 0;
         }
@@ -378,21 +418,25 @@ public class GuardAIController {
 
         return null;
     }
-    public boolean getDirection(){
+
+    public boolean getDirection() {
         //returns true if moving right
         return movingRight;
     }
-    public boolean getDirection2(){
+
+    public boolean getDirection2() {
         return movingup;
     }
-    public PatrolDirection getPatrolDirection(){
+
+    public PatrolDirection getPatrolDirection() {
         return this.patrolDirection;
     }
 
     public AIState getCurrentState() {
         return currentState;
     }
-    public GuardOrientation getOrien(){
+
+    public GuardOrientation getOrien() {
         return orien;
     }
 }
