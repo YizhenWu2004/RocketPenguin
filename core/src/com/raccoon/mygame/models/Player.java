@@ -51,6 +51,8 @@ public class Player extends BoxObstacle {
     private float height;
     private float width;
 
+    public boolean playerIsCooking = false;
+
     private Shadow shadow;
 //    b = new BoxObstacle(1,1);
 //		b.setDensity(1.0f);
@@ -167,7 +169,6 @@ public class Player extends BoxObstacle {
 
     //draw with scale
     public void draw(float scaleX, float scaleY) {
-        System.out.println(this.drawScale.x +  " " +this.drawScale.y);
 
         shadow.draw(canvas);
         setDirection();

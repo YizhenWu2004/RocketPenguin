@@ -58,6 +58,12 @@ public class Worldtimer extends ApplicationAdapter {
         }
     }
 
+    public void drawNoFormat(float x, float y){
+        int time= Math.max(countdownSeconds, 0);
+        gameCanvas.drawText(Integer.toString(time),
+                f, x, y, 2, 2,layout);
+    }
+
 
 
     public int getTime(){

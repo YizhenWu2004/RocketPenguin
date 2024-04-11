@@ -81,9 +81,17 @@ public class StoreController extends WorldController implements ContactListener 
 
     private void addFruitCrate(float x, float y, Ingredient ingredient) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 1, 1, 0f, 0f,
-                new Texture("720/"+ ingredient.type + ".png"), world, canvas, ingredient);
+                new Texture("720/" + ingredient.type + ".png"), world, canvas, ingredient);
         obstacles.add(obstacle);
         drawableObjects.add(obstacle);
+    }
+
+    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
     }
 
     public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv) {
@@ -99,10 +107,10 @@ public class StoreController extends WorldController implements ContactListener 
 
         this.input = input;
         ingredients = new Array<>();
-        ingredients.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
+//        ingredients.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
         ingredients.add(new Ingredient("banana", 1600, 300, new Texture("720/banana.png"), -1));
         ingredients.add(new Ingredient("orange", 1500, 800, new Texture("720/orange.png"), -1));
-        ingredients.add(new Ingredient("orange", 900, 400, new Texture("720/orange.png"), -1));
+//        ingredients.add(new Ingredient("orange", 900, 400, new Texture("720/orange.png"), -1));
         ingredients.add(new Ingredient("banana", 1000, 800, new Texture("720/banana.png"), -1));
         ingredients.add(new Ingredient("apple", 2000, 300, new Texture("720/apple.png"), -1));
         for (Ingredient in: ingredients) {
@@ -117,39 +125,67 @@ public class StoreController extends WorldController implements ContactListener 
 
 
         obstacles = new Array();
-        addShelfHorizontal(2.5f, 16.5f);
-        addShelfHorizontal(7.75f, 16.5f);
-        addShelfHorizontal(13f, 16.5f);
-        addShelfHorizontal(18.25f, 16.5f);
-        addShelfHorizontal(23.5f, 16.5f);
-        addShelfHorizontal(28.75f, 16.5f);
+      
+        //keep these
+        addShelfHorizontal(2.5f, 15.7f);
+        addShelfHorizontal(7.75f, 15.7f);
+        addShelfHorizontal(13f, 15.7f);
+        addShelfHorizontal(18.25f, 15.7f);
+        addShelfHorizontal(23.5f, 15.7f);
+        addShelfHorizontal(28.75f, 15.7f);
 
-        addShelfHorizontal(7.5f, 12.5f);
-        addShelfHorizontal(12.75f, 12.5f);
-        addShelfHorizontal(18.5f, 12.5f);
-        addShelfHorizontal(23.75f, 12.5f);
 
-        addFruitCrate(28.5f, 5f, new Ingredient("orange", new Texture("720/orange.png"), -1));
-        addFruitCrate(24f, 5f, new Ingredient("apple", new Texture("720/apple.png"), -1));
-        addFruitCrate(28.5f, 9f, new Ingredient("banana", new Texture("720/banana.png"), -1));
-        addFruitCrate(24f, 9f, new Ingredient("orange", new Texture("720/orange.png"), -1));
-        addShelfHorizontal(23.5f, 0.5f);
-        addShelfHorizontal(28.75f, 0.5f);
+        //keep these
+        addFruitCrate(4, 13f, new Ingredient("orange", new Texture("720/orange.png"), -1));
+        addFruitCrate(24f, 14f, new Ingredient("apple", new Texture("720/apple.png"), -1));
+        addFruitCrate(28.5f, 2f, new Ingredient("banana", new Texture("720/banana.png"), -1));
+        addFruitCrate(24f, 8f, new Ingredient("greenpepper", new Texture("720/greenpepper.png"), -1));
 
-        addShelfHorizontal(3f, 8.5f);
-        addShelfHorizontal(13f, 8.5f);
-        addShelfHorizontal(18.25f, 8.5f);
+        //these are out of view
+        addShelfHorizontal(-1.2f, -2.3f);
+        addShelfHorizontal(4f, -2.3f);
+        addShelfHorizontal(9.2f, -2.3f);
+        addShelfHorizontal(14.4f, -2.3f);
+        addShelfHorizontal(19.6f, -2.3f);
+        addShelfHorizontal(24.8f, -2.3f);
+        addShelfHorizontal(30, -2.3f);
 
-        addShelfVertical(20.5f, 7f);
-        addShelfVertical(10.5f, 2f);
+        //keep these
+        addShelfHorizontal(3f, 10f);
+        addShelfHorizontal(13.05f, 10f);
+        addShelfHorizontal(18.25f, 10f);
+        addShelfHorizontal(28.65f, 10f);
 
         addShelfHorizontal(18.25f, 4.5f);
+//        addShelfHorizontal(23.45f, 4.5f);
+        addShelfHorizontal(28.65f, 4.5f);
 
-        addShelfVertical(32f, 14.75f);
-        addShelfVertical(32f, 8.5f);
-        addShelfVertical(32f, 2.25f);
+        //keep these
+        addShelfVertical(31.7f, 15.75f);
+        addShelfVertical(31.7f, 11.5f);
+        addShelfVertical(31.7f, 7.25f);
+        addShelfVertical(31.7f, 3);
+        addShelfVertical(31.7f, 0);
+
+        //keep these
         addShelfVertical(0f, 14.75f);
-        addShelfVertical(0f, 8.5f);
+        addShelfVertical(0f, 10.5f);
+        addShelfVertical(0f, 6.25f);
+
+        //keep these
+        addDecoration(9,0,"ventwallvertical",0.6f,2,1,1,0,-70f, false);
+        addDecoration(2.5f,4,"ventwallhorizontal",5,1,1,1,0,-60f, false);
+        addDecoration(2,3.2f,"janitoritems",1f,0.5f,1,1,0,-50f, false);
+
+        //keep these
+        addDecoration(1,9.5f,"boxmedium",1,1,1,1,0,0,false);
+        addDecoration(1.2f,12.5f,"boxlarge",1.2f,-0.5f,1,1,0,0,false);
+        addDecoration(1.2f,15.5f,"boxlarge",1.2f,-0.5f,1,1,0,0,false);
+        addDecoration(3.2f,14.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
+
+        //keep these
+        addDecoration(30.2f,14.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
+        addDecoration(30.2f,3.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
         //addShelfVertical(0f, 2.25f);
         active = false;
         world.setContactListener(this);
@@ -161,7 +197,7 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
 
-        guards.add(new Guard(2.5f, 5, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0]));
+        guards.add(new Guard(2.5f, 6f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0]));
         guardX.add(2.5f);
         guardY.add(5f);
         guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0]));
@@ -170,17 +206,17 @@ public class StoreController extends WorldController implements ContactListener 
         guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
         guardX.add(12.5f);
         guardY.add(6.67f);
-//        guards.get(0).getSight().deactivateSight();
-//        guards.get(0).getSight().reactivateSight();
+        guards.get(0).getSight().deactivateSight();
+        guards.get(0).getSight().reactivateSight();
         //this is the guard that is moving on a node base system (near the fruit crates)
         Vector2[] crateGuardNodes = new Vector2[4];
 
         float nodOff = 1.5f;
 
-        crateGuardNodes[0] = new Vector2(29.5f+nodOff,10+nodOff);
-        crateGuardNodes[1] = new Vector2(29.5f+nodOff,4-nodOff);
-        crateGuardNodes[2] = new Vector2(23-nodOff,4-nodOff);
-        crateGuardNodes[3] = new Vector2(23-nodOff,10+nodOff);
+        crateGuardNodes[0] = new Vector2(22.5f+nodOff,12+nodOff);
+        crateGuardNodes[1] = new Vector2(4.5f+nodOff,12+nodOff);
+        crateGuardNodes[2] = new Vector2(4.5f+nodOff,5.7f+nodOff);
+        crateGuardNodes[3] = new Vector2(18.5f+nodOff,5.7f+nodOff);
         guards.add(new Guard(23.3f, 10+nodOff, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,crateGuardNodes));
         guardX.add(23.3f);
         guardY.add(10f);
@@ -471,16 +507,4 @@ public class StoreController extends WorldController implements ContactListener 
             guards.get(i).switchToDefaultMode();
         }
     }
-
-//    public void guardTotalReset(){
-//        Array<Guard> guardsTemp = new Array<>();
-//        guardsTemp.add(new Guard(2.5f, 5, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
-//        guardsTemp.add(new Guard(25, 13.3f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer));
-//        guardsTemp.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
-//        guardsTemp.add(new Guard(23.3f, 10, 1.67f, 0.83f, new Texture("gooseReal.png"), world, canvas, PatrolDirection.UP_DOWN,collisionLayer));
-//        guards = guardsTemp;
-////        for(Guard g : guards){
-////            g.switchToWanderMode();
-////        }
-//    }
 }

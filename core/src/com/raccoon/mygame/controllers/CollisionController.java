@@ -17,7 +17,7 @@ public class CollisionController {
     /**
      * Maximum distance a player must be from a guard to be caught
      */
-    protected static final float GUARD_RADIUS = 1.0f;
+    protected static final float GUARD_RADIUS = 2.0f;
 
     private final int WORLD_WIDTH = 32;
     private final int WORLD_HEIGHT = 18;
@@ -166,8 +166,8 @@ public class CollisionController {
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
             if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
 //            System.out.println(g.getY());
-
-                g.switchToChaseMode();
+                System.out.println("sensing w/o sightcone");
+//                g.switchToChaseMode();
             }
         }
     }
