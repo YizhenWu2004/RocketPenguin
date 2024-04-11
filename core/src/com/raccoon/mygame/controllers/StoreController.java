@@ -109,10 +109,10 @@ public class StoreController extends WorldController implements ContactListener 
 
         this.input = input;
         ingredients = new Array<>();
-        ingredients.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
+//        ingredients.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
         ingredients.add(new Ingredient("banana", 1600, 300, new Texture("720/banana.png"), -1));
         ingredients.add(new Ingredient("orange", 1500, 800, new Texture("720/orange.png"), -1));
-        ingredients.add(new Ingredient("orange", 900, 400, new Texture("720/orange.png"), -1));
+//        ingredients.add(new Ingredient("orange", 900, 400, new Texture("720/orange.png"), -1));
         ingredients.add(new Ingredient("banana", 1000, 800, new Texture("720/banana.png"), -1));
         ingredients.add(new Ingredient("apple", 2000, 300, new Texture("720/apple.png"), -1));
         for (Ingredient in: ingredients) {
