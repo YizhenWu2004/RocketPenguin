@@ -19,6 +19,7 @@ public class NormalObstacle extends BoxObstacle {
     private float sy;
     private GameCanvas canvas;
     private Ingredient ingredient;
+    private boolean drawPriority = false;
 
     public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas) {
         super(x, y, width, height);
@@ -39,6 +40,29 @@ public class NormalObstacle extends BoxObstacle {
         this.setBodyType(BodyType.StaticBody);
         setDrawScale(scaleX, scaleY);
         this.getBody().setUserData(this);
+    }
+
+    public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas, boolean drawPriority) {
+        super(x, y, width, height);
+        this.texture = texture;
+        setTexture(new TextureRegion(texture));
+        scaleX = canvas.getWidth() / WORLD_WIDTH;
+        scaleY = canvas.getHeight() / WORLD_HEIGHT;
+        this.sx = sx;
+        this.sy = sy;
+        this.ox = ox;
+        this.oy = oy;
+        this.canvas = canvas;
+        setFixedRotation(true);
+        setDensity(1);
+        setFriction(0);
+        setLinearDamping(0);
+        activatePhysics(world);
+        this.setBodyType(BodyType.StaticBody);
+        setDrawScale(scaleX, scaleY);
+        this.getBody().setUserData(this);
+
+        this.drawPriority = drawPriority;
     }
 
     public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas, Ingredient ingredient) {
@@ -78,6 +102,8 @@ public class NormalObstacle extends BoxObstacle {
     public float getSY() {
         return sy;
     }
+
+    public boolean getDrawPriority() {return drawPriority;}
 
     public void draw() {
         draw(canvas, sx, sy, ox, oy);

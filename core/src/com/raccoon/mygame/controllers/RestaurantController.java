@@ -79,6 +79,21 @@ public class RestaurantController extends WorldController implements ContactList
         drawableObjects.add(t);
     }
 
+    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
@@ -103,7 +118,7 @@ public class RestaurantController extends WorldController implements ContactList
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
-        temp = new CookingStationObject(30.3f, 14.1f, 1.25f, 5f, 1, 1, 0f, -32f,
+        temp = new CookingStationObject(30.97f, 14.2f, 1.25f, 5f, 1, 1, 0f, -32f,
                 new Texture("720/kitchenright.png"), world, canvas, 2,0);
       
         obstacles.add(temp);
@@ -126,6 +141,25 @@ public class RestaurantController extends WorldController implements ContactList
         addWallBump(14.5f, 16.5f);
         addWallBump(23f, 16.5f);
 
+        addDecoration(23, 16.0f, "smallwall", 1,5,1,1,0,0);
+        addDecoration(23, 0, "tallwall", 1,14.5f,1,1,0,-165);
+        addDecoration(23,12.0f,"kitchendoor", 1,2,1,1,-30,70, true);
+
+        addDecoration(10.3f,16.4f, "window",1,1,1,1,0,-50);
+        addDecoration(2.2f,16.4f, "window",1,1,1,1,0,-50);
+        addDecoration(19,16.4f, "window",1,1,1,1,0,-50);
+
+        addDecoration(1f, 15, "plant",0.5f,0.5f,1,1,0,-35);
+        addDecoration(8.3f, 15, "plant",0.5f,0.5f,1,1,0,-35);
+        addDecoration(12.1f, 15, "plant",0.5f,0.5f,1,1,0,-35);
+        addDecoration(2f, 0, "plant",0.5f,0.5f,1,1,0,-35);
+        addDecoration(7f, 0, "plant",0.5f,0.5f,1,1,0,-35);
+
+        addDecoration(22, 6, "sidelamp",0.1f,0.1f, 1,1,4,0,true);
+        addDecoration(22, 2, "sidelamp",0.1f,0.1f, 1,1,4,0,true);
+
+        addDecoration(22,13,"decorativeshelf", 1,1, 1,1, 0,-70);
+
 
         customers = new Array();
 
@@ -146,6 +180,7 @@ public class RestaurantController extends WorldController implements ContactList
         vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("720/vent.png"),world, canvas);
         localStartingPos = new Vector2(vent1.getX()-1.5f, vent1.getY());
         drawableObjects.add(vent1);
+
 
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
         active = true;
@@ -311,6 +346,12 @@ public class RestaurantController extends WorldController implements ContactList
             ((Customer) obj).draw(1, 1);
     }
 
+    private boolean getDrawPriorityOfAnyType(Object obj){
+        if(obj instanceof NormalObstacle)
+            return ((NormalObstacle) obj).getDrawPriority();
+        return false;
+    }
+
     public void draw() {
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
@@ -321,7 +362,11 @@ public class RestaurantController extends WorldController implements ContactList
             swapped = false;
             for(int j = 0; j < drawableObjects.size-1-i; j++){
                 float currentY = getYPosOfAnyObject(drawableObjects.get(j));
+                if(getDrawPriorityOfAnyType(drawableObjects.get(j)))
+                    currentY = -1;
                 float nextY = getYPosOfAnyObject(drawableObjects.get(j+1));
+                if(getDrawPriorityOfAnyType(drawableObjects.get(j+1)))
+                    nextY = -1;
                 if(currentY <= nextY){
                     Object tempNext = drawableObjects.get(j+1);
                     drawableObjects.set(j+1, drawableObjects.get(j));
@@ -343,16 +388,16 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
     public void debug() {
-        player.drawDebug(canvas);
-        for (Customer c : customers) {
-            if (c.isActive()) {
-                c.debug(canvas);
-            }
-        }
-        vent1.drawDebug(canvas);
-        for (NormalObstacle o : obstacles) {
-            o.debug(canvas);
-        }
+//        player.drawDebug(canvas);
+//        for (Customer c : customers) {
+//            if (c.isActive()) {
+//                c.debug(canvas);
+//            }
+//        }
+//        vent1.drawDebug(canvas);
+//        for (NormalObstacle o : obstacles) {
+//            o.debug(canvas);
+//        }
     }
 
     @Override
