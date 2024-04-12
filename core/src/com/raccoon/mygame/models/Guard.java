@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.objects.Expression;
+import com.raccoon.mygame.objects.QuestionExpression;
 import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.obstacle.SightCone;
@@ -42,7 +43,7 @@ public class Guard extends WheelObstacle {
 
     private Expression zzz;
 
-    private Expression question;
+    private QuestionExpression question;
 
     private Shadow shadow;
 
@@ -76,7 +77,7 @@ public class Guard extends WheelObstacle {
 
         exclam = new Expression("exclamation",x,y);
         zzz = new Expression("zzz",x,y);
-        question = new Expression("question",x,y);
+        question = new QuestionExpression("question",x,y,aiController.getSusMeter(),30);
 
         shadow = new Shadow(x,y,0.8f,0.8f);
 
@@ -120,9 +121,19 @@ public class Guard extends WheelObstacle {
         float exclamationY = (this.getY() + height + 1) * scaleY;
         exclam.setPosition(exclamationX, exclamationY);
 
-        zzz.setPosition(exclamationX,exclamationY);
+        if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
+            question.setPosition((this.getX()-1.5f) * scaleX,exclamationY);
+        }
+        else if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
+            question.setPosition((this.getX()+3) * scaleX,exclamationY);
+        }
+        else{
+            question.setPosition(exclamationX,exclamationY);
+        }
 
-        question.setPosition(exclamationX,exclamationY);
+        question.updateCurProgress(aiController.getSusMeter());
+
+        zzz.setPosition(exclamationX,exclamationY);
 
         float shadowX = this.getX()* scaleX-shadow.getTextureWidth()/2;
         float shadowY = (this.getY() * scaleY) - (this.height * scaleY / 2);
@@ -161,6 +172,7 @@ public class Guard extends WheelObstacle {
             drawSprite(canvas, -scaleX, scaleY, 30, 20);
             sight.render();
         }
+
         if (aiController.isChase()) {
             exclam.draw(canvas);
         }
