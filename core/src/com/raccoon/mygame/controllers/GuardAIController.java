@@ -169,7 +169,7 @@ public class GuardAIController {
 //            System.out.println("SUS" + susMeter);
 //        }
 
-        if (susMeter >= 50) {
+        if (susMeter >= 30) {
             setAIStateChase();
         }
 
