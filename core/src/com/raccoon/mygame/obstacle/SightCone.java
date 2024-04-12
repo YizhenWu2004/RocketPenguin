@@ -157,8 +157,7 @@ public class SightCone extends BoxObstacle {
     }
 
     private void performRaycast(Vector2 origin, Vector2 target, World w, int count) {
-//        System.out.println("range in performRaycast: " + range);
-//        range = 300;
+
         RayCastCallback callback = (fixture, point, normal, fraction) -> {
             Object userData = fixture.getBody().getUserData();
             if (userData instanceof Player) {
@@ -188,7 +187,6 @@ public class SightCone extends BoxObstacle {
             }
         };
         range.set(count, 300f);
-        // Perform raycast
         w.rayCast(callback, origin, target);
     }
 
