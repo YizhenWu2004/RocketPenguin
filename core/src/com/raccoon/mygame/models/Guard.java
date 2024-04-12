@@ -49,7 +49,7 @@ public class Guard extends WheelObstacle {
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
                  PatrolDirection patrolDirection, boolean[][] collisionLayer,
-                 Vector2[] nodes) {
+                 Vector2[] nodes, GuardAIController.GuardOrientation spawnOrien) {
         super(width/3);
 //        patrolTexture = texture;
 //        setTexture(new TextureRegion(texture));
@@ -72,7 +72,7 @@ public class Guard extends WheelObstacle {
         this.aiController =
                 new GuardAIController(this.getX(), this.getY(), 32, 18,
                         150, 2, patrolDirection, collisionLayer, new Vector2(width,height)
-                ,nodes);
+                ,nodes, spawnOrien);
 
         exclam = new Expression("exclamation",x,y);
         zzz = new Expression("zzz",x,y);

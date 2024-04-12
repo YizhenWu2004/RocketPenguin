@@ -69,7 +69,7 @@ public class GuardAIController {
                              float worldHeight, float patrolRange,
                              float speed, PatrolDirection patrolDirection,
                              boolean[][] collisionLayer, Vector2 guardDimension,
-                             Vector2[] nodes) {
+                             Vector2[] nodes, GuardOrientation spawnOrien) {
         this.speed = speed;
         this.patrolDirection = patrolDirection;
         this.collisionLayer = collisionLayer;
@@ -97,6 +97,8 @@ public class GuardAIController {
         this.nodes = nodes;
 
         susMeter = 0;
+
+        orien = spawnOrien;
     }
 
     public void setAIStateChase() {
