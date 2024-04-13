@@ -205,6 +205,7 @@ public class StoreController extends WorldController implements ContactListener 
         guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0],GuardAIController.GuardOrientation.LEFT));
         guardX.add(28f);
         guardY.add(13.3f);
+
 //        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
 //        guardX.add(12.5f);
 //        guardY.add(6.67f);

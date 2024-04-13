@@ -80,7 +80,7 @@ public class CollisionController {
 
     public void processCustomers(Player p, Array<Customer> customers) {
         for (Customer c : customers) {
-            if (p.getInteraction() && p.getPosition().dst(c.getPosition()) <= 2) {
+            if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
                 if (!c.getShow() && !c.isSatisfied()) {
                     c.setShow(true);
                 }

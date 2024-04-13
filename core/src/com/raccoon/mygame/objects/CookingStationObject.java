@@ -15,7 +15,7 @@ public class CookingStationObject extends NormalObstacle{
     public boolean interacting;
     public CookingInventory pot;
     public int state; //0 = idle, 1 = cooking, 2 = finished, 3 = burnt(?)
-    public int station_type; // 0 = wok, 1 = pot
+    public int station_type; // 0 = wok, 1 = pot, 3 = chop
     public GameCanvas canvas;
     public Texture t;
     public int id;
@@ -24,6 +24,9 @@ public class CookingStationObject extends NormalObstacle{
     public int maxTime;
     private Texture wok_pic =new Texture("wok.png");
     private Texture pot_pic = new Texture("pot.png");
+    private Texture chop_pic = new Texture("cutting_board.png");
+    public float drawox=0;
+    public float drawoy=0;
 
     public CookingStationObject(float x, float y, float width, float height, float sx, float sy,
             float ox, float oy, Texture texture,
@@ -48,21 +51,28 @@ public class CookingStationObject extends NormalObstacle{
 
     @Override
     public void draw() {
-        super.draw();
-        if(interacting){
-            pot.draw(canvas);
-        }
+        super.drawWithOffset(drawox, drawoy);
         if(station_type == 0) {
-            canvas.draw(wok_pic, Color.WHITE, 35, 50,
+            canvas.draw(wok_pic, Color.WHITE, 40, 30,
                     this.getX() * this.getDrawScale().x, this.getY() * this.getDrawScale().y,
                     0.0f, 1f, 1f);
-        }else{
-            canvas.draw(pot_pic, Color.WHITE, 30, -5,
+        }else if(station_type == 1){
+            canvas.draw(pot_pic, Color.WHITE, 50, 5,
                     this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y, 0.0f, 1f, 1f);
+        } else {
+            canvas.draw(chop_pic, Color.WHITE, 35, 50,
+                    this.getX() * this.getDrawScale().x, this.getY() * this.getDrawScale().y,
+                    0.0f, 1f, 1f);
         }
         if(timer != null){
             //System.out.println("HERE" + timer.getTime());
             timer.drawNoFormat(this.getX()*this.drawScale.x, this.getY()*this.drawScale.y);
+        }
+    }
+
+    public void drawInventory(){
+        if(interacting){
+            pot.draw(canvas);
         }
     }
 

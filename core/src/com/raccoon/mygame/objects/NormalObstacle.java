@@ -108,6 +108,9 @@ public class NormalObstacle extends BoxObstacle {
     public void draw() {
         draw(canvas, sx, sy, ox, oy);
     }
+    public void drawWithOffset(float ox, float oy) {
+        draw(canvas, sx, sy, ox, oy);
+    }
 
     public void debug(GameCanvas canvas) {
         drawDebug(canvas);
