@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.objects.Expression;
+import com.raccoon.mygame.objects.QuestionExpression;
 import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.obstacle.SightCone;
@@ -42,14 +43,14 @@ public class Guard extends WheelObstacle {
 
     private Expression zzz;
 
-    private Expression question;
+    private QuestionExpression question;
 
     private Shadow shadow;
 
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
                  PatrolDirection patrolDirection, boolean[][] collisionLayer,
-                 Vector2[] nodes) {
+                 Vector2[] nodes, GuardAIController.GuardOrientation spawnOrien) {
         super(width/3);
 //        patrolTexture = texture;
 //        setTexture(new TextureRegion(texture));
@@ -72,11 +73,11 @@ public class Guard extends WheelObstacle {
         this.aiController =
                 new GuardAIController(this.getX(), this.getY(), 32, 18,
                         150, 2, patrolDirection, collisionLayer, new Vector2(width,height)
-                ,nodes);
+                ,nodes, spawnOrien);
 
         exclam = new Expression("exclamation",x,y);
         zzz = new Expression("zzz",x,y);
-        question = new Expression("question",x,y);
+        question = new QuestionExpression("question",x,y,aiController.getSusMeter(),30);
 
         shadow = new Shadow(x,y,0.8f,0.8f);
 
@@ -104,9 +105,8 @@ public class Guard extends WheelObstacle {
                 newPosition.add(0, 10);
                 break;
             case RIGHT:
-                newPosition.add(-70, 20);
+                newPosition.add(0, 20);
                 break;
-            case UP: 
             default:
                 newPosition.add(0, 20);
                 break;
@@ -121,9 +121,19 @@ public class Guard extends WheelObstacle {
         float exclamationY = (this.getY() + height + 1) * scaleY;
         exclam.setPosition(exclamationX, exclamationY);
 
-        zzz.setPosition(exclamationX,exclamationY);
+        if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
+            question.setPosition((this.getX()-1.5f) * scaleX,exclamationY);
+        }
+        else if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
+            question.setPosition((this.getX()+3) * scaleX,exclamationY);
+        }
+        else{
+            question.setPosition(exclamationX,exclamationY);
+        }
 
-        question.setPosition(exclamationX,exclamationY);
+        question.updateCurProgress(aiController.getSusMeter());
+
+        zzz.setPosition(exclamationX,exclamationY);
 
         float shadowX = this.getX()* scaleX-shadow.getTextureWidth()/2;
         float shadowY = (this.getY() * scaleY) - (this.height * scaleY / 2);
@@ -137,7 +147,6 @@ public class Guard extends WheelObstacle {
         else{
             shadow.setPosition(shadowX, shadowY);
         }
-
     }
 
     if (aiController.isChase() || aiController.isSleep()){
@@ -163,6 +172,7 @@ public class Guard extends WheelObstacle {
             drawSprite(canvas, -scaleX, scaleY, 30, 20);
             sight.render();
         }
+
         if (aiController.isChase()) {
             exclam.draw(canvas);
         }

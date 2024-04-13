@@ -5,13 +5,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Expression {
-    private static final float TEXTURE_SX = 1f;
-    private static final float TEXTURE_SY = 1f;
+    protected static final float TEXTURE_SX = 1f;
+    protected static final float TEXTURE_SY = 1f;
 
     public String type;
 
-    private float x;
-    private float y;
+    protected float x;
+    protected float y;
     private Texture texture;
 
     public Expression(String name, float x, float y) {
@@ -24,9 +24,9 @@ public class Expression {
         if(name == "zzz"){
             this.texture = new Texture("720/"+ "zzz" + ".png");
         }
-        if(name == "question"){
-            this.texture = new Texture("720/"+ "question" + ".png");
-        }
+//        if(name == "question"){
+//            this.texture = new Texture("720/"+ "question" + ".png");
+//        }
     }
 
     public float getXPosition() {

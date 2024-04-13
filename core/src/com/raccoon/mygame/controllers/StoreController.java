@@ -197,17 +197,17 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
 
-        guards.add(new Guard(2.5f, 6f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0]));
+        guards.add(new Guard(2.5f, 6f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0], GuardAIController.GuardOrientation.LEFT));
         guardX.add(2.5f);
         guardY.add(5f);
-        guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0]));
+        guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0],GuardAIController.GuardOrientation.LEFT));
         guardX.add(28f);
         guardY.add(13.3f);
 //        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
 //        guardX.add(12.5f);
 //        guardY.add(6.67f);
-        guards.get(0).getSight().deactivateSight();
-        guards.get(0).getSight().reactivateSight();
+//        guards.get(0).getSight().deactivateSight();
+//        guards.get(0).getSight().reactivateSight();
         //this is the guard that is moving on a node base system (near the fruit crates)
         Vector2[] crateGuardNodes = new Vector2[4];
 
@@ -217,7 +217,7 @@ public class StoreController extends WorldController implements ContactListener 
         crateGuardNodes[1] = new Vector2(4.5f+nodOff,12+nodOff);
         crateGuardNodes[2] = new Vector2(4.5f+nodOff,5.7f+nodOff);
         crateGuardNodes[3] = new Vector2(18.5f+nodOff,5.7f+nodOff);
-        guards.add(new Guard(23.3f, 10+nodOff, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,crateGuardNodes));
+        guards.add(new Guard(23.3f, 10+nodOff, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,crateGuardNodes,GuardAIController.GuardOrientation.UP));
         guardX.add(23.3f);
         guardY.add(10f);
         for (Guard guard: guards) {

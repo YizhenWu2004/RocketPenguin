@@ -41,7 +41,8 @@ public class GuardAIController {
     int counter;
     int counter2;
     private AIState currentState;
-    private GuardOrientation orien = GuardOrientation.LEFT;
+    private GuardOrientation defaultOrien;
+    private GuardOrientation orien;
 
     private Array<Vector2> currentPath;
     private int currentPathIndex;
@@ -49,7 +50,6 @@ public class GuardAIController {
     Vector2 guardDimension;
 
     private int chaseCounter;
-
     float susMeter;
 
     /**
@@ -69,7 +69,7 @@ public class GuardAIController {
                              float worldHeight, float patrolRange,
                              float speed, PatrolDirection patrolDirection,
                              boolean[][] collisionLayer, Vector2 guardDimension,
-                             Vector2[] nodes) {
+                             Vector2[] nodes, GuardOrientation spawnOrien) {
         this.speed = speed;
         this.patrolDirection = patrolDirection;
         this.collisionLayer = collisionLayer;
@@ -97,6 +97,9 @@ public class GuardAIController {
         this.nodes = nodes;
 
         susMeter = 0;
+
+        orien = spawnOrien;
+        defaultOrien = spawnOrien;
     }
 
     public void setAIStateChase() {
@@ -169,11 +172,10 @@ public class GuardAIController {
 //            System.out.println("SUS" + susMeter);
 //        }
 
-        if (susMeter >= 50) {
+        if (susMeter >= 30) {
             setAIStateChase();
         }
-
-        if (susMeter <= 0) {
+        else if (susMeter <= 0) {
             if(currentState == AIState.SUS){
                 setAIStateWander();
             }
@@ -183,20 +185,25 @@ public class GuardAIController {
         if (currentState == AIState.WAKE && sleepWakeTimer <= 0) {
             currentState = AIState.SLEEP;
             sleepWakeTimer = SLEEP_DURATION;
-        } else if (currentState == AIState.SLEEP && sleepWakeTimer <= 0) {
+        }
+        else if (currentState == AIState.SLEEP && sleepWakeTimer <= 0) {
             currentState = AIState.WAKE;
+            orien = defaultOrien;
             sleepWakeTimer = AWAKE_DURATION;
         }
-
-        if (currentState == AIState.SLEEP) {
-            System.out.println("SLEEP");
+        else if (currentState == AIState.SLEEP) {
+            orien = defaultOrien;
             return speedVector;
         }
-        if (currentState == AIState.WAKE) {
-            System.out.println("WAKE");
+        else if (currentState == AIState.WAKE) {
+            orien = defaultOrien;
             return speedVector;
         }
-        if ((currentState == AIState.WANDER || currentState == AIState.SUS) && nodes.length > 0) {
+        else if(currentState == AIState.SUS && patrolDirection == PatrolDirection.SLEEP_WAKE){
+            orien = defaultOrien;
+            return speedVector;
+        }
+        else if ((currentState == AIState.WANDER || currentState == AIState.SUS) && nodes.length > 0) {
             Vector2 targetNode = nodes[currentNodeIndex];
             Vector2 direction = new Vector2(targetNode.x - guardPosition.x, targetNode.y - guardPosition.y).nor();
             speedVector.set(direction.scl(speed));
@@ -204,7 +211,8 @@ public class GuardAIController {
             if (guardPosition.dst(targetNode) < 1f) {
                 currentNodeIndex = (currentNodeIndex + 1) % nodes.length;
             }
-        } else if (currentState == AIState.WANDER || currentState == AIState.SUS) {
+        }
+        else if (currentState == AIState.WANDER || currentState == AIState.SUS) {
             switch (patrolDirection) {
                 case LEFT_RIGHT:
                     if (movingPositive) {
@@ -254,6 +262,10 @@ public class GuardAIController {
     }
 
     private void updateOrien(Vector2 speedVector) {
+        if(currentState == AIState.SLEEP || currentState == AIState.WAKE){
+            orien = defaultOrien;
+            return;
+        }
         if (Math.abs(speedVector.x) > Math.abs(speedVector.y)) {
             if (speedVector.x > 0) {
                 orien = GuardOrientation.RIGHT;

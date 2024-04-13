@@ -122,7 +122,7 @@ public class SightCone extends BoxObstacle {
                     float endY = vertex.y;
                     performRaycast(new Vector2(position.x / canvas.getWidth() * 32, position.y / canvas.getHeight() * 18),
                             new Vector2(endX / canvas.getWidth() * 32, endY / canvas.getHeight() * 18),
-                            w,count);
+                            w, count);
                     count++;
                 }
             } else {
@@ -157,9 +157,7 @@ public class SightCone extends BoxObstacle {
     }
 
     private void performRaycast(Vector2 origin, Vector2 target, World w, int count) {
-        range.set(count, 300f);
-//        System.out.println("range in performRaycast: " + range);
-//        range = 300;
+
         RayCastCallback callback = (fixture, point, normal, fraction) -> {
             Object userData = fixture.getBody().getUserData();
             if (userData instanceof Player) {
@@ -177,7 +175,7 @@ public class SightCone extends BoxObstacle {
             if (userData instanceof NormalObstacle) {
                     float temp = origin.dst(point) * 40;
 //                    System.out.println("temp is: " + temp);
-                    range.set(count, Math.min(temp, 300));
+                    range.set(count, Math.min(temp, 300f));
 //                    System.out.println("the range is: " + range);
 //                    System.out.println("the obstacle is: " + userData);
                 return fraction;
@@ -188,7 +186,7 @@ public class SightCone extends BoxObstacle {
                 return -1;
             }
         };
-        // Perform raycast
+        range.set(count, 300f);
         w.rayCast(callback, origin, target);
     }
 
