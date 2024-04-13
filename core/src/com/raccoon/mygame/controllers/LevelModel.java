@@ -54,23 +54,70 @@ public class LevelModel {
         ingredientsLayer = tiledMap.getLayers().get("Ingredients");
         guardsLayer = tiledMap.getLayers().get("Guards");
         guardNodesLayer = tiledMap.getLayers().get("GuardNodes");
+        processObjects();
+        processIngredients();
+        //processGuards();
     }
 
-    private Array<Float> createNode(MapObject n) {
-        Array<Float> node = new Array<Float>();
-        node.add((float)n.getProperties().get("X"));
-        node.add((float)n.getProperties().get("Y"));
-        node.add((float)n.getProperties().get("Sleep"));
-        node.add((float)n.getProperties().get("Time"));
-        return node;
-    }
+    public World getStoreWorld() { return storeWorld; }
+
+    public Array<NormalObstacle> getStoreObjects() { return storeObjects; }
+
+    public Array<NormalObstacle> getIngredients() { return ingredients; }
+
+    public Array<Guard> getGuards() { return guards; }
 
     private void processObjects() {
         for (MapObject o : storeObjectsLayer.getObjects()) {
+            float x = (float)o.getProperties().get("X");
+            float y = (float)o.getProperties().get("Y");
+            NormalObstacle obstacle;
             switch (o.getName()) {
                 case "HorizShelf":
+                    addShelfHorizontal(x, y);
                     break;
                 case "VertShelf":
+                    addShelfVertical(x, y);
+                    break;
+                case "HorizWall":
+                    obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
+                            new Texture("720/ventwallhorizontal.png"), storeWorld, canvas);
+                    storeObjects.add(obstacle);
+                    break;
+                case "VertWall":
+                    obstacle = new NormalObstacle(x, y, 1f, 6f, 0.3f, 0.3f, 0f, 0f,
+                            new Texture("720/ventwallvertical.png"), storeWorld, canvas);
+                    storeObjects.add(obstacle);
+                    break;
+                case "JanitorTools":
+                    obstacle = new NormalObstacle(x, y, 1f, 1f, 0.3f, 0.3f, 0f, 0f,
+                            new Texture("720/janitoritems.png"), storeWorld, canvas);
+                    storeObjects.add(obstacle);
+                    break;
+                case "Ladder":
+                    obstacle = new NormalObstacle(x, y, 1f, 1f, 0.3f, 0.3f, 0f, 0f,
+                            new Texture("720/ladder.png"), storeWorld, canvas);
+                    storeObjects.add(obstacle);
+                    break;
+                case "BoxS":
+                    obstacle = new NormalObstacle(x, y, 1f, 1f, 0.3f, 0.3f, 0f, 0f,
+                            new Texture("720/boxsmall.png"), storeWorld, canvas);
+                    storeObjects.add(obstacle);
+                    break;
+                case "BoxM":
+                    obstacle = new NormalObstacle(x, y, 1f, 1f, 0.3f, 0.3f, 0f, 0f,
+                            new Texture("720/boxmedium.png"), storeWorld, canvas);
+                    storeObjects.add(obstacle);
+                    break;
+                case "BoxL":
+                    obstacle = new NormalObstacle(x, y, 1f, 1f, 0.3f, 0.3f, 0f, 0f,
+                            new Texture("720/boxlarge.png"), storeWorld, canvas);
+                    storeObjects.add(obstacle);
+                    break;
+                case "Fridge":
+                    obstacle = new NormalObstacle(x, y, 1f, 1f, 0.3f, 0.3f, 0f, 0f,
+                            new Texture("720/fridge.png"), storeWorld, canvas);
+                    storeObjects.add(obstacle);
                     break;
                 default:
                     break;
@@ -83,6 +130,15 @@ public class LevelModel {
             Ingredient ing = new Ingredient(i.getName(), new Texture("720/" + i.getName() + ".png"), -1);
             addFruitCrate((float)i.getProperties().get("X"), (float)i.getProperties().get("Y"), ing);
         }
+    }
+
+    private Array<Float> createNode(MapObject n) {
+        Array<Float> node = new Array<Float>();
+        node.add((float)n.getProperties().get("X"));
+        node.add((float)n.getProperties().get("Y"));
+        node.add((float)n.getProperties().get("Sleep"));
+        node.add((float)n.getProperties().get("Time"));
+        return node;
     }
 
     private void processGuards() {
