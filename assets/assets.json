@@ -1,6 +1,8 @@
 {
 	"jsons" : {
 		"restaurant": "raccoonrestaurant.json",
-		"levels": "raccoonlevels.json"
+		"levels": [
+			"Rocko Store"
+		]
 	}
 }

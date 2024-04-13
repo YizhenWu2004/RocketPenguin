@@ -1,6 +1,9 @@
 package com.raccoon.mygame.controllers;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.objects.TextureMapObject;
+import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -36,7 +39,7 @@ public class LevelModel {
 
     private void addShelfVertical(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 6f, 0.3f, 0.3f, 0f, 0f,
-                new Texture("720/groceryshelfvertical.png"), storeWorld, canvas);
+                new Texture("720/shelfvertical.png"), storeWorld, canvas);
         storeObjects.add(obstacle);
     }
 
@@ -49,14 +52,14 @@ public class LevelModel {
     public LevelModel(String tmxFile, GameCanvas canvas) {
         storeWorld = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
-        tiledMap = new TmxMapLoader().load(tmxFile + ".tmx");
+        tiledMap = new TmxMapLoader().load("tiled/" + tmxFile + ".tmx");
         storeObjectsLayer = tiledMap.getLayers().get("Obstacles");
         ingredientsLayer = tiledMap.getLayers().get("Ingredients");
         guardsLayer = tiledMap.getLayers().get("Guards");
         guardNodesLayer = tiledMap.getLayers().get("GuardNodes");
         processObjects();
         processIngredients();
-        //processGuards();
+        processGuards();
     }
 
     public World getStoreWorld() { return storeWorld; }
@@ -69,8 +72,8 @@ public class LevelModel {
 
     private void processObjects() {
         for (MapObject o : storeObjectsLayer.getObjects()) {
-            float x = (float)o.getProperties().get("X");
-            float y = (float)o.getProperties().get("Y");
+            float x = ((TextureMapObject) o).getX();
+            float y = ((TextureMapObject) o).getY();
             NormalObstacle obstacle;
             switch (o.getName()) {
                 case "HorizShelf":
@@ -128,30 +131,38 @@ public class LevelModel {
     private void processIngredients() {
         for (MapObject i : ingredientsLayer.getObjects()) {
             Ingredient ing = new Ingredient(i.getName(), new Texture("720/" + i.getName() + ".png"), -1);
-            addFruitCrate((float)i.getProperties().get("X"), (float)i.getProperties().get("Y"), ing);
+            addFruitCrate(((TextureMapObject) i).getX(), ((TextureMapObject) i).getY(), ing);
         }
     }
 
     private Array<Float> createNode(MapObject n) {
         Array<Float> node = new Array<Float>();
-        node.add((float)n.getProperties().get("X"));
-        node.add((float)n.getProperties().get("Y"));
-        node.add((float)n.getProperties().get("Sleep"));
-        node.add((float)n.getProperties().get("Time"));
+        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getX() : ((RectangleMapObject) n).getRectangle().getX());
+        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getY() : ((RectangleMapObject) n).getRectangle().getY());
+        node.add(((n.getProperties().get("Sleep")).equals("Yes") ? 1f : 0f));
+        node.add(Float.parseFloat((String) n.getProperties().get("Time")));
         return node;
     }
 
     private void processGuards() {
+        for (int i = 0; i < guardsLayer.getObjects().getCount(); i++) {
+            guardNodes.add(new Array<>());
+        }
         for (MapObject g : guardsLayer.getObjects()) {
-            int idx = (int)g.getProperties().get("GuardNum");
+            int idx = Integer.parseInt((String)g.getProperties().get("GuardNum"));
             Array<Array<Float>> nodes = new Array<>();
             nodes.add(createNode(g));
-            guardNodes.set(idx, nodes);
+            System.out.println(nodes.size);
+            guardNodes.set(idx-1, nodes);
         }
         for (MapObject n : guardNodesLayer.getObjects()) {
-            int gIdx = (int)n.getProperties().get("GuardNum");
-            int nIdx = (int)n.getProperties().get("NodeNum");
-            guardNodes.get(gIdx).set(nIdx, createNode(n));
+            int gIdx = Integer.parseInt((String)n.getProperties().get("GuardNum"));
+            int nIdx = Integer.parseInt((String)n.getProperties().get("NodeNum"));
+            Array<Array<Float>> gN = guardNodes.get(gIdx-1);
+            while (nIdx >= gN.size) {
+                gN.add(new Array<Float>());
+            }
+            guardNodes.get(gIdx-1).set(nIdx, createNode(n));
         }
         //CREATE ACTUAL GUARD OBJECT
     }

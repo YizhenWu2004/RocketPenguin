@@ -105,7 +105,7 @@ public class StoreController extends WorldController implements ContactListener 
         player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
         drawableObjects.add(player);
 
-        this.input = input;
+        /*this.input = input;
         ingredients = new Array<>();
 //        ingredients.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
         ingredients.add(new Ingredient("banana", 1600, 300, new Texture("720/banana.png"), -1));
@@ -115,19 +115,19 @@ public class StoreController extends WorldController implements ContactListener 
         ingredients.add(new Ingredient("apple", 2000, 300, new Texture("720/apple.png"), -1));
         for (Ingredient in: ingredients) {
             drawableObjects.add(in);
-        }
+        }*/
 
-        guards = new Array();
+        //guards = new Array();
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("720/vent.png"),world, canvas);
-        drawableObjects.add(vent1);
+        //drawableObjects.add(vent1);
 
-        localStartingPos = new Vector2(vent1.getX()+1.5f, vent1.getY());
+        //localStartingPos = new Vector2(vent1.getX()+1.5f, vent1.getY());
 
 
-        obstacles = new Array();
+        //obstacles = new Array();
       
         //keep these
-        addShelfHorizontal(2.5f, 15.7f);
+        /*addShelfHorizontal(2.5f, 15.7f);
         addShelfHorizontal(7.75f, 15.7f);
         addShelfHorizontal(13f, 15.7f);
         addShelfHorizontal(18.25f, 15.7f);
@@ -186,7 +186,7 @@ public class StoreController extends WorldController implements ContactListener 
         //keep these
         addDecoration(30.2f,14.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
         addDecoration(30.2f,3.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
-        //addShelfVertical(0f, 2.25f);
+        //addShelfVertical(0f, 2.25f);*/
         active = false;
         world.setContactListener(this);
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
@@ -197,19 +197,19 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
 
-        guards.add(new Guard(2.5f, 6f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0], GuardAIController.GuardOrientation.LEFT));
+        /*guards.add(new Guard(2.5f, 6f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0], GuardAIController.GuardOrientation.LEFT));
         guardX.add(2.5f);
         guardY.add(5f);
         guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0],GuardAIController.GuardOrientation.LEFT));
         guardX.add(28f);
-        guardY.add(13.3f);
+        guardY.add(13.3f);*/
 //        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
 //        guardX.add(12.5f);
 //        guardY.add(6.67f);
 //        guards.get(0).getSight().deactivateSight();
 //        guards.get(0).getSight().reactivateSight();
         //this is the guard that is moving on a node base system (near the fruit crates)
-        Vector2[] crateGuardNodes = new Vector2[4];
+        /*Vector2[] crateGuardNodes = new Vector2[4];
 
         float nodOff = 1.5f;
 
@@ -222,7 +222,7 @@ public class StoreController extends WorldController implements ContactListener 
         guardY.add(10f);
         for (Guard guard: guards) {
             drawableObjects.add(guard);
-        }
+        }*/
 
         playerJustDied = false;
 

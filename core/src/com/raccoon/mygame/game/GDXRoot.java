@@ -88,6 +88,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
     StoreController store;
     RestaurantController restaurant;
+    LevelLoader loader;
     int current;
 
     public void create() {
@@ -96,6 +97,8 @@ public class GDXRoot extends Game implements ScreenListener {
         w = new Worldtimer(180, canvas);
         w.create();
         input = new InputController();
+
+        loader = new LevelLoader(canvas);
 
         Inventory inv = new Inventory(new Texture("720/inventorynew.png"));
         restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
