@@ -52,10 +52,10 @@ public class PatienceMeter extends ApplicationAdapter{
     }
     public void draw(float scalex, float scaley){
         //System.out.println("drawing patience meter");
-        if (countdownSeconds >= 2*max_countdown/3){
+        if (countdownSeconds >= max_countdown/2){
             gameCanvas.draw(high, Color.WHITE, 0, 0,
                     customer.getX() * scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
-        } else if (countdownSeconds >= max_countdown/3){
+        } else if (countdownSeconds >= max_countdown*0.2){
             gameCanvas.draw(mid, Color.WHITE, 0, 0,
                     customer.getX() *  scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
         } else if(countdownSeconds >= 0) {
@@ -64,6 +64,16 @@ public class PatienceMeter extends ApplicationAdapter{
         }
 
         gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex+55, customer.getY() * scaley + 10, 2, 2, layout);
+    }
+
+    public float multiplier(){
+        if (countdownSeconds >= max_countdown/2) {
+            return 1;
+        } else if (countdownSeconds >= max_countdown*0.2){
+            return 0.7f;
+        } else {
+            return 0.3f;
+        }
     }
 }
 

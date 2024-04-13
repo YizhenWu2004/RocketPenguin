@@ -8,7 +8,7 @@ import com.raccoon.mygame.view.GameCanvas;
 public class Dish implements GameObject {
     public int name;
     public Ingredient[] type;
-    public int size; //size of dish, from 1-3
+    //public int size; //size of dish, from 1-3
     private Texture texture;
     private boolean isActive;
 
@@ -20,12 +20,13 @@ public class Dish implements GameObject {
     private Texture three = new Texture("tripleorder.png");
     private Texture wok =new Texture("wok.png");
     private Texture pot = new Texture("pot.png");
+    private Texture cutting_board = new Texture("cutting_board.png");
     public int station_type;
 
 
     public Dish(Ingredient[] type, Texture texture, int posInInventory, int station_type) {
         this.type = type;
-        size = type.length;
+        //size = type.length;
         this.texture = texture;
         this.isActive = true;
         this.posInInventory = posInInventory;
@@ -90,13 +91,34 @@ public class Dish implements GameObject {
         if(station_type == 0) {
             canvas.draw(wok, Color.WHITE, -30,-50,x, y,
                     0.0f, 1f, 1f);
-        }else{
+        }else if(station_type == 1){
             canvas.draw(pot, Color.WHITE, -30,-50,x, y,
+                    0.0f, 1f, 1f);
+        } else {
+            canvas.draw(cutting_board, Color.WHITE, -30,-50,x, y,
                     0.0f, 1f, 1f);
         }
         for(int i = 0; i <dishSize; i++){
             type[i].drawTextBubble(canvas, x, y, -40-50*(i+1), -55);
         }
         canvas.draw(texture, Color.WHITE, ox, oy,x, y, 0, sclx, scly);
+    }
+
+    public int getScore(){
+        int score = 0;
+        if (dishSize == 1){
+            score = 10;
+        } else if (dishSize == 2){
+            score = 20;
+        } else {
+            score = 30;
+        }
+        if (station_type == 0){
+            score *= 1.5;
+        } else if (station_type == 1){
+            score *= 2;
+        }
+        return score;
+
     }
 }

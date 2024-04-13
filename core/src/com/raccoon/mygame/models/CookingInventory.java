@@ -50,11 +50,12 @@ public class CookingInventory {
 
 
     public void draw(GameCanvas canvas) {
+        float midpoint = (float)canvas.getWidth()/2 - (float)this.texture.getWidth()/2;
         canvas.draw(texture, Color.WHITE, 10, 10,
-                canvas.getWidth()/2f, canvas.getHeight()-100f, 0.0f, 1, 1);
+                midpoint, 80, 0.0f, 1, 1);
         for(int i = 0; i < inv.length; i++){
             if (filled[i]){
-                canvas.draw(inv[i].getTexture(), Color.WHITE, 10, 10,i * (texture.getWidth()/3.45f) + canvas.getWidth()/2f+ 33, canvas.getHeight()-79f, 0.0f, 1, 1);
+                canvas.draw(inv[i].getTexture(), Color.WHITE, 10, 10,i * (texture.getWidth()/3.45f) + midpoint+ 33, 100, 0.0f, 1, 1);
             }
         }
     }

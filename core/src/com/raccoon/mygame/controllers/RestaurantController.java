@@ -113,27 +113,43 @@ public class RestaurantController extends WorldController implements ContactList
 
         stations = new Array<>();
 
-        CookingStationObject temp = new CookingStationObject(28f, 15f, 3.25f, 4f, 1, 1, 0f, 0f,
-                new Texture("720/kitchenleft.png"), world, canvas, 1,1);
+        CookingStationObject temp = new CookingStationObject(27f, 15f, 6f, 3f, 1, 1, 0f, 0f,
+                new Texture("new_pot_station.png"), world, canvas, 1,1);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
-        temp = new CookingStationObject(30.97f, 14.2f, 1.25f, 5f, 1, 1, 0f, -32f,
-                new Texture("720/kitchenright.png"), world, canvas, 2,0);
-      
+        temp.drawoy=-30;
+
+        temp = new CookingStationObject(30.97f, 10f, 2f, 4f, 1.2f, 1.2f, 0f, 0f,
+                new Texture("new_wok_station.png"), world, canvas, 2,0);
+        temp.drawoy = 0;
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
+
+        temp = new CookingStationObject(24.5f, 2f, 2.2f, 4f, 1.2f, 1f, 0f, 0f,
+                new Texture("temp_cutting_station.png"), world, canvas, 2,2);
+        temp.drawoy = -10;
+        obstacles.add(temp);
+        stations.add(temp);
+        drawableObjects.add(temp);
+
+
+        NormalObstacle obs = new NormalObstacle(30.97f, 14.5f, 2,5, 1.2f,0.9f, 0,0,
+                new Texture("new_counter.png"), world, canvas, true);
+        obstacles.add(obs);
+        drawableObjects.add(obs);
+
         t = sharedtimer;
         score = 0;
 
         tables = new Array();
         addTable(16f, 11f, false);
-        addTable(16f, 6f, true);
+        addTable(16f, 5f, true);
         addTable(10.25f, 11f, true);
-        addTable(10.25f, 6f, false);
+        addTable(10.25f, 5f, false);
         addTable(4.5f, 11f, false);
-        addTable(4.5f, 6f, true);
+        addTable(4.5f, 5f, true);
 
 
         //System.out.println(tables.size);
@@ -164,7 +180,7 @@ public class RestaurantController extends WorldController implements ContactList
         customers = new Array();
 
         goatIdle = new FilmStrip(new Texture("720/goat.png"), 1,4,4);
-        Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
+        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
       
         customers.add(customer1);
         drawableObjects.add(customer1);
@@ -212,32 +228,33 @@ public class RestaurantController extends WorldController implements ContactList
         float delta = Gdx.graphics.getDeltaTime();
         player.update(delta);
 
-        if (t.getTime() == 170 && !t.action_round){
-            Customer customer1 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
+        if ((t.getTime() == 178 || t.getTime() == 176 ||t.getTime() == 130|| t.getTime() == 128 || t.getTime() ==126 || t.getTime() ==80 || t.getTime() == 78 || t.getTime() == 76) && !t.action_round){
+            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
 
             customers.add(customer1);
             drawableObjects.add(customer1);
             t.action_round=true;
-        }else if (t.getTime() == 120&& !t.action_round){
-            Customer customer2 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 3);
-            customers.add(customer2);
-            drawableObjects.add(customer2);
-            t.action_round=true;
-        }else if (t.getTime() == 90&& !t.action_round){
-            Customer customer3 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
-            customers.add(customer3);
-            drawableObjects.add(customer3);
-            t.action_round=true;
-        }else if (t.getTime() == 60&& !t.action_round){
-            Customer customer4 = new Customer(0f, 2.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
-            customers.add(customer4);
-            drawableObjects.add(customer4);
-            t.action_round=true;
+
+//        }else if (t.getTime() == 120&& !t.action_round){
+//            Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 3);
+//            customers.add(customer2);
+//            drawableObjects.add(customer2);
+//            t.action_round=true;
+//        }else if (t.getTime() == 90&& !t.action_round){
+//            Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
+//            customers.add(customer3);
+//            drawableObjects.add(customer3);
+//            t.action_round=true;
+//        }else if (t.getTime() == 60&& !t.action_round){
+//            Customer customer4 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
+//            customers.add(customer4);
+//            drawableObjects.add(customer4);
+//            t.action_round=true;
     }
 
         if (active) {
-            float x = 5f * input.getXMovement();
-            float y = 5f * input.getYMovement();
+            float x = 7f * input.getXMovement();
+            float y = 7f * input.getYMovement();
             player.setLinearVelocity(new Vector2(x, y));
             player.setSpace(input.getSpace());
             player.setInteraction(input.getInteraction());
@@ -247,7 +264,7 @@ public class RestaurantController extends WorldController implements ContactList
         for (Customer c : customers) {
             if (c.justSatisfied){
                 if (c.time() > 0){
-                    score += 30 * c.time() / c.maxTime();
+                    score += c.servedDish.getScore() * c.pat.multiplier();
                 }
                 c.justSatisfied = false;
             }
@@ -260,20 +277,20 @@ public class RestaurantController extends WorldController implements ContactList
         }
         for (CookingStationObject c : stations){
             if (c.state == 0){
-                if(c.pot.size != 0 && player.interaction && c.interacting){
+                if(c.pot.size != 0 && player.space && c.interacting){
                     c.state = 1;
                     int time;
-                    if(c.pot.size == 1){
-                        time = 5;
-                    } else if(c.pot.size == 2){
-                        time =10;
-                    }else {
+                    if(c.station_type == 0){
                         time = 15;
+                    } else if(c.station_type == 1){
+                        time =30;
+                    }else {
+                        time = 1;
                     }
                     c.timer = new Worldtimer(time, canvas);
                     c.timer.create();
                     c.setMaxTime();
-                } else if (c.pot.size != 0 && !c.interacting){
+                } else if ((c.pot.size != 0 && !c.interacting) || input.getDown()){
                     Ingredient[] temp = c.pot.drop();
                     for(Ingredient i : temp){
                         if(i != null) {
@@ -281,7 +298,7 @@ public class RestaurantController extends WorldController implements ContactList
                         }
                     }
                     c.pot.clearAll();
-                } else if (player.space && c.pot.size < 3 && player.inventory.isCurrFilled() && c.interacting){
+                } else if (input.getUp() && c.pot.size < 3 && player.inventory.isCurrFilled() && c.interacting){
                     c.pot.add(player.inventory.getSelectedItem());
                     player.inventory.drop();
                 }
@@ -383,21 +400,24 @@ public class RestaurantController extends WorldController implements ContactList
 
             drawAnyType(obj);
         }
+        for(CookingStationObject o : stations){
+            o.drawInventory();
+        }
         canvas.drawText("Score:", f,20, 600,2,2, layout);
         canvas.drawText(Integer.toString(score), f, 130, 600, 2, 2,layout);
     }
 
     public void debug() {
-//        player.drawDebug(canvas);
-//        for (Customer c : customers) {
-//            if (c.isActive()) {
-//                c.debug(canvas);
-//            }
-//        }
-//        vent1.drawDebug(canvas);
-//        for (NormalObstacle o : obstacles) {
-//            o.debug(canvas);
-//        }
+        player.drawDebug(canvas);
+        for (Customer c : customers) {
+            if (c.isActive()) {
+                c.debug(canvas);
+            }
+        }
+        vent1.drawDebug(canvas);
+        for (NormalObstacle o : obstacles) {
+            o.debug(canvas);
+        }
     }
 
     @Override
