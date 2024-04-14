@@ -101,134 +101,63 @@ public class StoreController extends WorldController implements ContactListener 
         this.canvas = canvas;
         this.background = texture;
 
+        obstacles = new Array<>();
+        ingredients = new Array<>();
+        guards = new Array<>();
+        guardX = new Array<>();
+        guardY = new Array<>();
+
         playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
         guardIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
 
         player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
         drawableObjects.add(player);
+        this.input = input;
 
-        /*this.input = input;
-        ingredients = new Array<>();
-//        ingredients.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
-        ingredients.add(new Ingredient("banana", 1600, 300, new Texture("720/banana.png"), -1));
-        ingredients.add(new Ingredient("orange", 1500, 800, new Texture("720/orange.png"), -1));
-//        ingredients.add(new Ingredient("orange", 900, 400, new Texture("720/orange.png"), -1));
-        ingredients.add(new Ingredient("banana", 1000, 800, new Texture("720/banana.png"), -1));
-        ingredients.add(new Ingredient("apple", 2000, 300, new Texture("720/apple.png"), -1));
-        for (Ingredient in: ingredients) {
-            drawableObjects.add(in);
-        }*/
-        //guards = new Array();
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 0f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
-        //drawableObjects.add(vent1);
+        drawableObjects.add(vent1);
 
-        //localStartingPos = new Vector2(vent1.getX()+2.3f, vent1.getY());
+        localStartingPos = new Vector2(vent1.getX()+2.3f, vent1.getY());
 
-
-        //obstacles = new Array();
-      
-        //keep these
-        /*addShelfHorizontal(2.5f, 15.7f);
-        addShelfHorizontal(7.75f, 15.7f);
-        addShelfHorizontal(13f, 15.7f);
-        addShelfHorizontal(18.25f, 15.7f);
-        addShelfHorizontal(23.5f, 15.7f);
-        addShelfHorizontal(28.75f, 15.7f);
-
-
-        //keep these
-        addFruitCrate(4, 13f, new Ingredient("orange", new Texture("720/orange.png"), -1));
-        addFruitCrate(24f, 14f, new Ingredient("apple", new Texture("720/apple.png"), -1));
-        addFruitCrate(28.5f, 2f, new Ingredient("banana", new Texture("720/banana.png"), -1));
-        addFruitCrate(24f, 8f, new Ingredient("greenpepper", new Texture("720/greenpepper.png"), -1));
-
-        //these are out of view
-        addShelfHorizontal(-1.2f, -2.3f);
-        addShelfHorizontal(4f, -2.3f);
-        addShelfHorizontal(9.2f, -2.3f);
-        addShelfHorizontal(14.4f, -2.3f);
-        addShelfHorizontal(19.6f, -2.3f);
-        addShelfHorizontal(24.8f, -2.3f);
-        addShelfHorizontal(30, -2.3f);
-
-        //keep these
-        addShelfHorizontal(3f, 10f);
-        addShelfHorizontal(13.05f, 10f);
-        addShelfHorizontal(18.25f, 10f);
-        addShelfHorizontal(28.65f, 10f);
-
-        addShelfHorizontal(18.25f, 4.5f);
-//        addShelfHorizontal(23.45f, 4.5f);
-        addShelfHorizontal(28.65f, 4.5f);
-
-        //keep these
-        addShelfVertical(31.7f, 15.75f);
-        addShelfVertical(31.7f, 11.5f);
-        addShelfVertical(31.7f, 7.25f);
-        addShelfVertical(31.7f, 3);
-        addShelfVertical(31.7f, 0);
-
-        //keep these
-        addShelfVertical(0f, 14.75f);
-        addShelfVertical(0f, 10.5f);
-        addShelfVertical(0f, 6.25f);
-
-        //keep these
-        addDecoration(9,0,"ventwallvertical",0.6f,2,1,1,0,-70f, false);
-        addDecoration(2.5f,4,"ventwallhorizontal",5,1,1,1,0,-60f, false);
-        addDecoration(2,3.2f,"janitoritems",1f,0.5f,1,1,0,-50f, false);
-
-        //keep these
-        addDecoration(1,9.5f,"boxmedium",1,1,1,1,0,0,false);
-        addDecoration(1.2f,12.5f,"boxlarge",1.2f,-0.5f,1,1,0,0,false);
-        addDecoration(1.2f,15.5f,"boxlarge",1.2f,-0.5f,1,1,0,0,false);
-        addDecoration(3.2f,14.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
-
-        //keep these
-        addDecoration(30.2f,14.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
-        addDecoration(30.2f,3.5f,"ladder",1.2f,-0.5f,1,1,0,-50f,false);
-        //addShelfVertical(0f, 2.25f);*/
         active = false;
         world.setContactListener(this);
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
 
-
-        initializeCollisionLayer();
-
-        guardX = new Array<>();
-        guardY = new Array<>();
-
-        /*guards.add(new Guard(2.5f, 6f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0], GuardAIController.GuardOrientation.LEFT));
-        guardX.add(2.5f);
-        guardY.add(5f);
-        guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0],GuardAIController.GuardOrientation.LEFT));
-        guardX.add(28f);
-        guardY.add(13.3f);*/
-//        guards.add(new Guard(12.5f, 6.67f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,new Vector2[0]));
-//        guardX.add(12.5f);
-//        guardY.add(6.67f);
-//        guards.get(0).getSight().deactivateSight();
-//        guards.get(0).getSight().reactivateSight();
-        //this is the guard that is moving on a node base system (near the fruit crates)
-        /*Vector2[] crateGuardNodes = new Vector2[4];
-
         float nodOff = 1.5f;
 
-        crateGuardNodes[0] = new Vector2(22.5f+nodOff,12+nodOff);
-        crateGuardNodes[1] = new Vector2(4.5f+nodOff,12+nodOff);
-        crateGuardNodes[2] = new Vector2(4.5f+nodOff,5.7f+nodOff);
-        crateGuardNodes[3] = new Vector2(18.5f+nodOff,5.7f+nodOff);
-        guards.add(new Guard(23.3f, 10+nodOff, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,crateGuardNodes,GuardAIController.GuardOrientation.UP));
-        guardX.add(23.3f);
-        guardY.add(10f);
-        for (Guard guard: guards) {
-            drawableObjects.add(guard);
-        }*/
+
+        initializeCollisionLayer();
 
         playerJustDied = false;
 
         animator = new AnimationController(input);
         duringventing = false;
+    }
+
+    public void setLevel(LevelModel level, Inventory sharedInv) {
+        guardWanderReset();
+        world = level.getStoreWorld();
+        player = new Player(4, 4, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 0f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
+        obstacles = level.getStoreObjects();
+        guards = level.getGuards();
+        for (NormalObstacle bin : level.getIngredients()) {
+            obstacles.add(bin);
+        }
+        drawableObjects = new Array<>();
+        drawableObjects.add(player);
+        drawableObjects.add(vent1);
+        for (NormalObstacle obstacle : obstacles) {
+            drawableObjects.add(obstacle);
+        }
+        guardX = new Array<>();
+        guardY = new Array<>();
+        for (Guard guard : guards) {
+            drawableObjects.add(guard);
+            guardX.add(guard.getX());
+            guardY.add(guard.getY());
+        }
+
     }
 
     public void setActive(boolean b) {
@@ -268,6 +197,7 @@ public class StoreController extends WorldController implements ContactListener 
         if (active) {
             float x = 5f * input.getXMovement();
             float y = 5f * input.getYMovement();
+            System.out.println(player.getX());
             player.setLinearVelocity(new Vector2(x, y));
             player.setSpace(input.getSpace());
             player.setInteraction(input.getInteraction());

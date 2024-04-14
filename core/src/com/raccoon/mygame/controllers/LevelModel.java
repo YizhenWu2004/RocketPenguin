@@ -72,8 +72,8 @@ public class LevelModel {
 
     private void processObjects() {
         for (MapObject o : storeObjectsLayer.getObjects()) {
-            float x = ((TextureMapObject) o).getX();
-            float y = ((TextureMapObject) o).getY();
+            float x = ((TextureMapObject) o).getX()/40f;
+            float y = ((TextureMapObject) o).getY()/40f;
             NormalObstacle obstacle;
             switch (o.getName()) {
                 case "HorizShelf":
@@ -131,14 +131,14 @@ public class LevelModel {
     private void processIngredients() {
         for (MapObject i : ingredientsLayer.getObjects()) {
             Ingredient ing = new Ingredient(i.getName(), new Texture("720/" + i.getName() + ".png"), -1);
-            addFruitCrate(((TextureMapObject) i).getX(), ((TextureMapObject) i).getY(), ing);
+            addFruitCrate(((TextureMapObject) i).getX()/40f, ((TextureMapObject) i).getY()/40f, ing);
         }
     }
 
     private Array<Float> createNode(MapObject n) {
         Array<Float> node = new Array<Float>();
-        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getX() : ((RectangleMapObject) n).getRectangle().getX());
-        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getY() : ((RectangleMapObject) n).getRectangle().getY());
+        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getX()/40f : ((RectangleMapObject) n).getRectangle().getX()/40f);
+        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getY()/40f : ((RectangleMapObject) n).getRectangle().getY()/40f);
         node.add(((n.getProperties().get("Sleep")).equals("Yes") ? 1f : 0f));
         node.add(Float.parseFloat((String) n.getProperties().get("Time")));
         return node;
