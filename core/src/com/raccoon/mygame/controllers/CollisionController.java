@@ -80,7 +80,7 @@ public class CollisionController {
 
     public void processCustomers(Player p, Array<Customer> customers) {
         for (Customer c : customers) {
-            if (p.getInteraction() && p.getPosition().dst(c.getPosition()) <= 2) {
+            if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
                 if (!c.getShow() && !c.isSatisfied()) {
                     c.setShow(true);
                 }
@@ -166,7 +166,7 @@ public class CollisionController {
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
             if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
 //            System.out.println(g.getY());
-                System.out.println("sensing w/o sightcone");
+//                System.out.println("sensing w/o sightcone");
 //                g.switchToChaseMode();
             }
         }
@@ -201,9 +201,10 @@ public class CollisionController {
     }
 
     public boolean handleCollision(Player p, NormalObstacle o) {
-        if(o.getIngredient() == null)
-            return false;
-
+        if(o.getTrashcan() != true) {
+            if (o.getIngredient() == null)
+                return false;
+        }
         Vector2 playerPosition = new Vector2(p.getX(), p.getY());
         Vector2 obstaclePosition = new Vector2(o.getX(), o.getY());
 
@@ -223,6 +224,7 @@ public class CollisionController {
         }
         return false;
     }
+
 
     public void handleCollision(Player p, NormalCollisionObject o) {
 

@@ -153,7 +153,7 @@ public class CustomerAIController implements AIController {
 //                    System.out.println("here");
 //                    goal = new Vector2(-0.5f, 2.5f);
 //                }
-                goal.set(-0.5f, 2f);
+                goal.set(-0.5f, 7f);
         }
     }
 
