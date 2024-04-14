@@ -201,9 +201,10 @@ public class CollisionController {
     }
 
     public boolean handleCollision(Player p, NormalObstacle o) {
-        if(o.getIngredient() == null)
-            return false;
-
+        if(o.getTrashcan() != true) {
+            if (o.getIngredient() == null)
+                return false;
+        }
         Vector2 playerPosition = new Vector2(p.getX(), p.getY());
         Vector2 obstaclePosition = new Vector2(o.getX(), o.getY());
 
@@ -223,6 +224,7 @@ public class CollisionController {
         }
         return false;
     }
+
 
     public void handleCollision(Player p, NormalCollisionObject o) {
 

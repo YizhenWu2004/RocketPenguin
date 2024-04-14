@@ -20,6 +20,7 @@ public class NormalObstacle extends BoxObstacle {
     private GameCanvas canvas;
     private Ingredient ingredient;
     private boolean drawPriority = false;
+    private boolean isTrashcan = false;
 
     public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas) {
         super(x, y, width, height);
@@ -119,5 +120,11 @@ public class NormalObstacle extends BoxObstacle {
     public Ingredient getIngredient(){
         if (this.ingredient == null) return null;
         return this.ingredient.clone();
+    }
+    public void setTrashcan(boolean bool){
+        this.isTrashcan = bool;
+    }
+    public boolean getTrashcan(){
+        return this.isTrashcan;
     }
 }

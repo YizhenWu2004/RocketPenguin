@@ -94,6 +94,16 @@ public class RestaurantController extends WorldController implements ContactList
         drawableObjects.add(t);
     }
 
+    private void addTrashcan(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority, boolean isForDishes) {
+        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+        t.setTrashcan(true);
+
+    }
+
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
@@ -175,6 +185,8 @@ public class RestaurantController extends WorldController implements ContactList
         addDecoration(22, 2, "sidelamp",0.1f,0.1f, 1,1,4,0,true);
 
         addDecoration(22,13,"decorativeshelf", 1,1, 1,1, 0,-70);
+
+        addTrashcan(31, 5, "trashcan", 1, 0.5f,1,1,0,-30f, false, false);
 
 
         customers = new Array();
@@ -260,6 +272,19 @@ public class RestaurantController extends WorldController implements ContactList
             player.setInteraction(input.getInteraction());
             player.getInventory().setSelected((int) input.getScroll());
             collision.processCustomers(player, customers);
+
+            for(NormalObstacle obstacle : obstacles){
+                boolean colliding = collision.handleCollision(player, obstacle);
+                if(colliding && obstacle.getTrashcan()){
+                    if(input.getSpace()){
+                        player.dishInventory.clear(0);
+                        player.dishInventory.clear(1);
+                    }
+                    if(input.getUp()){
+                        player.removeItem();
+                    }
+                }
+            }
         }
         for (Customer c : customers) {
             if (c.justSatisfied){
