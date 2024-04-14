@@ -112,7 +112,12 @@ public class GuardAIController {
     }
 
     public void incrementSusMeter(float scale) {
-        susMeter += scale * 0.166;
+        if(scale == -1){
+            susMeter = 30;
+        }
+        else{
+            susMeter += scale * 0.166;
+        }
     }
 
     public void decrementSusMeter(float scale) {

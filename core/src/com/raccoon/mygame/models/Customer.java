@@ -100,7 +100,7 @@ public class Customer extends BoxObstacle {
             //System.out.println("ORDER");
         }
         cooking_method = random.nextInt(3);
-        System.out.println(cooking_method);
+//        System.out.println(cooking_method);
         satisfied = false;
         isActive = true;
 
@@ -154,12 +154,12 @@ public class Customer extends BoxObstacle {
     public boolean serve(Dish d) {
         for (Ingredient i : this.order){
             if(i!= null) {
-                System.out.println(i.type);
+//                System.out.println(i.type);
             }
         }
         for (Ingredient i : d.type){
             if (i!=null) {
-                System.out.println(i.type);
+//                System.out.println(i.type);
             }
         }
         if(d == null){

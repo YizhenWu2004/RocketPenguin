@@ -166,7 +166,7 @@ public class CollisionController {
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
             if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
 //            System.out.println(g.getY());
-                System.out.println("sensing w/o sightcone");
+//                System.out.println("sensing w/o sightcone");
 //                g.switchToChaseMode();
             }
         }
