@@ -251,11 +251,13 @@ public class Customer extends BoxObstacle {
         }
 
 //        //todo still shows when order has been taken, and when order has been satisfied, and also weird that doesn't show for some customers
+//        //todo essentially, i only want this to show during WAIT and if order has not been taken
 //        if(controller.state == CustomerAIController.FSMState.WAIT && !satisfied && !show){
 //            question.drawCustomerQuestion(canvas,this.getX(),this.getY()+10,this.drawScale.x,this.drawScale.y);
 //        }
 
         //why does this work and the above doesnt ;-;
+        //todo implement thumbs up thumbs down differentiation later
         if(satisfied){
             thumbsUp.drawCustomerQuestion(canvas,this.getX(),this.getY()+3,this.drawScale.x,this.drawScale.y);
         }
