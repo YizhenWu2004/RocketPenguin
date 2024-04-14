@@ -52,6 +52,8 @@ public class StoreController extends WorldController implements ContactListener 
     boolean active;
     public boolean playerJustDied;
 
+    public boolean duringventing;
+
     private final int GRID_WIDTH = WORLD_WIDTH;
     private final int GRID_HEIGHT = WORLD_HEIGHT;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
@@ -230,6 +232,7 @@ public class StoreController extends WorldController implements ContactListener 
         playerJustDied = false;
 
         animator = new AnimationController(input);
+        duringventing = false;
     }
 
     public void setActive(boolean b) {
@@ -278,11 +281,9 @@ public class StoreController extends WorldController implements ContactListener 
         }
         for (Guard guard : guards) {
             guard.update(delta, generatePlayerInfo());
-            collision.handleCollision(player, guard);
-//            if(guard.getAIController().getDirection()){
-//                canvas.flipGuard(guard, guard.getX(), guard.getY());
-//            }
-//            guard.getSight().render();
+            if (!duringventing) {
+                collision.handleCollision(player, guard);
+            }
         }
 
         collision.processBounds(player);
@@ -307,11 +308,12 @@ public class StoreController extends WorldController implements ContactListener 
             }
         }
         if(vent1.ventTimer != null) {
-            System.out.println(vent1.ventTimer.getTime());
+            //System.out.println(vent1.ventTimer.getTime());
             if (vent1.ventTimer.getTime() <= 0) {
                 setVentCollision(true);
                 vent1.ventTimer = null;
                 player.playerIsVenting = false;
+                duringventing = false;
             }
         }
 
@@ -437,7 +439,9 @@ public class StoreController extends WorldController implements ContactListener 
         Body body1 = contact.getFixtureA().getBody();
         Body body2 = contact.getFixtureB().getBody();
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof Guard) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof Guard)) {
-            playerGuardCollide = true;
+            if(!duringventing) {
+                playerGuardCollide = true;
+            }
         }
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
 //            setVentCollision(true);
@@ -522,6 +526,7 @@ public class StoreController extends WorldController implements ContactListener 
     }
 
     public void startVentTimer(VentObstacle o, Player p){
+        duringventing = true;
         p.playerIsVenting = true;
         o.ventTimer = new Worldtimer((int) o.maxTime, canvas);
         o.ventTimer.create();

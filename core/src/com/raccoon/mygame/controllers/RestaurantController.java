@@ -353,7 +353,7 @@ public class RestaurantController extends WorldController implements ContactList
 
         }
         if(vent1.ventTimer != null) {
-            System.out.println(vent1.ventTimer.getTime());
+            //System.out.println(vent1.ventTimer.getTime());
             if (vent1.ventTimer.getTime() <= 0) {
                 setVentCollision(true);
                 vent1.ventTimer = null;
