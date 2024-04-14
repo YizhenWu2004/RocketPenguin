@@ -120,10 +120,10 @@ public class StoreController extends WorldController implements ContactListener 
         }
 
         guards = new Array();
-        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("720/vent.png"),world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
         drawableObjects.add(vent1);
 
-        localStartingPos = new Vector2(vent1.getX()+1.5f, vent1.getY());
+        localStartingPos = new Vector2(vent1.getX()+2.3f, vent1.getY());
 
 
         obstacles = new Array();
@@ -259,6 +259,7 @@ public class StoreController extends WorldController implements ContactListener 
 //            totalReset = false;
 //        }
 
+        float delta = Gdx.graphics.getDeltaTime();
         if (playerGuardCollide) {
             player.setPosition(0, 0);
             player.clearInv();
@@ -272,8 +273,9 @@ public class StoreController extends WorldController implements ContactListener 
             player.setSpace(input.getSpace());
             player.setInteraction(input.getInteraction());
             player.getInventory().setSelected((int) input.getScroll());
+
+            animator.handleAnimation(vent1, player, delta);
         }
-        float delta = Gdx.graphics.getDeltaTime();
         for (Guard guard : guards) {
             guard.update(delta, generatePlayerInfo());
             collision.handleCollision(player, guard);
@@ -302,6 +304,14 @@ public class StoreController extends WorldController implements ContactListener 
                 if(input.getSpace()){
                     player.pickUpItem(obstacle.getIngredient());
                 }
+            }
+        }
+        if(vent1.ventTimer != null) {
+            System.out.println(vent1.ventTimer.getTime());
+            if (vent1.ventTimer.getTime() <= 0) {
+                setVentCollision(true);
+                vent1.ventTimer = null;
+                player.playerIsVenting = false;
             }
         }
 
@@ -430,8 +440,8 @@ public class StoreController extends WorldController implements ContactListener 
             playerGuardCollide = true;
         }
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
-            setVentCollision(true);
-
+//            setVentCollision(true);
+            startVentTimer(vent1, player);
         }
         if ((body1.getUserData() instanceof Guard && body2.getUserData() instanceof NormalObstacle) ||
                 (body2.getUserData() instanceof Guard && body1.getUserData() instanceof NormalObstacle)) {
@@ -509,5 +519,11 @@ public class StoreController extends WorldController implements ContactListener 
             guards.get(i).setPosition(guardX.get(i),guardY.get(i));
             guards.get(i).switchToDefaultMode();
         }
+    }
+
+    public void startVentTimer(VentObstacle o, Player p){
+        p.playerIsVenting = true;
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas);
+        o.ventTimer.create();
     }
 }
