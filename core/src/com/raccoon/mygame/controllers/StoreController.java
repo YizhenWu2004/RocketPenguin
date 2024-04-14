@@ -119,11 +119,11 @@ public class StoreController extends WorldController implements ContactListener 
 
         localStartingPos = new Vector2(vent1.getX()+2.3f, vent1.getY());
 
-        active = false;
-        world.setContactListener(this);
+        float nodOff = 1.5f;
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
 
-        float nodOff = 1.5f;
+        active = false;
+        world.setContactListener(this);
 
 
         initializeCollisionLayer();
@@ -157,6 +157,12 @@ public class StoreController extends WorldController implements ContactListener 
             guardX.add(guard.getX());
             guardY.add(guard.getY());
         }
+
+        active = false;
+        world.setContactListener(this);
+        initializeCollisionLayer();
+        playerJustDied = false;
+        duringventing = false;
 
     }
 
@@ -362,6 +368,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     @Override
     public void beginContact(Contact contact) {
+        System.out.println("hi!");
         Body body1 = contact.getFixtureA().getBody();
         Body body2 = contact.getFixtureB().getBody();
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof Guard) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof Guard)) {
