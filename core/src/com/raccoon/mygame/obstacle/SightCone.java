@@ -187,10 +187,10 @@ public class SightCone extends BoxObstacle {
                 if(distance > 8){
                     g.getAIController().incrementSusMeter(0.3f);
                 }
-                else if(distance > 7){
+                else if(distance > 6){
                     g.getAIController().incrementSusMeter(0.5f);
                 }
-                else if(distance > 7){
+                else if(distance > 4){
                     g.getAIController().incrementSusMeter(1);
                 }
                 else if(distance > 2){
