@@ -52,8 +52,11 @@ public class Player extends BoxObstacle {
     private float width;
 
     public boolean playerIsCooking = false;
+    public boolean playerIsVenting = false;
 
     private Shadow shadow;
+
+    public boolean stopDrawing = false;
 //    b = new BoxObstacle(1,1);
 //		b.setDensity(1.0f);
 //		b.activatePhysics(world);
@@ -157,6 +160,7 @@ public class Player extends BoxObstacle {
         return this.isTeleporting;
     }
 
+
     private void setDirection(){
         if(this.getVX() > 0)
             this.direction = -1;
@@ -170,10 +174,12 @@ public class Player extends BoxObstacle {
     //draw with scale
     public void draw(float scaleX, float scaleY) {
 
-        shadow.draw(canvas);
+        if(stopDrawing == false)
+            shadow.draw(canvas);
         setDirection();
         //not sure why the x offset needs to be 200 for it to look right
-        drawSprite(canvas, scaleX*this.getDirection(), scaleY, (float)this.sprite.getRegionWidth()/2, 20);
+        if(stopDrawing == false)
+            drawSprite(canvas, scaleX*this.getDirection(), scaleY, (float)this.sprite.getRegionWidth()/2, 20);
 //        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
         this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){

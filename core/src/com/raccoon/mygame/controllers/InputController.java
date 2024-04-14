@@ -24,6 +24,8 @@ public class InputController {
 
     private boolean reset;
     public boolean click;
+    private boolean up;
+    private boolean down;
 
     public float getYMovement() {
         return y_movement;
@@ -48,6 +50,8 @@ public class InputController {
     public boolean getReset() {
         return reset;
     }
+    public boolean getUp() {return up;};
+    public boolean getDown() {return down;};
 
 
     public InputController() {
@@ -105,6 +109,16 @@ public class InputController {
             click = true;
         } else {
             click = false;
+        }
+        if (Gdx.input.isKeyPressed(Keys.UP)) {
+            up = true;
+        } else {
+            up = false;
+        }
+        if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+            down = true;
+        } else {
+            down = false;
         }
 
     }

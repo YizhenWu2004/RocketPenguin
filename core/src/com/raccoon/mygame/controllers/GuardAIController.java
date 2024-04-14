@@ -112,11 +112,16 @@ public class GuardAIController {
     }
 
     public void incrementSusMeter(float scale) {
-        susMeter += scale * 0.166;
+        if(scale == -1){
+            susMeter = 30;
+        }
+        else{
+            susMeter += scale * 0.166;
+        }
     }
 
     public void decrementSusMeter(float scale) {
-        susMeter = (float) Math.max(susMeter - 0.166 * scale, 0);
+        susMeter = (float) Math.max(susMeter - 0.166 * scale*0.5, 0);
     }
 
     public float getSusMeter() {
@@ -177,7 +182,12 @@ public class GuardAIController {
         }
         else if (susMeter <= 0) {
             if(currentState == AIState.SUS){
-                setAIStateWander();
+                if(patrolDirection == PatrolDirection.SLEEP_WAKE){
+                    setAIStateWake();
+                }
+                else{
+                    setAIStateWander();
+                }
             }
         }
 
@@ -185,11 +195,14 @@ public class GuardAIController {
         if (currentState == AIState.WAKE && sleepWakeTimer <= 0) {
             currentState = AIState.SLEEP;
             sleepWakeTimer = SLEEP_DURATION;
+            orien = defaultOrien;
+            return speedVector;
         }
         else if (currentState == AIState.SLEEP && sleepWakeTimer <= 0) {
             currentState = AIState.WAKE;
             orien = defaultOrien;
             sleepWakeTimer = AWAKE_DURATION;
+            return speedVector;
         }
         else if (currentState == AIState.SLEEP) {
             orien = defaultOrien;

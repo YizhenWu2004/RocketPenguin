@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.obstacle.BoxObstacle;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class NormalObstacle extends BoxObstacle {
@@ -20,6 +21,7 @@ public class NormalObstacle extends BoxObstacle {
     private GameCanvas canvas;
     private Ingredient ingredient;
     private boolean drawPriority = false;
+    private boolean isTrashcan = false;
 
     public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas) {
         super(x, y, width, height);
@@ -87,6 +89,27 @@ public class NormalObstacle extends BoxObstacle {
         this.ingredient = ingredient;
     }
 
+    public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, FilmStrip defaultSprite, World world, GameCanvas canvas) {
+        super(x, y, width, height);
+        this.sprite = defaultSprite;
+//        setTexture(new TextureRegion(texture));
+        scaleX = canvas.getWidth() / WORLD_WIDTH;
+        scaleY = canvas.getHeight() / WORLD_HEIGHT;
+        this.sx = sx;
+        this.sy = sy;
+        this.ox = ox;
+        this.oy = oy;
+        this.canvas = canvas;
+        setFixedRotation(true);
+        setDensity(1);
+        setFriction(0);
+        setLinearDamping(0);
+        activatePhysics(world);
+        this.setBodyType(BodyType.StaticBody);
+        setDrawScale(scaleX, scaleY);
+        this.getBody().setUserData(this);
+    }
+
     public float getOX() {
         return ox;
     }
@@ -103,9 +126,21 @@ public class NormalObstacle extends BoxObstacle {
         return sy;
     }
 
+    public void setSX(float sx){this.sx = sx;}
+    public void setSY(float sy){this.sy = sy;}
+
+    public void setOY(float oy){this.oy = oy;}
+    public void setOX(float ox){this.ox = ox;}
+
     public boolean getDrawPriority() {return drawPriority;}
 
     public void draw() {
+        if(this.sprite == null)
+            draw(canvas, sx, sy, ox, oy);
+        if(this.sprite != null)
+            drawSprite(canvas, sx, sy, ox, oy);
+    }
+    public void drawWithOffset(float ox, float oy) {
         draw(canvas, sx, sy, ox, oy);
     }
 
@@ -116,5 +151,11 @@ public class NormalObstacle extends BoxObstacle {
     public Ingredient getIngredient(){
         if (this.ingredient == null) return null;
         return this.ingredient.clone();
+    }
+    public void setTrashcan(boolean bool){
+        this.isTrashcan = bool;
+    }
+    public boolean getTrashcan(){
+        return this.isTrashcan;
     }
 }

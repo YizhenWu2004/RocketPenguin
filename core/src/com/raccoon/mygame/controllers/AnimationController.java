@@ -44,6 +44,10 @@ public class AnimationController {
     private final FilmStrip gooseIdle;
     private final FilmStrip gooseChase;
 
+    private final FilmStrip ventIn;
+    private final FilmStrip ventOut;
+    private final FilmStrip ventIdle;
+
 
     private InputController input;
     AnimationController(InputController input){
@@ -75,6 +79,10 @@ public class AnimationController {
         gooseWalkUp = new FilmStrip(new Texture("720/goosewalkup.png"),1,6,6);
         gooseIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
         gooseChase = new FilmStrip(new Texture("720/goosechase.png"),1,6,6);
+
+        ventIdle = new FilmStrip(new Texture("720/vent.png"),1,1,1);
+        ventIn = new FilmStrip(new Texture("720/rockoventin.png"),3,4,12);
+        ventOut = new FilmStrip(new Texture("720/rockoventout.png"),4,3,12);
     }
 
     public void handleAnimation(Player o, float delta){
@@ -195,7 +203,23 @@ public class AnimationController {
         o.updateAnimation(delta);
     }
 
-    public void handleAnimation(VentObstacle o, float delta){
-        //yeahh idk about this one yet
+    public void handleAnimation(VentObstacle o, Player p, float delta){
+        if(p.playerIsVenting){
+            o.setFilmStrip(ventIn);
+            o.setOX(85f);
+            if(p.getX() < o.getX()) {
+                o.setSX(1);
+            }
+            if(p.getX() > o.getX()){
+                o.setSX(-1);
+            }
+            p.stopDrawing = true;
+            o.updateAnimation(delta);
+            return;
+        }
+        p.stopDrawing = false;
+        o.setFilmStrip(ventIdle);
+        o.setOX(27);
+        o.updateAnimation(delta);
     }
 }

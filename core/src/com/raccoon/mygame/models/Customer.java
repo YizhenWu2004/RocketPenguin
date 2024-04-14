@@ -10,10 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.CustomerAIController;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.controllers.PatienceMeter;
-import com.raccoon.mygame.objects.Dish;
-import com.raccoon.mygame.objects.Ingredient;
-import com.raccoon.mygame.objects.Shadow;
-import com.raccoon.mygame.objects.TableObstacle;
+import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
@@ -33,7 +30,7 @@ public class Customer extends BoxObstacle {
     private float scaleX;
     private float scaleY;
     private GameCanvas canvas;
-    private PatienceMeter pat;
+    public PatienceMeter pat;
     private Ingredient[] order;
     private int cooking_method;
     private boolean satisfied;
@@ -57,6 +54,7 @@ public class Customer extends BoxObstacle {
 
     private float offsetX = 0;
     private float offsetY = 0;
+    public Dish servedDish;
 
     public int orderSize;
     private Texture one = new Texture("singleorder.png");
@@ -64,6 +62,11 @@ public class Customer extends BoxObstacle {
     private Texture three = new Texture("tripleorder.png");
     private Texture wok =new Texture("wok.png");
     private Texture pot = new Texture("pot.png");
+    private Texture cutting_board = new Texture("cutting_board.png");
+
+    private Expression question;
+
+    private Expression thumbsUp;
     public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
 //        this.texture = texture;
@@ -94,9 +97,11 @@ public class Customer extends BoxObstacle {
         for(int i = 0; i < r; i++){
             int r_ing = random.nextInt(menu.size);
             order[i] = menu.get(r_ing).clone();
-//            System.out.println(menu.get(r_ing).type);
+            //System.out.println(menu.get(r_ing).type);
+            //System.out.println("ORDER");
         }
-        cooking_method = random.nextInt(2);
+        cooking_method = random.nextInt(3);
+//        System.out.println(cooking_method);
         satisfied = false;
         isActive = true;
 
@@ -107,7 +112,7 @@ public class Customer extends BoxObstacle {
         show = false;
         flipScale = -1;
         onRight = false;
-        pat = new PatienceMeter(100, canvas, this);
+        pat = new PatienceMeter(120, canvas, this);
         pat.create();
         justSatisfied=false;
 
@@ -115,6 +120,10 @@ public class Customer extends BoxObstacle {
         this.width = width;
 
         setCustomerType();
+
+        question = new Expression("customerQuestion",x,y);
+
+        thumbsUp = new Expression("customerThumbsUp",x,y);
     }
 
     public Ingredient[] getOrder() {
@@ -148,6 +157,16 @@ public class Customer extends BoxObstacle {
     }
 
     public boolean serve(Dish d) {
+        for (Ingredient i : this.order){
+            if(i!= null) {
+//                System.out.println(i.type);
+            }
+        }
+        for (Ingredient i : d.type){
+            if (i!=null) {
+//                System.out.println(i.type);
+            }
+        }
         if(d == null){
             return false;
         }
@@ -193,6 +212,7 @@ public class Customer extends BoxObstacle {
         }
         satisfied = true;
         justSatisfied =true;
+        servedDish = d;
         return true;
     }
 
@@ -230,6 +250,18 @@ public class Customer extends BoxObstacle {
             shadow.draw(canvas);
         }
 
+//        //todo still shows when order has been taken, and when order has been satisfied, and also weird that doesn't show for some customers
+//        //todo essentially, i only want this to show during WAIT and if order has not been taken
+//        if(controller.state == CustomerAIController.FSMState.WAIT && !satisfied && !show){
+//            question.drawCustomerQuestion(canvas,this.getX(),this.getY()+10,this.drawScale.x,this.drawScale.y);
+//        }
+
+        //why does this work and the above doesnt ;-;
+        //todo implement thumbs up thumbs down differentiation later
+        if(satisfied){
+            thumbsUp.drawCustomerQuestion(canvas,this.getX(),this.getY()+3,this.drawScale.x,this.drawScale.y);
+        }
+
         //somehow give the ability to specify the ox and oy offset
         drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, this.sprite.getRegionWidth()/2f + offsetX, offsetY);
         if (pat.getTime() > 0){
@@ -238,30 +270,73 @@ public class Customer extends BoxObstacle {
         //Texture image, Color tint, float ox, float oy,
         //float x, float y, float angle, float sx, float sy
         if (show) {
-            if(orderSize == 1){
-                canvas.draw(two, Color.WHITE, 0,-150,this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y,0,1f,0.8f);
-            } else if (orderSize ==2){
-                canvas.draw(three, Color.WHITE, 0,-150,this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y,0,0.9f,0.8f);
-            } else if (orderSize ==3){
-                canvas.draw(three, Color.WHITE, 0,-150,this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y,0,1.1f,0.8f);
-            }
-            if(cooking_method == 0) {
-                canvas.draw(wok, Color.WHITE, -20, -130,
-                        this.getX() * this.getDrawScale().x, this.getY() * this.getDrawScale().y,
-                        0.0f, 1f, 1f);
-            }else{
-                canvas.draw(pot, Color.WHITE, -20, -130,
-                        this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y, 0.0f, 1f, 1f);
-            }
-            for(int i = 0; i < order.length; i++){
-                if (order[i] != null){
-
-                    order[i].drawTextBubble(canvas, this.getX() * this.drawScale.x, (this.getY()) * drawScale.y, -20-50*(i+1), -140);
+            if (!onRight) {
+                if (orderSize == 1) {
+                    canvas.draw(two, Color.WHITE, 0, -150, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, 1f, 0.8f);
+                } else if (orderSize == 2) {
+                    canvas.draw(three, Color.WHITE, 0, -150, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, 0.9f, 0.8f);
+                } else if (orderSize == 3) {
+                    canvas.draw(three, Color.WHITE, 0, -150, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, 1.1f, 0.8f);
                 }
-            }
-            //order.drawTextBubble(canvas, this.getX() * 60, this.getY() * 60, 0, 0);
-        }
+                if (cooking_method == 0) {
+                    canvas.draw(wok, Color.WHITE, -20, -130,
+                            this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y,
+                            0.0f, 1f, 1f);
+                } else if (cooking_method == 1) {
+                    canvas.draw(pot, Color.WHITE, -20, -130,
+                            this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0.0f, 1f, 1f);
+                } else {
+                    canvas.draw(cutting_board, Color.WHITE, -20, -130,
+                            this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0.0f, 1f, 1f);
+                }
+                for (int i = 0; i < order.length; i++) {
+                    if (order[i] != null) {
 
+                        order[i].drawTextBubble(canvas, this.getX() * this.drawScale.x,
+                                (this.getY()) * drawScale.y, -20 - 50 * (i + 1), -140);
+                    }
+                }
+            } else {
+                if (orderSize == 1) {
+                    canvas.draw(two, Color.WHITE, 0, -220, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, -1f, 0.8f);
+                } else if (orderSize == 2) {
+                    canvas.draw(three, Color.WHITE, 0, -220, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, -0.9f, 0.8f);
+                } else if (orderSize == 3) {
+                    canvas.draw(three, Color.WHITE, 0, -220, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, -1.1f, 0.8f);
+                }
+                if (cooking_method == 0) {
+                    canvas.draw(wok, Color.WHITE, 85, -190,
+                            this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y,
+                            0.0f, 1f, 1f);
+                } else if(cooking_method == 1) {
+                    canvas.draw(pot, Color.WHITE, 85, -190,
+                            this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0.0f, 1f, 1f);
+                }else {
+                    canvas.draw(cutting_board, Color.WHITE, 85, -190,
+                            this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0.0f, 1f, 1f);
+                }
+                for (int i = 0; i < order.length; i++) {
+                    if (order[i] != null) {
+
+                        order[i].drawTextBubble(canvas, this.getX() * this.drawScale.x,
+                                (this.getY()) * drawScale.y, 70 + 50 * (i + 1), -195);
+                    }
+                }
+
+            }
+        }
     }
 
     public void debug(GameCanvas canvas) {

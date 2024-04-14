@@ -156,15 +156,50 @@ public class SightCone extends BoxObstacle {
         this.y = newPosition.y;
     }
 
+    private double distance(Vector2 first, Vector2 second){
+        float x1 = first.x;
+        float y1 = first.y;
+        float x2 = second.x;
+        float y2 = second.y;
+
+        float deltaX = x2 - x1;
+        float deltaY = y2 - y1;
+
+        float squareDeltaX = deltaX * deltaX;
+        float squareDeltaY = deltaY * deltaY;
+
+        float sumOfSquares = squareDeltaX + squareDeltaY;
+
+        return Math.sqrt(sumOfSquares);
+    }
+
+    /**
+     * susMeter incrementation lives here!
+     */
     private void performRaycast(Vector2 origin, Vector2 target, World w, int count) {
 
         RayCastCallback callback = (fixture, point, normal, fraction) -> {
             Object userData = fixture.getBody().getUserData();
             if (userData instanceof Player) {
-//                g.switchToChaseMode();
                 g.getAIController().setAIStateSus();
-                g.getAIController().incrementSusMeter(1);
-//                System.out.println("SUS meter" + g.getAIController().getSusMeter());
+
+                double distance = distance(fixture.getBody().getPosition(),g.getPosition());
+                if(distance > 8){
+                    g.getAIController().incrementSusMeter(0.3f);
+                }
+                else if(distance > 6){
+                    g.getAIController().incrementSusMeter(0.5f);
+                }
+                else if(distance > 4){
+                    g.getAIController().incrementSusMeter(1);
+                }
+                else if(distance > 2){
+                    g.getAIController().incrementSusMeter(2);
+                }
+                else{
+                    g.getAIController().incrementSusMeter(-1);
+                }
+
                 range.set(count, 300f);
                 playerDetected = true;
                 return 0;
