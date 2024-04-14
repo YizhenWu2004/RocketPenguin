@@ -27,6 +27,10 @@ public class CookingStationObject extends NormalObstacle{
     private Texture chop_pic = new Texture("cutting_board.png");
     public float drawox=0;
     public float drawoy=0;
+    public float x;
+    public float y;
+
+    private Expression spaceIcon;
 
     public CookingStationObject(float x, float y, float width, float height, float sx, float sy,
             float ox, float oy, Texture texture,
@@ -40,6 +44,9 @@ public class CookingStationObject extends NormalObstacle{
         this.id = id;
         interacting_with = -1;
         this.station_type = station_type;
+        this.x = x;
+        this.y = y;
+        spaceIcon = new Expression("space",x,y);
 
     }
 
@@ -73,6 +80,9 @@ public class CookingStationObject extends NormalObstacle{
     public void drawInventory(){
         if(interacting){
             pot.draw(canvas);
+            if(!pot.isEmpty()){
+                spaceIcon.drawSpace(canvas,this.getDrawScale().x,this.getDrawScale().y);
+            }
         }
     }
 
