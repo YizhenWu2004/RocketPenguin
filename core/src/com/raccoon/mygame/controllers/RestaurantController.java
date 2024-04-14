@@ -205,7 +205,7 @@ public class RestaurantController extends WorldController implements ContactList
         }
         this.input = input;
 
-        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 0, 0f, new Texture("720/vent.png"),world, canvas);
+        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1) ,world, canvas);
         localStartingPos = new Vector2(vent1.getX()-1.5f, vent1.getY());
         drawableObjects.add(vent1);
 
@@ -272,6 +272,8 @@ public class RestaurantController extends WorldController implements ContactList
             player.setInteraction(input.getInteraction());
             player.getInventory().setSelected((int) input.getScroll());
             collision.processCustomers(player, customers);
+
+            animator.handleAnimation(vent1, player, delta);
 
             for(NormalObstacle obstacle : obstacles){
                 boolean colliding = collision.handleCollision(player, obstacle);
@@ -349,6 +351,14 @@ public class RestaurantController extends WorldController implements ContactList
                 }
             }
 
+        }
+        if(vent1.ventTimer != null) {
+            System.out.println(vent1.ventTimer.getTime());
+            if (vent1.ventTimer.getTime() <= 0) {
+                setVentCollision(true);
+                vent1.ventTimer = null;
+                player.playerIsVenting = false;
+            }
         }
 
         animator.handleAnimation(player, tick);
@@ -454,7 +464,8 @@ public class RestaurantController extends WorldController implements ContactList
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
             //System.out.println("colliding with vent");
             //execute
-            setVentCollision(true);
+            startVentTimer(vent1, player);
+//            setVentCollision(true);
         }
 
         if (body1.getUserData() instanceof Player && body2.getUserData() instanceof CookingStationObject){
@@ -560,5 +571,11 @@ public class RestaurantController extends WorldController implements ContactList
      * */
     public void onSet(){
         player.setPosition(localStartingPos);
+    }
+
+    public void startVentTimer(VentObstacle o, Player p){
+        p.playerIsVenting = true;
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas);
+        o.ventTimer.create();
     }
 }
