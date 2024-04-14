@@ -60,7 +60,8 @@ public class CookingInventory {
         }
     }
 
-
-
+    public boolean isEmpty(){
+        return (filled[0] == false);
+    }
 
 }

@@ -64,6 +64,12 @@ public class RestaurantController extends WorldController implements ContactList
 
     private AnimationController animator;
 
+//    private float[] spaceIconX;
+//    private float[] spaceIconY;
+//    private Boolean[] spaceIconShow;
+//
+//    private final int spaceIconSize = 1;
+
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
                 new Texture("720/table.png"), world, canvas);
@@ -114,6 +120,14 @@ public class RestaurantController extends WorldController implements ContactList
         drawableObjects.add(player);
 
         obstacles = new Array();
+
+//        //interaction button (space) hint
+//        spaceIconX = new float[spaceIconSize];
+//        spaceIconY = new float[spaceIconSize];
+//        spaceIconShow = new Boolean[spaceIconSize];
+//        spaceIconX[0] = 25;
+//        spaceIconY[0] = 15;
+//        spaceIconShow[0] = false;
 
         //this seems pointless now im not sure
         NormalObstacle normalOb1 = (new NormalObstacle(16f, 17f, 32f, 2.5f, 1f, 1f, 0f, 320f,
