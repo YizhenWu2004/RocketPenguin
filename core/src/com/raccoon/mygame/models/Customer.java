@@ -10,10 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.CustomerAIController;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.controllers.PatienceMeter;
-import com.raccoon.mygame.objects.Dish;
-import com.raccoon.mygame.objects.Ingredient;
-import com.raccoon.mygame.objects.Shadow;
-import com.raccoon.mygame.objects.TableObstacle;
+import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
@@ -66,6 +63,10 @@ public class Customer extends BoxObstacle {
     private Texture wok =new Texture("wok.png");
     private Texture pot = new Texture("pot.png");
     private Texture cutting_board = new Texture("cutting_board.png");
+
+    private Expression question;
+
+    private Expression thumbsUp;
     public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
 //        this.texture = texture;
@@ -119,6 +120,10 @@ public class Customer extends BoxObstacle {
         this.width = width;
 
         setCustomerType();
+
+        question = new Expression("customerQuestion",x,y);
+
+        thumbsUp = new Expression("customerThumbsUp",x,y);
     }
 
     public Ingredient[] getOrder() {
@@ -245,6 +250,16 @@ public class Customer extends BoxObstacle {
             shadow.draw(canvas);
         }
 
+//        //todo still shows when order has been taken, and when order has been satisfied, and also weird that doesn't show for some customers
+//        if(controller.state == CustomerAIController.FSMState.WAIT && !satisfied && !show){
+//            question.drawCustomerQuestion(canvas,this.getX(),this.getY()+10,this.drawScale.x,this.drawScale.y);
+//        }
+
+        //why does this work and the above doesnt ;-;
+        if(satisfied){
+            thumbsUp.drawCustomerQuestion(canvas,this.getX(),this.getY()+3,this.drawScale.x,this.drawScale.y);
+        }
+
         //somehow give the ability to specify the ox and oy offset
         drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, this.sprite.getRegionWidth()/2f + offsetX, offsetY);
         if (pat.getTime() > 0){
@@ -320,7 +335,6 @@ public class Customer extends BoxObstacle {
 
             }
         }
-
     }
 
     public void debug(GameCanvas canvas) {

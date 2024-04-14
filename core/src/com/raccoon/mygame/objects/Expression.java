@@ -27,6 +27,12 @@ public class Expression {
         else if(name == "space"){
             this.texture = new Texture("720/"+ "space" + ".png");
         }
+        else if(name == "customerQuestion"){
+            this.texture = new Texture("720/"+ "customerQuestion" + ".png");
+        }
+        else if(name == "customerThumbsUp"){
+            this.texture = new Texture("720/"+ "customerThumbsUp" + ".png");
+        }
         //commented out because question should always be QuestionExpression class
 //        if(name == "question"){
 //            this.texture = new Texture("720/"+ "question" + ".png");
@@ -63,5 +69,10 @@ public class Expression {
     public void drawSpace(GameCanvas canvas, float drawScaleX, float drawScaleY) {
         canvas.draw(texture, Color.WHITE, 10, 10,
                 x*drawScaleX, y*drawScaleY, 0.0f, 0.5f, 0.5f);
+    }
+
+    public void drawCustomerQuestion(GameCanvas canvas, float given_x, float given_y, float drawScaleX, float drawScaleY) {
+        canvas.draw(texture, Color.WHITE, 10, 10,
+                given_x*drawScaleX, given_y*drawScaleY, 0.0f, 0.8f, 0.8f);
     }
 }

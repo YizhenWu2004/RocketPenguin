@@ -72,7 +72,6 @@ public class CookingStationObject extends NormalObstacle{
                     0.0f, 1f, 1f);
         }
         if(timer != null){
-            //System.out.println("HERE" + timer.getTime());
             timer.drawNoFormat(this.getX()*this.drawScale.x, this.getY()*this.drawScale.y);
         }
     }
