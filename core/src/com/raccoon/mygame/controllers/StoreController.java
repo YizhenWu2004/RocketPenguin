@@ -114,7 +114,7 @@ public class StoreController extends WorldController implements ContactListener 
         drawableObjects.add(player);
         this.input = input;
 
-        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 0f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
         drawableObjects.add(vent1);
 
         localStartingPos = new Vector2(vent1.getX()+2.3f, vent1.getY());
@@ -138,7 +138,7 @@ public class StoreController extends WorldController implements ContactListener 
         guardWanderReset();
         world = level.getStoreWorld();
         player = new Player(4, 4, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
-        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 0f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
         for (NormalObstacle bin : level.getIngredients()) {
