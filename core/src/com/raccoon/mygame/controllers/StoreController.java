@@ -19,8 +19,6 @@ import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
-import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
-import jdk.internal.net.http.common.Pair;
 
 import static com.raccoon.mygame.enums.enums.PatrolDirection;
 

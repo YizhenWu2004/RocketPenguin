@@ -6,4 +6,19 @@ public class enums {
         LEFT_RIGHT,
         SLEEP_WAKE
     }
+
+    public enum RestaurantObject {
+        VENT,
+        TABLE,
+        WALL_BUMP,
+        COUNTER_LEFT,
+        COUNTER_RIGHT
+    }
+
+    public enum StoreObject {
+        VENT,
+        SHELF_HORIZONTAL,
+        SHELF_VERTICAL,
+        FRUIT_CRATE
+    }
 }
