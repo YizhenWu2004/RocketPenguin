@@ -419,7 +419,7 @@ public class RestaurantController extends WorldController implements ContactList
                 float nextY = getYPosOfAnyObject(drawableObjects.get(j+1));
                 if(getDrawPriorityOfAnyType(drawableObjects.get(j+1)))
                     nextY = -1;
-                if(currentY <= nextY){
+                if(currentY < nextY){
                     Object tempNext = drawableObjects.get(j+1);
                     drawableObjects.set(j+1, drawableObjects.get(j));
                     drawableObjects.set(j, tempNext);
