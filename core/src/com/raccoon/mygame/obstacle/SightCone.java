@@ -96,7 +96,7 @@ public class SightCone extends BoxObstacle {
             float fov = 60;
 
             //shape render debug lines
-            canvas.drawSightCone(position, direction, fov, range, Color.YELLOW, this.g);
+//            canvas.drawSightCone(position, direction, fov, range, Color.YELLOW, this.g);
             if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.LEFT){
                 int count = 0;
                 for (Vector2 vertex : calculateSightConeVertices(position, direction, fov, range)) {
