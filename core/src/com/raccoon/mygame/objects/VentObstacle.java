@@ -15,7 +15,7 @@ public class VentObstacle extends NormalObstacle {
     private boolean isBeingTeleportedTo = false;
 
     public Worldtimer ventTimer;
-    public float maxTime = 2;
+    public float maxTime = 1;
 
     public VentObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, FilmStrip defaultSprite, World world, GameCanvas canvas) {
         super(x, y, width, height, sx, sy, ox, oy, defaultSprite, world, canvas);
