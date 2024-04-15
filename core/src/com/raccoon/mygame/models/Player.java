@@ -162,9 +162,9 @@ public class Player extends BoxObstacle {
 
 
     private void setDirection(){
-        if(this.getVX() > 0)
+        if(this.getVX() > 1)
             this.direction = -1;
-        if(this.getVX() < 0)
+        if(this.getVX() < -1)
             this.direction = 1;
         if(this.getVX() == 0)
             this.direction = this.direction;
