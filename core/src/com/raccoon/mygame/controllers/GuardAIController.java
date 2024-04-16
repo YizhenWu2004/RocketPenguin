@@ -303,22 +303,34 @@ public class GuardAIController {
     }
 
     public Array<Vector2> findPathMain(Vector2 start, Array<Float> info) {
-        Vector2 lower = new Vector2(info.get(0), info.get(1));
-        Vector2 mid = new Vector2(info.get(2), info.get(3));
-        Vector2 upper = new Vector2(info.get(4), info.get(5));
+        Vector2 upperLeft = new Vector2(info.get(0), info.get(1));
+        Vector2 upperRight = new Vector2(info.get(2), info.get(3));
+        Vector2 lowerLeft = new Vector2(info.get(4), info.get(5));
+        Vector2 lowerRight = new Vector2(info.get(6), info.get(7));
+        Vector2 middle = new Vector2(info.get(8), info.get(9));
 
-        Array<Vector2> pathLower = findPath(start, lower);
-        if (pathLower.size != 0) {
-            return pathLower;
+        Array<Vector2> pathUpperLeft = findPath(start, upperLeft,1);
+        Array<Vector2> pathUpperRight = findPath(start, upperRight,1);
+        Array<Vector2> pathLowerLeft = findPath(start, lowerLeft,-1);
+        Array<Vector2> pathLowerRight = findPath(start, lowerRight,1);
+        Array<Vector2> pathMiddle = findPath(start, middle,1);
+
+        if (pathUpperRight.size != 0) {
+            return pathUpperRight;
+        } else if (pathUpperLeft.size != 0) {
+            return pathUpperLeft;
+        } else if (pathLowerLeft.size != 0) {
+            return pathLowerLeft;
+        } else if (pathLowerRight.size != 0) {
+            return pathLowerRight;
+        } else if (pathMiddle.size != 0) {
+            return pathMiddle;
+        } else {
+            System.out.println("OOPS");
+            return new Array<Vector2>();
         }
-
-        Array<Vector2> pathMid = findPath(start, mid);
-        if (pathMid.size != 0) {
-            return pathMid;
-        }
-
-        return findPath(start, upper);
     }
+
 
     /**
      * runs dijskra's and finds the shortest path from start to goal
@@ -327,7 +339,7 @@ public class GuardAIController {
      * @param goal  the goal tile
      * @return array of coordinates that the guard should take to reach to goal
      */
-    public Array<Vector2> findPath(Vector2 start, Vector2 goal) {
+    public Array<Vector2> findPath(Vector2 start, Vector2 goal, int upper) {
         PriorityQueue<Node> frontier = new PriorityQueue<>();
         frontier.add(new Node(start, null, 0));
 
@@ -340,7 +352,14 @@ public class GuardAIController {
 
             Vector2 currentFloor = new Vector2((float) Math.floor(current.position.x), (float) Math.floor(current.position.y));
             if (currentFloor.equals(goalFloor)) {
-                return reconstructPath(cameFrom, current);
+                Array<Vector2> path = reconstructPath(cameFrom, current);
+
+                if (!path.isEmpty()) {
+                    Vector2 lastPoint = path.peek();
+                    lastPoint.y -= 0.7f;
+                    path.set(path.size - 1, lastPoint);
+                }
+                return path;
             }
 
             for (Vector2 next : getNeighbors(current.position, guardDimension.x, guardDimension.y)) {

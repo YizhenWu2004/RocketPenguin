@@ -69,7 +69,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     private void addShelfHorizontal(float x, float y) {
         //0.95
-        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -40f,
+        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -30f,
                 new Texture("720/groceryshelfhorizontal.png"), world, canvas);
         obstacles.add(obstacle);
         drawableObjects.add(obstacle);
@@ -89,9 +89,32 @@ public class StoreController extends WorldController implements ContactListener 
         drawableObjects.add(obstacle);
     }
 
-    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+    //obstacles are real, their collisions affect things
+    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
         NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
                 new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+    //decorations are sensors, no collision will be detected
+    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas);
 
         obstacles.add(t);
         drawableObjects.add(t);
@@ -176,8 +199,8 @@ public class StoreController extends WorldController implements ContactListener 
         addShelfVertical(0f, 6.25f);
 
         //keep these
-        addDecoration(9,0,"ventwallvertical",0.6f,2,1,1,0,-70f, false);
-        addDecoration(2.5f,4,"ventwallhorizontal",5,1,1,1,0,-60f, false);
+        addNormalObstacle(9,0,"ventwallvertical",0.6f,2,1,1,0,-70f, false);
+        addNormalObstacle(2.5f,4,"ventwallhorizontal",5,1,1,1,0,-60f, false);
         addDecoration(2,3.2f,"janitoritems",1f,0.5f,1,1,0,-50f, false);
 
         //keep these
@@ -419,18 +442,40 @@ public class StoreController extends WorldController implements ContactListener 
      */
     public Array<Float> generatePlayerInfo() {
         Array<Float> playerInfo = new Array<Float>();
-        playerInfo.add(player.getX());
-        playerInfo.add(player.getY());
-        float playerMidX = player.getX() + 0.5f;
-        float playerMidY = player.getY() + 0.35f;
-        playerInfo.add(playerMidX);
-        playerInfo.add(playerMidY);
-        float playerTopRightX = player.getX() + 1f;
-        float playerTopRightY = player.getY() + 0.7f;
-        playerInfo.add(playerTopRightX);
-        playerInfo.add(playerTopRightY);
+
+        // Upper left corner
+        float upperLeftX = player.getX();
+        float upperLeftY = player.getY();
+        playerInfo.add(upperLeftX);
+        playerInfo.add(upperLeftY);
+
+        // Upper right corner
+        float upperRightX = player.getX() + player.getWidth();
+        float upperRightY = player.getY();
+        playerInfo.add(upperRightX);
+        playerInfo.add(upperRightY);
+
+        // Lower left corner
+        float lowerLeftX = player.getX();
+        float lowerLeftY = player.getY() + player.getHeight();
+        playerInfo.add(lowerLeftX);
+        playerInfo.add(lowerLeftY);
+
+        // Lower right corner
+        float lowerRightX = player.getX() + player.getWidth();
+        float lowerRightY = player.getY() + player.getHeight()+0.5f;
+        playerInfo.add(lowerRightX);
+        playerInfo.add(lowerRightY);
+
+        // Middle point
+        float middleX = player.getX() + player.getWidth() / 2;
+        float middleY = player.getY() + player.getHeight() / 2;
+        playerInfo.add(middleX);
+        playerInfo.add(middleY);
+
         return playerInfo;
     }
+
 
 
     @Override
