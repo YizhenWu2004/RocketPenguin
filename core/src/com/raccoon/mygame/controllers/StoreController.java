@@ -89,9 +89,32 @@ public class StoreController extends WorldController implements ContactListener 
         drawableObjects.add(obstacle);
     }
 
-    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+    //obstacles are real, their collisions affect things
+    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
         NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
                 new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+    //decorations are sensors, no collision will be detected
+    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas);
 
         obstacles.add(t);
         drawableObjects.add(t);
@@ -176,8 +199,8 @@ public class StoreController extends WorldController implements ContactListener 
         addShelfVertical(0f, 6.25f);
 
         //keep these
-        addDecoration(9,0,"ventwallvertical",0.6f,2,1,1,0,-70f, false);
-        addDecoration(2.5f,4,"ventwallhorizontal",5,1,1,1,0,-60f, false);
+        addNormalObstacle(9,0,"ventwallvertical",0.6f,2,1,1,0,-70f, false);
+        addNormalObstacle(2.5f,4,"ventwallhorizontal",5,1,1,1,0,-60f, false);
         addDecoration(2,3.2f,"janitoritems",1f,0.5f,1,1,0,-50f, false);
 
         //keep these
