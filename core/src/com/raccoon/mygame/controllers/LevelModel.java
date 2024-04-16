@@ -23,9 +23,8 @@ public class LevelModel {
     private World storeWorld;
     private GameCanvas canvas;
     private Array<NormalObstacle> storeObjects = new Array<>();
-    private Array<NormalObstacle> ingredients = new Array<>();
     private Array<Guard> guards = new Array<>();
-    private Array<Array<Array<Float>>> guardNodes = new Array<>();
+    private Array<Array<Vector2>> guardNodes = new Array<>();
     private TiledMap tiledMap;
     private MapLayer storeObjectsLayer;
     private MapLayer ingredientsLayer;
@@ -47,7 +46,7 @@ public class LevelModel {
     private void addFruitCrate(float x, float y, Ingredient ingredient) {
         NormalObstacle obstacle = new NormalObstacle(x+CELL_SIZE/2, y+CELL_SIZE/2, 2f, 1f, 1f, 1f, 0f, 0f,
                 new Texture("720/" + ingredient.type + ".png"), storeWorld, canvas, ingredient);
-        ingredients.add(obstacle);
+        storeObjects.add(obstacle);
     }
 
     public LevelModel(String tmxFile, GameCanvas canvas) {
@@ -55,7 +54,7 @@ public class LevelModel {
         this.canvas = canvas;
         tiledMap = new TmxMapLoader().load("tiled/" + tmxFile + ".tmx");
         storeObjectsLayer = tiledMap.getLayers().get("Obstacles");
-        ingredientsLayer = tiledMap.getLayers().get("Ingredients");
+        ingredientsLayer = tiledMap.getLayers().get("IngredientBins");
         guardsLayer = tiledMap.getLayers().get("Guards");
         guardNodesLayer = tiledMap.getLayers().get("GuardNodes");
         processObjects();
@@ -66,8 +65,6 @@ public class LevelModel {
     public World getStoreWorld() { return storeWorld; }
 
     public Array<NormalObstacle> getStoreObjects() { return storeObjects; }
-
-    public Array<NormalObstacle> getIngredients() { return ingredients; }
 
     public Array<Guard> getGuards() { return guards; }
 
@@ -136,11 +133,10 @@ public class LevelModel {
         }
     }
 
-    private Array<Float> createNode(MapObject n) {
-        Array<Float> node = new Array<Float>();
-        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getX()/40f : ((RectangleMapObject) n).getRectangle().getX()/40f);
-        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getY()/40f : ((RectangleMapObject) n).getRectangle().getY()/40f);
-        node.add(((n.getProperties().get("Sleep")).equals("Yes") ? 1f : 0f));
+    private Vector2 createNode(MapObject n) {
+        Vector2 node = new Vector2();
+        node.x = (n instanceof TextureMapObject ? ((TextureMapObject) n).getX()/40f : ((RectangleMapObject) n).getRectangle().getX()/40f);
+        node.y = (n instanceof TextureMapObject ? ((TextureMapObject) n).getY()/40f : ((RectangleMapObject) n).getRectangle().getY()/40f);
         return node;
     }
 
@@ -150,17 +146,14 @@ public class LevelModel {
         }
         for (MapObject g : guardsLayer.getObjects()) {
             int idx = Integer.parseInt((String)g.getProperties().get("GuardNum"));
-            Array<Array<Float>> nodes = new Array<>();
-            nodes.add(createNode(g));
-            System.out.println(nodes.size);
-            guardNodes.set(idx-1, nodes);
+            guardNodes.get(idx-1).add(createNode(g));
         }
         for (MapObject n : guardNodesLayer.getObjects()) {
             int gIdx = Integer.parseInt((String)n.getProperties().get("GuardNum"));
             int nIdx = Integer.parseInt((String)n.getProperties().get("NodeNum"));
-            Array<Array<Float>> gN = guardNodes.get(gIdx-1);
+            Array<Vector2> gN = guardNodes.get(gIdx-1);
             while (nIdx >= gN.size) {
-                gN.add(new Array<Float>());
+                gN.add(new Vector2());
             }
             guardNodes.get(gIdx-1).set(nIdx, createNode(n));
         }
