@@ -20,13 +20,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
-import com.raccoon.mygame.objects.CookingStationObject;
-import com.raccoon.mygame.objects.Dish;
-import com.raccoon.mygame.objects.GameObject;
-import com.raccoon.mygame.objects.Ingredient;
-import com.raccoon.mygame.objects.VentObstacle;
-import com.raccoon.mygame.objects.NormalObstacle;
-import com.raccoon.mygame.objects.TableObstacle;
+import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
@@ -78,17 +72,32 @@ public class RestaurantController extends WorldController implements ContactList
         obstacles.add(t);
         drawableObjects.add(t);
     }
-
-    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+    //obstacles are real, their collisions affect things
+    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
         NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
                 new Texture("720/" + texturename + ".png"), world, canvas);
 
         obstacles.add(t);
         drawableObjects.add(t);
     }
-    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
         NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
                 new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+    //decorations are sensors, no collision will be detected
+    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+
+        obstacles.add(t);
+        drawableObjects.add(t);
+    }
+    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("720/" + texturename + ".png"), world, canvas);
 
         obstacles.add(t);
         drawableObjects.add(t);
@@ -167,24 +176,24 @@ public class RestaurantController extends WorldController implements ContactList
         addWallBump(14.5f, 16.5f);
         addWallBump(23f, 16.5f);
 
-        addDecoration(23, 16.0f, "smallwall", 1,5,1,1,0,0);
-        addDecoration(23, 0, "tallwall", 1,14.5f,1,1,0,-165);
-        addDecoration(23,12.0f,"kitchendoor", 1,2,1,1,-30,70, true);
+        addNormalObstacle(23, 16.0f, "smallwall", 1,5,1,1,0,0);
+        addNormalObstacle(23, 0, "tallwall", 1,14.5f,1,1,0,-165);
+        addNormalObstacle(23,12.0f,"kitchendoor", 1,2,1,1,-30,70, true);
 
-        addDecoration(10.3f,16.4f, "window",1,1,1,1,0,-50);
-        addDecoration(2.2f,16.4f, "window",1,1,1,1,0,-50);
-        addDecoration(19,16.4f, "window",1,1,1,1,0,-50);
+        addNormalObstacle(10.3f,16.4f, "window",1,1,1,1,0,-50);
+        addNormalObstacle(2.2f,16.4f, "window",1,1,1,1,0,-50);
+        addNormalObstacle(19,16.4f, "window",1,1,1,1,0,-50);
 
-        addDecoration(1f, 15, "plant",0.5f,0.5f,1,1,0,-35);
-        addDecoration(8.3f, 15, "plant",0.5f,0.5f,1,1,0,-35);
-        addDecoration(12.1f, 15, "plant",0.5f,0.5f,1,1,0,-35);
-        addDecoration(2f, 0, "plant",0.5f,0.5f,1,1,0,-35);
-        addDecoration(7f, 0, "plant",0.5f,0.5f,1,1,0,-35);
+        addNormalObstacle(1f, 15, "plant",0.5f,0.5f,1,1,0,-35);
+        addNormalObstacle(8.3f, 15, "plant",0.5f,0.5f,1,1,0,-35);
+        addNormalObstacle(12.1f, 15, "plant",0.5f,0.5f,1,1,0,-35);
+        addNormalObstacle(2f, 0, "plant",0.5f,0.5f,1,1,0,-35);
+        addNormalObstacle(7f, 0, "plant",0.5f,0.5f,1,1,0,-35);
 
         addDecoration(22, 6, "sidelamp",0.1f,0.1f, 1,1,4,0,true);
         addDecoration(22, 2, "sidelamp",0.1f,0.1f, 1,1,4,0,true);
 
-        addDecoration(22,13,"decorativeshelf", 1,1, 1,1, 0,-70);
+        addNormalObstacle(22,13,"decorativeshelf", 1,1, 1,1, 0,-70);
 
         addTrashcan(31, 5, "trashcan", 1, 0.5f,1,1,0,-30f, false, false);
 
