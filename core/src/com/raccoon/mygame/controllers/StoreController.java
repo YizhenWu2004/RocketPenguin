@@ -132,7 +132,6 @@ public class StoreController extends WorldController implements ContactListener 
         guardY = new Array<>();
 
         playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
-        guardIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
 
         player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
         drawableObjects.add(player);
@@ -161,7 +160,7 @@ public class StoreController extends WorldController implements ContactListener 
     public void setLevel(LevelModel level, Inventory sharedInv) {
         guardWanderReset();
         world = level.getStoreWorld();
-        player = new Player(4, 4, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
+        player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
@@ -224,7 +223,7 @@ public class StoreController extends WorldController implements ContactListener 
         if (active) {
             float x = 5f * input.getXMovement();
             float y = 5f * input.getYMovement();
-            System.out.println(player.getX());
+            //System.out.println(player.getX());
             player.setLinearVelocity(new Vector2(x, y));
             player.setSpace(input.getSpace());
             player.setInteraction(input.getInteraction());
@@ -411,7 +410,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     @Override
     public void beginContact(Contact contact) {
-        System.out.println("hi!");
+        //System.out.println("hi!");
         Body body1 = contact.getFixtureA().getBody();
         Body body2 = contact.getFixtureB().getBody();
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof Guard) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof Guard)) {
