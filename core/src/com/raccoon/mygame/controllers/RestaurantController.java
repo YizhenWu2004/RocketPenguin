@@ -206,7 +206,7 @@ public class RestaurantController extends WorldController implements ContactList
         this.input = input;
 
         vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1) ,world, canvas);
-        localStartingPos = new Vector2(vent1.getX()-1.5f, vent1.getY());
+        localStartingPos = new Vector2(vent1.getX()-2.3f, vent1.getY());
         drawableObjects.add(vent1);
 
 
@@ -419,7 +419,7 @@ public class RestaurantController extends WorldController implements ContactList
                 float nextY = getYPosOfAnyObject(drawableObjects.get(j+1));
                 if(getDrawPriorityOfAnyType(drawableObjects.get(j+1)))
                     nextY = -1;
-                if(currentY <= nextY){
+                if(currentY < nextY){
                     Object tempNext = drawableObjects.get(j+1);
                     drawableObjects.set(j+1, drawableObjects.get(j));
                     drawableObjects.set(j, tempNext);

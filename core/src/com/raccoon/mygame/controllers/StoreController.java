@@ -68,7 +68,8 @@ public class StoreController extends WorldController implements ContactListener 
 //    public boolean totalReset = false;
 
     private void addShelfHorizontal(float x, float y) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -40f,
+        //0.95
+        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -30f,
                 new Texture("720/groceryshelfhorizontal.png"), world, canvas);
         obstacles.add(obstacle);
         drawableObjects.add(obstacle);
@@ -303,7 +304,7 @@ public class StoreController extends WorldController implements ContactListener 
             for(int j = 0; j < drawableObjects.size-1-i; j++){
                 float currentY = getYPosOfAnyObject(drawableObjects.get(j));
                 float nextY = getYPosOfAnyObject(drawableObjects.get(j+1));
-                if(currentY <= nextY){
+                if(currentY < nextY){
                     Object tempNext = drawableObjects.get(j+1);
                     drawableObjects.set(j+1, drawableObjects.get(j));
                     drawableObjects.set(j, tempNext);
@@ -352,18 +353,40 @@ public class StoreController extends WorldController implements ContactListener 
      */
     public Array<Float> generatePlayerInfo() {
         Array<Float> playerInfo = new Array<Float>();
-        playerInfo.add(player.getX());
-        playerInfo.add(player.getY());
-        float playerMidX = player.getX() + 0.5f;
-        float playerMidY = player.getY() + 0.35f;
-        playerInfo.add(playerMidX);
-        playerInfo.add(playerMidY);
-        float playerTopRightX = player.getX() + 1f;
-        float playerTopRightY = player.getY() + 0.7f;
-        playerInfo.add(playerTopRightX);
-        playerInfo.add(playerTopRightY);
+
+        // Upper left corner
+        float upperLeftX = player.getX();
+        float upperLeftY = player.getY();
+        playerInfo.add(upperLeftX);
+        playerInfo.add(upperLeftY);
+
+        // Upper right corner
+        float upperRightX = player.getX() + player.getWidth();
+        float upperRightY = player.getY();
+        playerInfo.add(upperRightX);
+        playerInfo.add(upperRightY);
+
+        // Lower left corner
+        float lowerLeftX = player.getX();
+        float lowerLeftY = player.getY() + player.getHeight();
+        playerInfo.add(lowerLeftX);
+        playerInfo.add(lowerLeftY);
+
+        // Lower right corner
+        float lowerRightX = player.getX() + player.getWidth();
+        float lowerRightY = player.getY() + player.getHeight()+0.5f;
+        playerInfo.add(lowerRightX);
+        playerInfo.add(lowerRightY);
+
+        // Middle point
+        float middleX = player.getX() + player.getWidth() / 2;
+        float middleY = player.getY() + player.getHeight() / 2;
+        playerInfo.add(middleX);
+        playerInfo.add(middleY);
+
         return playerInfo;
     }
+
 
 
     @Override

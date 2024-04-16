@@ -60,7 +60,7 @@ public abstract class SimpleObstacle extends Obstacle {
     protected int   NUM_ANIM_FRAMES = 1;
     //current animation frame
     protected float animeframe = 0;
-    protected float ANIMATION_SPEED = 0.10f;
+    protected float ANIMATION_SPEED = 0.15f;
 
     /// BodyDef Methods
 
