@@ -19,6 +19,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 
 public class LevelModel {
+    private static final float CELL_SIZE = 230f/40f;
     private World storeWorld;
     private GameCanvas canvas;
     private Array<NormalObstacle> storeObjects = new Array<>();
@@ -32,19 +33,19 @@ public class LevelModel {
     private MapLayer guardNodesLayer;
 
     private void addShelfHorizontal(float x, float y) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -40f,
+        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 1f, 1f, 0f, -40f,
                 new Texture("720/groceryshelfhorizontal.png"), storeWorld, canvas);
         storeObjects.add(obstacle);
     }
 
     private void addShelfVertical(float x, float y) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 4f, 0.95f, 1f, 0f, 0f,
+        NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 4f, 1f, 1f, 0f, 0f,
                 new Texture("720/shelfvertical.png"), storeWorld, canvas);
         storeObjects.add(obstacle);
     }
 
     private void addFruitCrate(float x, float y, Ingredient ingredient) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 1f, 1f, 0f, 0f,
+        NormalObstacle obstacle = new NormalObstacle(x+CELL_SIZE/2, y+CELL_SIZE/2, 2f, 1f, 1f, 1f, 0f, 0f,
                 new Texture("720/" + ingredient.type + ".png"), storeWorld, canvas, ingredient);
         ingredients.add(obstacle);
     }
@@ -72,48 +73,48 @@ public class LevelModel {
 
     private void processObjects() {
         for (MapObject o : storeObjectsLayer.getObjects()) {
-            float x = ((TextureMapObject) o).getX();
-            float y = ((TextureMapObject) o).getY();
+            float x = ((TextureMapObject) o).getX()/40f + CELL_SIZE/2;
+            float y = ((TextureMapObject) o).getY()/40f + CELL_SIZE/2;
             NormalObstacle obstacle;
             switch (o.getName()) {
                 case "HorizShelf":
-                    addShelfHorizontal(x, y);
+                    addShelfHorizontal(x-0.1f, y-1.5f);
                     break;
                 case "VertShelf":
                     addShelfVertical(x, y);
                     break;
                 case "HorizWall":
-                    obstacle = new NormalObstacle(x, y, 0.6f, 2f, 1f, 1f, 0f, -70f,
+                    obstacle = new NormalObstacle(x, y-1.5f, 5f, 1f, 1f, 1f, 0f, -60f,
                             new Texture("720/ventwallhorizontal.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     break;
                 case "VertWall":
-                    obstacle = new NormalObstacle(x, y, 5f, 1f, 1f, 1f, 0f, -60f,
+                    obstacle = new NormalObstacle(x, y-1.5f, 0.6f, 2f, 1f, 1f, 0f, -70f,
                             new Texture("720/ventwallvertical.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     break;
                 case "JanitorTools":
-                    obstacle = new NormalObstacle(x, y, 1f, 0.5f, 1f, 1f, 0f, -50f,
+                    obstacle = new NormalObstacle(x, y-1.5f, 1f, 0.5f, 1f, 1f, 0f, -50f,
                             new Texture("720/janitoritems.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     break;
                 case "Ladder":
-                    obstacle = new NormalObstacle(x, y, 1.2f, -0.5f, 1f, 1f, 0f, -50f,
+                    obstacle = new NormalObstacle(x, y-1.5f, 1.2f, -0.5f, 1f, 1f, 0f, -50f,
                             new Texture("720/ladder.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     break;
                 case "BoxS":
-                    obstacle = new NormalObstacle(x, y, 0.8f, -0.5f, 1f, 1f, 0f, 0f,
+                    obstacle = new NormalObstacle(x, y-1.5f, 0.8f, -0.5f, 1f, 1f, 0f, 0f,
                             new Texture("720/boxsmall.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     break;
                 case "BoxM":
-                    obstacle = new NormalObstacle(x, y, 1f, 1f, 1f, 1f, 0f, 0f,
+                    obstacle = new NormalObstacle(x, y-1.5f, 1f, 1f, 1f, 1f, 0f, 0f,
                             new Texture("720/boxmedium.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     break;
                 case "BoxL":
-                    obstacle = new NormalObstacle(x, y, 1.2f, -0.5f, 1f, 1f, 0f, 0f,
+                    obstacle = new NormalObstacle(x, y-1.5f, 1.2f, -0.5f, 1f, 1f, 0f, 0f,
                             new Texture("720/boxlarge.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     break;
@@ -131,16 +132,15 @@ public class LevelModel {
     private void processIngredients() {
         for (MapObject i : ingredientsLayer.getObjects()) {
             Ingredient ing = new Ingredient(i.getName(), new Texture("720/" + i.getName() + ".png"), -1);
-            addFruitCrate(((TextureMapObject) i).getX(), ((TextureMapObject) i).getY(), ing);
+            addFruitCrate(((TextureMapObject) i).getX()/40f, ((TextureMapObject) i).getY()/40f, ing);
         }
     }
 
     private Array<Float> createNode(MapObject n) {
         Array<Float> node = new Array<Float>();
-        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getX() : ((RectangleMapObject) n).getRectangle().getX());
-        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getY() : ((RectangleMapObject) n).getRectangle().getY());
+        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getX()/40f : ((RectangleMapObject) n).getRectangle().getX()/40f);
+        node.add(n instanceof TextureMapObject ? ((TextureMapObject) n).getY()/40f : ((RectangleMapObject) n).getRectangle().getY()/40f);
         node.add(((n.getProperties().get("Sleep")).equals("Yes") ? 1f : 0f));
-        node.add(Float.parseFloat((String) n.getProperties().get("Time")));
         return node;
     }
 
