@@ -223,10 +223,10 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
 
-        guards.add(new Guard(2.5f, 6f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Vector2[0], GuardAIController.GuardOrientation.LEFT));
+        guards.add(new Guard(2.5f, 6f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.LEFT_RIGHT,collisionLayer,new Array<Vector2>(), GuardAIController.GuardOrientation.LEFT));
         guardX.add(2.5f);
         guardY.add(5f);
-        guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Vector2[0],GuardAIController.GuardOrientation.LEFT));
+        guards.add(new Guard(28, 13.3f, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.SLEEP_WAKE,collisionLayer,new Array<Vector2>(),GuardAIController.GuardOrientation.LEFT));
         guardX.add(28f);
         guardY.add(13.3f);
 
@@ -236,14 +236,15 @@ public class StoreController extends WorldController implements ContactListener 
 //        guards.get(0).getSight().deactivateSight();
 //        guards.get(0).getSight().reactivateSight();
         //this is the guard that is moving on a node base system (near the fruit crates)
-        Vector2[] crateGuardNodes = new Vector2[4];
+        Array<Vector2> crateGuardNodes = new Array<Vector2>();
 
         float nodOff = 1.5f;
 
-        crateGuardNodes[0] = new Vector2(22.5f+nodOff,12+nodOff);
-        crateGuardNodes[1] = new Vector2(4.5f+nodOff,12+nodOff);
-        crateGuardNodes[2] = new Vector2(4.5f+nodOff,5.7f+nodOff);
-        crateGuardNodes[3] = new Vector2(18.5f+nodOff,5.7f+nodOff);
+        crateGuardNodes.add(new Vector2(22.5f+nodOff,12+nodOff));
+        crateGuardNodes.add(new Vector2(4.5f+nodOff,12+nodOff));
+        crateGuardNodes.add(new Vector2(4.5f+nodOff,5.7f+nodOff));
+        crateGuardNodes.add(new Vector2(18.5f+nodOff,5.7f+nodOff));
+
         guards.add(new Guard(23.3f, 10+nodOff, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.UP_DOWN,collisionLayer,crateGuardNodes,GuardAIController.GuardOrientation.UP));
         guardX.add(23.3f);
         guardY.add(10f);

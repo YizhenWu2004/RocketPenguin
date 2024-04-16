@@ -50,7 +50,7 @@ public class Guard extends WheelObstacle {
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
                  PatrolDirection patrolDirection, boolean[][] collisionLayer,
-                 Vector2[] nodes, GuardAIController.GuardOrientation spawnOrien) {
+                 Array<Vector2> nodes, GuardAIController.GuardOrientation spawnOrien) {
         super(width/3);
 //        patrolTexture = texture;
 //        setTexture(new TextureRegion(texture));
