@@ -94,7 +94,7 @@ public class LevelModel {
                     storeObjects.add(obstacle);
                     break;
                 case "JanitorTools":
-                    obstacle = new NormalObstacle(x, y, 1f, 0.5f, 1f, 1f, 0f, -50f,
+                    obstacle = new NormalObstacle(x, y-1.5f, 1f, 0.5f, 1f, 1f, 0f, -50f,
                             new Texture("720/janitoritems.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     break;
