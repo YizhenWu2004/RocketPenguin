@@ -19,8 +19,11 @@ public class PatienceMeter extends ApplicationAdapter{
     private Texture high;
     private Texture mid;
     private Texture low;
+    private boolean timerPaused;
+    private Timer.Task timerTask;
     BitmapFont f = new BitmapFont();
     GlyphLayout layout = new GlyphLayout(f, "");
+
     public PatienceMeter(int count, GameCanvas canvas, Customer cus){
         countdownSeconds = count;
         max_countdown = count;
@@ -29,27 +32,34 @@ public class PatienceMeter extends ApplicationAdapter{
         high= new Texture("goodpatience.png");
         mid= new Texture("mediumpatience.png");
         low= new Texture("badpatience.png");
+        timerPaused = false;
     }
+
     public void create() {
         //System.out.println("creating patience meter");
-        Timer.schedule(new Timer.Task() {
+        timerTask = new Timer.Task() {
             @Override
             public void run() {
-                countdownSeconds--;
-                if (countdownSeconds <= 0) {
-                    Gdx.app.log("Countdown Timer", "Countdown finished!");
-                    this.cancel(); // Stop the timer
+                if (!timerPaused) {
+                    countdownSeconds--;
+                    if (countdownSeconds <= 0) {
+                        Gdx.app.log("Countdown Timer", "Countdown finished!");
+                        this.cancel(); // Stop the timer
+                    }
                 }
             }
-        }, 1, 1);
+        };
+        Timer.schedule(timerTask, 1, 1);
     }
 
     public int getTime(){
         return countdownSeconds;
     }
+
     public int getMaxTime(){
         return max_countdown;
     }
+
     public void draw(float scalex, float scaley){
         //System.out.println("drawing patience meter");
         if (countdownSeconds >= max_countdown/2){
@@ -75,5 +85,14 @@ public class PatienceMeter extends ApplicationAdapter{
             return 0.3f;
         }
     }
-}
 
+    public void pauseTimer() {
+        // Pause the timer
+        timerPaused = true;
+    }
+
+    public void resumeTimer() {
+        // Resume the timer
+        timerPaused = false;
+    }
+}
