@@ -225,6 +225,14 @@ public class RestaurantController extends WorldController implements ContactList
         world.setContactListener(this);
 
         animator = new AnimationController(input);
+
+        //dont touch this its my debug dummy obstacle
+
+//        NormalObstacle ob = (new NormalObstacle(15f, 11f, 5f, 1.5f, 0.1f, 0.1f, 0f, 0f,
+//                new Texture("pot.png"), world, canvas));
+//        obstacles.add(ob);
+//        drawableObjects.add(ob);
+
     }
 
     public void setActive(boolean b) {
@@ -586,5 +594,27 @@ public class RestaurantController extends WorldController implements ContactList
         p.playerIsVenting = true;
         o.ventTimer = new Worldtimer((int) o.maxTime, canvas);
         o.ventTimer.create();
+    }
+
+    public void pauseTimer(){
+        for(Customer c: customers){
+            c.pat.pauseTimer();
+        }
+        for(CookingStationObject c : stations){
+            if(c.timer!=null) {
+                c.timer.pauseTimer();
+            }
+        }
+    }
+
+    public void startTimer(){
+        for(Customer c: customers){
+            c.pat.resumeTimer();
+        }
+        for(CookingStationObject c : stations){
+            if(c.timer!=null){
+                c.timer.resumeTimer();
+            }
+        }
     }
 }
