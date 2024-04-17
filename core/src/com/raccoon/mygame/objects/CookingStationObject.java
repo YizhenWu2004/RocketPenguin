@@ -51,6 +51,7 @@ public class CookingStationObject extends NormalObstacle{
     }
 
     public Dish getCookedDish(){
+
         Ingredient[] dish = Arrays.copyOf(pot.inv, pot.inv.length);
         pot.clearAll();
         return new Dish(dish, new Texture("serve.png"), -1,this.station_type);
