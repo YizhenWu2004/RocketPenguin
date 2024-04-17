@@ -220,9 +220,9 @@ public class GDXRoot extends Game implements ScreenListener {
               restaurant.setVentCollision(false);
               store.onSet();
           }
-//          if (input.click) {
-//              current = current == 0 ? 1 : 0;
-//          }
+          if (input.click) {
+              current = current == 0 ? 1 : 0;
+          }
           if (current == 0) {
               restaurant.setActive(true);
               store.setActive(false);
