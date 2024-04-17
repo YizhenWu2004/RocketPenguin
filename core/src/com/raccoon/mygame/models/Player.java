@@ -56,6 +56,8 @@ public class Player extends BoxObstacle {
 
     private Shadow shadow;
 
+    private Shadow shadowStanding;
+
     public boolean stopDrawing = false;
 //    b = new BoxObstacle(1,1);
 //		b.setDensity(1.0f);
@@ -88,6 +90,8 @@ public class Player extends BoxObstacle {
         this.width = width;
 
         shadow = new Shadow(x,y,1.4f,1.4f);
+
+        shadowStanding = new Shadow(x,y,1f,1f);
     }
     public void update(float delta) {
         updateShadow();
@@ -108,12 +112,12 @@ public class Player extends BoxObstacle {
         }
         else{
             if(direction == -1){
-                float shadowX = getX()-getWidth() / 2;
+                float shadowX = getX()-getWidth();
                 float shadowY = getY() - getHeight() / 2;
                 shadow.setPosition(shadowX*40, shadowY*40);
             }
             else{
-                float shadowX = getX()-getWidth()*1.2f;
+                float shadowX = getX()-getWidth()*1.8f;
                 float shadowY = getY() - getHeight() / 2;
                 shadow.setPosition(shadowX*40, shadowY*40);
             }
@@ -174,8 +178,15 @@ public class Player extends BoxObstacle {
     //draw with scale
     public void draw(float scaleX, float scaleY) {
 
-        if(stopDrawing == false)
-            shadow.draw(canvas);
+        if(!stopDrawing){
+            if(dishInventory.oneFilled()) {
+                shadow.draw(canvas,0.8f,0.8f);
+            }
+            else{
+                shadow.draw(canvas);
+            }
+        }
+
         setDirection();
         //not sure why the x offset needs to be 200 for it to look right
         if(stopDrawing == false)

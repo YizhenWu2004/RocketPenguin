@@ -2,6 +2,7 @@ package com.raccoon.mygame.controllers;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -57,6 +58,7 @@ public class RestaurantController extends WorldController implements ContactList
     private FilmStrip goatIdle;
 
     private AnimationController animator;
+    private SoundController sounds;
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
@@ -225,6 +227,16 @@ public class RestaurantController extends WorldController implements ContactList
         world.setContactListener(this);
 
         animator = new AnimationController(input);
+
+        //dont touch this its my debug dummy obstacle
+
+//        NormalObstacle ob = (new NormalObstacle(15f, 11f, 5f, 1.5f, 0.1f, 0.1f, 0f, 0f,
+//                new Texture("pot.png"), world, canvas));
+//        obstacles.add(ob);
+//        drawableObjects.add(ob);
+
+
+        sounds = new SoundController();
     }
 
     public void setActive(boolean b) {
@@ -253,6 +265,7 @@ public class RestaurantController extends WorldController implements ContactList
             Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
 
             customers.add(customer1);
+            sounds.doorPlay();
             drawableObjects.add(customer1);
             t.action_round=true;
 
@@ -317,8 +330,10 @@ public class RestaurantController extends WorldController implements ContactList
                     c.state = 1;
                     int time;
                     if(c.station_type == 0){
+                        sounds.cookplay();
                         time = 15;
                     } else if(c.station_type == 1){
+                        sounds.cookplay();
                         time =30;
                     }else {
                         time = 1;
@@ -341,6 +356,7 @@ public class RestaurantController extends WorldController implements ContactList
             }else if (c.state == 1){
                 //System.out.println(c.timer.getTime());
                 if (c.timer.getTime() <= 0){
+                    sounds.bellPlay();
                     c.state = 2;
                 }
             } else if (c.state == 2){
@@ -355,6 +371,7 @@ public class RestaurantController extends WorldController implements ContactList
             if(c.timer!=null) {
                 if (Math.abs(c.timer.getTime() - c.getMaxTime()) < 1) {
                     player.playerIsCooking = true;
+
                 } else {
                     player.playerIsCooking = false;
                 }
@@ -474,6 +491,7 @@ public class RestaurantController extends WorldController implements ContactList
             //System.out.println("colliding with vent");
             //execute
             startVentTimer(vent1, player);
+            sounds.ventPlay();
 //            setVentCollision(true);
         }
 
@@ -586,5 +604,27 @@ public class RestaurantController extends WorldController implements ContactList
         p.playerIsVenting = true;
         o.ventTimer = new Worldtimer((int) o.maxTime, canvas);
         o.ventTimer.create();
+    }
+
+    public void pauseTimer(){
+        for(Customer c: customers){
+            c.pat.pauseTimer();
+        }
+        for(CookingStationObject c : stations){
+            if(c.timer!=null) {
+                c.timer.pauseTimer();
+            }
+        }
+    }
+
+    public void startTimer(){
+        for(Customer c: customers){
+            c.pat.resumeTimer();
+        }
+        for(CookingStationObject c : stations){
+            if(c.timer!=null){
+                c.timer.resumeTimer();
+            }
+        }
     }
 }

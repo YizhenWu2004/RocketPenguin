@@ -58,18 +58,19 @@ public class GuardAIController {
      */
     int CHASE_COUNTER_CONSTANT = 25;
 
-    Vector2[] nodes;
+    Array<Vector2> nodes;
     private int currentNodeIndex = 0;
 
     private static final float AWAKE_DURATION = 5.0f;
     private static final float SLEEP_DURATION = 3.0f;
     private float sleepWakeTimer = AWAKE_DURATION;
+    private SoundController sounds;
 
     public GuardAIController(float x, float y, float worldWidth,
                              float worldHeight, float patrolRange,
                              float speed, PatrolDirection patrolDirection,
                              boolean[][] collisionLayer, Vector2 guardDimension,
-                             Vector2[] nodes, GuardOrientation spawnOrien) {
+                             Array<Vector2> nodes, GuardOrientation spawnOrien) {
         this.speed = speed;
         this.patrolDirection = patrolDirection;
         this.collisionLayer = collisionLayer;
@@ -100,11 +101,12 @@ public class GuardAIController {
 
         orien = spawnOrien;
         defaultOrien = spawnOrien;
+        sounds = new SoundController();
     }
 
     public void setAIStateChase() {
         currentState = AIState.CHASE;
-
+        sounds.honkPlay();
     }
 
     public void setAIStateSus() {
@@ -216,13 +218,13 @@ public class GuardAIController {
             orien = defaultOrien;
             return speedVector;
         }
-        else if ((currentState == AIState.WANDER || currentState == AIState.SUS) && nodes.length > 0) {
-            Vector2 targetNode = nodes[currentNodeIndex];
+        else if ((currentState == AIState.WANDER || currentState == AIState.SUS) && nodes.size > 0) {
+            Vector2 targetNode = nodes.get(currentNodeIndex);
             Vector2 direction = new Vector2(targetNode.x - guardPosition.x, targetNode.y - guardPosition.y).nor();
             speedVector.set(direction.scl(speed));
 
             if (guardPosition.dst(targetNode) < 1f) {
-                currentNodeIndex = (currentNodeIndex + 1) % nodes.length;
+                currentNodeIndex = (currentNodeIndex + 1) % nodes.size;
             }
         }
         else if (currentState == AIState.WANDER || currentState == AIState.SUS) {
