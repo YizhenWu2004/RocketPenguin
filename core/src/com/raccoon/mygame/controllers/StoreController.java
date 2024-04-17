@@ -34,6 +34,7 @@ public class StoreController extends WorldController implements ContactListener 
     private Array<Ingredient> ingredients;
     private Array<Guard> guards;
 
+    private SoundController sounds;
     private Array<Float> guardX;
 
     private Array<Float> guardY;
@@ -255,6 +256,7 @@ public class StoreController extends WorldController implements ContactListener 
         playerJustDied = false;
 
         animator = new AnimationController(input);
+        sounds = new SoundController();
         duringventing = false;
     }
 

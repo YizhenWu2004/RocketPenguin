@@ -2,6 +2,7 @@ package com.raccoon.mygame.controllers;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -57,6 +58,7 @@ public class RestaurantController extends WorldController implements ContactList
     private FilmStrip goatIdle;
 
     private AnimationController animator;
+    private SoundController sounds;
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
@@ -233,6 +235,8 @@ public class RestaurantController extends WorldController implements ContactList
 //        obstacles.add(ob);
 //        drawableObjects.add(ob);
 
+
+        sounds = new SoundController();
     }
 
     public void setActive(boolean b) {
@@ -325,8 +329,10 @@ public class RestaurantController extends WorldController implements ContactList
                     c.state = 1;
                     int time;
                     if(c.station_type == 0){
+                        sounds.cookplay();
                         time = 15;
                     } else if(c.station_type == 1){
+                        sounds.cookplay();
                         time =30;
                     }else {
                         time = 1;
@@ -363,6 +369,7 @@ public class RestaurantController extends WorldController implements ContactList
             if(c.timer!=null) {
                 if (Math.abs(c.timer.getTime() - c.getMaxTime()) < 1) {
                     player.playerIsCooking = true;
+
                 } else {
                     player.playerIsCooking = false;
                 }
