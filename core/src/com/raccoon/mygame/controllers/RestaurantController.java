@@ -265,6 +265,7 @@ public class RestaurantController extends WorldController implements ContactList
             Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
 
             customers.add(customer1);
+            sounds.doorPlay();
             drawableObjects.add(customer1);
             t.action_round=true;
 
@@ -355,6 +356,7 @@ public class RestaurantController extends WorldController implements ContactList
             }else if (c.state == 1){
                 //System.out.println(c.timer.getTime());
                 if (c.timer.getTime() <= 0){
+                    sounds.bellPlay();
                     c.state = 2;
                 }
             } else if (c.state == 2){
@@ -489,6 +491,7 @@ public class RestaurantController extends WorldController implements ContactList
             //System.out.println("colliding with vent");
             //execute
             startVentTimer(vent1, player);
+            sounds.ventPlay();
 //            setVentCollision(true);
         }
 

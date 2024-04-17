@@ -64,6 +64,7 @@ public class GuardAIController {
     private static final float AWAKE_DURATION = 5.0f;
     private static final float SLEEP_DURATION = 3.0f;
     private float sleepWakeTimer = AWAKE_DURATION;
+    private SoundController sounds;
 
     public GuardAIController(float x, float y, float worldWidth,
                              float worldHeight, float patrolRange,
@@ -100,11 +101,12 @@ public class GuardAIController {
 
         orien = spawnOrien;
         defaultOrien = spawnOrien;
+        sounds = new SoundController();
     }
 
     public void setAIStateChase() {
         currentState = AIState.CHASE;
-
+        sounds.honkPlay();
     }
 
     public void setAIStateSus() {
