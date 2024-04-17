@@ -160,17 +160,19 @@ public class LevelModel {
         }
 
         for (NormalObstacle obstacle : storeObjects) {
-            Vector2 position = obstacle.getPosition();
-            Vector2 dimension = obstacle.getDimension();
+            if (!(obstacle instanceof NormalDecoration)) {
+                Vector2 position = obstacle.getPosition();
+                Vector2 dimension = obstacle.getDimension();
 
-            int left = Math.max(0, (int) position.x - (int) (dimension.x / 2));
-            int bottom = Math.max(0, (int) position.y - (int) (dimension.y / 2));
-            int right = Math.min(GRID_WIDTH - 1, (int) position.x + (int) (dimension.x / 2));
-            int top = Math.min(GRID_HEIGHT - 1, (int) position.y + (int) (dimension.y / 2));
+                int left = Math.max(0, (int) position.x - (int) (dimension.x / 2));
+                int bottom = Math.max(0, (int) position.y - (int) (dimension.y / 2));
+                int right = Math.min(GRID_WIDTH - 1, (int) position.x + (int) (dimension.x / 2));
+                int top = Math.min(GRID_HEIGHT - 1, (int) position.y + (int) (dimension.y / 2));
 
-            for (int i = left; i <= right; i++) {
-                for (int j = bottom; j <= top; j++) {
-                    collisionLayer[i][j] = true;
+                for (int i = left; i <= right; i++) {
+                    for (int j = bottom; j <= top; j++) {
+                        collisionLayer[i][j] = true;
+                    }
                 }
             }
         }
