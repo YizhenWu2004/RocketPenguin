@@ -1,5 +1,7 @@
 package com.raccoon.mygame.controllers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Customer;

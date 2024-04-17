@@ -26,6 +26,9 @@ public class InputController {
     public boolean click;
     private boolean up;
     private boolean down;
+    private boolean pause;
+
+    public boolean resume_clicked;
 
     public float getYMovement() {
         return y_movement;
@@ -53,6 +56,8 @@ public class InputController {
     public boolean getUp() {return up;};
     public boolean getDown() {return down;};
 
+    public boolean getPause() {return pause;}
+
 
     public InputController() {
         y_movement = 0;
@@ -60,6 +65,7 @@ public class InputController {
         scroll = 0;
         interaction = false;
         click = false;
+        resume_clicked = false;
     }
 
     public void readInput() {
@@ -99,6 +105,11 @@ public class InputController {
         } else {
             space = false;
         }
+        if (Gdx.input.isKeyJustPressed(Keys.P)) {
+            pause = true;
+        } else {
+            pause = false;
+        }
 
         if (Gdx.input.isKeyPressed(Keys.R)) {
             reset = true;
@@ -120,6 +131,21 @@ public class InputController {
         } else {
             down = false;
         }
+
+        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            int mouseX = Gdx.input.getX();
+            int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY(); // Invert Y-axis
+            if (mouseX >= 500 && mouseX <= 700 && mouseY >= 410 && mouseY <= 470) {
+                //System.out.println("happened");
+                resume_clicked = true;
+            } else {
+                resume_clicked = false;
+            }
+        } else {
+            resume_clicked = false;
+        }
+
+        //15f, 11f, 5f, 1.5f
 
     }
 

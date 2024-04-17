@@ -34,6 +34,7 @@ public class StoreController extends WorldController implements ContactListener 
     private Array<Ingredient> ingredients;
     private Array<Guard> guards;
 
+    private SoundController sounds;
     private Array<Float> guardX;
 
     private Array<Float> guardY;
@@ -154,6 +155,7 @@ public class StoreController extends WorldController implements ContactListener 
         playerJustDied = false;
 
         animator = new AnimationController(input);
+        sounds = new SoundController();
         duringventing = false;
     }
 
@@ -421,6 +423,7 @@ public class StoreController extends WorldController implements ContactListener 
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
 //            setVentCollision(true);
             startVentTimer(vent1, player);
+            sounds.ventPlay();
         }
         if ((body1.getUserData() instanceof Guard && body2.getUserData() instanceof NormalObstacle) ||
                 (body2.getUserData() instanceof Guard && body1.getUserData() instanceof NormalObstacle)) {
