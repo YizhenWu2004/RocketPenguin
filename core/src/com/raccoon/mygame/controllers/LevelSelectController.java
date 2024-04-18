@@ -5,12 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class LevelSelectController extends WorldController{
-    private Texture background;
+    private Texture background = new Texture("menu/levelselectbackground.png");
     private Texture debug = new Texture("tool.png");
     private GameCanvas canvas;
     private InputController input;
-    public LevelSelectController(GameCanvas canvas, Texture background, InputController input){
-        this.background = background;
+    public LevelSelectController(GameCanvas canvas, InputController input){
         this.canvas = canvas;
         this.input = input;
     }
