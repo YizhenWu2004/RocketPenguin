@@ -58,6 +58,13 @@ public class InputController {
 
     public boolean getPause() {return pause;}
 
+    public float getMouseX(){
+        return Gdx.input.getX();
+    }
+    public float getMouseY(){
+        return Gdx.graphics.getHeight() - Gdx.input.getY(); // Flip Y axis
+    }
+
 
     public InputController() {
         y_movement = 0;
@@ -116,7 +123,7 @@ public class InputController {
         } else {
             reset = false;
         }
-        if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+        if (Gdx.input.isButtonJustPressed(Buttons.LEFT)) {
             click = true;
         } else {
             click = false;
