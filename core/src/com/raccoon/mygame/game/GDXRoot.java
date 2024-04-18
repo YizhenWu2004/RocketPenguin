@@ -88,6 +88,8 @@ public class GDXRoot extends Game implements ScreenListener {
 
     StoreController store;
     RestaurantController restaurant;
+    LevelSelectController levelselect;
+    MainMenuController mainmenu;
     LevelLoader loader;
 
     MenuController pause;
@@ -113,7 +115,17 @@ public class GDXRoot extends Game implements ScreenListener {
 
         pause = new MenuController(canvas, new Texture("paused_temp.png"),input);
         result = new ResultController(canvas, new Texture("result_temp.png"),input);
-        current = 0; //this means restaurant
+        levelselect = new LevelSelectController(canvas, input);
+        mainmenu = new MainMenuController(canvas,input);
+
+        /*
+         *Remember a few things about current.
+         * 0 = restaurant
+         * 1 = store
+         * -1 = level select
+         * -2 = main menu
+         * */
+        current = -2;
         isPaused = false;
     }
 
@@ -173,13 +185,36 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
+        input.readInput();
+        if(current == -2){
+            mainmenu.update();
+            w.pauseTimer();
+            restaurant.setActive(false);
+            store.setActive(false);
+            if(mainmenu.checkForGoToLevelSelect()){
+                current = -1;
+            }
+            if(mainmenu.checkForExit()){
+                Gdx.app.exit();
+            }
+            return;
+        }
+        if(current == -1) {
+            levelselect.update();
+            w.pauseTimer();
+            restaurant.setActive(false);
+            store.setActive(false);
+            if(levelselect.checkForGoToLevel()){
+                current = 0;
+            }
+            return;
+        }
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
         if(w.getTime() <= 0){
             current = 2;
             return;
         }
-      input.readInput();
         //System.out.println(isPaused);
       if(input.getPause()){
           isPaused = true;
@@ -242,7 +277,15 @@ public class GDXRoot extends Game implements ScreenListener {
     }
 
     public void draw() {
-        if (current == 0) {
+        if(current == -2){
+            mainmenu.draw();
+            return;
+        }
+        else if(current == -1){
+            levelselect.draw();
+            return;
+        }
+        else if (current == 0) {
             restaurant.draw();
         } else if (current == 1) {
             store.draw();
@@ -266,7 +309,7 @@ public class GDXRoot extends Game implements ScreenListener {
         canvas.beginDebug();
         if (current == 1) {
             store.debug();
-        } else {
+        } else if(current == 0){
             restaurant.debug();
         }
         canvas.endDebug();

@@ -10,11 +10,11 @@ public class SoundController {
     private Sound honkSound;
     private Sound ventSound;
     public SoundController(){
-        cookingSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/cooking.ogg"));
-        bellSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/bell.ogg"));
-        doorSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/door.ogg"));
-        honkSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/honk.ogg"));
-        ventSound = Gdx.audio.newSound(Gdx.files.internal("assets/sounds/vent.ogg"));
+        cookingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cooking.ogg"));
+        bellSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bell.ogg"));
+        doorSound = Gdx.audio.newSound(Gdx.files.internal("sounds/door.ogg"));
+        honkSound = Gdx.audio.newSound(Gdx.files.internal("sounds/honk.ogg"));
+        ventSound = Gdx.audio.newSound(Gdx.files.internal("sounds/vent.ogg"));
     }
     public void cookplay(){
         cookingSound.play();
