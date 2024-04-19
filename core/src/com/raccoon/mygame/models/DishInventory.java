@@ -1,6 +1,7 @@
 package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.Ingredient;
 
@@ -8,10 +9,12 @@ public class DishInventory {
     private Dish[] inv;
     private Texture texture;
     private boolean[] filled;
+    private SoundController sounds;
     public DishInventory(Texture texture){
         inv = new Dish[2];
         filled = new boolean[2];
         this.texture = texture;
+        sounds = new SoundController();
     }
 
     public boolean leftFilled(){
@@ -31,9 +34,11 @@ public class DishInventory {
         if (!leftFilled()){
             inv[0] = dish;
             filled[0] = true;
+            sounds.switchPlay();
         } else if (!rightFilled()){
             inv[1] = dish;
             filled[1] = true;
+            sounds.switchPlay();
         }
     }
 
