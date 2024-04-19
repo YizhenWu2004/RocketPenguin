@@ -1,6 +1,7 @@
 package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Color;
+import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.obstacle.BoxObstacle;
@@ -16,7 +17,7 @@ public class Inventory {
     private Texture itexture;
     //boolean array to keep track of which indices in items are filled
     private boolean[] filled;
-
+    private SoundController sounds;
     public Inventory(Texture t) {
         items = new Ingredient[5];
         filled = new boolean[5];
@@ -25,6 +26,7 @@ public class Inventory {
         for (int i = 0; i < filled.length; i++) {
             filled[i] = false;
         }
+        sounds = new SoundController();
     }
     //used when the player selects another item in their inventory
 
@@ -73,6 +75,7 @@ public class Inventory {
     public void add(Ingredient object) {
         for (int i = 0; i < items.length; i++) {
             if (!filled[i]) {
+                sounds.swipePlay();
                 items[i] = object;
                 filled[i] = true;
                 //this seems to cause a crash sometimes?
