@@ -17,8 +17,8 @@ import java.util.Objects;
 public class AnimationController {
     /** How fast we change frames (one frame per 4 calls to update) */
     private static final float ANIMATION_SPEED = 0.10f;
-    /** The number of animation frames in our filmstrip */
 
+    //If you want to add a new animation you store it in here.
     private final FilmStrip playerWalk;
     private final FilmStrip playerIdle;
     private final FilmStrip playerServe;
@@ -52,6 +52,12 @@ public class AnimationController {
 
 
     private InputController input;
+    /**
+     * Creates an animation controller
+     * Make a new animation controller wherever you wish to have them play
+     *
+     * @param input The input controller used for determining animation state
+     * */
     AnimationController(InputController input){
         this.input = input;
 
@@ -87,12 +93,26 @@ public class AnimationController {
         ventOut = new FilmStrip(new Texture("720/rockoventout.png"),4,3,12);
     }
 
+    //all instances of handleAnimation must be called in the update loop of a given WorldController.
+    //view usages to see what I mean if you don't understand.
+
+    /**
+     * Handles the animation for the player
+     *
+     * @param o Player to animate
+     * @param delta Deltatime to update the animation frame
+     * */
     public void handleAnimation(Player o, float delta){
+        //This is pretty self-explanatory.
         if(o.playerIsCooking){
             o.setFilmStrip(playerCook);
+            //if you are planning on returning, you must make sure you advance the animation beforehand
             o.updateAnimation(delta);
+            //you will want to return if you want to "prioritize" an animation
+            //for example this is cooking, if the player is cooking I don't want to check for any other animations
             return;
         }
+        //you can understand the rest.
         if((o.dishInventory.leftFilled() && (o.getVX() !=0 || o.getVY()!=0)) || (o.dishInventory.rightFilled() && (o.getVX()!=0 || o.getVY()!=0))){
             o.setFilmStrip(playerServe);
             o.updateAnimation(delta);
@@ -110,6 +130,13 @@ public class AnimationController {
         }
         o.updateAnimation(delta);
     }
+    /**
+     * Handles the animation for a guard
+     * Functions similarly to every other handleAnimation method
+     *
+     * @param o The guard to animate
+     * @param delta The deltatime to update animation frames with
+     * */
     public void handleAnimation(Guard o, float delta){
         if(o.getAIController().getCurrentState() == GuardAIController.AIState.CHASE){
             o.setFilmStrip(gooseChase);
@@ -138,6 +165,11 @@ public class AnimationController {
         o.setFilmStrip(gooseIdle);
         o.updateAnimation(delta);
     }
+    /**
+     * Sets the idle customer animation depending on the type of customer
+     * Not sure of a better way to do this.
+     * @param c Customer to set filmstrip for
+     * */
     private void setCustomerIdleDependingOnType(Customer c){
         if(Objects.equals(c.getCustomerType(), "bear"))
             c.setFilmStrip(bearIdle);
@@ -150,6 +182,10 @@ public class AnimationController {
         if(Objects.equals(c.getCustomerType(), "goat"))
             c.setFilmStrip(goatIdle);
     }
+    /**
+     * Sets customer walk animation depending on customer type
+     * @param c Customer to set walk filmstrip for
+     * */
     private void setCustomerWalkDependingOnType(Customer c){
         if(Objects.equals(c.getCustomerType(), "bear"))
             c.setFilmStrip(bearWalk);
@@ -162,29 +198,53 @@ public class AnimationController {
         if(Objects.equals(c.getCustomerType(), "goat"))
             c.setFilmStrip(goatWalk);
     }
-
+    /**
+     * Sets the offset for a given customer type
+     * @param type The type of customer. Can be "bear", "otter", "ferret", "cat", "goat"
+     * @param c The customer to set offset for
+     * @param offsetY The y offset to adjust by
+     * @param offsetX The x offset to adjust by
+     * */
     private void setOffsetForType(String type, Customer c, float offsetX, float offsetY){
         if(c.getCustomerType().equals(type)){
             c.setOffsetX(offsetX);
             c.setOffsetY(offsetY);
         }
     }
+
+    /**
+     * Resets the offsets (X and Y) for a given customer
+     * @param c Customer to reset offsets for
+     * */
     private void resetOffset(Customer c){
         c.setOffsetX(0);
         c.setOffsetY(0);
     }
-
+    /**
+    * Given an array of guards, this handles the animations for every one.
+     * @param guards Array of guards to animate
+     * @param delta The Deltatime to update filmstrip frames by
+    * */
     public void processGuards(Array<Guard> guards, float delta){
         for(Guard g: guards){
             handleAnimation(g, delta);
         }
     }
+    /**
+     * Given an array of customers, this handles the animations for each one.
+     * @param customers Array of customers to animate
+     * @param delta The Deltatime to update filmstrip frames by
+     * */
     public void processCustomers(Array<Customer> customers, float delta){
         for (Customer c: customers) {
             handleAnimation(c, delta);
         }
     }
-
+    /**
+     * Handles the animation for a customer
+     * @param o Customer to animate
+     * @param delta Deltatime to update filmstrip frames by
+     * */
     public void handleAnimation(Customer o, float delta){
         if(o.getVX() > 0 || o.getVX() < 0 || o.getVY() > 0 || o.getVY() < 0){
 //            o.setFilmStrip(goatWalk);
@@ -204,7 +264,12 @@ public class AnimationController {
 
         o.updateAnimation(delta);
     }
-
+    /**
+     * Handles the vent animations.
+     * @param o Vent to animate
+     * @param p Player for handling vent animation state
+     * @param delta Deltatime to update filmstrip frames with
+     * */
     public void handleAnimation(VentObstacle o, Player p, float delta){
         if(p.playerIsVenting){
             o.setFilmStrip(ventIn);

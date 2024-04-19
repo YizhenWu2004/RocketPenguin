@@ -43,11 +43,13 @@ public abstract class SimpleObstacle extends Obstacle {
 
     /**
      * The texture for the shape.
+     * If this obstacle is not animated, use texture.
      */
     protected TextureRegion texture;
 
     /**
-     *
+     *The filmstrip to use for the animation
+     * If you want to animate something, use this variable.
      * */
     protected FilmStrip sprite;
 
@@ -56,10 +58,21 @@ public abstract class SimpleObstacle extends Obstacle {
      */
     protected Vector2 origin;
 
-    /** The number of animation frames in our filmstrip */
+    /**
+     * The number of animation frames in our filmstrip
+     * This is just a default, and gets changed upon setting a new filmstrip.
+     * */
     protected int   NUM_ANIM_FRAMES = 1;
-    //current animation frame
+
+    /**
+     * Current animation frame.
+     * Updated with deltaTime
+     * */
     protected float animeframe = 0;
+
+    /**
+     * The speed of our animation at 60 fps
+     * */
     protected float ANIMATION_SPEED = 0.15f;
 
     /// BodyDef Methods
@@ -100,6 +113,15 @@ public abstract class SimpleObstacle extends Obstacle {
     public void setFrame(int frameNumber){
         sprite.setFrame(frameNumber);
     }
+
+    /**
+     * Updates the animation frame for this current filmstrip to use
+     *
+     * I'm starting to realize we don't need delta at all????
+     * Just keep using it I suppose.
+     *
+     * @param delta Usless.
+     * */
     public void updateAnimation(float delta){
         // Increase animation frame
         animeframe += ANIMATION_SPEED;
@@ -108,12 +130,21 @@ public abstract class SimpleObstacle extends Obstacle {
         }
     }
 
+    /**
+     * Sets the filmstrip of this obstacle.
+     * The number of animation frames is set depending on the given filmstrip
+     * Please note that it is the sprite variable that gets updated, not texture.
+     * Do not use texture if you want to animate something, use sprite.
+     *
+     * */
     public void setFilmStrip(FilmStrip value) {
         NUM_ANIM_FRAMES = value.getSize();
         sprite = value;
-        //set to 0th frame
+        //set to 0th frame if the current animation frame is larger that the amount of frames...
+        //of the filmstrip we wish to set to.
         if(animeframe > NUM_ANIM_FRAMES)
             animeframe = 0;
+        //no float frames.
         sprite.setFrame((int)animeframe);
     }
 
@@ -830,8 +861,15 @@ public abstract class SimpleObstacle extends Obstacle {
     }
 
     /**
-     * This one is for animation
+     * Draws the physics object FOR ANIMATION PURPOSES.
+     * USE drawSprite ALWAYS IF YOUR OBSTACLE USES A FILMSTRIP
+     * NEVER USE DRAW, IT JUST WON'T WORK.
      *
+     * @param canvas the canvas to draw onto
+     * @param scaleX the x scale to draw with
+     * @param scaleY the y scale to draw with
+     * @param ox the x offset to draw with
+     * @param oy the y offset to draw with
      * */
     public void drawSprite(GameCanvas canvas, float scaleX, float scaleY, float ox, float oy) {
         //System.out.println(origin.x+" "+origin.y);

@@ -54,9 +54,14 @@ public class RestaurantController extends WorldController implements ContactList
     BitmapFont f = new BitmapFont();
     GlyphLayout layout = new GlyphLayout(f, "");
 
+    //Default filmstrips.
+    //We need these because the constructors of these objects require a texture (Filmstrip)
     private FilmStrip playerIdle;
+    //Do not worry about it, it can be literally any filmstrip.
+    //It will get updated immediately by the animation controller.
     private FilmStrip goatIdle;
 
+    //The animation controller in question.
     private AnimationController animator;
     private SoundController sounds;
 
@@ -120,8 +125,10 @@ public class RestaurantController extends WorldController implements ContactList
         this.canvas = canvas;
         this.background = texture;
 
+        //Setting the default filmstrip for the player
         playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
         player = new Player(0f, 0f, 1, 0.7f, playerIdle, sharedInv, canvas, world);
+
         drawableObjects.add(player);
 
         obstacles = new Array();
@@ -202,6 +209,10 @@ public class RestaurantController extends WorldController implements ContactList
 
         customers = new Array();
 
+        //Setting the default filmstrip for the customer.
+        //I think I just use the same default for all customers.
+        //Again it's fine because they ger set immediately in the animation controller
+        //We just wrote shitty code that requires textures off-rip.
         goatIdle = new FilmStrip(new Texture("720/goat.png"), 1,4,4);
         Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
       
@@ -258,6 +269,7 @@ public class RestaurantController extends WorldController implements ContactList
     public void update() {
         tick += 1;
 
+        //We will use this deltatime to update animation frames
         float delta = Gdx.graphics.getDeltaTime();
         player.update(delta);
 
@@ -295,6 +307,10 @@ public class RestaurantController extends WorldController implements ContactList
             player.getInventory().setSelected((int) input.getScroll());
             collision.processCustomers(player, customers);
 
+            //Here we handle the vent animation
+            //I do this here because it only makes sense to update the vent animation if
+            //the current scene is active.
+            //to be fair all animations should probably be handled here but it matters more for the vent.
             animator.handleAnimation(vent1, player, delta);
 
             for(NormalObstacle obstacle : obstacles){
@@ -387,6 +403,7 @@ public class RestaurantController extends WorldController implements ContactList
             }
         }
 
+        //process the rest of the animations
         animator.handleAnimation(player, tick);
         animator.processCustomers(customers, tick);
 
