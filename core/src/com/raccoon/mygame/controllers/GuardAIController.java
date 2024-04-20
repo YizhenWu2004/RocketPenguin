@@ -1,14 +1,16 @@
 package com.raccoon.mygame.controllers;
 
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.raccoon.mygame.enums.enums.PatrolDirection;
 import com.raccoon.mygame.util.Node;
 import com.raccoon.mygame.view.GameCanvas;
 
 import java.util.PriorityQueue;
 
-public class GuardAIController {
+public class GuardAIController extends ScreenAdapter {
     public enum AIState {
         WANDER,
         SUS,
@@ -37,6 +39,7 @@ public class GuardAIController {
     public PatrolDirection patrolDirection;
 
     boolean[][] collisionLayer;
+    private float timerSeconds = 10;
 
     int counter;
     int counter2;
@@ -64,6 +67,7 @@ public class GuardAIController {
     private static final float AWAKE_DURATION = 5.0f;
     private static final float SLEEP_DURATION = 3.0f;
     private float sleepWakeTimer = AWAKE_DURATION;
+    private int count3 = 0;
     private SoundController sounds;
 
     public GuardAIController(float x, float y, float worldWidth,
@@ -106,7 +110,6 @@ public class GuardAIController {
 
     public void setAIStateChase() {
         currentState = AIState.CHASE;
-        sounds.honkPlay();
     }
 
     public void setAIStateSus() {
@@ -149,6 +152,14 @@ public class GuardAIController {
     public boolean isChase() {
         return currentState == AIState.CHASE;
     }
+    public void show() {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+               count3 = 0;
+            }
+        }, timerSeconds);
+    }
 
     public void reverseDirection() {
         if (patrolDirection == PatrolDirection.LEFT_RIGHT) {
@@ -172,6 +183,13 @@ public class GuardAIController {
         }
     }
 
+    public void playHonk(){
+        if(count3 == 0){
+            sounds.honkPlay();
+            count3++;
+            show();
+        }
+    }
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
         // System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
@@ -181,7 +199,9 @@ public class GuardAIController {
 
         if (susMeter >= 30) {
             setAIStateChase();
+            playHonk();
         }
+
         else if (susMeter <= 0) {
             if(currentState == AIState.SUS){
                 if(patrolDirection == PatrolDirection.SLEEP_WAKE){

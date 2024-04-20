@@ -1,7 +1,9 @@
 package com.raccoon.mygame.controllers;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.view.GameCanvas;
@@ -20,6 +22,8 @@ public class LevelSelectController extends WorldController{
     private GameCanvas canvas;
     //input controller to use
     private InputController input;
+
+    private final ScrollController scroller = new ScrollController();
 
 
     /**
@@ -50,31 +54,23 @@ public class LevelSelectController extends WorldController{
         this.canvas = canvas;
         this.input = input;
 
-        //this is the modal for when you click on an individual level entry
-        //mostly just for testing now
-        Modal selectModal = new Modal("modalOne", 100, 100, new Texture("menu/modalbackground.png"));
-        //This is the menu that displays for that modal
-        UIButton levelbutton = new UIButton(new Texture("menu/templevelpreview.png"),"levelbutton",0,0,canvas);
-        levelbutton.setSX(0.5f);
-        levelbutton.setSY(0.5f);
-        //add that menu thingy to the modal
-        selectModal.addElement(levelbutton);
-        //add modal to the list of modals.
-        modals.add(selectModal);
+        constructBooklet("1");
+        constructBooklet("2");
+        constructBooklet("3");
 
         //level one button
-        UIButton levelOneButton = new UIButton(new Texture("menu/levelbook.png"),"level1",10,10,canvas);
+        UIButton levelOneButton = new UIButton(new Texture("menu/levelbooklet.png"),"level1",10,30,0.8f,0.8f,canvas);
         //The addbutton method has many overloads. Please see them below.
         addButton(levelOneButton,
                 ()-> {
 //          //on click
             System.out.println(levelOneButton.getID());
-            selectModal.setActive(true);
+            findModalOfID("1").setActive(true);
                     },
                 ()->{
             //on hover
-            levelOneButton.setSX(1.05f);
-            levelOneButton.setSY(1.05f);
+            levelOneButton.setSX(0.9f);
+            levelOneButton.setSY(0.9f);
         }, ()->{
             //on un-hover
             levelOneButton.resetStyleProperties();
@@ -83,27 +79,27 @@ public class LevelSelectController extends WorldController{
 
         );
 
-        UIButton levelTwoButton = new UIButton(new Texture("menu/levelbook.png"),"level2",420,10,canvas);
+        UIButton levelTwoButton = new UIButton(new Texture("menu/levelbooklet.png"),"level2",420,30,0.8f,0.8f,canvas);
         addButton(levelTwoButton, ()-> {
             //on click
-            this.goToLevel = true;
-            System.out.println(levelTwoButton.getID());
+                    System.out.println(levelOneButton.getID());
+                    findModalOfID("2").setActive(true);
         },()->{
             //on hover
-                    levelTwoButton.setSX(1.05f);
-                    levelTwoButton.setSY(1.05f);
+                    levelTwoButton.setSX(0.9f);
+                    levelTwoButton.setSY(0.9f);
         }, levelTwoButton::resetStyleProperties //on un-hover
         );
 
-        UIButton levelThreeButton = new UIButton(new Texture("menu/levelbook.png"),"level3",840,10,canvas);
+        UIButton levelThreeButton = new UIButton(new Texture("menu/levelbooklet.png"),"level3",840,30,0.8f,0.8f,canvas);
         addButton(levelThreeButton, ()-> {
             //on click
-            this.goToLevel = true;
-            System.out.println(levelThreeButton.getID());
+                    System.out.println(levelOneButton.getID());
+                    findModalOfID("3").setActive(true);
         },()->{
             //on hover
-            levelThreeButton.setSX(1.05f);
-            levelThreeButton.setSY(1.05f);
+            levelThreeButton.setSX(0.9f);
+            levelThreeButton.setSY(0.9f);
         }, levelThreeButton::resetStyleProperties //on un-hover
         );
 
@@ -116,6 +112,18 @@ public class LevelSelectController extends WorldController{
     }
 
     public void update() {
+
+        //camera scrolling
+        float cameraSpeed = 10;
+        int scrollAmount = scroller.getScroll();
+        canvas.getCamera().position.y -= scrollAmount * cameraSpeed;
+        if(canvas.getCamera().position.y < -3000)
+            canvas.getCamera().position.y = -3000;
+        if(canvas.getCamera().position.y > 360)
+            canvas.getCamera().position.y = 360;
+        canvas.getCamera().update();
+        scroller.resetScroll();
+
         aModalIsActive = false;
         //if a single modal is active set this to true
         for (Modal modal : modals) {
@@ -129,9 +137,20 @@ public class LevelSelectController extends WorldController{
     }
 
     public void draw(){
+
         //draw the background background. Might have to change this later.
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 0.7f, 0.7f);
+        canvas.draw(background, Color.WHITE, 0, 0,
+                0, -720, 0.0f, 0.7f, 0.7f);
+        canvas.draw(background, Color.WHITE, 0, 0,
+                0, -1440, 0.0f, 0.7f, 0.7f);
+        canvas.draw(background, Color.WHITE, 0, 0,
+                0, -2160, 0.0f, 0.7f, 0.7f);
+        canvas.draw(background, Color.WHITE, 0, 0,
+                0, -2880, 0.0f, 0.7f, 0.7f);
+        canvas.draw(background, Color.WHITE, 0, 0,
+                0, -3600, 0.0f, 0.7f, 0.7f);
 
         //for every button in this scene (excluding those within a modal)
         //draw them
@@ -149,6 +168,10 @@ public class LevelSelectController extends WorldController{
 
     public void debug() {
 
+    }
+
+    public void setGoToLevel(boolean b){
+        goToLevel = b;
     }
 
     /**
@@ -215,7 +238,7 @@ public class LevelSelectController extends WorldController{
                 float maxX = button.getX() + button.getWidth();
                 float minY = button.getY();
                 float maxY = button.getY() + button.getHeight();
-                if (processBounds(input.getMouseX(), input.getMouseY(), minX, maxX, minY, maxY)) {
+                if (processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY)) {
                     button.setHovered(true);
                     button.onHoverEvent();
                 } else {
@@ -223,22 +246,27 @@ public class LevelSelectController extends WorldController{
                     button.onUnhoverEvent();
                 }
                 //if input is within bounds of button
-                if (processBounds(input.getMouseX(), input.getMouseY(), minX, maxX, minY, maxY) && input.click) {
+                if (processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY) && input.click) {
                     button.setIsClicked(true);
                     button.onClickEvent();
                     button.setIsClicked(false);
                 }
             }
         }
+        // Current camera position
+        float camY = canvas.getCamera().position.y;
+
+        // Modal's fixed position on the screen (make sure to center it correctly)
+        float modalY = camY - 360;
         //for all active modals, check (and process) their button states
         for(Modal modal : modals){
             if(modal.getActive()){
                 for(UIButton button : modal.getElements()){
                     float minX = button.getX();
                     float maxX = button.getX() + button.getWidth();
-                    float minY = button.getY();
-                    float maxY = button.getY() + button.getHeight();
-                    if(processBounds(input.getMouseX(), input.getMouseY(), minX, maxX, minY, maxY)){
+                    float minY = modalY + button.getY();
+                    float maxY = modalY + button.getY() + button.getHeight();
+                    if(processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY)){
                         button.setHovered(true);
                         button.onHoverEvent();
                     }
@@ -247,7 +275,7 @@ public class LevelSelectController extends WorldController{
                         button.onUnhoverEvent();
                     }
                     //if input is within bounds of button
-                    if(processBounds(input.getMouseX(), input.getMouseY(), minX, maxX, minY, maxY) && input.click){
+                    if(processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY) && input.click){
                         button.setIsClicked(true);
                         button.onClickEvent();
                         button.setIsClicked(false);
@@ -256,5 +284,39 @@ public class LevelSelectController extends WorldController{
             }
         }
     }
+    public void constructBooklet(String id){
+        //this is the modal for when you click on an individual level entry
+        //mostly just for testing now
+        Modal selectModal = new Modal(id, 125, 75, new Texture("menu/modalbackground.png"));
+        //This is the menu that displays for that modal
+        UIButton booklet = new UIButton(new Texture("menu/booklet.png"),"levelbutton",0,0,0.5f, 0.5f, canvas);
+
+        UIButton back = new UIButton(new Texture("menu/back.png"), "back", 190, 75, 0.5f, 0.5f,canvas);
+        back.setOnClickAction(()->{selectModal.setActive(false);});
+        back.setOnHoverAction(()->{back.setSX(0.6f);back.setSY(0.6f);});
+        back.setOnUnhoverAction(()->{back.resetStyleProperties();});
+
+        UIButton start = new UIButton(new Texture("menu/start.png"), "start", 650, 75, 0.5f, 0.5f,canvas);
+        start.setOnClickAction(()->{selectModal.setActive(false);this.goToLevel= true;});
+        start.setOnHoverAction(()->{start.setSX(0.6f);start.setSY(0.6f);});
+        start.setOnUnhoverAction(()->{start.resetStyleProperties();});
+
+        //add the buttons to the modal thingy to the modal
+        selectModal.addElement(booklet);
+        selectModal.addElement(back);
+        selectModal.addElement(start);
+        //add modal to the list of modals.
+        modals.add(selectModal);
+    }
     public boolean checkForGoToLevel(){return this.goToLevel;}
+    public Modal findModalOfID(String id){
+        for (Modal modal:
+             modals) {
+            if(modal.getId().equals(id)){
+                return modal;
+            }
+        }
+        //fake modal
+        return new Modal("-1", 0,0,new Texture("menu/filledstar.png"));
+    }
 }

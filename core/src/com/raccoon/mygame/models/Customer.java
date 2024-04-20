@@ -170,7 +170,14 @@ public class Customer extends BoxObstacle {
         this.customerType = types[(int)(Math.random()*types.length)];
     }
 
+    public boolean canShow(){
+        return controller.state == CustomerAIController.FSMState.WAIT;
+    }
+
     public boolean serve(Dish d) {
+        if(!(controller.state == CustomerAIController.FSMState.WAIT)){
+            return false;
+        }
         for (Ingredient i : this.order){
             if(i!= null) {
 //                System.out.println(i.type);

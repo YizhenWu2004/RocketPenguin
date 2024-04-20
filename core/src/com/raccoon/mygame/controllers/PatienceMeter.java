@@ -32,7 +32,7 @@ public class PatienceMeter extends ApplicationAdapter{
     private Texture madHollow;
 
     public PatienceMeter(int count, GameCanvas canvas, Customer cus){
-        countdownSeconds = (int)0.1*count;
+        countdownSeconds = count;
         max_countdown = count;
         gameCanvas = canvas;
         customer = cus;
@@ -91,7 +91,7 @@ public class PatienceMeter extends ApplicationAdapter{
             additionalX = 8;
         }
 
-        if(customer.onRight){
+        if(!customer.onRight){
             gameCanvas.draw(pmGrey, Color.WHITE, 0, 0,
                     customer.getX() * scalex + 40+ additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f);
 
@@ -111,7 +111,7 @@ public class PatienceMeter extends ApplicationAdapter{
                     customer.getX() * scalex - 50 - additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f * progressRatio);
 
             gameCanvas.draw(currentHollow, Color.WHITE, 0, 0,
-                    customer.getX() * scalex - 60, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
+                    customer.getX() * scalex - 60- additionalX*2, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
 
             gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex-55, customer.getY() * scaley + 10, 2, 2, layout);
         }
