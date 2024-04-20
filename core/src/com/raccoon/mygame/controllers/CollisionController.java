@@ -17,7 +17,7 @@ public class CollisionController {
     /**
      * Maximum distance a player must be from a guard to be caught
      */
-    protected static final float GUARD_RADIUS = 2.0f;
+    protected static final float GUARD_RADIUS = 2.5f;
 
     private final int WORLD_WIDTH = 32;
     private final int WORLD_HEIGHT = 18;
@@ -146,28 +146,12 @@ public class CollisionController {
     }
 
     void handleCollision(Player p, Guard g) {
-//        Vector2 pPos = p.getPosition();
-//        Vector2 gPos = g.getPosition();
-//
-//        float pRight = pPos.x + p.getWidth();
-//        float pTop = pPos.y + p.getHeight();
-//        float gRight = gPos.x + g.getTextureWidth();
-//        float gTop = gPos.y + g.getTextureHeight();
-//
-//        if (pPos.x < gRight && pRight > gPos.x && pPos.y < gTop && pTop > gPos.y) {
-//            p.setPosition(new Vector2());
-//            p.clearInv();
-//        }
-//        Vector2 iPosCanvas = new Vector2(g.getX() + g.getTextureWidth()/2f,
-//                g.getY() + g.getTextureHeight()/2f);
-//        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
-//        Vector2 iPosWorld = canvasToWorld(iPosCanvas);
-//        System.out.println(p.getPosition().dst(iPosWorld));
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
             if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
-//            System.out.println(g.getY());
-//                System.out.println("sensing w/o sightcone");
-//                g.switchToChaseMode();
+                if(g.getAIController().getCurrentState() == GuardAIController.AIState.WANDER){
+                    g.getAIController().setAIStateSus();
+                }
+                g.getAIController().incrementSusMeter(5);
             }
         }
     }

@@ -35,7 +35,6 @@ public class Customer extends BoxObstacle {
     private int cooking_method;
     private boolean satisfied;
     private boolean isActive;
-    private int patience;
     private boolean show;
     private CustomerAIController controller;
     //public Vector2 position_on_table;

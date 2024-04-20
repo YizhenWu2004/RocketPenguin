@@ -24,6 +24,16 @@ public class PatienceMeter extends ApplicationAdapter{
     BitmapFont f = new BitmapFont();
     GlyphLayout layout = new GlyphLayout(f, "");
 
+    private Texture pmGrey;
+    private Texture pmGreen;
+
+    private Texture pmYellow;
+    private Texture pmRed;
+
+    private Texture goodHollow;
+    private Texture neutralHollow;
+    private Texture madHollow;
+
     public PatienceMeter(int count, GameCanvas canvas, Customer cus){
         countdownSeconds = count;
         max_countdown = count;
@@ -33,6 +43,15 @@ public class PatienceMeter extends ApplicationAdapter{
         mid= new Texture("mediumpatience.png");
         low= new Texture("badpatience.png");
         timerPaused = false;
+
+        pmGrey = new Texture("pmGrey.png");
+        pmGreen = new Texture("pmGreen.png");
+        pmYellow = new Texture("pmYellow.png");
+        pmRed = new Texture("pmRed.png");
+
+        goodHollow = new Texture("goodHollow.png");
+        neutralHollow = new Texture("neutralHollow.png");
+        madHollow = new Texture("madHollow.png");
     }
 
     public void create() {
@@ -61,17 +80,31 @@ public class PatienceMeter extends ApplicationAdapter{
     }
 
     public void draw(float scalex, float scaley){
-        //System.out.println("drawing patience meter");
-        if (countdownSeconds >= max_countdown/2){
-            gameCanvas.draw(high, Color.WHITE, 0, 0,
-                    customer.getX() * scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
-        } else if (countdownSeconds >= max_countdown*0.2){
-            gameCanvas.draw(mid, Color.WHITE, 0, 0,
-                    customer.getX() *  scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
-        } else if(countdownSeconds >= 0) {
-            gameCanvas.draw(low, Color.WHITE, 0, 0,
-                    customer.getX() * scalex + 30, customer.getY() * scalex + 10, 0.0f, 0.25f, 0.25f);
+        float progressRatio = countdownSeconds / (float)max_countdown;
+
+        Texture currentColor;
+        Texture currentHollow;
+        int additionalX = 0;
+        if (countdownSeconds >= max_countdown * 0.5) {
+            currentColor = pmGreen;
+            currentHollow = goodHollow;
+        } else if (countdownSeconds >= max_countdown * 0.2) {
+            currentColor = pmYellow;
+            currentHollow = neutralHollow;
+        } else {
+            currentColor = pmRed;
+            currentHollow = madHollow;
+            additionalX = 8;
         }
+
+        gameCanvas.draw(pmGrey, Color.WHITE, 0, 0,
+                customer.getX() * scalex + 40+ additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f);
+
+        gameCanvas.draw(currentColor, Color.WHITE, 0, 0,
+                customer.getX() * scalex + 40 + additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f * progressRatio);
+
+        gameCanvas.draw(currentHollow, Color.WHITE, 0, 0,
+                customer.getX() * scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
 
         gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex+55, customer.getY() * scaley + 10, 2, 2, layout);
     }

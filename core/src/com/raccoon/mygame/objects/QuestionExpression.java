@@ -51,7 +51,7 @@ public class QuestionExpression extends Expression{
         canvas.draw(backgroundTexture, Color.WHITE, 10, 10, x, y, 0.0f, TEXTURE_SX, TEXTURE_SY);
 
         float progressRatio = currentProgress / totalProgress;
-        float syScale = (progressRatio);
+        float syScale = Math.min(progressRatio,1);
         canvas.draw(fillTexture, Color.WHITE, 10, 10, x+13, y-1, 0.0f, 0.5f, 0.5f * syScale);
 
         canvas.draw(hollowTexture, Color.WHITE, 10, 10, x, y, 0.0f, TEXTURE_SX, TEXTURE_SY);

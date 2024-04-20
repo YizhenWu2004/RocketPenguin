@@ -2,6 +2,7 @@ package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.view.GameCanvas;
 import java.util.Arrays;
@@ -11,13 +12,14 @@ public class CookingInventory {
     public Ingredient[] inv;
     private boolean[] filled;
     public int size;
+    private SoundController sounds;
 
     public CookingInventory(Texture texture){
         this.texture = texture;
         inv = new Ingredient[3];
         filled = new boolean[3];
         size = 0;
-
+        sounds = new SoundController();
     }
 
     public void clearAll(){
@@ -36,6 +38,7 @@ public class CookingInventory {
     public void add(Ingredient ingredient){
         for (int i = 0; i < inv.length; i++) {
             if (!filled[i]) {
+                sounds.switchPlay();
                 inv[i] = ingredient;
                 filled[i] = true;
                 inv[i].setPosInv(100);

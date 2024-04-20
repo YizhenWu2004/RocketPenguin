@@ -43,14 +43,13 @@ public class Player extends BoxObstacle {
     private int direction = -1;
 
 
-    //objects should store their own animations
-    public FilmStrip playerWalk = new FilmStrip(new Texture("720/rockorun.png"), 1, 5, 5);
-    public FilmStrip playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
-
 
     private float height;
     private float width;
 
+    /**
+     * Both of these are used for animation state
+     * */
     public boolean playerIsCooking = false;
     public boolean playerIsVenting = false;
 
@@ -82,8 +81,9 @@ public class Player extends BoxObstacle {
         setDrawScale(canvas.getWidth() / WORLD_WIDTH, canvas.getHeight() / WORLD_HEIGHT);
         this.getBody().setUserData(this);
 
-        //Because we dont have a loader yet, we need to have a default sprite.
+        //EVERY (animated) OBJECT NEEDS TO HAVE A DEFAULT SPRITE
         this.sprite = defaultPlayerSprite;
+        //We also require a number of animation frames (just cant be null)
         NUM_ANIM_FRAMES = defaultPlayerSprite.getSize();
 
         this.height = height;
