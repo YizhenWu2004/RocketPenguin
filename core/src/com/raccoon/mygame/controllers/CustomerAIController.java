@@ -51,22 +51,18 @@ public class CustomerAIController implements AIController {
 
     @Override
     public int getAction() {
-        //System.out.println("YESAS");
         float shadowX = customer.getX()* customerInfo[0]-shadow.getTextureWidth()/2;
         float shadowY = (customer.getY() * customerInfo[1]) - (customerInfo[2] * customerInfo[1] / 2);
-//        float shadowX = customer.getX();
-//        float shadowY = customer.getY();
-        //System.out.println(shadowX + " " + shadowY);
+
         shadow.setPosition(shadowX,shadowY);
         tick -= 1;
-        //(tick);
+
         if (customer.getX() < 0) {
             customer.deactivate();
         }
         changeState();
         setGoal();
-        //System.out.println(goal);
-        //System.out.println(customer.getPosition()+" " + goal + " " + state);
+
         switch (state) {
             case SPAWN:
             case WAIT:
@@ -81,19 +77,13 @@ public class CustomerAIController implements AIController {
                 }
                 break;
             case LEAVE:
-                //if(tick <= 0) {
                 if (Math.abs(goal.y - customer.getY()) > 0.05) {
                     float y = goal.y < customer.getY() ? -4 : 4;
                     customer.setLinearVelocity(temp.set(0, y));
                 }else {
                     customer.setLinearVelocity(temp.set(-4, 0));
                 }
-//                } else if (Math.abs(goal.x - customer.getX()) > 0.05){
-//                    float x = goal.x < customer.getX() ? -4 : 4;
-//                    customer.setLinearVelocity(new Vector2(x, 0));
-//                }
                 break;
-            // }
         }
         return 0;
     }
@@ -121,10 +111,11 @@ public class CustomerAIController implements AIController {
                     state = FSMState.LEAVE;
                     customer.setBodyType(BodyType.KinematicBody);
                 }
-
+                createPatienceMeter();
                 break;
             case LEAVE:
                 customer.flipScale = 1;
+                destroyPatienceMeter();
                 break;
         }
     }
@@ -160,5 +151,19 @@ public class CustomerAIController implements AIController {
     public void timeOut(){
         state = FSMState.LEAVE;
         customer.setBodyType(BodyType.KinematicBody);
+    }
+
+    private void createPatienceMeter() {
+        if (customer.pat == null) {
+            customer.pat = new PatienceMeter(120, customer.canvas, customer);
+            customer.pat.create();
+        }
+    }
+
+    private void destroyPatienceMeter() {
+        if (customer.pat != null) {
+            customer.pat.pauseTimer();
+            customer.pat = null;
+        }
     }
 }

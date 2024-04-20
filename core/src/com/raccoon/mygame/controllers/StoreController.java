@@ -500,6 +500,7 @@ public class StoreController extends WorldController implements ContactListener 
         for(int i = 0; i < guards.size; i++){
             guards.get(i).setPosition(guardX.get(i),guardY.get(i));
             guards.get(i).switchToDefaultMode();
+            guards.get(i).resetSusMeter();
         }
     }
 
