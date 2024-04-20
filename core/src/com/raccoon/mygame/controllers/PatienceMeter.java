@@ -16,9 +16,6 @@ public class PatienceMeter extends ApplicationAdapter{
     private int max_countdown;
     private GameCanvas gameCanvas;
     private Customer customer;
-    private Texture high;
-    private Texture mid;
-    private Texture low;
     private boolean timerPaused;
     private Timer.Task timerTask;
     BitmapFont f = new BitmapFont();
@@ -35,13 +32,10 @@ public class PatienceMeter extends ApplicationAdapter{
     private Texture madHollow;
 
     public PatienceMeter(int count, GameCanvas canvas, Customer cus){
-        countdownSeconds = count;
+        countdownSeconds = (int)0.1*count;
         max_countdown = count;
         gameCanvas = canvas;
         customer = cus;
-        high= new Texture("goodpatience.png");
-        mid= new Texture("mediumpatience.png");
-        low= new Texture("badpatience.png");
         timerPaused = false;
 
         pmGrey = new Texture("pmGrey.png");
@@ -97,16 +91,30 @@ public class PatienceMeter extends ApplicationAdapter{
             additionalX = 8;
         }
 
-        gameCanvas.draw(pmGrey, Color.WHITE, 0, 0,
-                customer.getX() * scalex + 40+ additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f);
+        if(customer.onRight){
+            gameCanvas.draw(pmGrey, Color.WHITE, 0, 0,
+                    customer.getX() * scalex + 40+ additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f);
 
-        gameCanvas.draw(currentColor, Color.WHITE, 0, 0,
-                customer.getX() * scalex + 40 + additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f * progressRatio);
+            gameCanvas.draw(currentColor, Color.WHITE, 0, 0,
+                    customer.getX() * scalex + 40 + additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f * progressRatio);
 
-        gameCanvas.draw(currentHollow, Color.WHITE, 0, 0,
-                customer.getX() * scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
+            gameCanvas.draw(currentHollow, Color.WHITE, 0, 0,
+                    customer.getX() * scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
 
-        gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex+55, customer.getY() * scaley + 10, 2, 2, layout);
+            gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex+55, customer.getY() * scaley + 10, 2, 2, layout);
+        }
+        else{
+            gameCanvas.draw(pmGrey, Color.WHITE, 0, 0,
+                    customer.getX() * scalex - 50- additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f);
+
+            gameCanvas.draw(currentColor, Color.WHITE, 0, 0,
+                    customer.getX() * scalex - 50 - additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f * progressRatio);
+
+            gameCanvas.draw(currentHollow, Color.WHITE, 0, 0,
+                    customer.getX() * scalex - 60, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
+
+            gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex-55, customer.getY() * scaley + 10, 2, 2, layout);
+        }
     }
 
     public float multiplier(){

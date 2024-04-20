@@ -17,7 +17,7 @@ public class CollisionController {
     /**
      * Maximum distance a player must be from a guard to be caught
      */
-    protected static final float GUARD_RADIUS = 2.5f;
+    protected static final float GUARD_RADIUS = 2.0f;
 
     private final int WORLD_WIDTH = 32;
     private final int WORLD_HEIGHT = 18;

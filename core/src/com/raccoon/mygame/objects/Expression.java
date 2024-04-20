@@ -24,14 +24,17 @@ public class Expression {
         else if(name == "zzz"){
             this.texture = new Texture("720/"+ "zzz" + ".png");
         }
-        else if(name == "space"){
-            this.texture = new Texture("720/"+ "space" + ".png");
-        }
+//        else if(name == "space"){
+//            this.texture = new Texture("720/"+ "space" + ".png");
+//        }
         else if(name == "customerQuestion"){
             this.texture = new Texture("720/"+ "customerQuestion" + ".png");
         }
         else if(name == "customerThumbsUp"){
             this.texture = new Texture("720/"+ "customerThumbsUp" + ".png");
+        }
+        else if(name == "customerThumbsDown"){
+            this.texture = new Texture("720/"+ "customerThumbsDown" + ".png");
         }
         //commented out because question should always be QuestionExpression class
 //        if(name == "question"){

@@ -210,4 +210,8 @@ public class Guard extends WheelObstacle {
     public PatrolDirection getP(){
         return this.aiController.getPatrolDirection();
     }
+
+    public void resetSusMeter(){
+        aiController.susMeter =0;
+    }
 }
