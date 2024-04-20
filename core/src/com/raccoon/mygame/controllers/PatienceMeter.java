@@ -35,7 +35,7 @@ public class PatienceMeter extends ApplicationAdapter{
     private Texture madHollow;
 
     public PatienceMeter(int count, GameCanvas canvas, Customer cus){
-        countdownSeconds = count;
+        countdownSeconds = (int) (count*0.2f);
         max_countdown = count;
         gameCanvas = canvas;
         customer = cus;
@@ -81,11 +81,11 @@ public class PatienceMeter extends ApplicationAdapter{
 
     public void draw(float scalex, float scaley){
         float progressRatio = countdownSeconds / (float)max_countdown;
-        gameCanvas.draw(pmGrey, Color.WHITE, 0, 0,
-                customer.getX() * scalex + 40, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f);
+
 
         Texture currentColor;
         Texture currentHollow;
+        int additionalX = 0;
         if (countdownSeconds >= max_countdown * 0.5) {
             currentColor = pmGreen;
             currentHollow = goodHollow;
@@ -95,10 +95,14 @@ public class PatienceMeter extends ApplicationAdapter{
         } else {
             currentColor = pmRed;
             currentHollow = madHollow;
+            additionalX = 8;
         }
 
+        gameCanvas.draw(pmGrey, Color.WHITE, 0, 0,
+                customer.getX() * scalex + 40+ additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f);
+
         gameCanvas.draw(currentColor, Color.WHITE, 0, 0,
-                customer.getX() * scalex + 40, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f * progressRatio);
+                customer.getX() * scalex + 40 + additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f * progressRatio);
 
         gameCanvas.draw(currentHollow, Color.WHITE, 0, 0,
                 customer.getX() * scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
