@@ -338,6 +338,7 @@ public class RestaurantController extends WorldController implements ContactList
             }
             if(c.time() <= 0){
                 c.timeOut();
+                c.satisfied = Customer.SATISFIED.NO;
             }
         }
         for (CookingStationObject c : stations){
@@ -636,7 +637,9 @@ public class RestaurantController extends WorldController implements ContactList
 
     public void startTimer(){
         for(Customer c: customers){
-            c.pat.resumeTimer();
+            if(!(c.pat == null)){
+                c.pat.resumeTimer();
+            }
         }
         for(CookingStationObject c : stations){
             if(c.timer!=null){
