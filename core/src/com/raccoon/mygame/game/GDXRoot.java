@@ -98,6 +98,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
     int current; // 0 = restaurant, 1 = store, 2 = result
     public boolean isPaused;
+    public int[] star_req;
 
     public void create() {
         //world = new World(new Vector2(0, 0), false);
@@ -113,8 +114,8 @@ public class GDXRoot extends Game implements ScreenListener {
         store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         store.setLevel(loader.getLevels().get(0), inv);
 
-        pause = new MenuController(canvas, new Texture("paused_temp.png"),input);
-        result = new ResultController(canvas, new Texture("result_temp.png"),input);
+        pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
+        result = new ResultController(canvas, new Texture("result/result_final.png"),input);
         levelselect = new LevelSelectController(canvas, input);
         mainmenu = new MainMenuController(canvas,input);
 
@@ -126,6 +127,28 @@ public class GDXRoot extends Game implements ScreenListener {
          * -2 = main menu
          * */
         current = -2;
+        isPaused = false;
+        star_req = new int[]{50,75,100};
+    }
+
+    public void restart(){
+        canvas = new GameCanvas();
+        w = new Worldtimer(180, canvas);
+        w.create();
+        input = new InputController();
+
+        loader = new LevelLoader(canvas);
+
+        Inventory inv = new Inventory(new Texture("720/inventorynew.png"));
+        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
+        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
+        store.setLevel(loader.getLevels().get(0), inv);
+
+        pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
+        result = new ResultController(canvas, new Texture("result/result_final.png"),input);
+        levelselect = new LevelSelectController(canvas, input);
+        mainmenu = new MainMenuController(canvas,input);
+        current = 0;
         isPaused = false;
     }
 
@@ -185,7 +208,6 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
-//        System.out.println(canvas.getCamera().position.y);
         input.readInput();
         if(current == -2){
             mainmenu.update();
@@ -201,30 +223,59 @@ public class GDXRoot extends Game implements ScreenListener {
             return;
         }
         if(current == -1) {
+
             levelselect.update();
             w.pauseTimer();
             restaurant.setActive(false);
             store.setActive(false);
             if(levelselect.checkForGoToLevel()){
+                restart();
                 current = 0;
             }
+            levelselect.setGoToLevel(false);
             return;
         }
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
-        if(w.getTime() <= 0){
+        if(w.getTime() <= 0 ){
             current = 2;
+//            restaurant.setActive(false);
+//            store.setActive(false);
+        }
+        if (current == 2){
+            result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
+            result.update();
+            if (result.retry){
+                restart();
+                result.retry = false;
+            } else if (result.next){
+
+            }else if (result.select){
+                current = -1;
+                result.select = false;
+            }
             return;
         }
         //System.out.println(isPaused);
-      if(input.getPause()){
+      if(input.getPause() && (current == 0||current == 1)){
           isPaused = true;
           w.pauseTimer();
           restaurant.pauseTimer();
       }
       if(isPaused){
-          if(input.resume_clicked){
+          pause.update();
+          if(pause.resume){
               isPaused = false;
+              pause.resumed();
+          }
+          if(pause.quit){
+              Gdx.app.exit();
+          }
+          if(pause.restart){
+            restart();
+          }
+          if(pause.options){
+
           }
       }
       if (!isPaused) {
@@ -255,9 +306,6 @@ public class GDXRoot extends Game implements ScreenListener {
               current = current == 0 ? 1 : 0;
               restaurant.setVentCollision(false);
               store.onSet();
-          }
-          if (input.click) {
-              current = current == 0 ? 1 : 0;
           }
           if (current == 0) {
               canvas.getCamera().position.y = 360;

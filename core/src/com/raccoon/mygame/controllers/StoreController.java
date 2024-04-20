@@ -121,6 +121,13 @@ public class StoreController extends WorldController implements ContactListener 
         drawableObjects.add(t);
     }
 
+    private void addInvisibleWall(float x, float y, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("invisible" + ".png"), world, canvas);
+
+        obstacles.add(t);
+    }
+
     public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
@@ -157,6 +164,10 @@ public class StoreController extends WorldController implements ContactListener 
         animator = new AnimationController(input);
         sounds = new SoundController();
         duringventing = false;
+
+        addInvisibleWall(0,-1,80,1,1,1,0,0);
+        addInvisibleWall(-1,0,1,40,1,1,0,0);
+        addInvisibleWall(33,0,1,40,1,1,0,0);
     }
 
     public void setLevel(LevelModel level, Inventory sharedInv) {
@@ -500,6 +511,7 @@ public class StoreController extends WorldController implements ContactListener 
         for(int i = 0; i < guards.size; i++){
             guards.get(i).setPosition(guardX.get(i),guardY.get(i));
             guards.get(i).switchToDefaultMode();
+            guards.get(i).resetSusMeter();
         }
     }
 

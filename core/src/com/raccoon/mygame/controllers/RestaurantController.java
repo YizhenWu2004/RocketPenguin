@@ -22,6 +22,7 @@ import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.*;
+import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
@@ -50,9 +51,14 @@ public class RestaurantController extends WorldController implements ContactList
     private Vector2 localStartingPos;
     Array<CookingStationObject> stations;
     private Worldtimer t;
-    private int score;
+    public int score;
     BitmapFont f = new BitmapFont();
     GlyphLayout layout = new GlyphLayout(f, "");
+    public int happy;
+    public int neutral;
+    public int angry;
+    public int total;
+
 
     //Default filmstrips.
     //We need these because the constructors of these objects require a texture (Filmstrip)
@@ -64,6 +70,8 @@ public class RestaurantController extends WorldController implements ContactList
     //The animation controller in question.
     private AnimationController animator;
     private SoundController sounds;
+
+    Texture light = new Texture("light.png");
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
@@ -118,6 +126,13 @@ public class RestaurantController extends WorldController implements ContactList
         drawableObjects.add(t);
         t.setTrashcan(true);
 
+    }
+
+    private void addInvisibleWall(float x, float y, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("invisible" + ".png"), world, canvas);
+
+        obstacles.add(t);
     }
 
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer) {
@@ -185,9 +200,9 @@ public class RestaurantController extends WorldController implements ContactList
         addWallBump(14.5f, 16.5f);
         addWallBump(23f, 16.5f);
 
-        addNormalObstacle(23, 16.0f, "smallwall", 1,5,1,1,0,0);
-        addNormalObstacle(23, 0, "tallwall", 1,14.5f,1,1,0,-165);
-        addNormalObstacle(23,12.0f,"kitchendoor", 1,2,1,1,-30,70, true);
+        addNormalObstacle(23-0.4f, 16.0f, "smallwall", 1,11.5f,1,1,0,0);
+        addNormalObstacle(23-0.4f, -1, "notAsTallWall", 1,14.5f,1,1,0,-165);
+//        addNormalObstacle(23,12.0f,"kitchendoor", 1,2,1,1,-30,70, true);
 
         addNormalObstacle(10.3f,16.4f, "window",1,1,1,1,0,-50);
         addNormalObstacle(2.2f,16.4f, "window",1,1,1,1,0,-50);
@@ -202,10 +217,13 @@ public class RestaurantController extends WorldController implements ContactList
         addDecoration(22, 6, "sidelamp",0.1f,0.1f, 1,1,4,0,true);
         addDecoration(22, 2, "sidelamp",0.1f,0.1f, 1,1,4,0,true);
 
-        addNormalObstacle(22,13,"decorativeshelf", 1,1, 1,1, 0,-70);
+        addNormalObstacle(22-0.3f,13,"decorativeshelf", 1,4, 1,1, 0,-20);
 
         addTrashcan(31, 5, "trashcan", 1, 0.5f,1,1,0,-30f, false, false);
 
+        addInvisibleWall(0,-1,80,1,1,1,0,0);
+        addInvisibleWall(-1,0,1,40,1,1,0,0);
+        addInvisibleWall(33,0,1,40,1,1,0,0);
 
         customers = new Array();
 
@@ -248,6 +266,12 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         sounds = new SoundController();
+        happy=0;
+        neutral=0;
+        angry=0;
+        total=9; //hardcoded for now
+        //score = 78;
+
     }
 
     public void setActive(boolean b) {
@@ -330,6 +354,13 @@ public class RestaurantController extends WorldController implements ContactList
             if (c.justSatisfied){
                 if (c.time() > 0){
                     score += c.servedDish.getScore() * c.pat.multiplier();
+                    if (c.pat.multiplier() == 1){
+                        happy += 1;
+                    } else if (c.pat.multiplier() == 0.7){
+                        neutral += 1;
+                    } else {
+                        angry += 1;
+                    }
                 }
                 c.justSatisfied = false;
             }
@@ -338,6 +369,7 @@ public class RestaurantController extends WorldController implements ContactList
             }
             if(c.time() <= 0){
                 c.timeOut();
+                c.satisfied = Customer.SATISFIED.NO;
             }
         }
         for (CookingStationObject c : stations){
@@ -451,6 +483,9 @@ public class RestaurantController extends WorldController implements ContactList
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
 
+//        canvas.draw(light,Color.WHITE, 0, 0,
+//                0, 5f*40, 0.0f, 1f, 1f);
+
         //bubble sort for drawing
         boolean swapped;
         for (int i = 0; i < drawableObjects.size-1; i++) {
@@ -483,6 +518,8 @@ public class RestaurantController extends WorldController implements ContactList
         }
         canvas.drawText("Score:", f,20, 600,2,2, layout);
         canvas.drawText(Integer.toString(score), f, 130, 600, 2, 2,layout);
+        canvas.draw(light,Color.WHITE, 0, 0,
+                0, 5f*40, 0.0f, 1f, 1f);
     }
 
     public void debug() {
@@ -636,7 +673,9 @@ public class RestaurantController extends WorldController implements ContactList
 
     public void startTimer(){
         for(Customer c: customers){
-            c.pat.resumeTimer();
+            if(!(c.pat == null)){
+                c.pat.resumeTimer();
+            }
         }
         for(CookingStationObject c : stations){
             if(c.timer!=null){

@@ -170,6 +170,10 @@ public class LevelSelectController extends WorldController{
 
     }
 
+    public void setGoToLevel(boolean b){
+        goToLevel = b;
+    }
+
     /**
      * Adds a UIButton to the scene.
      * @param button Button to add

@@ -30,7 +30,7 @@ public class CookingStationObject extends NormalObstacle{
     public float x;
     public float y;
 
-    private Expression spaceIcon;
+//    private Expression spaceIcon;
 
     public CookingStationObject(float x, float y, float width, float height, float sx, float sy,
             float ox, float oy, Texture texture,
@@ -46,7 +46,7 @@ public class CookingStationObject extends NormalObstacle{
         this.station_type = station_type;
         this.x = x;
         this.y = y;
-        spaceIcon = new Expression("space",x,y);
+//        spaceIcon = new Expression("space",x,y);
 
     }
 
@@ -62,7 +62,7 @@ public class CookingStationObject extends NormalObstacle{
         super.drawWithOffset(drawox, drawoy);
         if(station_type == 0) {
             canvas.draw(wok_pic, Color.WHITE, 40, 30,
-                    this.getX() * this.getDrawScale().x, this.getY() * this.getDrawScale().y,
+                    this.getX() * this.getDrawScale().x-28, this.getY() * this.getDrawScale().y,
                     0.0f, 1f, 1f);
         }else if(station_type == 1){
             canvas.draw(pot_pic, Color.WHITE, 50, 5,
@@ -81,7 +81,7 @@ public class CookingStationObject extends NormalObstacle{
         if(interacting){
             pot.draw(canvas);
             if(!pot.isEmpty()){
-                spaceIcon.drawSpace(canvas,this.getDrawScale().x,this.getDrawScale().y);
+//                spaceIcon.drawSpace(canvas,this.getDrawScale().x,this.getDrawScale().y);
             }
         }
     }

@@ -81,7 +81,7 @@ public class CollisionController {
     public void processCustomers(Player p, Array<Customer> customers) {
         for (Customer c : customers) {
             if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
-                if (!c.getShow() && !c.isSatisfied()) {
+                if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
                     c.setShow(true);
                 }
                 if(p.dishInventory.leftFilled()){
@@ -146,28 +146,12 @@ public class CollisionController {
     }
 
     void handleCollision(Player p, Guard g) {
-//        Vector2 pPos = p.getPosition();
-//        Vector2 gPos = g.getPosition();
-//
-//        float pRight = pPos.x + p.getWidth();
-//        float pTop = pPos.y + p.getHeight();
-//        float gRight = gPos.x + g.getTextureWidth();
-//        float gTop = gPos.y + g.getTextureHeight();
-//
-//        if (pPos.x < gRight && pRight > gPos.x && pPos.y < gTop && pTop > gPos.y) {
-//            p.setPosition(new Vector2());
-//            p.clearInv();
-//        }
-//        Vector2 iPosCanvas = new Vector2(g.getX() + g.getTextureWidth()/2f,
-//                g.getY() + g.getTextureHeight()/2f);
-//        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
-//        Vector2 iPosWorld = canvasToWorld(iPosCanvas);
-//        System.out.println(p.getPosition().dst(iPosWorld));
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
             if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
-//            System.out.println(g.getY());
-//                System.out.println("sensing w/o sightcone");
-//                g.switchToChaseMode();
+                if(g.getAIController().getCurrentState() == GuardAIController.AIState.WANDER){
+                    g.getAIController().setAIStateSus();
+                }
+                g.getAIController().incrementSusMeter(5);
             }
         }
     }

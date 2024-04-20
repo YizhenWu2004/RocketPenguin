@@ -50,7 +50,7 @@ public class GuardAIController {
     Vector2 guardDimension;
 
     private int chaseCounter;
-    float susMeter;
+    public float susMeter;
 
     /**
      * constant that determines after how many updates, findPath is called in

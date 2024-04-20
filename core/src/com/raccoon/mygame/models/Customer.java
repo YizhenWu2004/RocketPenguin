@@ -29,13 +29,20 @@ public class Customer extends BoxObstacle {
     private final int WORLD_HEIGHT = 18;
     private float scaleX;
     private float scaleY;
-    private GameCanvas canvas;
+    public GameCanvas canvas;
     public PatienceMeter pat;
     private Ingredient[] order;
     private int cooking_method;
-    private boolean satisfied;
+
+    public enum SATISFIED {
+        NOTYET,
+        HAPPY,
+        SAD,
+        NO
+    }
+
+    public SATISFIED satisfied;
     private boolean isActive;
-    private int patience;
     private boolean show;
     private CustomerAIController controller;
     //public Vector2 position_on_table;
@@ -67,6 +74,8 @@ public class Customer extends BoxObstacle {
     private Expression question;
 
     private Expression thumbsUp;
+
+    private Expression thumbsDown;
     public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
         super(x, y, width, height);
 //        this.texture = texture;
@@ -102,7 +111,7 @@ public class Customer extends BoxObstacle {
         }
         cooking_method = random.nextInt(3);
 //        System.out.println(cooking_method);
-        satisfied = false;
+        satisfied = SATISFIED.NOTYET;
         isActive = true;
 
         shadow = new Shadow(x,y,1f,1f);
@@ -112,8 +121,11 @@ public class Customer extends BoxObstacle {
         show = false;
         flipScale = -1;
         onRight = false;
-        pat = new PatienceMeter(120, canvas, this);
-        pat.create();
+//        pat = new PatienceMeter(120, canvas, this);
+//        pat.create();
+
+        pat = null;
+
         justSatisfied=false;
 
         this.height = height;
@@ -124,6 +136,8 @@ public class Customer extends BoxObstacle {
         question = new Expression("customerQuestion",x,y);
 
         thumbsUp = new Expression("customerThumbsUp",x,y);
+
+        thumbsDown = new Expression("customerThumbsDown",x,y);
     }
 
     public Ingredient[] getOrder() {
@@ -131,7 +145,7 @@ public class Customer extends BoxObstacle {
     }
 
     public boolean isSatisfied() {
-        return satisfied;
+        return (satisfied == SATISFIED.SAD || satisfied == SATISFIED.HAPPY);
     }
 
     public boolean isActive() {
@@ -156,7 +170,14 @@ public class Customer extends BoxObstacle {
         this.customerType = types[(int)(Math.random()*types.length)];
     }
 
+    public boolean canShow(){
+        return controller.state == CustomerAIController.FSMState.WAIT;
+    }
+
     public boolean serve(Dish d) {
+        if(!(controller.state == CustomerAIController.FSMState.WAIT)){
+            return false;
+        }
         for (Ingredient i : this.order){
             if(i!= null) {
 //                System.out.println(i.type);
@@ -210,7 +231,7 @@ public class Customer extends BoxObstacle {
                 return false;
             }
         }
-        satisfied = true;
+        satisfied = SATISFIED.HAPPY;
         justSatisfied =true;
         servedDish = d;
         return true;
@@ -221,6 +242,10 @@ public class Customer extends BoxObstacle {
     }
 
     public int time(){
+        if(pat == null){
+            //means pat hasn't been initialized yet
+            return 1;
+        }
         return pat.getTime();
     }
 
@@ -256,15 +281,37 @@ public class Customer extends BoxObstacle {
 //            question.drawCustomerQuestion(canvas,this.getX(),this.getY()+10,this.drawScale.x,this.drawScale.y);
 //        }
 
-        //why does this work and the above doesnt ;-;
-        //todo implement thumbs up thumbs down differentiation later
-        if(satisfied){
-            thumbsUp.drawCustomerQuestion(canvas,this.getX(),this.getY()+3,this.drawScale.x,this.drawScale.y);
+        float customerYOffset;
+        float customerXOffset;
+
+        if(customerType == "cat") {
+            customerYOffset = 2;
+            customerXOffset = 0.6f;
+        }
+        else if(customerType == "bear" ) {
+            customerYOffset = 1;
+            customerXOffset = 0.6f;
+        }
+        else if(customerType == "goat"){
+            customerYOffset = 0;
+            customerXOffset = 0;
+        }
+        else {
+            customerYOffset = 0;
+            customerXOffset = 0;
+        }
+
+        if(isSatisfied()){
+            thumbsUp.drawCustomerQuestion(canvas,this.getX()+customerXOffset,this.getY()+3+customerYOffset,this.drawScale.x,this.drawScale.y);
+        }
+
+        if(satisfied == SATISFIED.NO){
+            thumbsDown.drawCustomerQuestion(canvas,this.getX()+customerXOffset,this.getY()+3+customerYOffset,this.drawScale.x,this.drawScale.y);
         }
 
         //somehow give the ability to specify the ox and oy offset
         drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, this.sprite.getRegionWidth()/2f + offsetX, offsetY);
-        if (pat.getTime() > 0){
+        if (!(pat == null) &&pat.getTime() > 0){
             pat.draw(this.drawScale.x, this.drawScale.y);
         }
         //Texture image, Color tint, float ox, float oy,

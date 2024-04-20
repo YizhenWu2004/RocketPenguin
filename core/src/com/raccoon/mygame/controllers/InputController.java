@@ -23,6 +23,7 @@ public class InputController {
     private boolean interaction;
     private boolean space;
 
+    private SoundController sounds;
     private boolean reset;
     public boolean click;
     private boolean up;
@@ -91,6 +92,7 @@ public class InputController {
         interaction = false;
         click = false;
         resume_clicked = false;
+        sounds = new SoundController();
     }
 
     public void readInput() {
@@ -113,8 +115,10 @@ public class InputController {
 
         if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
             scroll = -1;
+            sounds.switchPlay();
         } else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
             scroll = 1;
+            sounds.switchPlay();
         } else {
             scroll = 0;
         }
@@ -132,6 +136,7 @@ public class InputController {
         }
         if (Gdx.input.isKeyJustPressed(Keys.P)) {
             pause = true;
+            sounds.clickPlay();
         } else {
             pause = false;
         }
@@ -143,6 +148,7 @@ public class InputController {
         }
         if (Gdx.input.isButtonJustPressed(Buttons.LEFT)) {
             click = true;
+            sounds.clickPlay();
         } else {
             click = false;
         }
