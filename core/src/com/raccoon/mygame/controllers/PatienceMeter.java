@@ -91,7 +91,7 @@ public class PatienceMeter extends ApplicationAdapter{
             additionalX = 8;
         }
 
-        if(customer.onRight){
+        if(!customer.onRight){
             gameCanvas.draw(pmGrey, Color.WHITE, 0, 0,
                     customer.getX() * scalex + 40+ additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f);
 
