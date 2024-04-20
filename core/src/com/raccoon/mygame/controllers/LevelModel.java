@@ -39,6 +39,14 @@ public class LevelModel {
     private FilmStrip guardIdle;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
 
+    private float[] customerTimes;
+    private int numStations;
+    private int minOrder;
+    private int maxOrder;
+    private String[] orderIngredients;
+    private float guardSpeed;
+    private float patienceTime;
+
     private void addShelfHorizontal(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 1f, 1f, 0f, -40f,
                 new Texture("720/groceryshelfhorizontal.png"), storeWorld, canvas);
@@ -65,12 +73,20 @@ public class LevelModel {
                 (sleep ? new Array<>() : nodes), GuardAIController.GuardOrientation.LEFT));
     }
 
-    public LevelModel(String tmxFile, GameCanvas canvas) {
+    public LevelModel(String tmxFile, float[] customerTimes, int numStations, int minOrder, int maxOrder,
+                      String[] orderIngredients, float guardSpeed, float patienceTime, GameCanvas canvas) {
         storeWorld = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
+        this.customerTimes = customerTimes;
+        this.numStations = numStations;
+        this.minOrder = minOrder;
+        this.maxOrder = maxOrder;
+        this.orderIngredients = orderIngredients;
+        this.guardSpeed = guardSpeed;
+        this.patienceTime = patienceTime;
         tiledMap = new TmxMapLoader().load("tiled/" + tmxFile + ".tmx");
         storeObjectsLayer = tiledMap.getLayers().get("Obstacles");
-        ingredientsLayer = tiledMap.getLayers().get("IngredientBins");
+        ingredientsLayer = tiledMap.getLayers().get("Ingredients");
         guardsLayer = tiledMap.getLayers().get("Guards");
         guardNodesLayer = tiledMap.getLayers().get("GuardNodes");
         guardIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
@@ -81,6 +97,14 @@ public class LevelModel {
     }
 
     public World getStoreWorld() { return storeWorld; }
+
+    public float[] getCustomerTimes() { return customerTimes; }
+    public int getNumStations() { return numStations; }
+    public int getMinOrder() { return minOrder; }
+    public int getMaxOrder() { return maxOrder; }
+    public String[] getOrderIngredients() { return orderIngredients; }
+    public float getGuardSpeed() { return guardSpeed; }
+    public float getPatienceTime() { return patienceTime; }
 
     public Array<NormalObstacle> getStoreObjects() { return storeObjects; }
 
@@ -160,17 +184,19 @@ public class LevelModel {
         }
 
         for (NormalObstacle obstacle : storeObjects) {
-            Vector2 position = obstacle.getPosition();
-            Vector2 dimension = obstacle.getDimension();
+            if (!(obstacle instanceof NormalDecoration)) {
+                Vector2 position = obstacle.getPosition();
+                Vector2 dimension = obstacle.getDimension();
 
-            int left = Math.max(0, (int) position.x - (int) (dimension.x / 2));
-            int bottom = Math.max(0, (int) position.y - (int) (dimension.y / 2));
-            int right = Math.min(GRID_WIDTH - 1, (int) position.x + (int) (dimension.x / 2));
-            int top = Math.min(GRID_HEIGHT - 1, (int) position.y + (int) (dimension.y / 2));
+                int left = Math.max(0, (int) position.x - (int) (dimension.x / 2));
+                int bottom = Math.max(0, (int) position.y - (int) (dimension.y / 2));
+                int right = Math.min(GRID_WIDTH - 1, (int) position.x + (int) (dimension.x / 2));
+                int top = Math.min(GRID_HEIGHT - 1, (int) position.y + (int) (dimension.y / 2));
 
-            for (int i = left; i <= right; i++) {
-                for (int j = bottom; j <= top; j++) {
-                    collisionLayer[i][j] = true;
+                for (int i = left; i <= right; i++) {
+                    for (int j = bottom; j <= top; j++) {
+                        collisionLayer[i][j] = true;
+                    }
                 }
             }
         }

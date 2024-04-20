@@ -36,15 +36,15 @@
   <object id="12" name="HorizShelf" gid="580" x="410.682" y="306.212" width="230" height="230"/>
   <object id="13" name="HorizShelf" gid="580" x="671.439" y="306.212" width="230" height="230"/>
   <object id="14" name="HorizShelf" gid="580" x="886.439" y="306.212" width="230" height="230"/>
-  <object id="15" name="HorizShelf" gid="580" x="-5" y="466" width="230" height="230"/>
+  <object id="15" name="HorizShelf" gid="580" x="-5" y="426" width="230" height="230"/>
   <object id="16" name="HorizShelf" gid="580" x="393" y="466" width="230" height="230"/>
   <object id="17" name="HorizShelf" gid="580" x="613" y="466" width="230" height="230"/>
   <object id="18" name="VertShelf" gid="581" x="705" y="571" width="230" height="230"/>
   <object id="19" name="HorizShelf" gid="580" x="615" y="627" width="230" height="230"/>
   <object id="20" name="VertShelf" gid="581" x="297" y="743" width="230" height="230"/>
-  <object id="21" name="HorizWall" gid="578" x="-95" y="639" width="230" height="230"/>
-  <object id="22" name="VertWall" gid="579" x="67" y="731" width="230" height="230"/>
-  <object id="26" name="JanitorTools" gid="588" x="-53" y="673" width="230" height="230"/>
+  <object id="21" name="HorizWall" gid="578" x="-95" y="599" width="230" height="230"/>
+  <object id="22" name="VertWall" gid="579" x="107" y="731" width="230" height="230"/>
+  <object id="26" name="JanitorTools" gid="588" x="-53" y="633" width="230" height="230"/>
   <object id="27" name="VertShelf" gid="581" x="-101" y="250" width="230" height="230"/>
   <object id="28" name="VertShelf" gid="581" x="-101" y="440" width="230" height="230"/>
   <object id="29" name="VertShelf" gid="581" x="-101.667" y="575" width="230" height="230"/>
@@ -62,13 +62,12 @@
   <object id="46" name="BoxM" gid="585" x="1001" y="191" width="230" height="230"/>
   <object id="47" name="BoxS" gid="586" x="1057" y="245" width="230" height="230"/>
  </objectgroup>
- <objectgroup id="6" name="IngredientBins">
+ <objectgroup id="6" name="Ingredients">
   <object id="36" name="orange" gid="597" x="867.667" y="496.333" width="230" height="230"/>
   <object id="37" name="banana" gid="592" x="1022.33" y="503" width="230" height="230"/>
   <object id="38" name="apple" gid="590" x="861" y="660.333" width="230" height="230"/>
   <object id="39" name="orange" gid="597" x="1027.67" y="656.333" width="230" height="230"/>
  </objectgroup>
- <objectgroup id="9" name="IngredientShelves"/>
  <objectgroup id="3" name="Guards">
   <object id="1" name="Guard" gid="577" x="1130.92" y="248.288" width="102" height="131">
    <properties>
@@ -88,7 +87,7 @@
     <property name="Sleep" value="No"/>
    </properties>
   </object>
-  <object id="64" name="Guard" gid="2147484225" x="121" y="510.5" width="102" height="131">
+  <object id="64" name="Guard" gid="2147484225" x="121" y="475.5" width="102" height="131">
    <properties>
     <property name="GuardNum" value="4"/>
     <property name="Sleep" value="No"/>
@@ -117,7 +116,7 @@
    </properties>
    <point/>
   </object>
-  <object id="69" x="500.667" y="454">
+  <object id="69" x="500.667" y="459">
    <properties>
     <property name="GuardNum" value="3"/>
     <property name="NodeNum" value="1"/>
