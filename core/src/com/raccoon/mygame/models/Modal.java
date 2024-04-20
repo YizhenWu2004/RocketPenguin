@@ -40,4 +40,8 @@ public class Modal {
     public boolean getActive(){return this.isActive;}
 
     public Array<UIButton> getElements(){return this.elements;}
+
+    public String getId(){
+        return this.id;
+    }
 }

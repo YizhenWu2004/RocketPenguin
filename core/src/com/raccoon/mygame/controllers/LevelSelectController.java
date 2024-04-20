@@ -50,17 +50,7 @@ public class LevelSelectController extends WorldController{
         this.canvas = canvas;
         this.input = input;
 
-        //this is the modal for when you click on an individual level entry
-        //mostly just for testing now
-        Modal selectModal = new Modal("modalOne", 100, 100, new Texture("menu/modalbackground.png"));
-        //This is the menu that displays for that modal
-        UIButton levelbutton = new UIButton(new Texture("menu/templevelpreview.png"),"levelbutton",0,0,canvas);
-        levelbutton.setSX(0.5f);
-        levelbutton.setSY(0.5f);
-        //add that menu thingy to the modal
-        selectModal.addElement(levelbutton);
-        //add modal to the list of modals.
-        modals.add(selectModal);
+        constructBooklet("1");
 
         //level one button
         UIButton levelOneButton = new UIButton(new Texture("menu/levelbook.png"),"level1",10,10,canvas);
@@ -256,5 +246,39 @@ public class LevelSelectController extends WorldController{
             }
         }
     }
+    public void constructBooklet(String id){
+        //this is the modal for when you click on an individual level entry
+        //mostly just for testing now
+        Modal selectModal = new Modal(id, 125, 75, new Texture("menu/modalbackground.png"));
+        //This is the menu that displays for that modal
+        UIButton booklet = new UIButton(new Texture("menu/booklet.png"),"levelbutton",0,0,0.5f, 0.5f, canvas);
+
+        UIButton back = new UIButton(new Texture("menu/back.png"), "back", 190, 75, 0.5f, 0.5f,canvas);
+        back.setOnClickAction(()->{selectModal.setActive(false);});
+        back.setOnHoverAction(()->{back.setSX(0.6f);back.setSY(0.6f);});
+        back.setOnUnhoverAction(()->{back.resetStyleProperties();});
+
+        UIButton start = new UIButton(new Texture("menu/start.png"), "start", 650, 75, 0.5f, 0.5f,canvas);
+        start.setOnClickAction(()->{selectModal.setActive(false);this.goToLevel= true;});
+        start.setOnHoverAction(()->{start.setSX(0.6f);start.setSY(0.6f);});
+        start.setOnUnhoverAction(()->{start.resetStyleProperties();});
+
+        //add the buttons to the modal thingy to the modal
+        selectModal.addElement(booklet);
+        selectModal.addElement(back);
+        selectModal.addElement(start);
+        //add modal to the list of modals.
+        modals.add(selectModal);
+    }
     public boolean checkForGoToLevel(){return this.goToLevel;}
+    public Modal findModalOfID(String id){
+        for (Modal modal:
+             modals) {
+            if(modal.getId().equals(id)){
+                return modal;
+            }
+        }
+        //fake modal
+        return new Modal("-1", 0,0,new Texture("menu/filledstar.png"));
+    }
 }

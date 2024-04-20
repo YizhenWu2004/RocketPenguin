@@ -29,6 +29,8 @@ public class UIButton {
     private float defaultSX = 1;
     private float defaultSY = 1;
     private Color defaultCOLOR = Color.WHITE;
+    private float defaultWidth;
+    private float defaultHeight;
 
     private float OX = defaultOX, OY = defaultOY;
     private float SX = defaultSX, SY = defaultSY;
@@ -47,8 +49,10 @@ public class UIButton {
         this.id = id;
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.defaultWidth = width;
+        this.defaultHeight = height;
+        this.width = defaultWidth;
+        this.height = defaultHeight;
     }
 
     /**
@@ -66,8 +70,36 @@ public class UIButton {
         this.x = x;
         this.y = y;
         this.texture = texture;
-        this.width = texture.getWidth();
-        this.height = texture.getHeight();
+        this.defaultWidth = texture.getWidth();
+        this.defaultHeight = texture.getHeight();
+        this.width = defaultWidth;
+        this.height = defaultHeight;
+    }
+    /**
+     * Constructor to create a button with a provided texture.
+     * All parameters are in pixels unless specified otherwise.
+     * Width and height of a button are based on the texture provided.
+     *
+     * @param texture The texture to apply to the button
+     * @param x The x position of the button
+     * @param y THe y position of the button
+     * @param defaultSX The default x draw scale of the button
+     * @param defaultSY The default y draw scale of the button
+     * @param canvas Gonna be honest don't know why I need this. Probably pointless.
+     * */
+    public UIButton(Texture texture, String id, float x, float y, float defaultSX, float defaultSY,GameCanvas canvas) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.texture = texture;
+        this.defaultWidth = texture.getWidth();
+        this.defaultHeight = texture.getHeight();
+        this.defaultSX = defaultSX;
+        this.defaultSY = defaultSY;
+        this.width = defaultWidth * defaultSX;
+        this.height = defaultHeight * defaultSY;
+        this.SX = defaultSX;
+        this.SY = defaultSY;
     }
 
     /**
@@ -136,8 +168,22 @@ public class UIButton {
     public float getWidth(){return this.width;}
     public float getHeight(){return this.height;}
     public String getID(){return this.id;}
-    public void setSX(float SX) {this.SX = SX;}
-    public void setSY(float SY) {this.SY = SY;}
+    public void setSX(float SX) {
+        this.SX = SX;
+        this.width = defaultWidth * SX;
+    }
+    public void setSY(float SY) {
+        this.SY = SY;
+        this.height = defaultHeight * SY;
+    }
+//    public void setDefaultSX(float SX){
+//        this.defaultSX = SX;
+//        setSX(defaultSX);
+//    }
+//    public void setDefaultSY(float SY){
+//        this.defaultSY = SY;
+//        setSY(defaultSY);
+//    }
     public void setOX(float OX) {this.OX = OX;}
     public void setOY(float OY) {this.OY = OY;}
     public void setCOLOR(Color color){this.COLOR = color;}
@@ -152,6 +198,8 @@ public class UIButton {
         this.OY = defaultOY;
         this.SX = defaultSX;
         this.SY = defaultSY;
+        this.width = defaultWidth * defaultSX;
+        this.height = defaultHeight * defaultSY;
     }
     /**
      * Executes the provided lambda method on click.
