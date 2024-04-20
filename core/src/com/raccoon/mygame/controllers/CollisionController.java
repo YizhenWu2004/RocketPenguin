@@ -81,7 +81,7 @@ public class CollisionController {
     public void processCustomers(Player p, Array<Customer> customers) {
         for (Customer c : customers) {
             if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
-                if (!c.getShow() && !c.isSatisfied()) {
+                if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
                     c.setShow(true);
                 }
                 if(p.dishInventory.leftFilled()){

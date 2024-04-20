@@ -111,7 +111,7 @@ public class PatienceMeter extends ApplicationAdapter{
                     customer.getX() * scalex - 50 - additionalX, customer.getY() * scaley + 35, 0.0f, 0.25f, 0.25f * progressRatio);
 
             gameCanvas.draw(currentHollow, Color.WHITE, 0, 0,
-                    customer.getX() * scalex - 60, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
+                    customer.getX() * scalex - 60- additionalX*2, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
 
             gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex-55, customer.getY() * scaley + 10, 2, 2, layout);
         }
