@@ -86,7 +86,7 @@ public class LevelModel {
         this.patienceTime = patienceTime;
         tiledMap = new TmxMapLoader().load("tiled/" + tmxFile + ".tmx");
         storeObjectsLayer = tiledMap.getLayers().get("Obstacles");
-        ingredientsLayer = tiledMap.getLayers().get("IngredientBins");
+        ingredientsLayer = tiledMap.getLayers().get("Ingredients");
         guardsLayer = tiledMap.getLayers().get("Guards");
         guardNodesLayer = tiledMap.getLayers().get("GuardNodes");
         guardIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);

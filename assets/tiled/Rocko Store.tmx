@@ -62,13 +62,12 @@
   <object id="46" name="BoxM" gid="585" x="1001" y="191" width="230" height="230"/>
   <object id="47" name="BoxS" gid="586" x="1057" y="245" width="230" height="230"/>
  </objectgroup>
- <objectgroup id="6" name="IngredientBins">
+ <objectgroup id="6" name="Ingredients">
   <object id="36" name="orange" gid="597" x="867.667" y="496.333" width="230" height="230"/>
   <object id="37" name="banana" gid="592" x="1022.33" y="503" width="230" height="230"/>
   <object id="38" name="apple" gid="590" x="861" y="660.333" width="230" height="230"/>
   <object id="39" name="orange" gid="597" x="1027.67" y="656.333" width="230" height="230"/>
  </objectgroup>
- <objectgroup id="9" name="IngredientShelves"/>
  <objectgroup id="3" name="Guards">
   <object id="1" name="Guard" gid="577" x="1130.92" y="248.288" width="102" height="131">
    <properties>
