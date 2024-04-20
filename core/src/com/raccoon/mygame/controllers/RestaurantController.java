@@ -50,9 +50,14 @@ public class RestaurantController extends WorldController implements ContactList
     private Vector2 localStartingPos;
     Array<CookingStationObject> stations;
     private Worldtimer t;
-    private int score;
+    public int score;
     BitmapFont f = new BitmapFont();
     GlyphLayout layout = new GlyphLayout(f, "");
+    public int happy;
+    public int neutral;
+    public int angry;
+    public int total;
+
 
     //Default filmstrips.
     //We need these because the constructors of these objects require a texture (Filmstrip)
@@ -248,6 +253,12 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         sounds = new SoundController();
+        happy=0;
+        neutral=0;
+        angry=0;
+        total=9; //hardcoded for now
+        //score = 78;
+
     }
 
     public void setActive(boolean b) {
@@ -330,6 +341,13 @@ public class RestaurantController extends WorldController implements ContactList
             if (c.justSatisfied){
                 if (c.time() > 0){
                     score += c.servedDish.getScore() * c.pat.multiplier();
+                    if (c.pat.multiplier() == 1){
+                        happy += 1;
+                    } else if (c.pat.multiplier() == 0.7){
+                        neutral += 1;
+                    } else {
+                        angry += 1;
+                    }
                 }
                 c.justSatisfied = false;
             }
