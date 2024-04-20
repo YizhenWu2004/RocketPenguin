@@ -22,6 +22,7 @@ import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.*;
+import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
@@ -125,6 +126,13 @@ public class RestaurantController extends WorldController implements ContactList
 
     }
 
+    private void addInvisibleWall(float x, float y, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+                new Texture("invisible" + ".png"), world, canvas);
+
+        obstacles.add(t);
+    }
+
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
@@ -211,6 +219,9 @@ public class RestaurantController extends WorldController implements ContactList
 
         addTrashcan(31, 5, "trashcan", 1, 0.5f,1,1,0,-30f, false, false);
 
+        addInvisibleWall(0,-1,80,1,1,1,0,0);
+        addInvisibleWall(-1,0,1,40,1,1,0,0);
+        addInvisibleWall(33,0,1,40,1,1,0,0);
 
         customers = new Array();
 
