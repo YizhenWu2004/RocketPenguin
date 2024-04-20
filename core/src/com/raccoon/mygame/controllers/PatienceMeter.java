@@ -35,7 +35,7 @@ public class PatienceMeter extends ApplicationAdapter{
     private Texture madHollow;
 
     public PatienceMeter(int count, GameCanvas canvas, Customer cus){
-        countdownSeconds = (int) (count*0.2f);
+        countdownSeconds = count;
         max_countdown = count;
         gameCanvas = canvas;
         customer = cus;
@@ -81,7 +81,6 @@ public class PatienceMeter extends ApplicationAdapter{
 
     public void draw(float scalex, float scaley){
         float progressRatio = countdownSeconds / (float)max_countdown;
-
 
         Texture currentColor;
         Texture currentHollow;
