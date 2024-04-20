@@ -59,7 +59,7 @@ public class LevelSelectController extends WorldController{
                 ()-> {
 //          //on click
             System.out.println(levelOneButton.getID());
-            selectModal.setActive(true);
+            findModalOfID("1").setActive(true);
                     },
                 ()->{
             //on hover
