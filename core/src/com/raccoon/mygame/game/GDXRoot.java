@@ -208,7 +208,6 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
-        //System.out.println(current);
         input.readInput();
         if(current == -2){
             mainmenu.update();
@@ -309,9 +308,15 @@ public class GDXRoot extends Game implements ScreenListener {
               store.onSet();
           }
           if (current == 0) {
+              canvas.getCamera().position.y = 360;
+              canvas.getCamera().update();
+
               restaurant.setActive(true);
               store.setActive(false);
           } else {
+              canvas.getCamera().position.y = 360;
+              canvas.getCamera().update();
+
               restaurant.setActive(false);
               store.setActive(true);
           }
