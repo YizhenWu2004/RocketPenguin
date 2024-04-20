@@ -43,6 +43,7 @@ public class MainMenuController extends WorldController{
             options.setSY(1.1f);
         },options::resetStyleProperties);
 
+
         UIButton exit = new UIButton(new Texture("menu/exit.png"),"exit",100,100,canvas);
         addButton(exit, ()-> {
             this.exit = true;
