@@ -1,5 +1,6 @@
 package com.raccoon.mygame.models;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.view.GameCanvas;
@@ -11,6 +12,8 @@ public class Modal {
     private Texture background;
     private Array<UIButton> elements = new Array<>();
 
+    private boolean isSticky = false;
+
     private boolean isActive = false;
 
     public Modal(String id, float x, float y, Texture texture) {
@@ -18,6 +21,13 @@ public class Modal {
         this.x = x;
         this.y = y;
         this.background = texture;
+    }
+    public Modal(String id, float x, float y, Texture texture, boolean isSticky) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.background = texture;
+        this.isSticky = isSticky;
     }
 
     public void addElement(UIButton element){
@@ -29,9 +39,15 @@ public class Modal {
     }
 
     public void draw(GameCanvas canvas){
-        canvas.draw(background,0,0);
+        OrthographicCamera camera = canvas.getCamera();
+        // Center the modal in the camera's viewport
+        float drawX = camera.position.x-camera.viewportWidth/2;
+        float drawY = camera.position.y - 360;
+
+        canvas.draw(background, drawX, drawY);
         for(UIButton element : elements){
-            element.draw(canvas);
+            // Draw each element relative to the modal's position
+            element.draw(canvas, drawX + element.getX(), drawY + element.getY());
         }
     }
     public void setActive(boolean isActive){

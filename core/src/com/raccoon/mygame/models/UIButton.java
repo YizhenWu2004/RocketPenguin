@@ -234,4 +234,7 @@ public class UIButton {
         }
     }
 
+    public void draw(GameCanvas canvas, float x, float y) {
+        canvas.draw(new TextureRegion(this.texture),Color.WHITE, this.OX, this.OY, x, y, 0, this.SX, this.SY);
+    }
 }

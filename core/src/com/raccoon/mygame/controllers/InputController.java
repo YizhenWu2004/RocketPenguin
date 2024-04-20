@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.*;
 
 import java.util.*;
@@ -27,6 +28,9 @@ public class InputController {
     private boolean up;
     private boolean down;
     private boolean pause;
+
+    private boolean camUp;
+    private boolean camDown;
 
     public boolean resume_clicked;
 
@@ -56,6 +60,13 @@ public class InputController {
     public boolean getUp() {return up;};
     public boolean getDown() {return down;};
 
+    public boolean getCamUp(){
+        return this.camUp;
+    }
+    public boolean getCamDown(){
+        return this.camDown;
+    }
+
     public boolean getPause() {return pause;}
 
     public float getMouseX(){
@@ -63,6 +74,13 @@ public class InputController {
     }
     public float getMouseY(){
         return Gdx.graphics.getHeight() - Gdx.input.getY(); // Flip Y axis
+    }
+
+    public float getAdjustedMouseX(OrthographicCamera camera){
+        return Gdx.input.getX() + (camera.position.x - camera.viewportWidth / 2);
+    }
+    public float getAdjustedMouseY(OrthographicCamera camera){
+        return (Gdx.graphics.getHeight() - Gdx.input.getY()) + (camera.position.y - camera.viewportHeight / 2); // Flip Y axis
     }
 
 
@@ -139,6 +157,7 @@ public class InputController {
             down = false;
         }
 
+        //huh
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             int mouseX = Gdx.input.getX();
             int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY(); // Invert Y-axis
@@ -150,6 +169,17 @@ public class InputController {
             }
         } else {
             resume_clicked = false;
+        }
+
+        if (Gdx.input.isKeyPressed(Keys.UP)) {
+            camUp = true;
+        } else {
+            up = false;
+        }
+        if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+            down = true;
+        } else {
+            camDown = false;
         }
 
         //15f, 11f, 5f, 1.5f
