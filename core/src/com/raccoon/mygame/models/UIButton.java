@@ -17,6 +17,7 @@ public class UIButton {
     private String id;
     private float width, height;
     private Texture texture;
+    private Texture default_texture;
 
     private boolean isClicked = false;
     private boolean isHovered = false;
@@ -68,6 +69,7 @@ public class UIButton {
         this.texture = texture;
         this.width = texture.getWidth();
         this.height = texture.getHeight();
+        this.default_texture = texture;
     }
 
     /**
@@ -138,6 +140,7 @@ public class UIButton {
     public String getID(){return this.id;}
     public void setSX(float SX) {this.SX = SX;}
     public void setSY(float SY) {this.SY = SY;}
+    public void setTexture(Texture texture){this.texture = texture;}
     public void setOX(float OX) {this.OX = OX;}
     public void setOY(float OY) {this.OY = OY;}
     public void setCOLOR(Color color){this.COLOR = color;}
@@ -152,6 +155,7 @@ public class UIButton {
         this.OY = defaultOY;
         this.SX = defaultSX;
         this.SY = defaultSY;
+        this.texture = default_texture;
     }
     /**
      * Executes the provided lambda method on click.
@@ -162,6 +166,11 @@ public class UIButton {
         if(isClicked && onClickAction != null){
             onClickAction.execute();
         }
+    }
+
+    public void setDefaultScale(float sx, float sy){
+        this.defaultSX = sx;
+        this.defaultSY = sy;
     }
 
     /**
