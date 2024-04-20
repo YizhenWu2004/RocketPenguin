@@ -662,7 +662,9 @@ public class RestaurantController extends WorldController implements ContactList
 
     public void pauseTimer(){
         for(Customer c: customers){
-            c.pat.pauseTimer();
+            //idk why I had to do this
+            if(c.pat != null)
+                c.pat.pauseTimer();
         }
         for(CookingStationObject c : stations){
             if(c.timer!=null) {

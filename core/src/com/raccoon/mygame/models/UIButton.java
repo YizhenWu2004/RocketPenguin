@@ -71,6 +71,7 @@ public class UIButton {
         this.x = x;
         this.y = y;
         this.texture = texture;
+        this.default_texture = texture;
         this.defaultWidth = texture.getWidth();
         this.defaultHeight = texture.getHeight();
         this.width = defaultWidth;
@@ -109,6 +110,8 @@ public class UIButton {
      * @param canvas Canvas to draw the button onto.
      * */
     public void draw(GameCanvas canvas) {
+        if(this.texture == null)
+            return;
         canvas.draw(new TextureRegion(this.texture),Color.WHITE, this.OX, this.OY, this.x, this.y, 0, this.SX, this.SY);
 //        TextureRegion region, Color tint, float ox, float oy,
 //        float x, float y, float angle, float sx, float sy
