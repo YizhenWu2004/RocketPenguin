@@ -60,7 +60,11 @@ public class Player extends BoxObstacle {
 
     public Boolean justDied;
 
+//    public Boolean respawning;
+
     private boolean ignoreInput = false;
+
+    public boolean respawning;
 
     public boolean isIgnoreInput() {
         return ignoreInput;
@@ -107,9 +111,11 @@ public class Player extends BoxObstacle {
         shadowStanding = new Shadow(x,y,1f,1f);
 
         justDied = false;
+        respawning = false;
     }
     public void update(float delta) {
         updateShadow();
+
     }
 
     private void updateShadow() {
@@ -204,8 +210,15 @@ public class Player extends BoxObstacle {
 
         setDirection();
         //not sure why the x offset needs to be 200 for it to look right
-        if(stopDrawing == false)
-            drawSprite(canvas, scaleX*this.getDirection(), scaleY, (float)this.sprite.getRegionWidth()/2, 20);
+        if(stopDrawing == false){
+            if(respawning){
+                drawSprite(canvas, -scaleX*this.getDirection(), scaleY, 0.1f, 7f, true);
+            }
+            else{
+                drawSprite(canvas, scaleX*this.getDirection(), scaleY, (float)this.sprite.getRegionWidth()/2, 20);
+            }
+        }
+
 //        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
         this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){
@@ -223,10 +236,6 @@ public class Player extends BoxObstacle {
 
     public void clearInv() {
         inventory.clearAll();
-    }
-
-    public boolean animationFinished() {
-        return sprite.getFrame() == sprite.getSize() - 1;
     }
 
     public void setPotCookingIn(int pot){

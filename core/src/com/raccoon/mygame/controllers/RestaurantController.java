@@ -74,6 +74,7 @@ public class RestaurantController extends WorldController implements ContactList
     private AnimationController animator;
     private SoundController sounds;
 
+    private float respawnTimer;
 
     Texture light = new Texture("light.png");
 
@@ -278,6 +279,7 @@ public class RestaurantController extends WorldController implements ContactList
         total=9; //hardcoded for now
         //score = 78;
 
+        respawnTimer = -1;
     }
 
     public void setActive(boolean b) {
@@ -329,7 +331,7 @@ public class RestaurantController extends WorldController implements ContactList
 //            t.action_round=true;
     }
 
-        if (active) {
+        if (active && !respawning()) {
             float x = 7f * input.getXMovement();
             float y = 7f * input.getYMovement();
             player.setLinearVelocity(new Vector2(x, y));
@@ -443,14 +445,23 @@ public class RestaurantController extends WorldController implements ContactList
         }
 
         //process the rest of the animations
-        animator.handleAnimation(player, tick);
+        animator.handleAnimation(player, tick, this);
         animator.processCustomers(customers, tick);
         animator.processCookingStations(stations, tick);
 
+        if(player.justDied == true){
+            respawnTimer = 1.6666f;
+            player.justDied = false;
+        }
+        player.respawning = respawning();
 
-
+        respawnTimer = Math.max(respawnTimer-delta,0);
 
         world.step(1 / 60f, 6, 2);
+    }
+
+    public boolean respawning(){
+        return respawnTimer > 0;
     }
 
     private float getYPosOfAnyObject(Object obj){
@@ -698,8 +709,7 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
     public void uponPlayerDeathReset(){
-        player.setPosition(0, 8f);
-//        player.justDied = false;
+        player.setPosition(7.5f, 8.5f);
     }
 
     public void setPlayerJustDied(boolean v){

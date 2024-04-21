@@ -133,7 +133,16 @@ public class AnimationController {
      * @param o Player to animate
      * @param delta Deltatime to update the animation frame
      * */
-    public void handleAnimation(Player o, float delta){
+    public void handleAnimation(Player o, float delta, RestaurantController r){
+        if(r.respawning()){
+            System.out.println("HEHE");
+            o.setFilmStrip(kickedOutReturn);
+            o.setIgnoreInput(true);
+            o.justDied = false;
+            o.updateAnimation(delta);
+            return;
+        }
+
         //This is pretty self-explanatory.
         if(o.playerIsCooking && o.potCookingIn == 2){
             o.setFilmStrip(playerChop);
@@ -169,23 +178,68 @@ public class AnimationController {
             o.setFilmStrip(playerIdle);
         }
 
-        if(o.justDied){
-            o.setFilmStrip(kickedOutReturn);
-            o.setIgnoreInput(true);
-            o.justDied = false;
-        }
+//        if(o.isIgnoreInput() && !o.animationFinished()){
+//            System.out.println("HOHO");
+//            o.updateAnimation(delta);
+//            return;
+//        }
+//
+//        if(o.isIgnoreInput() && o.animationFinished()){
+//            o.setIgnoreInput(false);
+//        }
 
-        if(o.isIgnoreInput() && !o.animationFinished()){
+        o.updateAnimation(delta);
+    }
+
+    public void handleAnimation(Player o, float delta, StoreController s){
+        //This is pretty self-explanatory.
+        if(o.playerIsCooking && o.potCookingIn == 2){
+            o.setFilmStrip(playerChop);
+            o.updateAnimation(delta);
+            return;
+        }
+        if(o.playerIsCooking){
+            o.setFilmStrip(playerCook);
+            //if you are planning on returning, you must make sure you advance the animation beforehand
+            o.updateAnimation(delta);
+            //you will want to return if you want to "prioritize" an animation
+            //for example this is cooking, if the player is cooking I don't want to check for any other animations
+            return;
+        }
+        //you can understand the rest.
+        if((o.dishInventory.leftFilled() && (o.getVX() !=0 || o.getVY()!=0)) || (o.dishInventory.rightFilled() && (o.getVX()!=0 || o.getVY()!=0))){
+            o.setFilmStrip(playerServe);
+            o.updateAnimation(delta);
+            return;
+        } else if((o.dishInventory.leftFilled() && o.getVX() ==0 && o.getVY()==0) || (o.dishInventory.rightFilled() && o.getVX()==0 && o.getVY()==0)){
+            o.setFilmStrip(playerServeIdle);
             o.updateAnimation(delta);
             return;
         }
 
-        if(o.isIgnoreInput() && o.animationFinished()){
-            o.setIgnoreInput(false);
+        if((input.getYMovement()!=0 || input.getXMovement()!=0) && o.current == 1){
+            o.setFilmStrip(playerSneak);
         }
+        else if(input.getYMovement()!=0 || input.getXMovement()!=0){
+            o.setFilmStrip(playerWalk);
+        }
+        else{
+            o.setFilmStrip(playerIdle);
+        }
+
+//        if(o.isIgnoreInput() && !o.animationFinished()){
+//            System.out.println("HOHO");
+//            o.updateAnimation(delta);
+//            return;
+//        }
+//
+//        if(o.isIgnoreInput() && o.animationFinished()){
+//            o.setIgnoreInput(false);
+//        }
 
         o.updateAnimation(delta);
     }
+
     /**
      * Handles the animation for a guard
      * Functions similarly to every other handleAnimation method

@@ -289,7 +289,7 @@ public class StoreController extends WorldController implements ContactListener 
         player.update(delta);
 
         animator.processGuards(guards, delta);
-        animator.handleAnimation(player, delta);
+        animator.handleAnimation(player, delta, this);
     }
 
     private float getYPosOfAnyObject(Object obj){
@@ -524,5 +524,9 @@ public class StoreController extends WorldController implements ContactListener 
         p.playerIsVenting = true;
         o.ventTimer = new Worldtimer((int) o.maxTime, canvas);
         o.ventTimer.create();
+    }
+
+    public boolean respawning(){
+        return false;
     }
 }

@@ -879,6 +879,21 @@ public abstract class SimpleObstacle extends Obstacle {
     }
 
     /**
+     * overload function specifically for draw respawn
+     * @param canvas
+     * @param scaleX
+     * @param scaleY
+     * @param x
+     * @param y
+     */
+    public void drawSprite(GameCanvas canvas, float scaleX, float scaleY, float x, float y, boolean filler) {
+        //System.out.println(origin.x+" "+origin.y);
+        if (sprite != null) {
+            canvas.draw(this.sprite,Color.WHITE,origin.x,origin.y,x*drawScale.x,y*drawScale.y,getAngle(),scaleX,scaleY);
+        }
+    }
+
+    /**
      * Returns the Box2D body for this object.
      * <p>
      * You use this body to add joints and apply forces.
