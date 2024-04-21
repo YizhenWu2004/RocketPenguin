@@ -42,8 +42,13 @@ public class LevelSelectController extends WorldController{
 
     //set this if we want to go to a level. idk we only have one level
     private boolean goToLevel = false;
+
+    private int levelToGoTo = 0;
+
     //If one modal is active, we set this to true.
     private boolean aModalIsActive = false;
+
+    private LevelLoader loader;
 
     /**
      * Creates a new level select controller
@@ -51,58 +56,60 @@ public class LevelSelectController extends WorldController{
      * @param canvas Canvas to draw with
      * @param input InputController to use
      * */
-    public LevelSelectController(GameCanvas canvas, InputController input){
+    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader){
         this.canvas = canvas;
         this.input = input;
 
-        constructBooklet("1");
-        constructBooklet("2");
-        constructBooklet("3");
-
-        //level one button
-        UIButton levelOneButton = new UIButton(new Texture("menu/levelbooklet.png"),"level1",10,30,0.8f,0.8f,canvas);
-        //The addbutton method has many overloads. Please see them below.
-        addButton(levelOneButton,
-                ()-> {
-//          //on click
-            System.out.println(levelOneButton.getID());
-            findModalOfID("1").setActive(true);
-                    },
-                ()->{
-            //on hover
-            levelOneButton.setSX(0.9f);
-            levelOneButton.setSY(0.9f);
-        }, ()->{
-            //on un-hover
-            levelOneButton.resetStyleProperties();
-        }
-
-
-        );
-
-        UIButton levelTwoButton = new UIButton(new Texture("menu/levelbooklet.png"),"level2",420,30,0.8f,0.8f,canvas);
-        addButton(levelTwoButton, ()-> {
-            //on click
-                    System.out.println(levelOneButton.getID());
-                    findModalOfID("2").setActive(true);
-        },()->{
-            //on hover
-                    levelTwoButton.setSX(0.9f);
-                    levelTwoButton.setSY(0.9f);
-        }, levelTwoButton::resetStyleProperties //on un-hover
-        );
-
-        UIButton levelThreeButton = new UIButton(new Texture("menu/levelbooklet.png"),"level3",840,30,0.8f,0.8f,canvas);
-        addButton(levelThreeButton, ()-> {
-            //on click
-                    System.out.println(levelOneButton.getID());
-                    findModalOfID("3").setActive(true);
-        },()->{
-            //on hover
-            levelThreeButton.setSX(0.9f);
-            levelThreeButton.setSY(0.9f);
-        }, levelThreeButton::resetStyleProperties //on un-hover
-        );
+//        constructBooklet("1");
+//        constructBooklet("2");
+//        constructBooklet("3");
+//
+//        //level one button
+//        UIButton levelOneButton = new UIButton(new Texture("menu/levelbooklet.png"),"level1",10,30,0.8f,0.8f,canvas);
+//        //The addbutton method has many overloads. Please see them below.
+//        addButton(levelOneButton,
+//                ()-> {
+////          //on click
+//            System.out.println(levelOneButton.getID());
+//            findModalOfID("1").setActive(true);
+//                    },
+//                ()->{
+//            //on hover
+//            levelOneButton.setSX(0.9f);
+//            levelOneButton.setSY(0.9f);
+//        }, ()->{
+//            //on un-hover
+//            levelOneButton.resetStyleProperties();
+//        }
+//
+//
+//        );
+//
+//        UIButton levelTwoButton = new UIButton(new Texture("menu/levelbooklet.png"),"level2",420,30,0.8f,0.8f,canvas);
+//        addButton(levelTwoButton, ()-> {
+//            //on click
+//                    System.out.println(levelOneButton.getID());
+//                    findModalOfID("2").setActive(true);
+//        },()->{
+//            //on hover
+//                    levelTwoButton.setSX(0.9f);
+//                    levelTwoButton.setSY(0.9f);
+//        }, levelTwoButton::resetStyleProperties //on un-hover
+//        );
+//
+//        UIButton levelThreeButton = new UIButton(new Texture("menu/levelbooklet.png"),"level3",840,30,0.8f,0.8f,canvas);
+//        addButton(levelThreeButton, ()-> {
+//            //on click
+//                    System.out.println(levelOneButton.getID());
+//                    findModalOfID("3").setActive(true);
+//        },()->{
+//            //on hover
+//            levelThreeButton.setSX(0.9f);
+//            levelThreeButton.setSY(0.9f);
+//        }, levelThreeButton::resetStyleProperties //on un-hover
+//        );
+        System.out.println(loader.getLevels().size);
+        generateLevelSelectors(loader.getLevels().size);
 
     }
 
@@ -286,6 +293,7 @@ public class LevelSelectController extends WorldController{
         }
     }
     public void constructBooklet(String id){
+        int num = Integer.parseInt(id);
         //this is the modal for when you click on an individual level entry
         //mostly just for testing now
         Modal selectModal = new Modal(id, 125, 75, new Texture("menu/modalbackground.png"));
@@ -298,14 +306,18 @@ public class LevelSelectController extends WorldController{
         back.setOnUnhoverAction(()->{back.resetStyleProperties();});
 
         UIButton start = new UIButton(new Texture("menu/start.png"), "start", 650, 75, 0.5f, 0.5f,canvas);
-        start.setOnClickAction(()->{selectModal.setActive(false);this.goToLevel= true;});
+        start.setOnClickAction(()->{selectModal.setActive(false);this.goToLevel=true;this.setLevelToGoTo(num);});
         start.setOnHoverAction(()->{start.setSX(0.6f);start.setSY(0.6f);});
         start.setOnUnhoverAction(()->{start.resetStyleProperties();});
+
+        UIButton dayNumber = createNumberElement(num,270, 415, 0.5f, 0.5f);
+        dayNumber.setCOLOR(Color.BLACK);
 
         //add the buttons to the modal thingy to the modal
         selectModal.addElement(booklet);
         selectModal.addElement(back);
         selectModal.addElement(start);
+        selectModal.addElement(dayNumber);
         //add modal to the list of modals.
         modals.add(selectModal);
     }
@@ -319,5 +331,50 @@ public class LevelSelectController extends WorldController{
         }
         //fake modal
         return new Modal("-1", 0,0,new Texture("menu/filledstar.png"));
+    }
+
+    private void generateLevelSelectors(int numberOfLevels){
+        for(int i = 0; i <= numberOfLevels; i++){
+            String is = Integer.toString(i);
+
+            //level one button
+            UIButton levelButton = new UIButton(new Texture("menu/levelbooklet.png"),is,10 + (i*400),30,0.8f,0.8f,canvas);
+            //The addbutton method has many overloads. Please see them below.
+            addButton(levelButton,
+                    ()-> {
+//          //on click
+                        System.out.println(levelButton.getID());
+                        findModalOfID(is).setActive(true);
+                    },
+                    ()->{
+                        //on hover
+                        levelButton.setSX(0.9f);
+                        levelButton.setSY(0.9f);
+                    }, ()->{
+                        //on un-hover
+                        levelButton.resetStyleProperties();
+                    }
+            );
+
+            constructBooklet(is);
+        }
+    }
+
+    //for modal
+    private UIButton createNumberElement(int num, int x, int y, float sx, float sy){
+        String is = Integer.toString(num);
+        //270, 415, 0.5f, 0.5f
+        UIButton number = new UIButton(new Texture("menu/" + is + ".png"),is + "num", x, y, sx,sy,canvas);
+        return number;
+    }
+
+    private void goToLevel(StoreController store, int level, Inventory inv){
+        store.setLevel(loader.getLevels().get(level), inv);
+    }
+    private void setLevelToGoTo(int level){
+        this.levelToGoTo = level;
+    }
+    public int getLevelToGoTo(){
+        return this.levelToGoTo;
     }
 }

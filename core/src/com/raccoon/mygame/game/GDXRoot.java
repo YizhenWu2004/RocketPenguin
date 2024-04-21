@@ -69,6 +69,8 @@ public class GDXRoot extends Game implements ScreenListener {
 
     private Vector2 velCache;
 
+    private int levelToGoTo = 0;
+
 
     /**
      * Creates a new game from the configuration settings.
@@ -95,6 +97,7 @@ public class GDXRoot extends Game implements ScreenListener {
     MenuController pause;
 
     ResultController result;
+    Inventory inv;
 
     int current; // 0 = restaurant, 1 = store, 2 = result
     public boolean isPaused;
@@ -109,14 +112,14 @@ public class GDXRoot extends Game implements ScreenListener {
 
         loader = new LevelLoader(canvas);
 
-        Inventory inv = new Inventory(new Texture("720/inventorynew.png"));
+        inv = new Inventory(new Texture("720/inventorynew.png"));
         restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
         store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         store.setLevel(loader.getLevels().get(0), inv);
 
         pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
         result = new ResultController(canvas, new Texture("result/result_final.png"),input);
-        levelselect = new LevelSelectController(canvas, input);
+        levelselect = new LevelSelectController(canvas, input, loader);
         mainmenu = new MainMenuController(canvas,input);
 
         /*
@@ -139,14 +142,14 @@ public class GDXRoot extends Game implements ScreenListener {
 
         loader = new LevelLoader(canvas);
 
-        Inventory inv = new Inventory(new Texture("720/inventorynew.png"));
+        inv = new Inventory(new Texture("720/inventorynew.png"));
         restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
         store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         store.setLevel(loader.getLevels().get(0), inv);
 
         pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
         result = new ResultController(canvas, new Texture("result/result_final.png"),input);
-        levelselect = new LevelSelectController(canvas, input);
+        levelselect = new LevelSelectController(canvas, input, loader);
         mainmenu = new MainMenuController(canvas,input);
         current = 0;
         isPaused = false;
@@ -230,8 +233,10 @@ public class GDXRoot extends Game implements ScreenListener {
             restaurant.setActive(false);
             store.setActive(false);
             if(levelselect.checkForGoToLevel()){
+                this.levelToGoTo = levelselect.getLevelToGoTo();
                 restart();
-                current = 0;
+                System.out.println(levelToGoTo + "level to go to");
+                store.setLevel(loader.getLevels().get(levelToGoTo),this.inv);
             }
             levelselect.setGoToLevel(false);
             return;

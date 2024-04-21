@@ -89,7 +89,7 @@ public class Inventory {
     //drops the object in the current selected slot if there is an object
     public void drop() {
         if (filled[selected] = false) {
-            System.out.println("cannot drop item at this slot");
+//            System.out.println("cannot drop item at this slot");
         }
         filled[selected] = false;
     }
