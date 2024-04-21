@@ -24,6 +24,9 @@ public class AnimationController {
     private final FilmStrip playerServe;
     private final FilmStrip playerServeIdle;
     private final FilmStrip playerCook;
+    private final FilmStrip playerChop;
+    private final FilmStrip playerSneak;
+    private final FilmStrip playerKickedOut;
 
     private final FilmStrip goatWalk;
     private final FilmStrip goatIdle;
@@ -45,10 +48,22 @@ public class AnimationController {
     private final FilmStrip gooseWalkUp;
     private final FilmStrip gooseIdle;
     private final FilmStrip gooseChase;
+    private final FilmStrip gooseCatch;
+    private final FilmStrip gooseSleep;
+    private final FilmStrip gooseSleepIdle;
+    private final FilmStrip gooseWake;
 
     private final FilmStrip ventIn;
     private final FilmStrip ventOut;
     private final FilmStrip ventIdle;
+
+    private FilmStrip wokIdle;
+    private FilmStrip wokSizzle;
+
+    private FilmStrip potIdle;
+    private FilmStrip potSizzle;
+//    private final FilmStrip potSizzle;
+//    private final FilmStrip panSizzle;
 
 
     private InputController input;
@@ -66,6 +81,9 @@ public class AnimationController {
         playerServe = new FilmStrip(new Texture("720/rockodish.png"), 1, 4, 4);
         playerServeIdle = new FilmStrip(new Texture("720/rockodishidle.png"),1,1,1);
         playerCook = new FilmStrip(new Texture("720/rockocook.png"),1,5,5);
+        playerChop = new FilmStrip(new Texture("720/rockochop.png"), 2,5,9);
+        playerKickedOut = new FilmStrip(new Texture("720/rockokickedout.png"),4,5,20);
+        playerSneak = new FilmStrip(new Texture("720/rockosneak.png"),1,8,8);
 
         goatWalk = new FilmStrip(new Texture("720/goatwalk.png"), 1, 4, 4);
         goatIdle = new FilmStrip(new Texture("720/goatsit.png"), 1,1,1);
@@ -87,10 +105,21 @@ public class AnimationController {
         gooseWalkUp = new FilmStrip(new Texture("720/goosewalkup.png"),1,6,6);
         gooseIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
         gooseChase = new FilmStrip(new Texture("720/goosechase.png"),1,6,6);
+        gooseCatch = new FilmStrip(new Texture("720/rockocaught.png"),1,4,4);
+        gooseSleepIdle = new FilmStrip(new Texture("720/goosesleepidle.png"),1,1,1);
+        gooseSleep = new FilmStrip(new Texture("720/goosesleep.png"),1,7,7);
+        gooseWake = new FilmStrip(new Texture("720/goosewake.png"),1,7,7);
 
         ventIdle = new FilmStrip(new Texture("720/vent.png"),1,1,1);
         ventIn = new FilmStrip(new Texture("720/rockoventin.png"),3,4,12);
         ventOut = new FilmStrip(new Texture("720/rockoventout.png"),4,3,12);
+
+        wokSizzle = new FilmStrip(new Texture("720/pansizzle.png"),4,5,20);
+        wokIdle = new FilmStrip(new Texture("wok.png"),1,1,1);
+
+        potSizzle = new FilmStrip(new Texture("720/potsizzle.png"),2,4,8);
+        potIdle = new FilmStrip(new Texture("pot.png"),1,1,1);
+
     }
 
     //all instances of handleAnimation must be called in the update loop of a given WorldController.
@@ -104,6 +133,11 @@ public class AnimationController {
      * */
     public void handleAnimation(Player o, float delta){
         //This is pretty self-explanatory.
+        if(o.playerIsCooking && o.potCookingIn == 2){
+            o.setFilmStrip(playerChop);
+            o.updateAnimation(delta);
+            return;
+        }
         if(o.playerIsCooking){
             o.setFilmStrip(playerCook);
             //if you are planning on returning, you must make sure you advance the animation beforehand
@@ -122,7 +156,11 @@ public class AnimationController {
             o.updateAnimation(delta);
             return;
         }
-        if(input.getYMovement()!=0 || input.getXMovement()!=0){
+
+        if((input.getYMovement()!=0 || input.getXMovement()!=0) && o.current == 1){
+            o.setFilmStrip(playerSneak);
+        }
+        else if(input.getYMovement()!=0 || input.getXMovement()!=0){
             o.setFilmStrip(playerWalk);
         }
         else{
@@ -138,6 +176,11 @@ public class AnimationController {
      * @param delta The deltatime to update animation frames with
      * */
     public void handleAnimation(Guard o, float delta){
+        if(o.getAIController().getCurrentState() == GuardAIController.AIState.SLEEP){
+            o.setFilmStrip(gooseSleepIdle);
+            o.updateAnimation(delta);
+            return;
+        }
         if(o.getAIController().getCurrentState() == GuardAIController.AIState.CHASE){
             o.setFilmStrip(gooseChase);
             o.updateAnimation(delta);
@@ -238,6 +281,35 @@ public class AnimationController {
     public void processCustomers(Array<Customer> customers, float delta){
         for (Customer c: customers) {
             handleAnimation(c, delta);
+        }
+    }
+    public void handleAnimation(CookingStationObject o,float delta){
+        //wok = 0
+        //pot = 1
+        //chop = 2
+
+        if(o.getStationType() == 0 && o.timer != null){
+            if(o.timer.getTime() <= 0){
+                o.wok.setFilmStrip(wokIdle);
+            }
+            else{o.wok.setFilmStrip(wokSizzle);}
+        }
+
+        if(o.getStationType() == 1 && o.timer != null){
+            if(o.timer.getTime() <= 0){
+                o.pott.setFilmStrip(potIdle);
+            }
+            else{
+                o.pott.setFilmStrip(potSizzle);
+            }
+        }
+
+        o.pott.updateAnimation();
+        o.wok.updateAnimation();
+    }
+    public void processCookingStations(Array<CookingStationObject> stations, float delta){
+        for(CookingStationObject o: stations){
+            handleAnimation(o, delta);
         }
     }
     /**

@@ -66,8 +66,8 @@ public class LevelModel {
     }
 
     private void addGuard(float x, float y, boolean sleep, Array<Vector2> nodes) {
-        System.out.println(sleep);
-        System.out.println(nodes.size);
+//        System.out.println(sleep);
+//        System.out.println(nodes.size);
         guards.add(new Guard(x, y, 1.67f, 0.83f, guardIdle, storeWorld, canvas,
                 (sleep? enums.PatrolDirection.SLEEP_WAKE : enums.PatrolDirection.UP_DOWN),collisionLayer,
                 (sleep ? new Array<>() : nodes), GuardAIController.GuardOrientation.LEFT));

@@ -112,7 +112,7 @@ public class UIButton {
     public void draw(GameCanvas canvas) {
         if(this.texture == null)
             return;
-        canvas.draw(new TextureRegion(this.texture),Color.WHITE, this.OX, this.OY, this.x, this.y, 0, this.SX, this.SY);
+        canvas.draw(new TextureRegion(this.texture),COLOR, this.OX, this.OY, this.x, this.y, 0, this.SX, this.SY);
 //        TextureRegion region, Color tint, float ox, float oy,
 //        float x, float y, float angle, float sx, float sy
     }
@@ -239,6 +239,6 @@ public class UIButton {
     }
 
     public void draw(GameCanvas canvas, float x, float y) {
-        canvas.draw(new TextureRegion(this.texture),Color.WHITE, this.OX, this.OY, x, y, 0, this.SX, this.SY);
+        canvas.draw(new TextureRegion(this.texture),COLOR, this.OX, this.OY, x, y, 0, this.SX, this.SY);
     }
 }

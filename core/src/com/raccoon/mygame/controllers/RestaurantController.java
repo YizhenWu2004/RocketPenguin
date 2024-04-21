@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.models.Pot;
 import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
@@ -59,6 +60,8 @@ public class RestaurantController extends WorldController implements ContactList
     public int angry;
     public int total;
 
+    public int current = -3;
+
 
     //Default filmstrips.
     //We need these because the constructors of these objects require a texture (Filmstrip)
@@ -70,6 +73,7 @@ public class RestaurantController extends WorldController implements ContactList
     //The animation controller in question.
     private AnimationController animator;
     private SoundController sounds;
+
 
     Texture light = new Texture("light.png");
 
@@ -136,6 +140,7 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer) {
+
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
@@ -296,6 +301,7 @@ public class RestaurantController extends WorldController implements ContactList
         //We will use this deltatime to update animation frames
         float delta = Gdx.graphics.getDeltaTime();
         player.update(delta);
+        player.current = this.current;
 
         if ((t.getTime() == 178 || t.getTime() == 176 ||t.getTime() == 130|| t.getTime() == 128 || t.getTime() ==126 || t.getTime() ==80 || t.getTime() == 78 || t.getTime() == 76) && !t.action_round){
             Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
@@ -438,6 +444,8 @@ public class RestaurantController extends WorldController implements ContactList
         //process the rest of the animations
         animator.handleAnimation(player, tick);
         animator.processCustomers(customers, tick);
+        animator.processCookingStations(stations, tick);
+
 
 
 
@@ -553,11 +561,13 @@ public class RestaurantController extends WorldController implements ContactList
             CookingStationObject obj = (CookingStationObject) body2.getUserData();
             obj.interacting = true;
             obj.interacting_with = obj.id;
+            ((Player) body1.getUserData()).setPotCookingIn(obj.getStationType());
         }
         else if (body1.getUserData() instanceof CookingStationObject && body2.getUserData() instanceof Player){
             CookingStationObject obj = (CookingStationObject) body1.getUserData();
             obj.interacting = true;
             obj.interacting_with = obj.id;
+            ((Player) body1.getUserData()).setPotCookingIn(obj.getStationType());
         }
 
 

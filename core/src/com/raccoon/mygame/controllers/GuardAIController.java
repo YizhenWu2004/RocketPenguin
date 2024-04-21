@@ -348,7 +348,7 @@ public class GuardAIController extends ScreenAdapter {
         } else if (pathMiddle.size != 0) {
             return pathMiddle;
         } else {
-            System.out.println("OOPS");
+//            System.out.println("OOPS");
             return new Array<Vector2>();
         }
     }
