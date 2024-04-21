@@ -155,6 +155,7 @@ public class GDXRoot extends Game implements ScreenListener {
         mainmenu.on_main = true;
         current = 0;
         isPaused = false;
+        star_req = new int[]{50,75,100};
     }
 
 
