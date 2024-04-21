@@ -7,6 +7,8 @@ import com.raccoon.mygame.controllers.Worldtimer;
 import com.raccoon.mygame.models.CookingInventory;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.models.Pot;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 import java.awt.Canvas;
 import java.util.Arrays;
@@ -22,13 +24,17 @@ public class CookingStationObject extends NormalObstacle{
     public int interacting_with;
     public Worldtimer timer;
     public int maxTime;
-    private Texture wok_pic =new Texture("wok.png");
-    private Texture pot_pic = new Texture("pot.png");
-    private Texture chop_pic = new Texture("cutting_board.png");
+    private FilmStrip wok_pic =new FilmStrip(new Texture("wok.png"),1,1,1);
+    private FilmStrip pot_pic = new FilmStrip(new Texture("pot.png"),1,1,1);
+    private FilmStrip chop_pic = new FilmStrip(new Texture("cutting_board.png"),1,1,1);
     public float drawox=0;
     public float drawoy=0;
     public float x;
     public float y;
+
+    private Pot wok;
+    private Pot pott;
+    private Pot chop;
 
 //    private Expression spaceIcon;
 
@@ -46,6 +52,12 @@ public class CookingStationObject extends NormalObstacle{
         this.station_type = station_type;
         this.x = x;
         this.y = y;
+
+        wok = new Pot(0,wok_pic, 40, 30, this.x * this.drawScale.x-28,this.y * this.drawScale.y,1f,1f);
+        pott = new Pot(1, pot_pic,50, 5,
+                this.x*this.drawScale.x,this.y*this.drawScale.y, 1f, 1f);
+        chop = new Pot(2,chop_pic, 35, 50,
+                this.x * this.drawScale.x, this.y * this.drawScale.y, 1f, 1f);
 //        spaceIcon = new Expression("space",x,y);
 
     }
@@ -61,16 +73,19 @@ public class CookingStationObject extends NormalObstacle{
     public void draw() {
         super.drawWithOffset(drawox, drawoy);
         if(station_type == 0) {
-            canvas.draw(wok_pic, Color.WHITE, 40, 30,
-                    this.getX() * this.getDrawScale().x-28, this.getY() * this.getDrawScale().y,
-                    0.0f, 1f, 1f);
+//            canvas.draw(wok_pic, Color.WHITE, 40, 30,
+//                    this.getX() * this.getDrawScale().x-28, this.getY() * this.getDrawScale().y,
+//                    0.0f, 1f, 1f);
+            wok.draw(canvas);
         }else if(station_type == 1){
-            canvas.draw(pot_pic, Color.WHITE, 50, 5,
-                    this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y, 0.0f, 1f, 1f);
+//            canvas.draw(pot_pic, Color.WHITE, 50, 5,
+//                    this.getX()*this.getDrawScale().x,this.getY()*this.getDrawScale().y, 0.0f, 1f, 1f);
+            pott.draw(canvas);
         } else {
-            canvas.draw(chop_pic, Color.WHITE, 35, 50,
-                    this.getX() * this.getDrawScale().x, this.getY() * this.getDrawScale().y,
-                    0.0f, 1f, 1f);
+//            canvas.draw(chop_pic, Color.WHITE, 35, 50,
+//                    this.getX() * this.getDrawScale().x, this.getY() * this.getDrawScale().y,
+//                    0.0f, 1f, 1f);
+            chop.draw(canvas);
         }
         if(timer != null){
             timer.drawNoFormat(this.getX()*this.drawScale.x, this.getY()*this.drawScale.y);
@@ -93,5 +108,12 @@ public class CookingStationObject extends NormalObstacle{
         return this.maxTime;
     }
 
-    
+    /**
+     * 0 - wok
+     * 1 - pot
+     * 2 - board
+     * */
+    public int getStationType() {
+        return station_type;
+    }
 }

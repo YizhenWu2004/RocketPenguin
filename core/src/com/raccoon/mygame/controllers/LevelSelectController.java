@@ -17,11 +17,12 @@ import java.awt.*;
  * */
 public class LevelSelectController extends WorldController{
     //the background background
-    private Texture background = new Texture("menu/levelselectbackground.png");
+    private final Texture background = new Texture("menu/levelselectbackground.png");
+    private final Texture backgroundBlank = new Texture("menu/levelselectbackgroundblank.png");
     //canvas to draw onto
     private GameCanvas canvas;
     //input controller to use
-    private InputController input;
+    private final InputController input;
 
     private final ScrollController scroller = new ScrollController();
 
@@ -141,15 +142,15 @@ public class LevelSelectController extends WorldController{
         //draw the background background. Might have to change this later.
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 0.7f, 0.7f);
-        canvas.draw(background, Color.WHITE, 0, 0,
+        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
                 0, -720, 0.0f, 0.7f, 0.7f);
-        canvas.draw(background, Color.WHITE, 0, 0,
+        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
                 0, -1440, 0.0f, 0.7f, 0.7f);
-        canvas.draw(background, Color.WHITE, 0, 0,
+        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
                 0, -2160, 0.0f, 0.7f, 0.7f);
-        canvas.draw(background, Color.WHITE, 0, 0,
+        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
                 0, -2880, 0.0f, 0.7f, 0.7f);
-        canvas.draw(background, Color.WHITE, 0, 0,
+        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
                 0, -3600, 0.0f, 0.7f, 0.7f);
 
         //for every button in this scene (excluding those within a modal)

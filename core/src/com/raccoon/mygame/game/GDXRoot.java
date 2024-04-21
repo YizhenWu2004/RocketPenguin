@@ -208,6 +208,8 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
+        store.current = this.current;
+        restaurant.current = this.current;
         input.readInput();
         if(current == -2){
             mainmenu.update();
@@ -223,7 +225,6 @@ public class GDXRoot extends Game implements ScreenListener {
             return;
         }
         if(current == -1) {
-
             levelselect.update();
             w.pauseTimer();
             restaurant.setActive(false);

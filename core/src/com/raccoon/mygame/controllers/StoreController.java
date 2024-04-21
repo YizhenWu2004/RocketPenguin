@@ -64,6 +64,9 @@ public class StoreController extends WorldController implements ContactListener 
 
     private AnimationController animator;
 
+    public int current = -3;
+
+
 
 
 //    public boolean totalReset = false;
@@ -227,6 +230,7 @@ public class StoreController extends WorldController implements ContactListener 
 //        }
 
         float delta = Gdx.graphics.getDeltaTime();
+        player.current = this.current;
         if (playerGuardCollide) {
             player.setPosition(0, 0);
             player.clearInv();
