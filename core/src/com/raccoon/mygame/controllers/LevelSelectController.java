@@ -334,7 +334,7 @@ public class LevelSelectController extends WorldController{
     }
 
     private void generateLevelSelectors(int numberOfLevels){
-        for(int i = 0; i <= numberOfLevels; i++){
+        for(int i = 0; i < numberOfLevels; i++){
             String is = Integer.toString(i);
 
             //level one button
