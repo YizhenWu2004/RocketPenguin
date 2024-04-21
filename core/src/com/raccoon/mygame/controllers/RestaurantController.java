@@ -187,12 +187,12 @@ public class RestaurantController extends WorldController implements ContactList
         score = 0;
 
         tables = new Array();
-        addTable(16f, 11f, false);
-        addTable(16f, 5f, true);
-        addTable(10.25f, 11f, true);
-        addTable(10.25f, 5f, false);
-        addTable(4.5f, 11f, false);
-        addTable(4.5f, 5f, true);
+        addTable(17.5f, 12f, false);
+        addTable(17.5f, 4f, true);
+        addTable(10.25f, 12f, true);
+        addTable(10.25f, 4f, false);
+        addTable(3f, 12f, false);
+        addTable(3f, 4f, true);
 
 
         //System.out.println(tables.size);

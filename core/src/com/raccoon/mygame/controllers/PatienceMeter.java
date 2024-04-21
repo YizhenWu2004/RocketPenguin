@@ -101,7 +101,7 @@ public class PatienceMeter extends ApplicationAdapter{
             gameCanvas.draw(currentHollow, Color.WHITE, 0, 0,
                     customer.getX() * scalex + 30, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
 
-            gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex+55, customer.getY() * scaley + 10, 2, 2, layout);
+//            gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex+55, customer.getY() * scaley + 10, 2, 2, layout);
         }
         else{
             gameCanvas.draw(pmGrey, Color.WHITE, 0, 0,
@@ -113,7 +113,7 @@ public class PatienceMeter extends ApplicationAdapter{
             gameCanvas.draw(currentHollow, Color.WHITE, 0, 0,
                     customer.getX() * scalex - 60- additionalX*2, customer.getY() * scaley + 10, 0.0f, 0.25f, 0.25f);
 
-            gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex-55, customer.getY() * scaley + 10, 2, 2, layout);
+//            gameCanvas.drawText(Integer.toString(countdownSeconds), f, customer.getX() * scalex-55, customer.getY() * scaley + 10, 2, 2, layout);
         }
     }
 
