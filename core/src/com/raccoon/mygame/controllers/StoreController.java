@@ -39,7 +39,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     private Array<Float> guardY;
 
-    private VentObstacle vent1;
+    public VentObstacle vent1;
     private boolean ventCollision;
 
     private int globalIndex = 1;

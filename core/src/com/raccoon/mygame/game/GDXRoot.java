@@ -224,7 +224,7 @@ public class GDXRoot extends Game implements ScreenListener {
             }
             return;
         }
-        if(current == -1) {
+        else if(current == -1) {
 
             levelselect.update();
             w.pauseTimer();
@@ -239,12 +239,12 @@ public class GDXRoot extends Game implements ScreenListener {
         }
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
-        if(w.getTime() <= 0 ){
+        else if(w.getTime() <= 0 ){
             current = 2;
 //            restaurant.setActive(false);
 //            store.setActive(false);
         }
-        if (current == 2){
+        else if (current == 2){
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
             result.update();
             if (result.retry){
@@ -259,13 +259,13 @@ public class GDXRoot extends Game implements ScreenListener {
             return;
         }
         //System.out.println(isPaused);
-      if(input.getPause() && (current == 0||current == 1)){
+      else if(input.getPause() && (current == 0||current == 1)){
           isPaused = true;
           w.pauseTimer();
           restaurant.pauseTimer();
           pause.on_pause = true;
       }
-      if(isPaused){
+      else if(isPaused){
           pause.update();
           if(pause.resume){
               isPaused = false;
@@ -283,36 +283,33 @@ public class GDXRoot extends Game implements ScreenListener {
 
           }
       }
-      if (!isPaused) {
+      else if (!isPaused) {
           if (w.timerPaused) {
               w.resumeTimer();
               restaurant.startTimer();
           }
-          if (store.playerJustDied) {
+          else if (current == 1 && store.playerJustDied) {
+              //todo play kickedOutReturn
               current = 0;
-//            store.totalReset = true;
-//           store.guardTotalReset();
               store.guardWanderReset();
               store.playerJustDied = false;
+              restaurant.uponPlayerDeathReset();
+              restaurant.setPlayerJustDied(true);
           }
-          if (store.getVentCollision()) {
-              if (current == 1) {
-                  current = 0;
-                  store.guardWanderReset();
-//            store.guardTotalReset();
-//            store.totalReset = true;
-              } else {
-                  current = 1;
-              }
+          else if (store.getVentCollision() && current == 1) {
+              //previous implementation considers when current == 0, which i dont think is
+              //necessary - olivia
+              current = 0;
+              store.guardWanderReset();
               store.setVentCollision(false);
               restaurant.onSet();
           }
-          if (restaurant.getVentCollision()) {
+          else if (restaurant.getVentCollision()) {
               current = current == 0 ? 1 : 0;
               restaurant.setVentCollision(false);
               store.onSet();
           }
-          if (current == 0) {
+          else if (current == 0) {
               canvas.getCamera().position.y = 360;
               canvas.getCamera().update();
 
@@ -325,9 +322,7 @@ public class GDXRoot extends Game implements ScreenListener {
               restaurant.setActive(false);
               store.setActive(true);
           }
-          //System.out.println("updating store");
           store.update();
-          //System.out.println("updating resturant");
           restaurant.update();
 
           if (input.getReset()) {

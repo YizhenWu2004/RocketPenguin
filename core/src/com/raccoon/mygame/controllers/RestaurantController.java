@@ -243,8 +243,9 @@ public class RestaurantController extends WorldController implements ContactList
         for (Customer c : customers) {
             c.setFilterData(f);
         }
-        this.input = input;
-
+        if (!player.isIgnoreInput()) {
+            this.input = input;
+        }
         vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1) ,world, canvas);
         localStartingPos = new Vector2(vent1.getX()-2.3f, vent1.getY());
         drawableObjects.add(vent1);
@@ -684,5 +685,18 @@ public class RestaurantController extends WorldController implements ContactList
                 c.timer.resumeTimer();
             }
         }
+    }
+
+    public void uponPlayerDeathReset(){
+        player.setPosition(0, 8f);
+//        player.justDied = false;
+    }
+
+    public void setPlayerJustDied(boolean v){
+        player.justDied = v;
+    }
+
+    public boolean getPlayerJustDied(){
+        return player.justDied;
     }
 }

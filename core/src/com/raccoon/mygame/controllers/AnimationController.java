@@ -50,6 +50,8 @@ public class AnimationController {
     private final FilmStrip ventOut;
     private final FilmStrip ventIdle;
 
+    private final FilmStrip kickedOutReturn;
+
 
     private InputController input;
     /**
@@ -91,6 +93,8 @@ public class AnimationController {
         ventIdle = new FilmStrip(new Texture("720/vent.png"),1,1,1);
         ventIn = new FilmStrip(new Texture("720/rockoventin.png"),3,4,12);
         ventOut = new FilmStrip(new Texture("720/rockoventout.png"),4,3,12);
+
+        kickedOutReturn = new FilmStrip(new Texture("720/kickedOutReturn.png"),4,5,20);
     }
 
     //all instances of handleAnimation must be called in the update loop of a given WorldController.
@@ -128,6 +132,22 @@ public class AnimationController {
         else{
             o.setFilmStrip(playerIdle);
         }
+
+        if(o.justDied){
+            o.setFilmStrip(kickedOutReturn);
+            o.setIgnoreInput(true);
+            o.justDied = false;
+        }
+
+        if(o.isIgnoreInput() && !o.animationFinished()){
+            o.updateAnimation(delta);
+            return;
+        }
+
+        if(o.isIgnoreInput() && o.animationFinished()){
+            o.setIgnoreInput(false);
+        }
+
         o.updateAnimation(delta);
     }
     /**

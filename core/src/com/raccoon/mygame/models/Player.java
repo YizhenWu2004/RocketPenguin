@@ -57,6 +57,18 @@ public class Player extends BoxObstacle {
 
     private Shadow shadowStanding;
 
+    public Boolean justDied;
+
+    private boolean ignoreInput = false;
+
+    public boolean isIgnoreInput() {
+        return ignoreInput;
+    }
+
+    public void setIgnoreInput(boolean ignoreInput) {
+        this.ignoreInput = ignoreInput;
+    }
+
     public boolean stopDrawing = false;
 //    b = new BoxObstacle(1,1);
 //		b.setDensity(1.0f);
@@ -92,6 +104,8 @@ public class Player extends BoxObstacle {
         shadow = new Shadow(x,y,1.4f,1.4f);
 
         shadowStanding = new Shadow(x,y,1f,1f);
+
+        justDied = false;
     }
     public void update(float delta) {
         updateShadow();
@@ -208,6 +222,10 @@ public class Player extends BoxObstacle {
 
     public void clearInv() {
         inventory.clearAll();
+    }
+
+    public boolean animationFinished() {
+        return sprite.getFrame() == sprite.getSize() - 1;
     }
 
 }
