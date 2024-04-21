@@ -118,6 +118,7 @@ public class GDXRoot extends Game implements ScreenListener {
         result = new ResultController(canvas, new Texture("result/result_final.png"),input);
         levelselect = new LevelSelectController(canvas, input);
         mainmenu = new MainMenuController(canvas,input);
+        mainmenu.on_main = true;
 
         /*
          *Remember a few things about current.
@@ -148,6 +149,7 @@ public class GDXRoot extends Game implements ScreenListener {
         result = new ResultController(canvas, new Texture("result/result_final.png"),input);
         levelselect = new LevelSelectController(canvas, input);
         mainmenu = new MainMenuController(canvas,input);
+        mainmenu.on_main = true;
         current = 0;
         isPaused = false;
     }
@@ -262,18 +264,21 @@ public class GDXRoot extends Game implements ScreenListener {
           isPaused = true;
           w.pauseTimer();
           restaurant.pauseTimer();
+          pause.on_pause = true;
       }
       if(isPaused){
           pause.update();
           if(pause.resume){
               isPaused = false;
               pause.resumed();
+              pause.on_pause = false;
           }
           if(pause.quit){
               Gdx.app.exit();
           }
           if(pause.restart){
-            restart();
+              pause.on_pause = false;
+              restart();
           }
           if(pause.options){
 
