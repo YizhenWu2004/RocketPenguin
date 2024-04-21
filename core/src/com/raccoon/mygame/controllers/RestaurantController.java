@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.models.Pot;
 import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
@@ -72,6 +73,7 @@ public class RestaurantController extends WorldController implements ContactList
     //The animation controller in question.
     private AnimationController animator;
     private SoundController sounds;
+
 
     Texture light = new Texture("light.png");
 
@@ -138,6 +140,7 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer) {
+
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
@@ -441,6 +444,8 @@ public class RestaurantController extends WorldController implements ContactList
         //process the rest of the animations
         animator.handleAnimation(player, tick);
         animator.processCustomers(customers, tick);
+        animator.processCookingStations(stations, tick);
+
 
 
 

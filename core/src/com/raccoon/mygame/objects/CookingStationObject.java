@@ -32,9 +32,9 @@ public class CookingStationObject extends NormalObstacle{
     public float x;
     public float y;
 
-    private Pot wok;
-    private Pot pott;
-    private Pot chop;
+    public Pot wok;
+    public Pot pott;
+    public Pot chop;
 
 //    private Expression spaceIcon;
 

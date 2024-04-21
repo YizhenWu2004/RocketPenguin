@@ -90,7 +90,7 @@ public class NormalCollisionObject implements GameObject {
         }
         if (this.getX() >= this.objectToTeleportTo.getX()) {
 
-            System.out.println(dist);
+//            System.out.println(dist);
             return dist;
         }
         return new Vector2(0, 0);

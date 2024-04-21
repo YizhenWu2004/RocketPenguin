@@ -1,13 +1,15 @@
 package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 /**
  * I have to make this just to animate pots :middle-finger:
  * */
-public class Pot {
+public class Pot implements GameObject {
 
     /**
      * The number of animation frames in our filmstrip
@@ -28,6 +30,7 @@ public class Pot {
 
     private int type;
     private FilmStrip sprite;
+    private Texture texture;
     private float x;
     private float y;
     private float ox;
@@ -44,9 +47,32 @@ public class Pot {
         this.oy = oy;
         this.sx = sx;
         this.sy = sy;
+        this.texture = sprite.getTexture();
     }
+
+    @Override
+    public void discard() {
+
+    }
+
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
+    public Texture getTexture() {
+        return null;
+    }
+
+    @Override
+    public int posInInventory() {
+        return 0;
+    }
+
+    @Override
     public void draw(GameCanvas canvas){
-        canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, this.sx, this.sy);
+        canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx, this.sy);
     }
 
     public void setFilmStrip(FilmStrip value) {
@@ -59,11 +85,17 @@ public class Pot {
         //no float frames.
         sprite.setFrame((int)animeframe);
     }
-    public void updateAnimation(float delta){
+    public void updateAnimation(){
         // Increase animation frame
         animeframe += ANIMATION_SPEED;
         if (animeframe >= NUM_ANIM_FRAMES) {
             animeframe -= NUM_ANIM_FRAMES;
         }
+    }
+    public float getX(){
+        return x;
+    }
+    public float getY(){
+        return y;
     }
 }

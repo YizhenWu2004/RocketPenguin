@@ -57,6 +57,11 @@ public class AnimationController {
     private final FilmStrip ventOut;
     private final FilmStrip ventIdle;
 
+    private FilmStrip wokIdle;
+    private FilmStrip wokSizzle;
+
+    private FilmStrip potIdle;
+    private FilmStrip potSizzle;
 //    private final FilmStrip potSizzle;
 //    private final FilmStrip panSizzle;
 
@@ -109,6 +114,12 @@ public class AnimationController {
         ventIn = new FilmStrip(new Texture("720/rockoventin.png"),3,4,12);
         ventOut = new FilmStrip(new Texture("720/rockoventout.png"),4,3,12);
 
+        wokSizzle = new FilmStrip(new Texture("720/pansizzle.png"),4,5,20);
+        wokIdle = new FilmStrip(new Texture("wok.png"),1,1,1);
+
+        potSizzle = new FilmStrip(new Texture("720/potsizzle.png"),2,4,8);
+        potIdle = new FilmStrip(new Texture("pot.png"),1,1,1);
+
     }
 
     //all instances of handleAnimation must be called in the update loop of a given WorldController.
@@ -146,7 +157,6 @@ public class AnimationController {
             return;
         }
 
-        System.out.println(o.current);
         if((input.getYMovement()!=0 || input.getXMovement()!=0) && o.current == 1){
             o.setFilmStrip(playerSneak);
         }
@@ -266,6 +276,35 @@ public class AnimationController {
     public void processCustomers(Array<Customer> customers, float delta){
         for (Customer c: customers) {
             handleAnimation(c, delta);
+        }
+    }
+    public void handleAnimation(CookingStationObject o,float delta){
+        //wok = 0
+        //pot = 1
+        //chop = 2
+
+        if(o.getStationType() == 0 && o.timer != null){
+            if(o.timer.getTime() <= 0){
+                o.wok.setFilmStrip(wokIdle);
+            }
+            else{o.wok.setFilmStrip(wokSizzle);}
+        }
+
+        if(o.getStationType() == 1 && o.timer != null){
+            if(o.timer.getTime() <= 0){
+                o.pott.setFilmStrip(potIdle);
+            }
+            else{
+                o.pott.setFilmStrip(potSizzle);
+            }
+        }
+
+        o.pott.updateAnimation();
+        o.wok.updateAnimation();
+    }
+    public void processCookingStations(Array<CookingStationObject> stations, float delta){
+        for(CookingStationObject o: stations){
+            handleAnimation(o, delta);
         }
     }
     /**
