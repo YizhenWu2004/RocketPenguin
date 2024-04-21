@@ -176,6 +176,11 @@ public class AnimationController {
      * @param delta The deltatime to update animation frames with
      * */
     public void handleAnimation(Guard o, float delta){
+        if(o.getAIController().getCurrentState() == GuardAIController.AIState.SLEEP){
+            o.setFilmStrip(gooseSleepIdle);
+            o.updateAnimation(delta);
+            return;
+        }
         if(o.getAIController().getCurrentState() == GuardAIController.AIState.CHASE){
             o.setFilmStrip(gooseChase);
             o.updateAnimation(delta);
