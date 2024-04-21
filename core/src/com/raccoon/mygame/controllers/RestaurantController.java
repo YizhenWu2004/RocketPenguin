@@ -18,10 +18,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.raccoon.mygame.models.Customer;
-import com.raccoon.mygame.models.Inventory;
-import com.raccoon.mygame.models.Player;
-import com.raccoon.mygame.models.Pot;
+import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
@@ -62,6 +59,8 @@ public class RestaurantController extends WorldController implements ContactList
 
     public int current = -3;
 
+    NormalObstacle trash;
+
 
     //Default filmstrips.
     //We need these because the constructors of these objects require a texture (Filmstrip)
@@ -77,6 +76,8 @@ public class RestaurantController extends WorldController implements ContactList
     private float respawnTimer;
 
     Texture light = new Texture("light.png");
+
+    private Texture singleInv = new Texture("trashInv.png");
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
@@ -130,6 +131,7 @@ public class RestaurantController extends WorldController implements ContactList
         obstacles.add(t);
         drawableObjects.add(t);
         t.setTrashcan(true);
+        trash = t;
 
     }
 
@@ -346,9 +348,11 @@ public class RestaurantController extends WorldController implements ContactList
             //to be fair all animations should probably be handled here but it matters more for the vent.
             animator.handleAnimation(vent1, player, delta);
 
+            boolean trashActive = false;
             for(NormalObstacle obstacle : obstacles){
                 boolean colliding = collision.handleCollision(player, obstacle);
                 if(colliding && obstacle.getTrashcan()){
+                    trashActive = true;
                     if(input.getSpace()){
                         player.dishInventory.clear(0);
                         player.dishInventory.clear(1);
@@ -357,6 +361,12 @@ public class RestaurantController extends WorldController implements ContactList
                         player.removeItem();
                     }
                 }
+            }
+            if(trashActive){
+                trash.interactingTrash = true;
+            }
+            else{
+                trash.interactingTrash = false;
             }
         }
         for (Customer c : customers) {
@@ -540,6 +550,12 @@ public class RestaurantController extends WorldController implements ContactList
         canvas.drawText(Integer.toString(score), f, 130, 600, 2, 2,layout);
         canvas.draw(light,Color.WHITE, 0, 0,
                 0, 5f*40, 0.0f, 1f, 1f);
+
+        if(trash.interactingTrash){
+            float midpoint = (float)canvas.getWidth()/2- (float)singleInv.getWidth()/2;
+            canvas.draw(singleInv, Color.WHITE, 10, 10,
+                    midpoint, 90, 0.0f, 1, 1);
+        }
     }
 
     public void debug() {

@@ -1,5 +1,6 @@
 package com.raccoon.mygame.objects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -23,6 +24,8 @@ public class NormalObstacle extends BoxObstacle {
     private boolean drawPriority = false;
     private boolean isTrashcan = false;
 
+    public boolean interactingTrash;
+
     public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas) {
         super(x, y, width, height);
         this.texture = texture;
@@ -42,6 +45,7 @@ public class NormalObstacle extends BoxObstacle {
         this.setBodyType(BodyType.StaticBody);
         setDrawScale(scaleX, scaleY);
         this.getBody().setUserData(this);
+        interactingTrash = false;
     }
 
     public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas, boolean drawPriority) {
