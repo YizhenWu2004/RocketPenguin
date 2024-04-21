@@ -42,16 +42,17 @@ public class Player extends BoxObstacle {
     //-1 is right
     private int direction = -1;
 
-
+    public int current = -3;
 
     private float height;
     private float width;
 
     /**
-     * Both of these are used for animation state
+     * All of these are used for animation state
      * */
     public boolean playerIsCooking = false;
     public boolean playerIsVenting = false;
+    public int potCookingIn = -1;
 
     private Shadow shadow;
 
@@ -226,6 +227,10 @@ public class Player extends BoxObstacle {
 
     public boolean animationFinished() {
         return sprite.getFrame() == sprite.getSize() - 1;
+    }
+
+    public void setPotCookingIn(int pot){
+        this.potCookingIn = pot;
     }
 
 }
