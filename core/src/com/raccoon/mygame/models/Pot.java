@@ -30,6 +30,7 @@ public class Pot implements GameObject {
 
     private int type;
     private FilmStrip sprite;
+    private FilmStrip spriteCooked;
     private Texture texture;
     private float x;
     private float y;
@@ -38,7 +39,7 @@ public class Pot implements GameObject {
     private float sx;
     private float sy;
 
-    public Pot(int type, FilmStrip sprite, float x, float y, float ox, float oy, float sx, float sy){
+    public Pot(int type, FilmStrip sprite, float x, float y, float ox, float oy, float sx, float sy,FilmStrip spriteCooked){
         this.type = type;
         this.sprite = sprite;
         this.x = x;
@@ -48,6 +49,7 @@ public class Pot implements GameObject {
         this.sx = sx;
         this.sy = sy;
         this.texture = sprite.getTexture();
+        this.spriteCooked = spriteCooked;
     }
 
     @Override
@@ -71,8 +73,18 @@ public class Pot implements GameObject {
     }
 
     @Override
-    public void draw(GameCanvas canvas){
+    public void draw(GameCanvas canvas) {
         canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx, this.sy);
+    }
+
+    //    @Override
+    public void draw(GameCanvas canvas, boolean cooked){
+        if(cooked){
+            canvas.draw(this.spriteCooked, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx, this.sy);
+        }
+        else{
+            canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx, this.sy);
+        }
     }
 
     public void setFilmStrip(FilmStrip value) {

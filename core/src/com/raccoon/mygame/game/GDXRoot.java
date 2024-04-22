@@ -304,15 +304,15 @@ public class GDXRoot extends Game implements ScreenListener {
               restaurant.uponPlayerDeathReset();
               restaurant.setPlayerJustDied(true);
           }
-          else if (store.getVentCollision()) {
-              current = current == 1 ? 0 : 1;
+          else if (store.getVentCollision() && current == 1) {
+              current = 0;
               store.guardWanderReset();
               store.setVentCollision(false);
               restaurant.ventOutFlag = true;
               restaurant.onSet();
           }
-          else if (restaurant.getVentCollision()) {
-              current = current == 0 ? 1 : 0;
+          else if (restaurant.getVentCollision()&& current == 0) {
+              current = 1;
               restaurant.setVentCollision(false);
               store.ventOutFlag = true;
               store.onSet();
