@@ -295,24 +295,23 @@ public class GDXRoot extends Game implements ScreenListener {
               restaurant.startTimer();
           }
           else if (current == 1 && store.playerJustDied) {
-              //todo play kickedOutReturn
               current = 0;
               store.guardWanderReset();
               store.playerJustDied = false;
               restaurant.uponPlayerDeathReset();
               restaurant.setPlayerJustDied(true);
           }
-          else if (store.getVentCollision() && current == 1) {
-              //previous implementation considers when current == 0, which i dont think is
-              //necessary - olivia
-              current = 0;
+          else if (store.getVentCollision()) {
+              current = current == 1 ? 0 : 1;
               store.guardWanderReset();
               store.setVentCollision(false);
+              restaurant.ventOutFlag = true;
               restaurant.onSet();
           }
           else if (restaurant.getVentCollision()) {
               current = current == 0 ? 1 : 0;
               restaurant.setVentCollision(false);
+              store.ventOutFlag = true;
               store.onSet();
           }
           else if (current == 0) {

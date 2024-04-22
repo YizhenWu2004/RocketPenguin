@@ -75,6 +75,8 @@ public class RestaurantController extends WorldController implements ContactList
 
     private float respawnTimer;
 
+    public boolean ventOutFlag;
+    private float ventOutTimer;
     Texture light = new Texture("light.png");
 
     private Texture singleInv = new Texture("trashInv.png");
@@ -334,19 +336,20 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
         if (active && !respawning()) {
-            float x = 7f * input.getXMovement();
-            float y = 7f * input.getYMovement();
-            player.setLinearVelocity(new Vector2(x, y));
-            player.setSpace(input.getSpace());
-            player.setInteraction(input.getInteraction());
-            player.getInventory().setSelected((int) input.getScroll());
-            collision.processCustomers(player, customers);
-
+            if(!ventingOut()){
+                float x = 7f * input.getXMovement();
+                float y = 7f * input.getYMovement();
+                player.setLinearVelocity(new Vector2(x, y));
+                player.setSpace(input.getSpace());
+                player.setInteraction(input.getInteraction());
+                player.getInventory().setSelected((int) input.getScroll());
+                collision.processCustomers(player, customers);
+            }
             //Here we handle the vent animation
             //I do this here because it only makes sense to update the vent animation if
             //the current scene is active.
             //to be fair all animations should probably be handled here but it matters more for the vent.
-            animator.handleAnimation(vent1, player, delta);
+            animator.handleAnimation(vent1, player, delta, ventingOut());
 
             boolean trashActive = false;
             for(NormalObstacle obstacle : obstacles){
@@ -455,7 +458,7 @@ public class RestaurantController extends WorldController implements ContactList
         }
 
         //process the rest of the animations
-        animator.handleAnimation(player, tick, this);
+        animator.handleAnimation(player, tick, respawning());
         animator.processCustomers(customers, tick);
         animator.processCookingStations(stations, tick);
 
@@ -467,11 +470,14 @@ public class RestaurantController extends WorldController implements ContactList
 
         respawnTimer = Math.max(respawnTimer-delta,0);
 
-        world.step(1 / 60f, 6, 2);
-    }
+        if(ventOutFlag == true){
+            ventOutTimer = 1.1666f;
+            ventOutFlag = false;
+        }
 
-    public boolean respawning(){
-        return respawnTimer > 0;
+        ventOutTimer = Math.max(ventOutTimer-delta,0);
+
+        world.step(1 / 60f, 6, 2);
     }
 
     private float getYPosOfAnyObject(Object obj){
@@ -690,6 +696,7 @@ public class RestaurantController extends WorldController implements ContactList
      * */
     public void onSet(){
         player.setPosition(localStartingPos);
+        player.direction = 1;
     }
 
     public void startVentTimer(VentObstacle o, Player p){
@@ -734,5 +741,13 @@ public class RestaurantController extends WorldController implements ContactList
 
     public boolean getPlayerJustDied(){
         return player.justDied;
+    }
+
+    public boolean respawning(){
+        return respawnTimer > 0;
+    }
+
+    public boolean ventingOut(){
+        return ventOutTimer > 0;
     }
 }

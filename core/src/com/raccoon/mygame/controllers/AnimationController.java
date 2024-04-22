@@ -113,7 +113,7 @@ public class AnimationController {
 
         ventIdle = new FilmStrip(new Texture("720/vent.png"),1,1,1);
         ventIn = new FilmStrip(new Texture("720/rockoventin.png"),3,4,12);
-        ventOut = new FilmStrip(new Texture("720/rockoventout.png"),4,3,12);
+        ventOut = new FilmStrip(new Texture("720/rockoventout.png"),3,4,11);
 
         kickedOutReturn = new FilmStrip(new Texture("720/kickedOutReturn.png"),4,5,20);
 
@@ -133,9 +133,8 @@ public class AnimationController {
      * @param o Player to animate
      * @param delta Deltatime to update the animation frame
      * */
-    public void handleAnimation(Player o, float delta, RestaurantController r){
-        if(r.respawning()){
-            System.out.println("HEHE");
+    public void handleAnimation(Player o, float delta, boolean respawning){
+        if(respawning){
             o.setFilmStrip(kickedOutReturn);
             o.setIgnoreInput(true);
             o.justDied = false;
@@ -177,66 +176,6 @@ public class AnimationController {
         else{
             o.setFilmStrip(playerIdle);
         }
-
-//        if(o.isIgnoreInput() && !o.animationFinished()){
-//            System.out.println("HOHO");
-//            o.updateAnimation(delta);
-//            return;
-//        }
-//
-//        if(o.isIgnoreInput() && o.animationFinished()){
-//            o.setIgnoreInput(false);
-//        }
-
-        o.updateAnimation(delta);
-    }
-
-    public void handleAnimation(Player o, float delta, StoreController s){
-        //This is pretty self-explanatory.
-        if(o.playerIsCooking && o.potCookingIn == 2){
-            o.setFilmStrip(playerChop);
-            o.updateAnimation(delta);
-            return;
-        }
-        if(o.playerIsCooking){
-            o.setFilmStrip(playerCook);
-            //if you are planning on returning, you must make sure you advance the animation beforehand
-            o.updateAnimation(delta);
-            //you will want to return if you want to "prioritize" an animation
-            //for example this is cooking, if the player is cooking I don't want to check for any other animations
-            return;
-        }
-        //you can understand the rest.
-        if((o.dishInventory.leftFilled() && (o.getVX() !=0 || o.getVY()!=0)) || (o.dishInventory.rightFilled() && (o.getVX()!=0 || o.getVY()!=0))){
-            o.setFilmStrip(playerServe);
-            o.updateAnimation(delta);
-            return;
-        } else if((o.dishInventory.leftFilled() && o.getVX() ==0 && o.getVY()==0) || (o.dishInventory.rightFilled() && o.getVX()==0 && o.getVY()==0)){
-            o.setFilmStrip(playerServeIdle);
-            o.updateAnimation(delta);
-            return;
-        }
-
-        if((input.getYMovement()!=0 || input.getXMovement()!=0) && o.current == 1){
-            o.setFilmStrip(playerSneak);
-        }
-        else if(input.getYMovement()!=0 || input.getXMovement()!=0){
-            o.setFilmStrip(playerWalk);
-        }
-        else{
-            o.setFilmStrip(playerIdle);
-        }
-
-//        if(o.isIgnoreInput() && !o.animationFinished()){
-//            System.out.println("HOHO");
-//            o.updateAnimation(delta);
-//            return;
-//        }
-//
-//        if(o.isIgnoreInput() && o.animationFinished()){
-//            o.setIgnoreInput(false);
-//        }
-
         o.updateAnimation(delta);
     }
 
@@ -414,10 +353,24 @@ public class AnimationController {
      * @param p Player for handling vent animation state
      * @param delta Deltatime to update filmstrip frames with
      * */
-    public void handleAnimation(VentObstacle o, Player p, float delta){
+    public void handleAnimation(VentObstacle o, Player p, float delta,boolean ventingOut){
         if(p.playerIsVenting){
             o.setFilmStrip(ventIn);
             o.setOX(85f);
+            if(p.getX() < o.getX()) {
+                o.setSX(1);
+            }
+            if(p.getX() > o.getX()){
+                o.setSX(-1);
+            }
+            p.stopDrawing = true;
+            o.updateAnimation(delta);
+            return;
+        }
+        if(ventingOut){
+            System.out.println("Venting out");
+            o.setFilmStrip(ventOut);
+            o.setOX(170f);
             if(p.getX() < o.getX()) {
                 o.setSX(1);
             }
