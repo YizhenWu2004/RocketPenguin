@@ -69,7 +69,7 @@ public class StoreController extends WorldController implements ContactListener 
     public boolean ventOutFlag;
     private float ventOutTimer;
 
-    private float playerJustCaughtTimer;
+    public float playerJustCaughtTimer;
 
     public Guard guardInAction;
 
@@ -307,7 +307,7 @@ public class StoreController extends WorldController implements ContactListener 
         }
         player.update(delta);
 
-        animator.processGuards(guards, delta, guardInAction);
+        animator.processGuards(guards, delta, guardInAction,gettingCaught());
         animator.handleAnimation(player, delta, respawning());
     }
 

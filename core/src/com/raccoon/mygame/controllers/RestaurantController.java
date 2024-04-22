@@ -469,6 +469,7 @@ public class RestaurantController extends WorldController implements ContactList
         animator.processCookingStations(stations, tick);
 
         if(player.justDied == true){
+            System.out.println("Respawn");
             respawnTimer = 1.6666f;
             player.justDied = false;
         }
