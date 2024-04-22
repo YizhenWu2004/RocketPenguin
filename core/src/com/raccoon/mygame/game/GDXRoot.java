@@ -371,8 +371,6 @@ public class GDXRoot extends Game implements ScreenListener {
 //		trash.draw(canvas);
 //
 //
-
-
         //calls draw method to draw overlay(background) and all the other stuff)
     }
 

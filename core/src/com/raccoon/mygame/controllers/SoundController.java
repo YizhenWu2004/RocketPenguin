@@ -14,6 +14,7 @@ public class SoundController {
     private Sound swipeSound;
     private Sound switchSound;
     private Music storeSound;
+    private Sound orderSound;
     public SoundController(){
         cookingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cooking.ogg"));
         bellSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bell.ogg"));
@@ -24,9 +25,14 @@ public class SoundController {
         swipeSound = Gdx.audio.newSound(Gdx.files.internal("sounds/swipe.ogg"));
         switchSound = Gdx.audio.newSound(Gdx.files.internal("sounds/inventory.ogg"));
         storeSound = Gdx.audio.newMusic(Gdx.files.internal("sounds/storeAmbience.ogg"));
+        orderSound = Gdx.audio.newSound(Gdx.files.internal("sounds/order.ogg"));
     }
     public void cookplay(){
         cookingSound.play();
+    }
+    public void orderPlay(){
+        orderSound.
+        orderSound.play();
     }
     public void bellPlay(){
         bellSound.play();
@@ -40,6 +46,7 @@ public class SoundController {
     public void ventPlay(){
         ventSound.play();
     }
+
     public void storePlay(){
         storeSound.play();
         storeSound.setLooping(true);
