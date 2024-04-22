@@ -339,6 +339,8 @@ public class LevelSelectController extends WorldController{
 
             //level one button
             UIButton levelButton = new UIButton(new Texture("menu/levelbooklet.png"),is,10 + (i*400),30,0.8f,0.8f,canvas);
+            UIButton dayNumber = createNumberElement(i, 270,260,1,1);
+            levelButton.addChild(dayNumber);
             //The addbutton method has many overloads. Please see them below.
             addButton(levelButton,
                     ()-> {

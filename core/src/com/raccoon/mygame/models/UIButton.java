@@ -3,7 +3,10 @@ package com.raccoon.mygame.models;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.view.GameCanvas;
+
+import javax.swing.plaf.ButtonUI;
 
 /**
  * In reality, this should just be called UIElement.
@@ -36,6 +39,8 @@ public class UIButton {
     private float OX = defaultOX, OY = defaultOY;
     private float SX = defaultSX, SY = defaultSY;
     private Color COLOR = defaultCOLOR;
+
+    private Array<UIButton> children = new Array<UIButton>();
 
     /**
      * Constructor to create a TEXTURELESS button
@@ -115,6 +120,14 @@ public class UIButton {
         canvas.draw(new TextureRegion(this.texture),COLOR, this.OX, this.OY, this.x, this.y, 0, this.SX, this.SY);
 //        TextureRegion region, Color tint, float ox, float oy,
 //        float x, float y, float angle, float sx, float sy
+        for(UIButton child: children){
+            float[] childOffset = calculateChildPosition(child);
+            float childX = x + childOffset[0] + child.getX();
+            float childY = y + childOffset[1] + child.getY();
+            float childSX = SX * child.getSX();
+            float childSY = SY * child.getSY();
+            child.draw(canvas, childX, childY, childSX, childSY);
+        }
     }
     /**
      * Sets the action that should be performed upon button click.
@@ -240,5 +253,34 @@ public class UIButton {
 
     public void draw(GameCanvas canvas, float x, float y) {
         canvas.draw(new TextureRegion(this.texture),COLOR, this.OX, this.OY, x, y, 0, this.SX, this.SY);
+        for(UIButton child: children){
+            float childX = x + child.getX();
+            float childY = y + child.getY();
+            float childSX = SX * child.SX;
+            float childSY = SY * child.SY;
+            child.draw(canvas, childX, childY);
+        }
     }
+    public void draw(GameCanvas canvas, float x, float y, float sx, float sy){
+        if(this.texture == null)
+            return;
+        canvas.draw(new TextureRegion(this.texture),COLOR, this.OX, this.OY, x, y, 0, sx, sy);
+    }
+    public void addChild(UIButton child){
+        children.add(child);
+//        child.setX(this.x + child.x);
+//        child.setY(this.y + child.y);
+    }
+    private float[] calculateChildPosition(UIButton child){
+        float offsetX = (this.width - defaultWidth) * child.getX() / defaultWidth;
+        float offsetY = (this.height - defaultHeight) * child.getY() / defaultHeight;
+        return new float[]{offsetX, offsetY};
+    }
+    private float getSX(){
+        return this.SX;
+    }
+    private float getSY(){
+        return this.SY;
+    }
+
 }
