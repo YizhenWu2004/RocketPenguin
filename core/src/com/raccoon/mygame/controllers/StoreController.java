@@ -66,7 +66,8 @@ public class StoreController extends WorldController implements ContactListener 
 
     public int current = -3;
 
-
+    public boolean ventOutFlag;
+    private float ventOutTimer;
 
 
 //    public boolean totalReset = false;
@@ -237,16 +238,25 @@ public class StoreController extends WorldController implements ContactListener 
             playerJustDied = true;
             playerGuardCollide = false;
         }
-        if (active) {
-            float x = 5f * input.getXMovement();
-            float y = 5f * input.getYMovement();
-            //System.out.println(player.getX());
-            player.setLinearVelocity(new Vector2(x, y));
-            player.setSpace(input.getSpace());
-            player.setInteraction(input.getInteraction());
-            player.getInventory().setSelected((int) input.getScroll());
 
-            animator.handleAnimation(vent1, player, delta);
+        if(ventOutFlag == true){
+            ventOutTimer = 1.1666f;
+            ventOutFlag = false;
+        }
+
+        ventOutTimer = Math.max(ventOutTimer-delta,0);
+
+        if (active) {
+            if(!ventingOut()){
+                float x = 5f * input.getXMovement();
+                float y = 5f * input.getYMovement();
+                //System.out.println(player.getX());
+                player.setLinearVelocity(new Vector2(x, y));
+                player.setSpace(input.getSpace());
+                player.setInteraction(input.getInteraction());
+                player.getInventory().setSelected((int) input.getScroll());
+            }
+            animator.handleAnimation(vent1, player, delta, ventingOut());
         }
         for (Guard guard : guards) {
             guard.update(delta, generatePlayerInfo());
@@ -289,7 +299,7 @@ public class StoreController extends WorldController implements ContactListener 
         player.update(delta);
 
         animator.processGuards(guards, delta);
-        animator.handleAnimation(player, delta, this);
+        animator.handleAnimation(player, delta, respawning());
     }
 
     private float getYPosOfAnyObject(Object obj){
@@ -509,6 +519,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     public void onSet(){
         player.setPosition(localStartingPos);
+        player.direction = -1;
     }
 
     public void guardWanderReset(){
@@ -528,5 +539,9 @@ public class StoreController extends WorldController implements ContactListener 
 
     public boolean respawning(){
         return false;
+    }
+
+    public boolean ventingOut(){
+        return ventOutTimer > 0;
     }
 }

@@ -40,7 +40,7 @@ public class Player extends BoxObstacle {
     private boolean isTeleporting = false;
 
     //-1 is right
-    private int direction = -1;
+    public int direction = -1;
 
     public int current = -3;
 
