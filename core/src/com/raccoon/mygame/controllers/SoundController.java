@@ -8,6 +8,7 @@ public class SoundController {
     private Sound cookingSound;
     private Sound bellSound;
     private Sound doorSound;
+    private Sound chopSound;
     private Sound honkSound;
     private Sound ventSound;
     private Sound clickSound;
@@ -26,12 +27,15 @@ public class SoundController {
         switchSound = Gdx.audio.newSound(Gdx.files.internal("sounds/inventory.ogg"));
         storeSound = Gdx.audio.newMusic(Gdx.files.internal("sounds/storeAmbience.ogg"));
         orderSound = Gdx.audio.newSound(Gdx.files.internal("sounds/order.ogg"));
+        chopSound = Gdx.audio.newSound(Gdx.files.internal("sounds/chop.ogg"));
     }
     public void cookplay(){
         cookingSound.play();
     }
+    public void chopPlay(){
+        chopSound.play();
+    }
     public void orderPlay(){
-        orderSound.
         orderSound.play();
     }
     public void bellPlay(){

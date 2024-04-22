@@ -406,6 +406,7 @@ public class RestaurantController extends WorldController implements ContactList
                         sounds.cookplay();
                         time =30;
                     }else {
+                        sounds.chopPlay();
                         time = 1;
                     }
                     c.timer = new Worldtimer(time, canvas);
