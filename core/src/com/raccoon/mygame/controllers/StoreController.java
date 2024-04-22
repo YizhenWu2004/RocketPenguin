@@ -181,12 +181,9 @@ public class StoreController extends WorldController implements ContactListener 
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
-        drawableObjects = new Array<>();
+        drawableObjects = level.getStoreObjectsAndDecor();
         drawableObjects.add(player);
         drawableObjects.add(vent1);
-        for (NormalObstacle obstacle : obstacles) {
-            drawableObjects.add(obstacle);
-        }
         guardX = new Array<>();
         guardY = new Array<>();
         for (Guard guard : guards) {

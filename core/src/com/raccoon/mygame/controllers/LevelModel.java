@@ -28,6 +28,7 @@ public class LevelModel {
     private World storeWorld;
     private GameCanvas canvas;
     private Array<NormalObstacle> storeObjects = new Array<>();
+    private Array<Object> storeObjectsAndDecor = new Array<>();
     private Array<Guard> guards = new Array<>();
     private Array<Array<Vector2>> guardNodes = new Array<>();
     private Array<Boolean> guardSleep = new Array<>();
@@ -51,18 +52,21 @@ public class LevelModel {
         NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 1f, 1f, 0f, -40f,
                 new Texture("720/groceryshelfhorizontal.png"), storeWorld, canvas);
         storeObjects.add(obstacle);
+        storeObjectsAndDecor.add(obstacle);
     }
 
     private void addShelfVertical(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 4f, 1f, 1f, 0f, 0f,
                 new Texture("720/shelfvertical.png"), storeWorld, canvas);
         storeObjects.add(obstacle);
+        storeObjectsAndDecor.add(obstacle);
     }
 
     private void addFruitCrate(float x, float y, Ingredient ingredient) {
         NormalObstacle obstacle = new NormalObstacle(x+CELL_SIZE/2, y+CELL_SIZE/2, 2f, 1f, 1f, 1f, 0f, 0f,
                 new Texture("720/" + ingredient.type + ".png"), storeWorld, canvas, ingredient);
         storeObjects.add(obstacle);
+        storeObjectsAndDecor.add(obstacle);
     }
 
     private void addGuard(float x, float y, boolean sleep, Array<Vector2> nodes) {
@@ -107,6 +111,7 @@ public class LevelModel {
     public float getPatienceTime() { return patienceTime; }
 
     public Array<NormalObstacle> getStoreObjects() { return storeObjects; }
+    public Array<Object> getStoreObjectsAndDecor() { return storeObjectsAndDecor; }
 
     public Array<Guard> getGuards() { return guards; }
 
@@ -126,41 +131,44 @@ public class LevelModel {
                     obstacle = new NormalObstacle(x, y-1.5f, 5f, 1f, 1f, 1f, 0f, -60f,
                             new Texture("720/ventwallhorizontal.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
+                    storeObjectsAndDecor.add(obstacle);
                     break;
                 case "VertWall":
                     obstacle = new NormalObstacle(x, y-1.5f, 0.6f, 2f, 1f, 1f, 0f, -70f,
                             new Texture("720/ventwallvertical.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
+                    storeObjectsAndDecor.add(obstacle);
                     break;
                 case "JanitorTools":
                     obstacle = new NormalDecoration(x, y-1.5f, 1f, 0.5f, 1f, 1f, 0f, -50f,
                             new Texture("720/janitoritems.png"), storeWorld, canvas, false);
-                    storeObjects.add(obstacle);
+                    storeObjectsAndDecor.add(obstacle);
                     break;
                 case "Ladder":
                     obstacle = new NormalDecoration(x, y-1.5f, 1.2f, -0.5f, 1f, 1f, 0f, -50f,
                             new Texture("720/ladder.png"), storeWorld, canvas, false);
-                    storeObjects.add(obstacle);
+                    storeObjectsAndDecor.add(obstacle);
                     break;
                 case "BoxS":
                     obstacle = new NormalDecoration(x, y-1.5f, 0.8f, -0.5f, 1f, 1f, 0f, 0f,
                             new Texture("720/boxsmall.png"), storeWorld, canvas, false);
-                    storeObjects.add(obstacle);
+                    storeObjectsAndDecor.add(obstacle);
                     break;
                 case "BoxM":
                     obstacle = new NormalDecoration(x, y-1.5f, 1f, 1f, 1f, 1f, 0f, 0f,
                             new Texture("720/boxmedium.png"), storeWorld, canvas, false);
-                    storeObjects.add(obstacle);
+                    storeObjectsAndDecor.add(obstacle);
                     break;
                 case "BoxL":
                     obstacle = new NormalDecoration(x, y-1.5f, 1.2f, -0.5f, 1f, 1f, 0f, 0f,
                             new Texture("720/boxlarge.png"), storeWorld, canvas, false);
-                    storeObjects.add(obstacle);
+                    storeObjectsAndDecor.add(obstacle);
                     break;
                 case "Fridge":
                     obstacle = new NormalObstacle(x, y, 1f, 1f, 0.3f, 0.3f, 0f, 0f,
                             new Texture("720/fridge.png"), storeWorld, canvas);
                     storeObjects.add(obstacle);
+                    storeObjectsAndDecor.add(obstacle);
                     break;
                 default:
                     break;
