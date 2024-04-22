@@ -378,7 +378,7 @@ public class GuardAIController extends ScreenAdapter {
 
                 if (!path.isEmpty()) {
                     Vector2 lastPoint = path.peek();
-                    lastPoint.y -= 0.7f;
+//                    lastPoint.y -= 0.7f;
                     path.set(path.size - 1, lastPoint);
                 }
                 return path;

@@ -30,7 +30,7 @@ public class StoreController extends WorldController implements ContactListener 
     private GameCanvas canvas;
     private Texture background;
     private InputController input;
-    private Player player;
+    public Player player;
     private Array<Ingredient> ingredients;
     private Array<Guard> guards;
 
@@ -68,6 +68,10 @@ public class StoreController extends WorldController implements ContactListener 
 
     public boolean ventOutFlag;
     private float ventOutTimer;
+
+    private float playerJustCaughtTimer;
+
+    public Guard guardInAction;
 
 
 //    public boolean totalReset = false;
@@ -231,8 +235,10 @@ public class StoreController extends WorldController implements ContactListener 
         float delta = Gdx.graphics.getDeltaTime();
         player.current = this.current;
         if (playerGuardCollide) {
-            player.setPosition(0, 0);
+//            player.setPosition(0, 0);
             player.clearInv();
+            //PLAYER JUST DIED
+            playerJustCaughtTimer = 1.1666f;
             playerJustDied = true;
             playerGuardCollide = false;
         }
@@ -244,8 +250,10 @@ public class StoreController extends WorldController implements ContactListener 
 
         ventOutTimer = Math.max(ventOutTimer-delta,0);
 
+        playerJustCaughtTimer = Math.max(playerJustCaughtTimer-delta,0);
+
         if (active) {
-            if(!ventingOut()){
+            if(!ventingOut() && !player.playerIsVenting && !gettingCaught()){
                 float x = 5f * input.getXMovement();
                 float y = 5f * input.getYMovement();
                 //System.out.println(player.getX());
@@ -257,7 +265,7 @@ public class StoreController extends WorldController implements ContactListener 
             animator.handleAnimation(vent1, player, delta, ventingOut());
         }
         for (Guard guard : guards) {
-            guard.update(delta, generatePlayerInfo());
+            guard.update(delta, generatePlayerInfo(), gettingCaught());
             if (!duringventing) {
                 collision.handleCollision(player, guard);
             }
@@ -294,9 +302,12 @@ public class StoreController extends WorldController implements ContactListener 
             }
         }
 
+        if(gettingCaught()){
+            player.stopDrawing = true;
+        }
         player.update(delta);
 
-        animator.processGuards(guards, delta);
+        animator.processGuards(guards, delta, guardInAction);
         animator.handleAnimation(player, delta, respawning());
     }
 
@@ -441,6 +452,12 @@ public class StoreController extends WorldController implements ContactListener 
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof Guard) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof Guard)) {
             if(!duringventing) {
                 playerGuardCollide = true;
+                if(body2.getUserData() instanceof Guard){
+                    guardInAction = (Guard) body2.getUserData();
+                }
+                else{
+                    guardInAction = (Guard) body1.getUserData();
+                }
             }
         }
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
@@ -541,5 +558,9 @@ public class StoreController extends WorldController implements ContactListener 
 
     public boolean ventingOut(){
         return ventOutTimer > 0;
+    }
+
+    public boolean gettingCaught(){
+        return playerJustCaughtTimer > 0;
     }
 }

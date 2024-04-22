@@ -228,7 +228,9 @@ public class GDXRoot extends Game implements ScreenListener {
             mainmenu.update();
             w.pauseTimer();
             restaurant.setActive(false);
+            restaurant.setPaused(true);
             store.setActive(false);
+            sounds.storeStop();
             if(mainmenu.checkForGoToLevelSelect()){
                 current = -1;
             }
@@ -239,9 +241,9 @@ public class GDXRoot extends Game implements ScreenListener {
         else if(current == -1) {
             levelselect.update();
             w.pauseTimer();
+            sounds.storeStop();
             restaurant.setActive(false);
             store.setActive(false);
-            sounds.storeStop();
             if(levelselect.checkForGoToLevel()){
                 this.levelToGoTo = levelselect.getLevelToGoTo();
                 restart();
@@ -255,7 +257,7 @@ public class GDXRoot extends Game implements ScreenListener {
             current = 2;
 //            restaurant.setActive(false);
 //            store.setActive(false);
-            sounds.storeStop();
+//            sounds.storeStop();
         }
         if (current == 2){
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
@@ -276,6 +278,7 @@ public class GDXRoot extends Game implements ScreenListener {
       else if(input.getPause() && (current == 0||current == 1)){
           isPaused = true;
           w.pauseTimer();
+          sounds.storeStop();
           restaurant.pauseTimer();
           pause.on_pause = true;
       }
@@ -286,6 +289,9 @@ public class GDXRoot extends Game implements ScreenListener {
               isPaused = false;
               pause.resumed();
               pause.on_pause = false;
+              if(current == 1){
+                  sounds.storePlay();
+              }
           }
           if(pause.quit){
               Gdx.app.exit();
@@ -303,11 +309,13 @@ public class GDXRoot extends Game implements ScreenListener {
               w.resumeTimer();
               restaurant.startTimer();
           }
-          else if (current == 1 && store.playerJustDied) {
+          else if (current == 1 && store.playerJustDied && !store.gettingCaught()) {
               current = 0;
               sounds.storeStop();
               store.guardWanderReset();
               store.playerJustDied = false;
+              store.guardInAction = null;
+//              store.player.stopDrawing = false;
               restaurant.uponPlayerDeathReset();
               restaurant.setPlayerJustDied(true);
           }
