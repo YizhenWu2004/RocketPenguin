@@ -47,6 +47,7 @@ public class RestaurantController extends WorldController implements ContactList
     private int globalIndex = 0;
     private int tick;
     private Vector2 localStartingPos;
+    private boolean paused = false;
     Array<CookingStationObject> stations;
     private Worldtimer t;
     public int score;
@@ -109,6 +110,10 @@ public class RestaurantController extends WorldController implements ContactList
 
         obstacles.add(t);
         drawableObjects.add(t);
+    }
+
+    public void setPaused(boolean b){
+        paused = b;
     }
     //decorations are sensors, no collision will be detected
     private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
@@ -310,7 +315,7 @@ public class RestaurantController extends WorldController implements ContactList
         player.update(delta);
         player.current = this.current;
 
-        if ((t.getTime() == 178 || t.getTime() == 176 ||t.getTime() == 130|| t.getTime() == 128 || t.getTime() ==126 || t.getTime() ==80 || t.getTime() == 78 || t.getTime() == 76) && !t.action_round){
+        if ((t.getTime() == 178 || t.getTime() == 176 ||t.getTime() == 130|| t.getTime() == 128 || t.getTime() ==126 || t.getTime() ==80 || t.getTime() == 78 || t.getTime() == 76) && !t.action_round && paused == false){
             Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
 
             customers.add(customer1);
