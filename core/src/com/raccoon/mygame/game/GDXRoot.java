@@ -32,6 +32,8 @@ import com.raccoon.mygame.view.GameCanvas;
 import com.raccoon.mygame.models.*;
 import com.badlogic.gdx.utils.*;
 
+import java.util.Arrays;
+
 /**
  * Root class for a LibGDX.
  * <p>
@@ -106,6 +108,7 @@ public class GDXRoot extends Game implements ScreenListener {
     public void create() {
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
+        //180
         w = new Worldtimer(180, canvas);
         w.create();
         input = new InputController();
@@ -137,6 +140,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
     public void restart(){
         canvas = new GameCanvas();
+        //180
         w = new Worldtimer(180, canvas);
         w.create();
         input = new InputController();
@@ -228,7 +232,6 @@ public class GDXRoot extends Game implements ScreenListener {
             if(mainmenu.checkForExit()){
                 Gdx.app.exit();
             }
-            return;
         }
         else if(current == -1) {
             levelselect.update();
@@ -238,11 +241,9 @@ public class GDXRoot extends Game implements ScreenListener {
             if(levelselect.checkForGoToLevel()){
                 this.levelToGoTo = levelselect.getLevelToGoTo();
                 restart();
-                System.out.println(levelToGoTo + "level to go to");
                 store.setLevel(loader.getLevels().get(levelToGoTo),this.inv);
             }
             levelselect.setGoToLevel(false);
-            return;
         }
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
@@ -251,7 +252,7 @@ public class GDXRoot extends Game implements ScreenListener {
 //            restaurant.setActive(false);
 //            store.setActive(false);
         }
-        else if (current == 2){
+        if (current == 2){
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
             result.update();
             if (result.retry){
@@ -272,6 +273,7 @@ public class GDXRoot extends Game implements ScreenListener {
           restaurant.pauseTimer();
           pause.on_pause = true;
       }
+
       else if(isPaused){
           pause.update();
           if(pause.resume){
@@ -352,6 +354,7 @@ public class GDXRoot extends Game implements ScreenListener {
         } else if (current == 1) {
             store.draw();
         } else if (current == 2){
+//            result.setStarReq(this.star_req);
             result.draw();
         }
         w.draw(20, 700);

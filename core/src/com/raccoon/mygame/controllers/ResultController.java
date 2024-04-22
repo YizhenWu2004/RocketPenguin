@@ -431,4 +431,13 @@ public class ResultController extends WorldController {
     public void debug() {
 
     }
+    public boolean getStarReqNull(){
+        if(this.star_req == null){
+            return true;
+        }
+        return false;
+    }
+    public void setStarReq(int[] reqs){
+        this.star_req = reqs;
+    }
 }
