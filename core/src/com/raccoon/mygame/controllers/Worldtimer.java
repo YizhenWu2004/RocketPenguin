@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
 import com.raccoon.mygame.view.GameCanvas;
 
+import java.awt.*;
+
 public class Worldtimer extends ApplicationAdapter {
     private int countdownSeconds;
     private GameCanvas gameCanvas;
