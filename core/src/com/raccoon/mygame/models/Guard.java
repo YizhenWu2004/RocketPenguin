@@ -95,66 +95,68 @@ public class Guard extends WheelObstacle {
         return aiController;
     }
 
-    public void update(float delta, Array<Float> info) {
-    if (aiController != null) {
-        this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
-        Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY);
-        
-        switch (getAIController().getOrien()) {
-            case LEFT:
-                newPosition.add(0, 10);
-                break;
-            case RIGHT:
-                newPosition.add(0, 20);
-                break;
-            default:
-                newPosition.add(0, 20);
-                break;
-        }
-        
-        sight.updatePosition(newPosition);
-        if(!sight.isPlayerDetected()){
-            aiController.decrementSusMeter(1);
-        }
+    public void update(float delta, Array<Float> info, boolean stopUpdating) {
+        if(!stopUpdating){
+            if (aiController != null) {
+                this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
+                Vector2 newPosition = this.getPosition().cpy().scl(scaleX, scaleY);
 
-        float exclamationX = this.getX() * scaleX;
-        float exclamationY = (this.getY() + height + 1) * scaleY;
-        exclam.setPosition(exclamationX, exclamationY);
+                switch (getAIController().getOrien()) {
+                    case LEFT:
+                        newPosition.add(0, 10);
+                        break;
+                    case RIGHT:
+                        newPosition.add(0, 20);
+                        break;
+                    default:
+                        newPosition.add(0, 20);
+                        break;
+                }
 
-        if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
-            question.setPosition((this.getX()-1.5f) * scaleX,exclamationY);
-        }
-        else if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
-            question.setPosition((this.getX()+3) * scaleX,exclamationY);
-        }
-        else{
-            question.setPosition(exclamationX,exclamationY);
-        }
+                sight.updatePosition(newPosition);
+                if(!sight.isPlayerDetected()){
+                    aiController.decrementSusMeter(1);
+                }
 
-        question.updateCurProgress(aiController.getSusMeter());
+                float exclamationX = this.getX() * scaleX;
+                float exclamationY = (this.getY() + height + 1) * scaleY;
+                exclam.setPosition(exclamationX, exclamationY);
 
-        zzz.setPosition(exclamationX,exclamationY);
+                if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
+                    question.setPosition((this.getX()-1.5f) * scaleX,exclamationY);
+                }
+                else if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
+                    question.setPosition((this.getX()+3) * scaleX,exclamationY);
+                }
+                else{
+                    question.setPosition(exclamationX,exclamationY);
+                }
 
-        float shadowX = this.getX()* scaleX-shadow.getTextureWidth()/2;
-        float shadowY = (this.getY() * scaleY) - (this.height * scaleY / 2);
-        float offsetCons = shadow.getTextureWidth()/3;
-        if(aiController.getOrien() == GuardAIController.GuardOrientation.LEFT){
-            shadow.setPosition(shadowX+offsetCons, shadowY);
-        }
-        else if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
-            shadow.setPosition(shadowX-offsetCons*0.5f, shadowY);
-        }
-        else{
-            shadow.setPosition(shadowX, shadowY);
-        }
-    }
+                question.updateCurProgress(aiController.getSusMeter());
 
-    if (aiController.isChase() || aiController.isSleep()){
-        sight.deactivateSight();
-    }
-    else{
-        sight.reactivateSight();
-    }
+                zzz.setPosition(exclamationX,exclamationY);
+
+                float shadowX = this.getX()* scaleX-shadow.getTextureWidth()/2;
+                float shadowY = (this.getY() * scaleY) - (this.height * scaleY / 2);
+                float offsetCons = shadow.getTextureWidth()/3;
+                if(aiController.getOrien() == GuardAIController.GuardOrientation.LEFT){
+                    shadow.setPosition(shadowX+offsetCons, shadowY);
+                }
+                else if(aiController.getOrien() == GuardAIController.GuardOrientation.RIGHT){
+                    shadow.setPosition(shadowX-offsetCons*0.5f, shadowY);
+                }
+                else{
+                    shadow.setPosition(shadowX, shadowY);
+                }
+            }
+
+            if (aiController.isChase() || aiController.isSleep()){
+                sight.deactivateSight();
+            }
+            else{
+                sight.reactivateSight();
+            }
+        }
   }
 
 

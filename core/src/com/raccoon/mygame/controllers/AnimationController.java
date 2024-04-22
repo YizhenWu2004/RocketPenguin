@@ -66,6 +66,7 @@ public class AnimationController {
 //    private final FilmStrip potSizzle;
 //    private final FilmStrip panSizzle;
 
+    private FilmStrip getCaught;
 
     private InputController input;
     /**
@@ -122,6 +123,8 @@ public class AnimationController {
 
         potSizzle = new FilmStrip(new Texture("720/potsizzle.png"),2,4,8);
         potIdle = new FilmStrip(new Texture("pot.png"),1,1,1);
+
+        getCaught = new FilmStrip(new Texture("gettingCaught.png"),1,4,4);
     }
 
     //all instances of handleAnimation must be called in the update loop of a given WorldController.
@@ -186,7 +189,12 @@ public class AnimationController {
      * @param o The guard to animate
      * @param delta The deltatime to update animation frames with
      * */
-    public void handleAnimation(Guard o, float delta){
+    public void handleAnimation(Guard o, float delta, boolean inAction){
+        if(inAction){
+            o.setFilmStrip(getCaught);
+            o.updateAnimation(delta);
+            return;
+        }
         if(o.getAIController().getCurrentState() == GuardAIController.AIState.SLEEP){
             o.setFilmStrip(gooseSleepIdle);
             o.updateAnimation(delta);
@@ -279,9 +287,15 @@ public class AnimationController {
      * @param guards Array of guards to animate
      * @param delta The Deltatime to update filmstrip frames by
     * */
-    public void processGuards(Array<Guard> guards, float delta){
+    public void processGuards(Array<Guard> guards, float delta, Guard inAction){
         for(Guard g: guards){
-            handleAnimation(g, delta);
+            if(g == inAction){
+//                System.out.println("GUARD");
+                handleAnimation(g, delta, true);
+            }
+            else{
+                handleAnimation(g, delta, false);
+            }
         }
     }
     /**
@@ -368,7 +382,7 @@ public class AnimationController {
             return;
         }
         if(ventingOut){
-            System.out.println("Venting out");
+//            System.out.println("Venting out");
             o.setFilmStrip(ventOut);
             o.setOX(170f);
             if(p.getX() < o.getX()) {

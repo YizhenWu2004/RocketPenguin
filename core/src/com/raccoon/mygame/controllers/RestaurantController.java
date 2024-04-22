@@ -336,7 +336,7 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
         if (active && !respawning()) {
-            if(!ventingOut()){
+            if(!ventingOut()&& !player.playerIsVenting){
                 float x = 7f * input.getXMovement();
                 float y = 7f * input.getYMovement();
                 player.setLinearVelocity(new Vector2(x, y));

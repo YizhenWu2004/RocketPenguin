@@ -301,11 +301,13 @@ public class GDXRoot extends Game implements ScreenListener {
               w.resumeTimer();
               restaurant.startTimer();
           }
-          else if (current == 1 && store.playerJustDied) {
+          else if (current == 1 && store.playerJustDied && !store.gettingCaught()) {
               current = 0;
               sounds.storeStop();
               store.guardWanderReset();
               store.playerJustDied = false;
+              store.guardInAction = null;
+//              store.player.stopDrawing = false;
               restaurant.uponPlayerDeathReset();
               restaurant.setPlayerJustDied(true);
           }
