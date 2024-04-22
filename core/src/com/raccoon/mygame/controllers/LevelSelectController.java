@@ -342,6 +342,7 @@ public class LevelSelectController extends WorldController{
             UIButton dayNumber = createNumberElement(i, 270,260,1,1);
             levelButton.addChild(dayNumber);
             //The addbutton method has many overloads. Please see them below.
+            //on un-hover
             addButton(levelButton,
                     ()-> {
 //          //on click
@@ -352,10 +353,7 @@ public class LevelSelectController extends WorldController{
                         //on hover
                         levelButton.setSX(0.9f);
                         levelButton.setSY(0.9f);
-                    }, ()->{
-                        //on un-hover
-                        levelButton.resetStyleProperties();
-                    }
+                    }, levelButton::resetStyleProperties
             );
 
             constructBooklet(is);
@@ -368,6 +366,13 @@ public class LevelSelectController extends WorldController{
         //270, 415, 0.5f, 0.5f
         UIButton number = new UIButton(new Texture("menu/" + is + ".png"),is + "num", x, y, sx,sy,canvas);
         return number;
+    }
+
+    private Array<UIButton> createMultipleNumbers(int num, int x, int y, float sx, float sy){
+        int digits = Integer.toString(num).length();
+
+        //empty
+        return new Array<UIButton>();
     }
 
     private void goToLevel(StoreController store, int level, Inventory inv){

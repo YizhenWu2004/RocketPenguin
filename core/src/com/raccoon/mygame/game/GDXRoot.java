@@ -61,7 +61,7 @@ public class GDXRoot extends Game implements ScreenListener {
     public Texture winPic;
     public SoundController sounds;
 
-    /*public OrthographicCamera camera;*/
+    public SaveController saveController;
 
     private Box2DDebugRenderer renderer;
 
@@ -116,6 +116,7 @@ public class GDXRoot extends Game implements ScreenListener {
         input = new InputController();
 
         loader = new LevelLoader(canvas);
+        saveController = new SaveController(loader);
 
         inv = new Inventory(new Texture("720/inventorynew.png"));
         restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
@@ -258,6 +259,7 @@ public class GDXRoot extends Game implements ScreenListener {
         }
         if (current == 2){
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
+            saveController.editKeyValuePair(levelToGoTo, result.score);
             result.update();
             if (result.retry){
                 restart();
