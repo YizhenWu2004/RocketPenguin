@@ -22,6 +22,7 @@ public class CollisionController {
     private final int WORLD_WIDTH = 32;
     private final int WORLD_HEIGHT = 18;
 
+    private SoundController sounds;
     /**
      * Width of the collision geometry
      */
@@ -47,6 +48,7 @@ public class CollisionController {
         //this.guards = guards;
         //collide=false;
         //inSight=false;
+        sounds = new SoundController();
     }
 
     public void processBounds(Player p) {
@@ -82,6 +84,7 @@ public class CollisionController {
         for (Customer c : customers) {
             if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
                 if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
+                    sounds.orderPlay();
                     c.setShow(true);
                 }
                 if(p.dishInventory.leftFilled()){

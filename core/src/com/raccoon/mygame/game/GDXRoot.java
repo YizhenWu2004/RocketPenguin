@@ -59,6 +59,7 @@ public class GDXRoot extends Game implements ScreenListener {
     private boolean win;
     public Texture background;
     public Texture winPic;
+    public SoundController sounds;
 
     /*public OrthographicCamera camera;*/
 
@@ -108,6 +109,7 @@ public class GDXRoot extends Game implements ScreenListener {
     public void create() {
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
+        sounds = new SoundController();
         //180
         w = new Worldtimer(180, canvas);
         w.create();
@@ -238,6 +240,7 @@ public class GDXRoot extends Game implements ScreenListener {
             w.pauseTimer();
             restaurant.setActive(false);
             store.setActive(false);
+            sounds.storeStop();
             if(levelselect.checkForGoToLevel()){
                 this.levelToGoTo = levelselect.getLevelToGoTo();
                 restart();
@@ -251,6 +254,7 @@ public class GDXRoot extends Game implements ScreenListener {
             current = 2;
 //            restaurant.setActive(false);
 //            store.setActive(false);
+            sounds.storeStop();
         }
         if (current == 2){
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
@@ -299,6 +303,7 @@ public class GDXRoot extends Game implements ScreenListener {
           }
           else if (current == 1 && store.playerJustDied) {
               current = 0;
+              sounds.storeStop();
               store.guardWanderReset();
               store.playerJustDied = false;
               restaurant.uponPlayerDeathReset();
@@ -306,6 +311,7 @@ public class GDXRoot extends Game implements ScreenListener {
           }
           else if (store.getVentCollision() && current == 1) {
               current = 0;
+              sounds.storeStop();
               store.guardWanderReset();
               store.setVentCollision(false);
               restaurant.ventOutFlag = true;
@@ -313,6 +319,7 @@ public class GDXRoot extends Game implements ScreenListener {
           }
           else if (restaurant.getVentCollision()&& current == 0) {
               current = 1;
+              sounds.storePlay();
               restaurant.setVentCollision(false);
               store.ventOutFlag = true;
               store.onSet();
@@ -364,8 +371,6 @@ public class GDXRoot extends Game implements ScreenListener {
 //		trash.draw(canvas);
 //
 //
-
-
         //calls draw method to draw overlay(background) and all the other stuff)
     }
 

@@ -175,6 +175,7 @@ public class StoreController extends WorldController implements ContactListener 
     }
 
     public void setLevel(LevelModel level, Inventory sharedInv) {
+        sounds.storeStop();
         guardWanderReset();
         world = level.getStoreWorld();
         player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
