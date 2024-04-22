@@ -40,34 +40,34 @@ public class MainMenuController extends WorldController{
         this.canvas = canvas;
         this.input = input;
 
-        UIButton play = new UIButton(new Texture("menu/play.png"),"play",100,500,canvas);
+        UIButton play = new UIButton(new Texture("menu/play.png"),"play",20,330, 0.5f,0.5f,canvas);
         addButton(play, ()-> {
             this.goToLevelSelect = true;
             System.out.println(play.getID());
         }, ()->{
-            play.setSX(1.1f);
-            play.setSY(1.1f);
+            play.setSX(0.6f);
+            play.setSY(0.6f);
         }, play::resetStyleProperties,buttons);
 
-        UIButton options = new UIButton(new Texture("menu/options.png"),"options", 100,300,canvas);
+        UIButton options = new UIButton(new Texture("menu/options.png"),"options", 20,230,0.5f,0.5f,canvas);
         addButton(options, ()-> {
             this.goToOptionsSelect = true;
             this.on_settings = true;
             this.on_main = false;
             System.out.println(options.getID());
         }, ()->{
-            options.setSX(1.1f);
-            options.setSY(1.1f);
+            options.setSX(0.6f);
+            options.setSY(0.6f);
         },options::resetStyleProperties,buttons);
 
 
-        UIButton exit = new UIButton(new Texture("menu/exit.png"),"exit",100,100,canvas);
+        UIButton exit = new UIButton(new Texture("menu/exit.png"),"exit",20,130,0.5f,0.5f,canvas);
         addButton(exit, ()-> {
             this.exit = true;
             System.out.println(exit.getID());
         },()->{
-            exit.setSX(1.1f);
-            exit.setSY(1.1f);
+            exit.setSX(0.6f);
+            exit.setSY(0.6f);
             },exit::resetStyleProperties,buttons);
 
 
