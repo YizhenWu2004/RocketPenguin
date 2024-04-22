@@ -59,5 +59,5 @@ public class Shadow {
         float originX = texture.getWidth() / 2.0f;
         float originY = texture.getHeight() / 2.0f;
 
-        canvas.draw(texture,Color.WHITE,originX+ox,originY+oy,x,y,scaleX,scaleY);    }
+        canvas.draw(texture,Color.WHITE,originX+ox,originY+oy,x,y,scaleX*40*2,scaleY*40*2);    }
 }
