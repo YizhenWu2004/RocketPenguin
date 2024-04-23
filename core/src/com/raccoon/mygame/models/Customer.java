@@ -55,7 +55,7 @@ public class Customer extends BoxObstacle {
 
     float height;
     float width;
-    private Shadow shadow;
+    private Shadow shadow = new Shadow(0,0,1f,1f);;
     private String customerType;
     public String[] types = new String[]{"goat","cat","otter","ferret","bear"};
 
@@ -114,7 +114,7 @@ public class Customer extends BoxObstacle {
         satisfied = SATISFIED.NOTYET;
         isActive = true;
 
-        shadow = new Shadow(x,y,1f,1f);
+//        shadow;
 
         controller = new CustomerAIController(tables, this,shadow,
                 new float[]{scaleX,scaleY,this.height});

@@ -203,6 +203,9 @@ public class Player extends BoxObstacle {
             if(dishInventory.oneFilled()) {
                 shadow.draw(canvas,0.8f,0.8f);
             }
+            else if(current == 1){
+                shadow.draw(canvas,0.8f,0.8f);
+            }
             else{
                 shadow.draw(canvas);
             }

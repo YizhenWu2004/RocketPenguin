@@ -18,8 +18,8 @@ public class Shadow {
         this.x = x;
         this.y = y;
         this.texture = new Texture("720/"+ "shadow" + ".png");
-        texture_sx = texture_sx*xScale;
-        texture_sy = texture_sy*yScale;
+        texture_sx = xScale;
+        texture_sy = yScale;
     }
 
     public float getXPosition() {
@@ -52,12 +52,14 @@ public class Shadow {
 
     public void draw(GameCanvas canvas,float scaleX, float scaleY) {
         canvas.draw(texture, Color.WHITE, 10, 10,
-                x, y, 0.0f, scaleX, scaleY);
+                x, y, 0.0f, texture_sx*scaleX, texture_sx*scaleY);
     }
 
     public void draw(GameCanvas canvas, float scaleX, float scaleY, float ox, float oy) {
         float originX = texture.getWidth() / 2.0f;
         float originY = texture.getHeight() / 2.0f;
-
-        canvas.draw(texture,Color.WHITE,originX+ox,originY+oy,x,y,scaleX*40*2,scaleY*40*2);    }
+        canvas.draw(texture, Color.WHITE, 10, 10,
+                x+ox, y+oy, 0.0f, texture_sx*scaleX, texture_sx*scaleY);
+//        canvas.draw(texture,Color.WHITE,10,10,x+ox,y+oy,texture_sx*scaleX,texture_sx*scaleY);
+    }
 }

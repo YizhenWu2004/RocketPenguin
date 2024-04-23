@@ -45,7 +45,7 @@ public class Guard extends WheelObstacle {
 
     private QuestionExpression question;
 
-    private Shadow shadow;
+    private Shadow shadow = new Shadow(0,0,1f,1f);;
 
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
@@ -79,7 +79,7 @@ public class Guard extends WheelObstacle {
         zzz = new Expression("zzz",x,y);
         question = new QuestionExpression("question",x,y,aiController.getSusMeter(),30);
 
-        shadow = new Shadow(x,y,0.8f,0.8f);
+
 
     }
 
@@ -161,16 +161,19 @@ public class Guard extends WheelObstacle {
 
 
     public void draw(float scaleX, float scaleY) {
-        shadow.draw(canvas);
+//        shadow.draw(canvas,0.8f,0.8f);
         if(getAIController().getOrien() == GuardAIController.GuardOrientation.LEFT){
+            shadow.draw(canvas,0.8f,0.8f);
             drawSprite(canvas, scaleX, scaleY, 30, 20);
             sight.render();
         }
         else if(getAIController().getOrien() == GuardAIController.GuardOrientation.RIGHT){
+            shadow.draw(canvas,0.8f,0.8f);
             drawSprite(canvas, -scaleX, scaleY, 30, 20);
             sight.render();
         }
         else{
+            shadow.draw(canvas,0.6f,0.6f,30,0);
             drawSprite(canvas, -scaleX, scaleY, 30, 20);
             sight.render();
         }
