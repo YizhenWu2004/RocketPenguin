@@ -189,9 +189,9 @@ public class LevelModel {
         for (MapObject i : ingredientsLayer.getObjects()) {
             //Ingredient ing = new Ingredient(i.getName(), new Texture("720/" + i.getName() + ".png"), -1);
             //addFruitCrate(((TextureMapObject) i).getX()/40f, ((TextureMapObject) i).getY()/40f, ing);
-            float x = ((TextureMapObject) i).getX() + CELL_SIZE/2 * 40;
-            float y = ((TextureMapObject) i).getY() + CELL_SIZE/2 * 40;
-            addIngredient(x-20f, y, i.getName());
+            float x = ((TextureMapObject) i).getX();
+            float y = ((TextureMapObject) i).getY();
+            addIngredient(x+10f, y+30f, i.getName());
         }
     }
 
