@@ -111,7 +111,7 @@ public class GDXRoot extends Game implements ScreenListener {
         canvas = new GameCanvas();
         sounds = new SoundController();
         //180
-        w = new Worldtimer(180, canvas);
+        w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
         w.create();
         input = new InputController();
 
@@ -144,7 +144,7 @@ public class GDXRoot extends Game implements ScreenListener {
     public void restart(){
         canvas = new GameCanvas();
         //180
-        w = new Worldtimer(180, canvas);
+        w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
         w.create();
         input = new InputController();
 
