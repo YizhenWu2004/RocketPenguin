@@ -85,7 +85,7 @@ public class Worldtimer extends ApplicationAdapter {
         if (secs < 10) {
             gameCanvas.drawText(Integer.toString(mins),
                     font, 120, 670, 2, 3,layout);
-            gameCanvas.drawText( "0" + Integer.toString(secs), font, 170, 670, 3, 4,layout);
+            gameCanvas.drawText( "0" + Integer.toString(secs), font, 170, 670, 3, 3,layout);
         } else {
             gameCanvas.drawText(Integer.toString(mins),
                     font, 120, 670,2,3,layout);
