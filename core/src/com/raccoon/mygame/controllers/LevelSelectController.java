@@ -317,7 +317,7 @@ public class LevelSelectController extends WorldController{
         dayNumber.setCOLOR(Color.BLACK);
 
         Array<UIButton> multipleNums = createMultipleNumbers((saveController.getKeyvaluepairs().get(num)),655,  285,0.5f,0.5f);
-        Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(num)),590,  200,0.5f,0.5f);
+        Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(num)),540,  200,0.7f,0.7f);
 
 
         //add the buttons to the modal thingy to the modal
@@ -356,7 +356,12 @@ public class LevelSelectController extends WorldController{
             //level one button
             UIButton levelButton = new UIButton(new Texture("menu/levelbooklet.png"),is,10 + (i*400),30,0.8f,0.8f,canvas);
             UIButton dayNumber = createNumberElement(i, 270,260,1,1);
+            Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(i)),118,  170,1f,1f);
+
             levelButton.addChild(dayNumber);
+            for(UIButton star: stars){
+                levelButton.addChild(star);
+            }
             //The addbutton method has many overloads. Please see them below.
             //on un-hover
             addButton(levelButton,
@@ -402,7 +407,7 @@ public class LevelSelectController extends WorldController{
         int[] star_req = new int[]{50,75,100};
         if(score < star_req[0]){
             for(int i = 0; i < 3; i++){
-                UIButton star = new UIButton(starEmpty,"unstar",x + (i*50),y,sx,sy, canvas);
+                UIButton star = new UIButton(starEmpty,"unstar",x + (i*70),y,sx,sy, canvas);
                 elements.add(star);
             }
         }
@@ -410,10 +415,10 @@ public class LevelSelectController extends WorldController{
             int checkedStars = 1;
             for(int i = 0; i < 3; i++){
                 if(i >= checkedStars){
-                    UIButton star = new UIButton(starEmpty,"unstar",x + (i*50),y,sx,sy, canvas);
+                    UIButton star = new UIButton(starEmpty,"unstar",x + (i*70),y,sx,sy, canvas);
                     elements.add(star);
                 } else {
-                    UIButton stary = new UIButton(starFilled, "unstar", x + (i * 50), y, sx, sy, canvas);
+                    UIButton stary = new UIButton(starFilled, "unstar", x + (i * 70), y, sx, sy, canvas);
                     elements.add(stary);
                 }
             }
