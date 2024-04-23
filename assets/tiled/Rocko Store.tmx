@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="10" nextobjectid="71">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="10" nextobjectid="75">
  <tileset firstgid="1" source="Rocko Store Floor.tsx"/>
  <tileset firstgid="577" source="RockoGuard.tsx"/>
  <tileset firstgid="578" source="Rocko Store Objects.tsx"/>
@@ -61,6 +61,10 @@
   <object id="45" name="BoxL" gid="584" x="1051" y="197" width="230" height="230"/>
   <object id="46" name="BoxM" gid="585" x="1001" y="191" width="230" height="230"/>
   <object id="47" name="BoxS" gid="586" x="1057" y="245" width="230" height="230"/>
+  <object id="71" name="Bin" gid="583" x="857" y="455" width="230" height="230"/>
+  <object id="72" name="Bin" gid="583" x="1017" y="455" width="230" height="230"/>
+  <object id="73" name="Bin" gid="583" x="1017" y="615" width="230" height="230"/>
+  <object id="74" name="Bin" gid="583" x="857" y="615" width="230" height="230"/>
  </objectgroup>
  <objectgroup id="6" name="Ingredients">
   <object id="36" name="orange" gid="597" x="867.667" y="496.333" width="230" height="230"/>
@@ -72,24 +76,32 @@
   <object id="1" name="Guard" gid="577" x="1130.92" y="248.288" width="102" height="131">
    <properties>
     <property name="GuardNum" value="1"/>
-    <property name="Sleep" value="Yes"/>
+    <property name="Orientation" value="Left"/>
+    <property name="Rotate" value="CCW"/>
+    <property name="Sleep" value="No"/>
    </properties>
   </object>
-  <object id="58" name="Guard" gid="2147484225" x="869.667" y="322.5" width="102" height="131">
+  <object id="58" name="Guard" gid="2147484225" x="829.667" y="322.5" width="102" height="131">
    <properties>
     <property name="GuardNum" value="2"/>
+    <property name="Orientation" value="Left"/>
+    <property name="Rotate" value="No"/>
     <property name="Sleep" value="No"/>
    </properties>
   </object>
   <object id="62" name="Guard" gid="577" x="449" y="720.5" width="102" height="131">
    <properties>
     <property name="GuardNum" value="3"/>
+    <property name="Orientation" value="Left"/>
+    <property name="Rotate" value="No"/>
     <property name="Sleep" value="No"/>
    </properties>
   </object>
   <object id="64" name="Guard" gid="2147484225" x="121" y="475.5" width="102" height="131">
    <properties>
     <property name="GuardNum" value="4"/>
+    <property name="Orientation" value="Left"/>
+    <property name="Rotate" value="No"/>
     <property name="Sleep" value="No"/>
    </properties>
   </object>

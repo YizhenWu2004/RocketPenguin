@@ -33,6 +33,9 @@ public class LevelModel {
     private Array<Guard> guards = new Array<>();
     private Array<Array<Vector2>> guardNodes = new Array<>();
     private Array<Boolean> guardSleep = new Array<>();
+    //0 = No rotate, 1 = CW, 2 = CCW
+    private Array<Integer> guardRotate = new Array<>();
+    private Array<String> guardOrientations = new Array<>();
     private TiledMap tiledMap;
     private MapLayer storeObjectsLayer;
     private MapLayer ingredientsLayer;
@@ -64,7 +67,7 @@ public class LevelModel {
     }
 
     private void addFruitCrate(float x, float y) {
-        NormalObstacle obstacle = new NormalObstacle(x+CELL_SIZE/2, y+CELL_SIZE/2, 2f, 1f, 1f, 1f, 0f, 0f,
+        NormalObstacle obstacle = new NormalObstacle(x+CELL_SIZE/2, y+CELL_SIZE/2, 2f, 1f, 1f, 1f, 0f, -40f,
                 new Texture("720/fruitcrate.png"), storeWorld, canvas);
         storeObjects.add(obstacle);
         storeObjectsAndDecor.add(obstacle);
@@ -74,12 +77,23 @@ public class LevelModel {
         ingredients.add(new Ingredient(name, x, y, new Texture("720/" + name + ".png"), -1));
     }
 
-    private void addGuard(float x, float y, boolean sleep, Array<Vector2> nodes) {
+    private void addGuard(float x, float y, boolean sleep, int rotate, String orientation, Array<Vector2> nodes) {
 //        System.out.println(sleep);
 //        System.out.println(nodes.size);
+        enums.PatrolDirection direction = enums.PatrolDirection.UP_DOWN;
+        if (sleep) {
+            direction = enums.PatrolDirection.SLEEP_WAKE;
+        }
+        else if (rotate == 1) {
+            direction = enums.PatrolDirection.ROTATE_CW;
+        }
+        else if (rotate == 2) {
+            direction = enums.PatrolDirection.ROTATE_CCW;
+        }
+        System.out.println("Rotation: " + rotate + ", Sleep: " + sleep);
         guards.add(new Guard(x, y, 1.67f, 0.83f, guardIdle, storeWorld, canvas,
-                (sleep? enums.PatrolDirection.SLEEP_WAKE : enums.PatrolDirection.UP_DOWN),collisionLayer,
-                (sleep ? new Array<>() : nodes), GuardAIController.GuardOrientation.LEFT));
+                direction,collisionLayer, (sleep || (rotate != 0) ? new Array<>() : nodes),
+                GuardAIController.GuardOrientation.LEFT));
     }
 
     public LevelModel(String tmxFile, float[] customerTimes, int numStations, int minOrder, int maxOrder,
@@ -126,6 +140,7 @@ public class LevelModel {
             float x = ((TextureMapObject) o).getX()/40f + CELL_SIZE/2;
             float y = ((TextureMapObject) o).getY()/40f + CELL_SIZE/2;
             NormalObstacle obstacle;
+            System.out.println(o.getName());
             switch (o.getName()) {
                 case "HorizShelf":
                     addShelfHorizontal(x-0.1f, y-1.5f);
@@ -134,7 +149,7 @@ public class LevelModel {
                     addShelfVertical(x, y);
                     break;
                 case "Bin":
-                    addFruitCrate(x-3f, y-3f);
+                    addFruitCrate(x-3f, y-4f);
                     break;
                 case "HorizWall":
                     obstacle = new NormalObstacle(x, y-1.5f, 5f, 1f, 1f, 1f, 0f, -60f,
@@ -234,15 +249,28 @@ public class LevelModel {
         for (int i = 0; i < numGuards; i++) {
             guardNodes.add(new Array<>());
             guardSleep.add(false);
+            guardRotate.add(0);
+            guardOrientations.add("");
         }
         for (MapObject g : guardsLayer.getObjects()) {
             int idx = Integer.parseInt((String) g.getProperties().get("GuardNum"));
             String sleep = (String)g.getProperties().get("Sleep");
+            String rotate = (String)g.getProperties().get("Rotate");
+            String orientation = (String)g.getProperties().get("Orientation");
             guardNodes.get(idx - 1).add(createNode(g));
             if (sleep.equals("Yes")) {
                 System.out.println("this is happening");
                 guardSleep.set(idx-1, true);
             }
+
+            if (rotate.equals("CW")) {
+                guardRotate.set(idx-1, 1);
+            }
+            else if (rotate.equals("CCW")) {
+                guardRotate.set(idx-1, 2);
+            }
+
+            guardOrientations.set(idx-1, orientation);
         }
         for (MapObject n : guardNodesLayer.getObjects()) {
             int gIdx = Integer.parseInt((String) n.getProperties().get("GuardNum"));
@@ -255,7 +283,7 @@ public class LevelModel {
         }
         for (int i = 0; i < numGuards; i++) {
             Vector2 init = guardNodes.get(i).get(0);
-            addGuard(init.x, init.y, guardSleep.get(i), guardNodes.get(i));
+            addGuard(init.x, init.y, guardSleep.get(i), guardRotate.get(i), guardOrientations.get(i), guardNodes.get(i));
         }
     }
 }
