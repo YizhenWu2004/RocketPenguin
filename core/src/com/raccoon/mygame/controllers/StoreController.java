@@ -147,8 +147,6 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
 
-        //ingredients.add(new Ingredient("apple", 100, 100, new Texture("720/apple.png"), -1));
-
         playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
 
         player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
@@ -190,6 +188,8 @@ public class StoreController extends WorldController implements ContactListener 
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
+        System.out.println("Size: " + level.getIngredients().size);
+        ingredients = level.getIngredients();
         drawableObjects = level.getStoreObjectsAndDecor();
         drawableObjects.add(player);
         drawableObjects.add(vent1);
