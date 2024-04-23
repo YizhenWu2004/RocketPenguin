@@ -107,11 +107,12 @@
   <object id="82" name="tomato" gid="604" x="642.401" y="591.467" width="67" height="67"/>
   <object id="161" name="persimmon" gid="613" x="1012.32" y="108.956" width="67" height="67"/>
  </objectgroup>
- <objectgroup id="3" name="Guards">
+ <objectgroup id="3" name="Guards" opacity="0.96">
   <object id="1" name="Guard" gid="577" x="696.98" y="693.75" width="102" height="131">
    <properties>
     <property name="GuardNum" value="1"/>
     <property name="Orientation" value="Left"/>
+    <property name="Rotate" value="No"/>
     <property name="Sleep" value="No"/>
    </properties>
   </object>
@@ -119,6 +120,7 @@
    <properties>
     <property name="GuardNum" value="2"/>
     <property name="Orientation" value="Left"/>
+    <property name="Rotate" value="No"/>
     <property name="Sleep" value="No"/>
    </properties>
   </object>
@@ -126,6 +128,7 @@
    <properties>
     <property name="GuardNum" value="3"/>
     <property name="Orientation" value="Up"/>
+    <property name="Rotate" value="No"/>
     <property name="Sleep" value="No"/>
    </properties>
   </object>
@@ -133,6 +136,7 @@
    <properties>
     <property name="GuardNum" value="4"/>
     <property name="Orientation" value="Left"/>
+    <property name="Rotate" value="No"/>
     <property name="Sleep" value="Yes"/>
    </properties>
   </object>
