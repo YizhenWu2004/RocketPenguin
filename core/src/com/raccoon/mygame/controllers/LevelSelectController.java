@@ -26,6 +26,8 @@ public class LevelSelectController extends WorldController{
 
     private final ScrollController scroller = new ScrollController();
 
+    private SaveController saveController;
+
 
     /**
      * All of the buttons within this level select menu
@@ -56,9 +58,10 @@ public class LevelSelectController extends WorldController{
      * @param canvas Canvas to draw with
      * @param input InputController to use
      * */
-    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader){
+    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController){
         this.canvas = canvas;
         this.input = input;
+        this.saveController = saveController;
 
 //        constructBooklet("1");
 //        constructBooklet("2");
@@ -313,13 +316,26 @@ public class LevelSelectController extends WorldController{
         UIButton dayNumber = createNumberElement(num,270, 415, 0.5f, 0.5f);
         dayNumber.setCOLOR(Color.BLACK);
 
+        Array<UIButton> multipleNums = createMultipleNumbers((saveController.getKeyvaluepairs().get(num)),655,  285,0.5f,0.5f);
+        Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(num)),590,  200,0.5f,0.5f);
+
+
         //add the buttons to the modal thingy to the modal
         selectModal.addElement(booklet);
         selectModal.addElement(back);
         selectModal.addElement(start);
         selectModal.addElement(dayNumber);
+        for (UIButton butt:
+                multipleNums) {
+            selectModal.addElement(butt);
+        }
+        for (UIButton star:
+                stars) {
+            selectModal.addElement(star);
+        }
         //add modal to the list of modals.
         modals.add(selectModal);
+
     }
     public boolean checkForGoToLevel(){return this.goToLevel;}
     public Modal findModalOfID(String id){
@@ -369,10 +385,59 @@ public class LevelSelectController extends WorldController{
     }
 
     private Array<UIButton> createMultipleNumbers(int num, int x, int y, float sx, float sy){
-        int digits = Integer.toString(num).length();
-
-        //empty
-        return new Array<UIButton>();
+        Array<UIButton> elements = new Array<>();
+        String numstring = Integer.toString(num);
+        for(int i = 0; i < numstring.length(); i++){
+            String currentchar = numstring.substring(i,i+1);
+            UIButton number = new UIButton(new Texture("menu/" + currentchar + ".png"),currentchar + "multnum", x + (i * 25), y, sx,sy,canvas);
+            number.setCOLOR(Color.BLACK);
+            elements.add(number);
+        }
+        return elements;
+    }
+    private Array<UIButton> generateStars(int score, int x, int y, float sx, float sy){
+        Array<UIButton> elements = new Array<>();
+        Texture starFilled = new Texture("menu/filledstar.png");
+        Texture starEmpty = new Texture("menu/unfilledstar.png");
+        int[] star_req = new int[]{50,75,100};
+        if(score < star_req[0]){
+            for(int i = 0; i < 3; i++){
+                UIButton star = new UIButton(starEmpty,"unstar",x + (i*50),y,sx,sy, canvas);
+                elements.add(star);
+            }
+        }
+        else if(score < star_req[1]){
+            int checkedStars = 1;
+            for(int i = 0; i < 3; i++){
+                if(i >= checkedStars){
+                    UIButton star = new UIButton(starEmpty,"unstar",x + (i*50),y,sx,sy, canvas);
+                    elements.add(star);
+                } else {
+                    UIButton stary = new UIButton(starFilled, "unstar", x + (i * 50), y, sx, sy, canvas);
+                    elements.add(stary);
+                }
+            }
+        }
+        else if(score < star_req[2]){
+            int checkedStars = 2;
+            for(int i = 0; i < 3; i++){
+                if(i == checkedStars){
+                    UIButton star = new UIButton(starEmpty,"unstar",x + (i*50),y,sx,sy, canvas);
+                    elements.add(star);
+                }else {
+                    UIButton stary = new UIButton(starFilled, "unstar", x + (i * 50), y, sx, sy, canvas);
+                    elements.add(stary);
+                }
+            }
+        }
+        else{
+            int checkedStars = 3;
+            for(int i = 0; i < 3; i++){
+                UIButton star = new UIButton(starFilled,"unstar",x + (i*50),y,sx,sy, canvas);
+                elements.add(star);
+            }
+        }
+        return elements;
     }
 
     private void goToLevel(StoreController store, int level, Inventory inv){
