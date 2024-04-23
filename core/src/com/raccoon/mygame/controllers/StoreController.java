@@ -69,7 +69,7 @@ public class StoreController extends WorldController implements ContactListener 
     public boolean ventOutFlag;
     private float ventOutTimer;
 
-    private float playerJustCaughtTimer;
+    public float playerJustCaughtTimer;
 
     public Guard guardInAction;
 
@@ -176,6 +176,8 @@ public class StoreController extends WorldController implements ContactListener 
         addInvisibleWall(0,-1,80,1,1,1,0,0);
         addInvisibleWall(-1,0,1,40,1,1,0,0);
         addInvisibleWall(33,0,1,40,1,1,0,0);
+
+
     }
 
     public void setLevel(LevelModel level, Inventory sharedInv) {
@@ -186,6 +188,8 @@ public class StoreController extends WorldController implements ContactListener 
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
+        System.out.println("Size: " + level.getIngredients().size);
+        ingredients = level.getIngredients();
         drawableObjects = level.getStoreObjectsAndDecor();
         drawableObjects.add(player);
         drawableObjects.add(vent1);
@@ -307,7 +311,7 @@ public class StoreController extends WorldController implements ContactListener 
         }
         player.update(delta);
 
-        animator.processGuards(guards, delta, guardInAction);
+        animator.processGuards(guards, delta, guardInAction,gettingCaught());
         animator.handleAnimation(player, delta, respawning());
     }
 
@@ -379,9 +383,9 @@ public class StoreController extends WorldController implements ContactListener 
 //            o.draw();
 //        }
 //        player.draw(0.25f, 0.25f);
-//        for (Ingredient i : ingredients) {
-//            i.draw(canvas);
-//        }
+        for (Ingredient i : ingredients) {
+            i.draw(canvas);
+        }
 //        for (Guard g : guards) {
 //            g.draw(0.1f, 0.1f);
 //        }
@@ -548,7 +552,7 @@ public class StoreController extends WorldController implements ContactListener 
     public void startVentTimer(VentObstacle o, Player p){
         duringventing = true;
         p.playerIsVenting = true;
-        o.ventTimer = new Worldtimer((int) o.maxTime, canvas);
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, new Texture("720/BaseTimer.png"));
         o.ventTimer.create();
     }
 

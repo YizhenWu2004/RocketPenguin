@@ -28,6 +28,7 @@ public class LevelModel {
     private World storeWorld;
     private GameCanvas canvas;
     private Array<NormalObstacle> storeObjects = new Array<>();
+    private Array<Ingredient> ingredients = new Array<>();
     private Array<Object> storeObjectsAndDecor = new Array<>();
     private Array<Guard> guards = new Array<>();
     private Array<Array<Vector2>> guardNodes = new Array<>();
@@ -62,11 +63,15 @@ public class LevelModel {
         storeObjectsAndDecor.add(obstacle);
     }
 
-    private void addFruitCrate(float x, float y, Ingredient ingredient) {
+    private void addFruitCrate(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x+CELL_SIZE/2, y+CELL_SIZE/2, 2f, 1f, 1f, 1f, 0f, 0f,
-                new Texture("720/" + ingredient.type + ".png"), storeWorld, canvas, ingredient);
+                new Texture("720/fruitcrate.png"), storeWorld, canvas);
         storeObjects.add(obstacle);
         storeObjectsAndDecor.add(obstacle);
+    }
+
+    private void addIngredient(float x, float y, String name) {
+        ingredients.add(new Ingredient(name, x, y, new Texture("720/" + name + ".png"), -1));
     }
 
     private void addGuard(float x, float y, boolean sleep, Array<Vector2> nodes) {
@@ -112,6 +117,7 @@ public class LevelModel {
 
     public Array<NormalObstacle> getStoreObjects() { return storeObjects; }
     public Array<Object> getStoreObjectsAndDecor() { return storeObjectsAndDecor; }
+    public Array<Ingredient> getIngredients() { return ingredients; }
 
     public Array<Guard> getGuards() { return guards; }
 
@@ -126,6 +132,9 @@ public class LevelModel {
                     break;
                 case "VertShelf":
                     addShelfVertical(x, y);
+                    break;
+                case "Bin":
+                    addFruitCrate(x-3f, y-3f);
                     break;
                 case "HorizWall":
                     obstacle = new NormalObstacle(x, y-1.5f, 5f, 1f, 1f, 1f, 0f, -60f,
@@ -178,8 +187,11 @@ public class LevelModel {
 
     private void processIngredients() {
         for (MapObject i : ingredientsLayer.getObjects()) {
-            Ingredient ing = new Ingredient(i.getName(), new Texture("720/" + i.getName() + ".png"), -1);
-            addFruitCrate(((TextureMapObject) i).getX()/40f, ((TextureMapObject) i).getY()/40f, ing);
+            //Ingredient ing = new Ingredient(i.getName(), new Texture("720/" + i.getName() + ".png"), -1);
+            //addFruitCrate(((TextureMapObject) i).getX()/40f, ((TextureMapObject) i).getY()/40f, ing);
+            float x = ((TextureMapObject) i).getX();
+            float y = ((TextureMapObject) i).getY();
+            addIngredient(x+10f, y+30f, i.getName());
         }
     }
 

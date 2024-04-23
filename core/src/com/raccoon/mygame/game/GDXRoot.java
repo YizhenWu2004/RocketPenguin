@@ -111,7 +111,7 @@ public class GDXRoot extends Game implements ScreenListener {
         canvas = new GameCanvas();
         sounds = new SoundController();
         //180
-        w = new Worldtimer(180, canvas);
+        w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
         w.create();
         input = new InputController();
 
@@ -144,7 +144,7 @@ public class GDXRoot extends Game implements ScreenListener {
     public void restart(){
         canvas = new GameCanvas();
         //180
-        w = new Worldtimer(180, canvas);
+        w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
         w.create();
         input = new InputController();
 
@@ -153,7 +153,7 @@ public class GDXRoot extends Game implements ScreenListener {
         inv = new Inventory(new Texture("720/inventorynew.png"));
         restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
         store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
-        store.setLevel(loader.getLevels().get(0), inv);
+        store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
         pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
         result = new ResultController(canvas, new Texture("result/result_final.png"),input);
@@ -310,14 +310,16 @@ public class GDXRoot extends Game implements ScreenListener {
               restaurant.startTimer();
           }
           else if (current == 1 && store.playerJustDied && !store.gettingCaught()) {
+              store.player.setPosition(0,0);
+              store.guardWanderReset();
               current = 0;
               sounds.storeStop();
-              store.guardWanderReset();
               store.playerJustDied = false;
               store.guardInAction = null;
-//              store.player.stopDrawing = false;
               restaurant.uponPlayerDeathReset();
               restaurant.setPlayerJustDied(true);
+              store.setVentCollision(false);
+              restaurant.setVentCollision(false);
           }
           else if (store.getVentCollision() && current == 1) {
               current = 0;

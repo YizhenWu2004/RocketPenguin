@@ -10,7 +10,7 @@ public class CollisionController {
     /**
      * Maximum distance a player must be from an ingredient to pick it up
      */
-    protected static final float PICKUP_RADIUS = 1.0f;
+    protected static final float PICKUP_RADIUS = 2.0f;
 
     protected static final float TRASH_RADIUS = 1.0f;
 
@@ -142,7 +142,7 @@ public class CollisionController {
         Vector2 iPosWorld = canvasToWorld(iPosCanvas);
         if (p.getPosition().dst(iPosWorld) < PICKUP_RADIUS) {
             if (p.getSpace()) {
-                p.pickUpItem(i);
+                p.pickUpItem(i.clone());
                 p.setSpace(false);
             }
         }
