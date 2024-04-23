@@ -552,7 +552,7 @@ public class StoreController extends WorldController implements ContactListener 
     public void startVentTimer(VentObstacle o, Player p){
         duringventing = true;
         p.playerIsVenting = true;
-        o.ventTimer = new Worldtimer((int) o.maxTime, canvas);
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, new Texture("720/BaseTimer.png"));
         o.ventTimer.create();
     }
 

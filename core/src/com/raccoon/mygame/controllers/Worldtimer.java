@@ -3,10 +3,13 @@ package com.raccoon.mygame.controllers;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Timer;
 import com.raccoon.mygame.view.GameCanvas;
 
@@ -19,15 +22,22 @@ public class Worldtimer extends ApplicationAdapter {
     private Timer.Task timerTask;
     public boolean timerPaused;
     private boolean timerStarted;
-    BitmapFont f = new BitmapFont();
-    GlyphLayout layout = new GlyphLayout(f, "");
+    private Texture timerTexture;
+    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("720/PatrickHandSC-Regular.ttf"));
+    FreeTypeFontGenerator.FreeTypeFontParameter p = new FreeTypeFontGenerator.FreeTypeFontParameter();
+    BitmapFont font = generator.generateFont(p);
 
-    public Worldtimer(int count, GameCanvas canvas){
+//    generator.dispose();
+    GlyphLayout layout = new GlyphLayout(font, "");
+
+    public Worldtimer(int count, GameCanvas canvas, Texture t){
         countdownSeconds = count;
         gameCanvas = canvas;
         action_round = false;
         timerPaused = false;
         timerStarted = false;
+        timerTexture = t;
+        font.setColor(Color.BLACK);
     }
 
     public void create() {
@@ -63,6 +73,9 @@ public class Worldtimer extends ApplicationAdapter {
 
 
     public void draw(int x,int y) {
+        gameCanvas.draw(timerTexture, Color.WHITE, 10, 10,
+                10, 600, 0.0f, 1, 1);
+//        gameCanvas.draw(timerTexture, x, y);
         int mins = countdownSeconds / 60;
         int secs = countdownSeconds % 60;
         if (countdownSeconds > 60) {
@@ -70,18 +83,20 @@ public class Worldtimer extends ApplicationAdapter {
             secs = countdownSeconds % 60;
         }
         if (secs < 10) {
-            gameCanvas.drawText(Integer.toString(mins) + ":0" + Integer.toString(secs),
-                    f, 20, 700, 2, 2,layout);
+            gameCanvas.drawText(Integer.toString(mins),
+                    font, 120, 670, 2, 3,layout);
+            gameCanvas.drawText( "0" + Integer.toString(secs), font, 170, 670, 3, 4,layout);
         } else {
-            gameCanvas.drawText(Integer.toString(mins) + ":" + Integer.toString(secs),
-                    f, 20, 700,2,2,layout);
+            gameCanvas.drawText(Integer.toString(mins),
+                    font, 120, 670,2,3,layout);
+            gameCanvas.drawText(Integer.toString(secs), font,170, 670, 2, 3, layout);
         }
     }
 
     public void drawNoFormat(float x, float y){
         int time= Math.max(countdownSeconds, 0);
         gameCanvas.drawText(Integer.toString(time),
-                f, x, y, 2, 2,layout);
+                font, x, y, 2, 2, layout);
     }
 
 
