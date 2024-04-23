@@ -4,7 +4,9 @@ public class enums {
     public enum PatrolDirection {
         UP_DOWN,
         LEFT_RIGHT,
-        SLEEP_WAKE
+        SLEEP_WAKE,
+        ROTATE_CCW,
+        ROTATE_CW
     }
 
     public enum RestaurantObject {

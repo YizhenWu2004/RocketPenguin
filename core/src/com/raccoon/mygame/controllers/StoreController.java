@@ -188,6 +188,8 @@ public class StoreController extends WorldController implements ContactListener 
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
+//        guards = new Array<Guard>(1);
+//        guards.add(new Guard(7f, 10, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.ROTATE_CCW,collisionLayer,new Array<>(), GuardAIController.GuardOrientation.LEFT));
         System.out.println("Size: " + level.getIngredients().size);
         ingredients = level.getIngredients();
         drawableObjects = level.getStoreObjectsAndDecor();
@@ -231,10 +233,6 @@ public class StoreController extends WorldController implements ContactListener 
     }
 
     public void update() {
-//        if(totalReset){
-//            guardTotalReset();
-//            totalReset = false;
-//        }
 
         float delta = Gdx.graphics.getDeltaTime();
         player.current = this.current;

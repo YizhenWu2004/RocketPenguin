@@ -204,6 +204,9 @@ public class Guard extends WheelObstacle {
         if(aiController.patrolDirection ==  PatrolDirection.SLEEP_WAKE){
             this.aiController.setAIStateWake();
         }
+        else if(aiController.patrolDirection ==  PatrolDirection.ROTATE_CCW || aiController.patrolDirection ==  PatrolDirection.ROTATE_CCW){
+            this.aiController.setAIStateRotate();
+        }
         else {
             this.aiController.setAIStateWander();
         }

@@ -16,7 +16,8 @@ public class GuardAIController extends ScreenAdapter {
         SUS,
         CHASE,
         SLEEP,
-        WAKE
+        WAKE,
+        ROTATE
     }
 
     public enum GuardOrientation {
@@ -66,7 +67,9 @@ public class GuardAIController extends ScreenAdapter {
 
     private static final float AWAKE_DURATION = 5.0f;
     private static final float SLEEP_DURATION = 3.0f;
+    private static final float ROTATE_DURATION = 3.0f;
     private float sleepWakeTimer = AWAKE_DURATION;
+    private float rotateTimer = ROTATE_DURATION;
     private int count3 = 0;
     private SoundController sounds;
 
@@ -88,6 +91,8 @@ public class GuardAIController extends ScreenAdapter {
             this.upperBoundary = Math.min(y + patrolRange, worldHeight);
         } else if (patrolDirection == PatrolDirection.SLEEP_WAKE) {
             currentState = AIState.WAKE;
+        }else if (patrolDirection == PatrolDirection.ROTATE_CW || patrolDirection == PatrolDirection.ROTATE_CCW){
+            currentState = AIState.ROTATE;
         }
 
         this.currentPath = new Array<>();
@@ -114,6 +119,9 @@ public class GuardAIController extends ScreenAdapter {
 
     public void setAIStateSus() {
         currentState = AIState.SUS;
+    }
+    public void setAIStateRotate() {
+        currentState = AIState.ROTATE;
     }
 
     public void incrementSusMeter(float scale) {
@@ -207,14 +215,35 @@ public class GuardAIController extends ScreenAdapter {
                 if(patrolDirection == PatrolDirection.SLEEP_WAKE){
                     setAIStateWake();
                 }
+                else if(patrolDirection == PatrolDirection.ROTATE_CCW || patrolDirection == PatrolDirection.ROTATE_CW){
+                    setAIStateRotate();
+                }
                 else{
                     setAIStateWander();
                 }
             }
         }
 
+        rotateTimer -= deltaTime;
+//        if(rotateTimer <= 0){
+//            System.out.println("1" + orien);
+//            getNextRotateOrien(patrolDirection);
+//            System.out.println("2" + orien);
+//            rotateTimer = ROTATE_DURATION;
+//        }
+
         sleepWakeTimer -= deltaTime;
-        if (currentState == AIState.WAKE && sleepWakeTimer <= 0) {
+        if(currentState == AIState.ROTATE && rotateTimer <= 0){
+            System.out.println("1" + orien);
+            getNextRotateOrien(patrolDirection);
+            System.out.println("2" + orien);
+            rotateTimer = ROTATE_DURATION;
+            return speedVector;
+        }
+        else if(patrolDirection == PatrolDirection.ROTATE_CW || patrolDirection == PatrolDirection.ROTATE_CCW){
+            return speedVector;
+        }
+        else if (currentState == AIState.WAKE && sleepWakeTimer <= 0) {
             currentState = AIState.SLEEP;
             sleepWakeTimer = SLEEP_DURATION;
             orien = defaultOrien;
@@ -297,6 +326,7 @@ public class GuardAIController extends ScreenAdapter {
     }
 
     private void updateOrien(Vector2 speedVector) {
+//        if(currentState == AIState.ROTATE)
         if(currentState == AIState.SLEEP || currentState == AIState.WAKE){
             orien = defaultOrien;
             return;
@@ -317,11 +347,13 @@ public class GuardAIController extends ScreenAdapter {
     }
 
     private void updateOrienChase(Vector2 speedVector) {
-        if (speedVector.x > 0) {
-            orien = GuardOrientation.RIGHT;
-        } else {
-            orien = GuardOrientation.LEFT;
-        }
+//        if(patrolDirection != PatrolDirection.ROTATE_CW && patrolDirection != PatrolDirection.ROTATE_CCW){
+            if (speedVector.x > 0) {
+                orien = GuardOrientation.RIGHT;
+            } else {
+                orien = GuardOrientation.LEFT;
+            }
+//        }
     }
 
     public Array<Vector2> findPathMain(Vector2 start, Array<Float> info) {
@@ -504,5 +536,42 @@ public class GuardAIController extends ScreenAdapter {
 
     public GuardOrientation getOrien() {
         return orien;
+    }
+
+    /**
+     * requires PatrolDirection to be ROTATE_CCW or ROTATE_CW
+     * @param dir
+     * @return
+     */
+    public void getNextRotateOrien(PatrolDirection dir){
+        System.out.println("getNextRotateOrien" + orien);
+        if(dir == PatrolDirection.ROTATE_CCW){
+            if(orien == GuardOrientation.LEFT){
+                orien = GuardOrientation.DOWN;
+            }
+            else if(orien == GuardOrientation.UP){
+                orien = GuardOrientation.LEFT;
+            }
+            else if(orien == GuardOrientation.RIGHT){
+                orien = GuardOrientation.UP;
+            }
+            else{
+                orien = GuardOrientation.RIGHT;
+            }
+        }
+        else{
+            if(orien == GuardOrientation.LEFT){
+                orien = GuardOrientation.UP;
+            }
+            else if(orien == GuardOrientation.UP){
+                orien = GuardOrientation.RIGHT;
+            }
+            else if(orien == GuardOrientation.RIGHT){
+                orien = GuardOrientation.DOWN;
+            }
+            else{
+                orien = GuardOrientation.LEFT;
+            }
+        }
     }
 }
