@@ -287,11 +287,11 @@ public class AnimationController {
      * @param guards Array of guards to animate
      * @param delta The Deltatime to update filmstrip frames by
     * */
-    public void processGuards(Array<Guard> guards, float delta, Guard inAction){
+    public void processGuards(Array<Guard> guards, float delta, Guard inAction, boolean action){
         for(Guard g: guards){
             if(g == inAction){
 //                System.out.println("GUARD");
-                handleAnimation(g, delta, true);
+                handleAnimation(g, delta, action);
             }
             else{
                 handleAnimation(g, delta, false);
