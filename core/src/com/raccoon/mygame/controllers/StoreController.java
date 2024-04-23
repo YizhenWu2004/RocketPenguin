@@ -147,6 +147,8 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
 
+        //ingredients.add(new Ingredient("apple", 100, 100, new Texture("720/apple.png"), -1));
+
         playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
 
         player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
@@ -176,6 +178,8 @@ public class StoreController extends WorldController implements ContactListener 
         addInvisibleWall(0,-1,80,1,1,1,0,0);
         addInvisibleWall(-1,0,1,40,1,1,0,0);
         addInvisibleWall(33,0,1,40,1,1,0,0);
+
+
     }
 
     public void setLevel(LevelModel level, Inventory sharedInv) {
@@ -379,9 +383,9 @@ public class StoreController extends WorldController implements ContactListener 
 //            o.draw();
 //        }
 //        player.draw(0.25f, 0.25f);
-//        for (Ingredient i : ingredients) {
-//            i.draw(canvas);
-//        }
+        for (Ingredient i : ingredients) {
+            i.draw(canvas);
+        }
 //        for (Guard g : guards) {
 //            g.draw(0.1f, 0.1f);
 //        }

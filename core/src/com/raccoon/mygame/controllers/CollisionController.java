@@ -142,7 +142,7 @@ public class CollisionController {
         Vector2 iPosWorld = canvasToWorld(iPosCanvas);
         if (p.getPosition().dst(iPosWorld) < PICKUP_RADIUS) {
             if (p.getSpace()) {
-                p.pickUpItem(i);
+                p.pickUpItem(i.clone());
                 p.setSpace(false);
             }
         }
