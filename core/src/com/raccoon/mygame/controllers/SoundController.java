@@ -16,6 +16,7 @@ public class SoundController {
     private Sound switchSound;
     private Music storeSound;
     private Sound orderSound;
+    private Music cafeSong;
     public SoundController(){
         cookingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cooking.ogg"));
         bellSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bell.ogg"));
@@ -28,6 +29,7 @@ public class SoundController {
         storeSound = Gdx.audio.newMusic(Gdx.files.internal("sounds/storeAmbience.ogg"));
         orderSound = Gdx.audio.newSound(Gdx.files.internal("sounds/order.ogg"));
         chopSound = Gdx.audio.newSound(Gdx.files.internal("sounds/chop.ogg"));
+        cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/CafeTrackV2.ogg"));
     }
     public void cookplay(){
         cookingSound.play();
@@ -52,8 +54,16 @@ public class SoundController {
     }
 
     public void storePlay(){
+        storeSound.setVolume(0.5f);
         storeSound.play();
         storeSound.setLooping(true);
+    }
+    public void cafePlay(){
+        cafeSong.play();
+        cafeSong.setLooping(true);
+    }
+    public void cafeStop(){
+        cafeSong.pause();
     }
     public void storeStop(){
         storeSound.stop();

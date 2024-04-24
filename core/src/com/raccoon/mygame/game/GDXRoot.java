@@ -231,6 +231,7 @@ public class GDXRoot extends Game implements ScreenListener {
             restaurant.setPaused(true);
             store.setActive(false);
             sounds.storeStop();
+            sounds.cafeStop();
             if(mainmenu.checkForGoToLevelSelect()){
                 current = -1;
             }
@@ -242,6 +243,7 @@ public class GDXRoot extends Game implements ScreenListener {
             levelselect.update();
             w.pauseTimer();
             sounds.storeStop();
+            sounds.cafeStop();
             restaurant.setActive(false);
             store.setActive(false);
             if(levelselect.checkForGoToLevel()){
@@ -279,6 +281,7 @@ public class GDXRoot extends Game implements ScreenListener {
           isPaused = true;
           w.pauseTimer();
           sounds.storeStop();
+          sounds.cafeStop();
           restaurant.pauseTimer();
           pause.on_pause = true;
       }
@@ -292,6 +295,7 @@ public class GDXRoot extends Game implements ScreenListener {
               if(current == 1){
                   sounds.storePlay();
               }
+              sounds.cafePlay();
           }
           if(pause.quit){
               Gdx.app.exit();
@@ -320,6 +324,7 @@ public class GDXRoot extends Game implements ScreenListener {
               restaurant.setPlayerJustDied(true);
               store.setVentCollision(false);
               restaurant.setVentCollision(false);
+              sounds.cafePlay();
           }
           else if (store.getVentCollision() && current == 1) {
               current = 0;
@@ -332,6 +337,7 @@ public class GDXRoot extends Game implements ScreenListener {
           else if (restaurant.getVentCollision()&& current == 0) {
               current = 1;
               sounds.storePlay();
+              sounds.cafeStop();
               restaurant.setVentCollision(false);
               store.ventOutFlag = true;
               store.onSet();
@@ -342,6 +348,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
               restaurant.setActive(true);
               store.setActive(false);
+              sounds.cafePlay();
           } else {
               canvas.getCamera().position.y = 360;
               canvas.getCamera().update();
