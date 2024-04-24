@@ -316,7 +316,7 @@ public class Customer extends BoxObstacle {
         }
         //Texture image, Color tint, float ox, float oy,
         //float x, float y, float angle, float sx, float sy
-        if (show) {
+        if (show && controller.state == CustomerAIController.FSMState.WAIT) {
             if (!onRight) {
                 if (orderSize == 1) {
                     canvas.draw(two, Color.WHITE, 0, -150, this.getX() * this.getDrawScale().x,
@@ -349,7 +349,7 @@ public class Customer extends BoxObstacle {
                                 (this.getY()) * drawScale.y, -20 - 50 * (i + 1), -140);
                     }
                 }
-            } else {
+            } else{
                 if (orderSize == 1) {
                     canvas.draw(two, Color.WHITE, 0, -220, this.getX() * this.getDrawScale().x,
                             this.getY() * this.getDrawScale().y, 0, -1f, 0.8f);
