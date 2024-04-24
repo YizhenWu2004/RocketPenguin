@@ -262,6 +262,8 @@ public class GDXRoot extends Game implements ScreenListener {
 //            sounds.storeStop();
         }
         if (current == 2){
+            sounds.cafeStop();
+            sounds.storeStop();
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
             saveController.editKeyValuePair(levelToGoTo, result.score);
             result.update();
