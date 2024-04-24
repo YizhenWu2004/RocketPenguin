@@ -341,7 +341,7 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
         if (active && !respawning()) {
-            if(!ventingOut()&& !player.playerIsVenting){
+            if(!ventingOut()&& !player.playerIsVenting && !player.playerIsCooking){
                 float x = 7f * input.getXMovement();
                 float y = 7f * input.getYMovement();
                 player.setLinearVelocity(new Vector2(x, y));
@@ -444,16 +444,25 @@ public class RestaurantController extends WorldController implements ContactList
                     }
                 }
             }
+//            if(c.timer!=null) {
+//                if (Math.abs(c.timer.getTime() - c.getMaxTime()) < 1) {
+//                    player.playerIsCooking = true;
+//
+//                }
+//                else {
+//                    player.playerIsCooking = false;
+//                }
+//            }
+        }
+        boolean playCooking = false;
+        for (CookingStationObject c : stations){
             if(c.timer!=null) {
                 if (Math.abs(c.timer.getTime() - c.getMaxTime()) < 1) {
-                    player.playerIsCooking = true;
-
-                } else {
-                    player.playerIsCooking = false;
+                    playCooking = true;
                 }
             }
-
         }
+        player.playerIsCooking = playCooking;
         if(vent1.ventTimer != null) {
             //System.out.println(vent1.ventTimer.getTime());
             if (vent1.ventTimer.getTime() <= 0) {

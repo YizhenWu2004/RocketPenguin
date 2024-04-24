@@ -199,7 +199,7 @@ public class Player extends BoxObstacle {
     //draw with scale
     public void draw(float scaleX, float scaleY) {
 
-        if(!stopDrawing){
+        if(!stopDrawing && !respawning){
             if(dishInventory.oneFilled()) {
                 shadow.draw(canvas,0.8f,0.8f);
             }
