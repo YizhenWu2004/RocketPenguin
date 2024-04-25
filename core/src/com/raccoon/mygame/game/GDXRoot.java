@@ -142,27 +142,24 @@ public class GDXRoot extends Game implements ScreenListener {
     }
 
     public void restart(){
-        canvas = new GameCanvas();
+        //canvas = new GameCanvas();
         //180
         w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
         w.create();
-        input = new InputController();
-
-        loader = new LevelLoader(canvas);
 
         inv = new Inventory(new Texture("720/inventorynew.png"));
         restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
-        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
+        //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
-        pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
-        result = new ResultController(canvas, new Texture("result/result_final.png"),input);
-        levelselect = new LevelSelectController(canvas, input, loader, saveController);
-        mainmenu = new MainMenuController(canvas,input);
+        //pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
+        //result = new ResultController(canvas, new Texture("result/result_final.png"),input);
+        //levelselect = new LevelSelectController(canvas, input, loader, saveController);
+        //mainmenu = new MainMenuController(canvas,input);
         mainmenu.on_main = true;
         current = 0;
         isPaused = false;
-        star_req = new int[]{50,75,100};
+        //star_req = new int[]{50,75,100};
     }
 
 
