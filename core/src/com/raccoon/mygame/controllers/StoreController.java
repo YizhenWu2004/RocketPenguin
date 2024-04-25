@@ -157,6 +157,8 @@ public class StoreController extends WorldController implements ContactListener 
         drawableObjects.add(vent1);
 
         localStartingPos = new Vector2(vent1.getX()+2.3f, vent1.getY());
+        //constantifying this
+        //localStartingPos = new Vector2(3.8f, 1f);
 
         float nodOff = 1.5f;
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
@@ -183,6 +185,8 @@ public class StoreController extends WorldController implements ContactListener 
     public void setLevel(LevelModel level, Inventory sharedInv) {
         sounds.storeStop();
         guardWanderReset();
+        player.deactivatePhysics(world);
+        vent1.deactivatePhysics(world);
         world = level.getStoreWorld();
         player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
@@ -192,7 +196,11 @@ public class StoreController extends WorldController implements ContactListener 
 //        guards.add(new Guard(20f, 10, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.ROTATE_CCW,collisionLayer,new Array<>(), GuardAIController.GuardOrientation.LEFT));
         System.out.println("Size: " + level.getIngredients().size);
         ingredients = level.getIngredients();
-        drawableObjects = level.getStoreObjectsAndDecor();
+        drawableObjects.clear();
+        for (Object o : level.getStoreObjectsAndDecor()) {
+            drawableObjects.add(o);
+        }
+        //drawableObjects = level.getStoreObjectsAndDecor();
         drawableObjects.add(player);
         drawableObjects.add(vent1);
         guardX = new Array<>();
