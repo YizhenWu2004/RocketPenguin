@@ -267,7 +267,12 @@ public class StoreController extends WorldController implements ContactListener 
             animator.handleAnimation(vent1, player, delta, ventingOut());
         }
         for (Guard guard : guards) {
-            guard.update(delta, generatePlayerInfo(), gettingCaught());
+            if(gettingCaught()){
+                guard.getBody().setLinearVelocity(0,0);
+            }
+            else{
+                guard.update(delta, generatePlayerInfo(), gettingCaught());
+            }
             if (!duringventing) {
                 collision.handleCollision(player, guard);
             }
