@@ -200,12 +200,12 @@ public class GuardAIController extends ScreenAdapter {
     }
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
 
-        System.out.println("Current State: " + currentState);
-        System.out.println("Orientation: " + orien);
-        System.out.println("Current Path: " + currentPath);
-        System.out.println("Current Path Index: " + currentPathIndex);
-        System.out.println("Chase Counter: " + chaseCounter);
-        System.out.println("Rotate Timer: " + rotateTimer);
+//        System.out.println("Current State: " + currentState);
+//        System.out.println("Orientation: " + orien);
+//        System.out.println("Current Path: " + currentPath);
+//        System.out.println("Current Path Index: " + currentPathIndex);
+//        System.out.println("Chase Counter: " + chaseCounter);
+//        System.out.println("Rotate Timer: " + rotateTimer);
 
         // System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
