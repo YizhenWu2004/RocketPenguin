@@ -194,7 +194,7 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         NormalObstacle obs = new NormalObstacle(30.97f, 14.5f, 2,5, 1.2f,0.9f, 0,0,
-                new Texture("new_counter.png"), world, canvas, true);
+                new Texture("new_counter.png"), world, canvas, false);
         obstacles.add(obs);
         drawableObjects.add(obs);
 
