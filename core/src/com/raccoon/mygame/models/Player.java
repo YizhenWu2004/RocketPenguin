@@ -226,14 +226,14 @@ public class Player extends BoxObstacle {
         this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){
             if(direction == -1){
-                dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0);
+                dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0, true);
             }
             else{
-                dishInventory.get(0).draw(canvas, (this.getX()-2.3f) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0);
+                dishInventory.get(0).draw(canvas, (this.getX()-2.3f) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0,true);
             }
         }
         if(dishInventory.rightFilled()){
-            dishInventory.get(1).draw(canvas, (this.getX()+0.5f) * 40, (this.getY()+1) * 40,1,1, 0,0);
+            dishInventory.get(1).draw(canvas, (this.getX()+0.5f) * 40, (this.getY()+1) * 40,1,1, 0,0, false);
         }
     }
 

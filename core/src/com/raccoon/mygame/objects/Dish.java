@@ -15,12 +15,12 @@ public class Dish implements GameObject {
     //position in inventory, -1 means not in inventory (and thus discarded)
     private int posInInventory;
     public int dishSize;
-    private Texture one = new Texture("singleorder.png");
-    private Texture two = new Texture("doubleorder.png");
-    private Texture three = new Texture("tripleorder.png");
-    private Texture wok =new Texture("wok.png");
-    private Texture pot = new Texture("pot.png");
-    private Texture cutting_board = new Texture("cutting_board.png");
+    private Texture one = new Texture("order/one.png");
+    private Texture two = new Texture("order/two.png");
+    private Texture three = new Texture("order/three.png");
+    private Texture wok =new Texture("order/wok.png");
+    private Texture pot = new Texture("order/pot.png");
+    private Texture cutting_board = new Texture("order/cutting_board.png");
     public int station_type;
 
 
@@ -80,28 +80,60 @@ public class Dish implements GameObject {
         return true;
     }
 
-    public void draw(GameCanvas canvas, float x, float y, float sclx, float scly, float ox, float oy){
-        if (dishSize == 1){
-            canvas.draw(two, Color.WHITE, ox-20, oy-50,x, y, 0, 1f, 0.8f);
-        } else if (dishSize == 2){
-            canvas.draw(three, Color.WHITE, ox-20, oy-50,x, y, 0, 0.9f, 0.8f);
-        } else if (dishSize == 3){
-            canvas.draw(three, Color.WHITE, ox-20, oy-50,x, y, 0, 1.1f, 0.8f);
-        }
-        if(station_type == 0) {
-            canvas.draw(wok, Color.WHITE, -30,-50,x, y,
-                    0.0f, 1f, 1f);
-        }else if(station_type == 1){
-            canvas.draw(pot, Color.WHITE, -30,-50,x, y,
-                    0.0f, 1f, 1f);
+    public void draw(GameCanvas canvas, float x, float y, float sclx, float scly, float ox, float oy, boolean isLeft){
+        if(isLeft) {
+            if (dishSize == 1) {
+                canvas.draw(one, Color.WHITE, ox + 80, oy - 50, x, y, 0, 0.7f, 0.7f);
+                drawCooking(canvas, x, y, 90, -55);
+                drawOrder(canvas, x, y, 25, -55);
+            } else if (dishSize == 2) {
+                canvas.draw(two, Color.WHITE, ox + 140, oy - 50, x, y, 0, 0.7f, 0.7f);
+                drawCooking(canvas, x, y, 160, -53);
+                drawOrder(canvas, x, y, 30, -55);
+            } else if (dishSize == 3) {
+                canvas.draw(three, Color.WHITE, ox + 200, oy - 50, x, y, 0, 0.7f, 0.7f);
+                drawCooking(canvas, x, y, 220, -53);
+                drawOrder(canvas, x, y, 40, -55);
+            }
+            canvas.draw(texture, Color.WHITE, ox, oy, x, y, 0, sclx, scly);
         } else {
-            canvas.draw(cutting_board, Color.WHITE, -30,-50,x, y,
-                    0.0f, 1f, 1f);
+            if (dishSize == 1) {
+                canvas.draw(one, Color.WHITE, ox + 180, oy - 50, x, y, 0, -0.7f, 0.7f);
+                drawCooking(canvas, x, y, -40, -55);
+                drawOrder(canvas, x, y, -120, -55);
+            } else if (dishSize == 2) {
+                canvas.draw(two, Color.WHITE, ox + 240, oy - 50, x, y, 0, -0.7f, 0.7f);
+                drawCooking(canvas, x, y, -50, -53);
+                drawOrder(canvas, x, y, -180, -55);
+            } else if (dishSize == 3) {
+                canvas.draw(three, Color.WHITE, ox + 300, oy - 50, x, y, 0, -0.7f, 0.7f);
+                drawCooking(canvas, x, y, -60, -53);
+                drawOrder(canvas, x, y, -230, -55);
+            }
+            canvas.draw(texture, Color.WHITE, ox, oy, x, y, 0, sclx, scly);
         }
-        for(int i = 0; i <dishSize; i++){
-            type[i].drawTextBubble(canvas, x, y, -40-50*(i+1), -55);
+    }
+
+    public void drawOrder(GameCanvas canvas, float x, float y, int ox, int oy){
+        for (int i = dishSize-1; i >= 0; i--) {
+            if (type[i] != null) {
+                type[i].drawTextBubble(canvas, x,y, ox + (45 * i), oy);
+            }
         }
-        canvas.draw(texture, Color.WHITE, ox, oy,x, y, 0, sclx, scly);
+    }
+
+    public void drawCooking(GameCanvas canvas, float x, float y, int ox, int oy){
+        if (station_type == 0) {
+            canvas.draw(wok, Color.WHITE, ox, oy,
+                    x,y,
+                    0.0f, 0.7f, 0.7f);
+        } else if (station_type == 1) {
+            canvas.draw(pot, Color.WHITE, ox-30, oy,
+                    x,y, 0.0f, 0.7f, 0.7f);
+        } else {
+            canvas.draw(cutting_board, Color.WHITE, ox-30, oy,
+                    x,y, 0.0f, 0.7f, 0.7f);
+        }
     }
 
     public int getScore(){
