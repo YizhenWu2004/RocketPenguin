@@ -414,12 +414,12 @@ public class GuardAIController extends ScreenAdapter {
             Vector2 currentFloor = new Vector2((float) Math.floor(current.position.x), (float) Math.floor(current.position.y));
             if (currentFloor.equals(goalFloor)) {
                 Array<Vector2> path = reconstructPath(cameFrom, current);
-
-                if (!path.isEmpty()) {
-                    Vector2 lastPoint = path.peek();
-//                    lastPoint.y -= 0.7f;
-                    path.set(path.size - 1, lastPoint);
-                }
+                //todo fix this
+//                if (!path.isEmpty()) {
+//                    Vector2 lastPoint = path.peek();
+////                    lastPoint.y -= 0.7f;
+//                    path.set(path.size - 1, lastPoint);
+//                }
                 return path;
             }
 
