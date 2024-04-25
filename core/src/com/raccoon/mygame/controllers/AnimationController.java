@@ -52,6 +52,8 @@ public class AnimationController {
     private final FilmStrip gooseSleep;
     private final FilmStrip gooseSleepIdle;
     private final FilmStrip gooseWake;
+    private final FilmStrip gooseIdleUp;
+    private final FilmStrip gooseIdleDown;
 
     private final FilmStrip ventIn;
     private final FilmStrip ventOut;
@@ -111,6 +113,8 @@ public class AnimationController {
         gooseSleepIdle = new FilmStrip(new Texture("720/goosesleepidle.png"),1,1,1);
         gooseSleep = new FilmStrip(new Texture("720/goosesleep.png"),1,7,7);
         gooseWake = new FilmStrip(new Texture("720/goosewake.png"),1,7,7);
+        gooseIdleUp = new FilmStrip(new Texture("720/gooseIdleUp.png"),1,1,1);
+        gooseIdleDown = new FilmStrip(new Texture("720/gooseIdleDown.png"),1,1,1);
 
         ventIdle = new FilmStrip(new Texture("720/vent.png"),1,1,1);
         ventIn = new FilmStrip(new Texture("720/rockoventin.png"),3,4,12);
@@ -204,6 +208,18 @@ public class AnimationController {
             o.setFilmStrip(gooseChase);
             o.updateAnimation(delta);
             return;
+        }
+        if(o.getAIController().getCurrentState() == GuardAIController.AIState.ROTATE){
+            if(o.getAIController().getOrien() == GuardAIController.GuardOrientation.UP){
+                o.setFilmStrip(gooseIdleUp);
+                o.updateAnimation(delta);
+                return;
+            }
+            else if(o.getAIController().getOrien() == GuardAIController.GuardOrientation.DOWN){
+                o.setFilmStrip(gooseIdleDown);
+                o.updateAnimation(delta);
+                return;
+            }
         }
         if(o.getVX()>1 || o.getVX() < -1){
             //horizontal

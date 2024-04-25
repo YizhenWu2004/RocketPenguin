@@ -199,6 +199,14 @@ public class GuardAIController extends ScreenAdapter {
         }
     }
     public Vector2 getSpeed(Vector2 guardPosition, float deltaTime, Array<Float> info) {
+
+        System.out.println("Current State: " + currentState);
+        System.out.println("Orientation: " + orien);
+        System.out.println("Current Path: " + currentPath);
+        System.out.println("Current Path Index: " + currentPathIndex);
+        System.out.println("Chase Counter: " + chaseCounter);
+        System.out.println("Rotate Timer: " + rotateTimer);
+
         // System.out.println(currentState);
         Vector2 speedVector = new Vector2(0f, 0f);
 //        if (susMeter != 0) {
@@ -239,8 +247,7 @@ public class GuardAIController extends ScreenAdapter {
             System.out.println("2" + orien);
             rotateTimer = ROTATE_DURATION;
             return speedVector;
-        }
-        else if(patrolDirection == PatrolDirection.ROTATE_CW || patrolDirection == PatrolDirection.ROTATE_CCW){
+        }else if((patrolDirection == PatrolDirection.ROTATE_CW || patrolDirection == PatrolDirection.ROTATE_CCW) && currentState == AIState.ROTATE){
             return speedVector;
         }
         else if (currentState == AIState.WAKE && sleepWakeTimer <= 0) {
