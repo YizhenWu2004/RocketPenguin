@@ -427,10 +427,10 @@ public class LevelSelectController extends WorldController{
             int checkedStars = 2;
             for(int i = 0; i < 3; i++){
                 if(i == checkedStars){
-                    UIButton star = new UIButton(starEmpty,"unstar",x + (i*50),y,sx,sy, canvas);
+                    UIButton star = new UIButton(starEmpty,"unstar",x + (i*70),y,sx,sy, canvas);
                     elements.add(star);
                 }else {
-                    UIButton stary = new UIButton(starFilled, "unstar", x + (i * 50), y, sx, sy, canvas);
+                    UIButton stary = new UIButton(starFilled, "unstar", x + (i * 70), y, sx, sy, canvas);
                     elements.add(stary);
                 }
             }
@@ -438,7 +438,7 @@ public class LevelSelectController extends WorldController{
         else{
             int checkedStars = 3;
             for(int i = 0; i < 3; i++){
-                UIButton star = new UIButton(starFilled,"unstar",x + (i*50),y,sx,sy, canvas);
+                UIButton star = new UIButton(starFilled,"unstar",x + (i*70),y,sx,sy, canvas);
                 elements.add(star);
             }
         }
