@@ -64,12 +64,12 @@ public class Customer extends BoxObstacle {
     public Dish servedDish;
 
     public int orderSize;
-    private Texture one = new Texture("singleorder.png");
-    private Texture two = new Texture("doubleorder.png");
-    private Texture three = new Texture("tripleorder.png");
-    private Texture wok =new Texture("wok.png");
-    private Texture pot = new Texture("pot.png");
-    private Texture cutting_board = new Texture("cutting_board.png");
+    private Texture one = new Texture("order/one.png");
+    private Texture two = new Texture("order/two.png");
+    private Texture three = new Texture("order/three.png");
+    private Texture wok =new Texture("order/wok.png");
+    private Texture pot = new Texture("order/pot.png");
+    private Texture cutting_board = new Texture("order/cutting_board.png");
 
     private Expression question;
 
@@ -318,71 +318,69 @@ public class Customer extends BoxObstacle {
         //float x, float y, float angle, float sx, float sy
         if (show && controller.state == CustomerAIController.FSMState.WAIT) {
             if (!onRight) {
+                //System.out.println(this.getX() * this.getDrawScale().x);
                 if (orderSize == 1) {
-                    canvas.draw(two, Color.WHITE, 0, -150, this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0, 1f, 0.8f);
+                    canvas.draw(one, Color.WHITE, 150, -280, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, -0.7f, 0.7f);
+                    drawCooking(-10,-285);
+                    drawOrder(-85,-288);
                 } else if (orderSize == 2) {
-                    canvas.draw(three, Color.WHITE, 0, -150, this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0, 0.9f, 0.8f);
+                    canvas.draw(two, Color.WHITE, 190, -280, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, -0.7f, 0.7f);
+                    drawCooking(0,-285);
+                    drawOrder(-125,-288);
                 } else if (orderSize == 3) {
-                    canvas.draw(three, Color.WHITE, 0, -150, this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0, 1.1f, 0.8f);
+                    canvas.draw(three, Color.WHITE, 220, -280, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, -0.7f, 0.7f);
+                    drawCooking(20, -285);
+                    drawOrder(-150,-288);
                 }
-                if (cooking_method == 0) {
-                    canvas.draw(wok, Color.WHITE, -20, -130,
-                            this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y,
-                            0.0f, 1f, 1f);
-                } else if (cooking_method == 1) {
-                    canvas.draw(pot, Color.WHITE, -20, -130,
-                            this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0.0f, 1f, 1f);
-                } else {
-                    canvas.draw(cutting_board, Color.WHITE, -20, -130,
-                            this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0.0f, 1f, 1f);
-                }
-                for (int i = 0; i < order.length; i++) {
-                    if (order[i] != null) {
 
-                        order[i].drawTextBubble(canvas, this.getX() * this.drawScale.x,
-                                (this.getY()) * drawScale.y, -20 - 50 * (i + 1), -140);
-                    }
-                }
-            } else{
+            } else {
                 if (orderSize == 1) {
-                    canvas.draw(two, Color.WHITE, 0, -220, this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0, -1f, 0.8f);
+                    canvas.draw(one, Color.WHITE, 150, -220, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, 0.7f, 0.7f);
+                    drawCooking(170,-225);
+                    drawOrder(90,-225);
                 } else if (orderSize == 2) {
-                    canvas.draw(three, Color.WHITE, 0, -220, this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0, -0.9f, 0.8f);
+                    canvas.draw(two, Color.WHITE, 190, -220, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, 0.7f, 0.7f);
+                    drawCooking(210,-225);
+                    drawOrder(90,-225);
                 } else if (orderSize == 3) {
-                    canvas.draw(three, Color.WHITE, 0, -220, this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0, -1.1f, 0.8f);
-                }
-                if (cooking_method == 0) {
-                    canvas.draw(wok, Color.WHITE, 85, -190,
-                            this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y,
-                            0.0f, 1f, 1f);
-                } else if(cooking_method == 1) {
-                    canvas.draw(pot, Color.WHITE, 85, -190,
-                            this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0.0f, 1f, 1f);
-                }else {
-                    canvas.draw(cutting_board, Color.WHITE, 85, -190,
-                            this.getX() * this.getDrawScale().x,
-                            this.getY() * this.getDrawScale().y, 0.0f, 1f, 1f);
-                }
-                for (int i = 0; i < order.length; i++) {
-                    if (order[i] != null) {
-
-                        order[i].drawTextBubble(canvas, this.getX() * this.drawScale.x,
-                                (this.getY()) * drawScale.y, 70 + 50 * (i + 1), -195);
-                    }
+                    canvas.draw(three, Color.WHITE, 220, -220, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, 0.7f, 0.7f);
+                    drawCooking(240,-225);
+                    drawOrder(70,-225);
                 }
 
             }
+        }
+    }
+
+    public void drawOrder(int ox, int oy){
+        for (int i = order.length-1; i >= 0; i--) {
+            if (order[i] != null) {
+                order[i].drawTextBubble(canvas, this.getX() * this.drawScale.x,
+                        (this.getY()) * drawScale.y, ox + (45 * i), oy);
+            }
+        }
+    }
+
+    public void drawCooking(int ox, int oy){
+        if (cooking_method == 0) {
+            canvas.draw(wok, Color.WHITE, ox, oy,
+                    this.getX() * this.getDrawScale().x,
+                    this.getY() * this.getDrawScale().y,
+                    0.0f, 0.7f, 0.7f);
+        } else if (cooking_method == 1) {
+            canvas.draw(pot, Color.WHITE, ox-30, oy,
+                    this.getX() * this.getDrawScale().x,
+                    this.getY() * this.getDrawScale().y, 0.0f, 0.7f, 0.7f);
+        } else {
+            canvas.draw(cutting_board, Color.WHITE, ox-30, oy,
+                    this.getX() * this.getDrawScale().x,
+                    this.getY() * this.getDrawScale().y, 0.0f, 0.7f, 0.7f);
         }
     }
 

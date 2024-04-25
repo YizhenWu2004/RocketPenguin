@@ -10,6 +10,7 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
     //Initially 0.2, changed to 1
     private static final float TEXTURE_SX = 1f;
     private static final float TEXTURE_SY = 1f;
+    private Texture jalapeno = new Texture("order/jalapeno.png");
 
     public int name;
     public String type;
@@ -113,8 +114,12 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
     }
 
     public void drawTextBubble(GameCanvas canvas, float x, float y, float ox, float oy) {
+        Texture texture = this.texture;
+        if(this.type == "greenpepper") {
+          texture = jalapeno;
+        }
         canvas.draw(texture, Color.WHITE, ox, oy,
-                x, y, 0.0f, TEXTURE_SX, TEXTURE_SY);
+                x, y, 0.0f, 0.7f, 0.7f);
     }
 
     @Override
