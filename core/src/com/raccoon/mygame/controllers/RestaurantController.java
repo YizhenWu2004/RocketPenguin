@@ -206,7 +206,7 @@ public class RestaurantController extends WorldController implements ContactList
         addTable(17.5f, 4f, true);
         addTable(10.25f, 12f, true);
         addTable(10.25f, 4f, false);
-        addTable(3f, 12f, false);
+        //addTable(3f, 12f, false);
         addTable(3f, 4f, true);
 
 
