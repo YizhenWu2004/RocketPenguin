@@ -157,7 +157,7 @@ public class RestaurantController extends WorldController implements ContactList
 
         //Setting the default filmstrip for the player
         playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
-        player = new Player(0f, 0f, 1, 0.7f, playerIdle, sharedInv, canvas, world);
+        player = new Player(3f, 6.5f, 1, 0.7f, playerIdle, sharedInv, canvas, world);
 
         drawableObjects.add(player);
 
