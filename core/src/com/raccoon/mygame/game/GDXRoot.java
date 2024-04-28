@@ -126,7 +126,7 @@ public class GDXRoot extends Game implements ScreenListener {
         pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
         result = new ResultController(canvas, new Texture("result/result_final.png"),input);
         levelselect = new LevelSelectController(canvas, input, loader, saveController);
-        mainmenu = new MainMenuController(canvas,input);
+        mainmenu = new MainMenuController(canvas,input, saveController, levelselect);
         mainmenu.on_main = true;
 
         /*

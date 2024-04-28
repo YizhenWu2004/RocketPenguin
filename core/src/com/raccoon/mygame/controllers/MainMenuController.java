@@ -35,10 +35,14 @@ public class MainMenuController extends WorldController{
     public boolean on_control = false;
 
     private boolean aModalIsActive = false;
+    private SaveController saveController;
+    private LevelSelectController levelSelectController;
 
-    public MainMenuController(GameCanvas canvas, InputController input){
+    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect){
         this.canvas = canvas;
         this.input = input;
+        this.saveController = saveController;
+        this.levelSelectController = levelSelect;
 
         UIButton play = new UIButton(new Texture("menu/play.png"),"play",20,330, 0.5f,0.5f,canvas);
         addButton(play, ()-> {
@@ -142,12 +146,18 @@ public class MainMenuController extends WorldController{
         confirmtext.setSY(0.6f);
 
         UIButton yes = new UIButton(new Texture("menu/yes.png"),"yes",450,210,canvas);
+        yes.setOnClickAction(()->{this.saveController.deleteSaveFile();});
         yes.setOnHoverAction(()->{yes.setTexture(new Texture("menu/yeshovered.png"));});
+        yes.setOnUnhoverAction(()->{yes.resetStyleProperties();        yes.setSX(0.6f);
+            yes.setSY(0.6f);});
         yes.setSX(0.6f);
         yes.setSY(0.6f);
 
         UIButton no = new UIButton(new Texture("menu/no.png"),"no",740,207,canvas);
-        no.setOnHoverAction(()->{no.setTexture(new Texture("menu/nohovered.png"));System.out.println("yes");});
+        no.setOnClickAction(()->{deletesure.setActive(false);});
+        no.setOnHoverAction(()->{no.setTexture(new Texture("menu/nohovered.png"));});
+        no.setOnUnhoverAction(()->{no.resetStyleProperties();        no.setSX(0.6f);
+            no.setSY(0.6f);});
         no.setSX(0.6f);
         no.setSY(0.6f);
 
@@ -267,15 +277,15 @@ public class MainMenuController extends WorldController{
     private boolean processBounds(float x, float y, float minX, float maxX, float minY, float maxY){
         return (x >= minX && x <= maxX && y >= minY && y <= maxY);
     }
-    private void checkButtons(Array<UIButton> buttons) {
+    private void checkButtons(Array<UIButton> buttons){
         //If no modals are active, check state for normal buttons.
-        if (!aModalIsActive) {
+        if(!aModalIsActive) {
             for (UIButton button : buttons) {
                 float minX = button.getX();
                 float maxX = button.getX() + button.getWidth();
                 float minY = button.getY();
                 float maxY = button.getY() + button.getHeight();
-                if (button.getSticky()) {
+                if(button.getSticky()){
                     minX = button.getAdjustedX();
                     maxX = button.getAdjustedX() + button.getWidth();
                     minY = button.getAdjustedY();
@@ -293,6 +303,42 @@ public class MainMenuController extends WorldController{
                     button.setIsClicked(true);
                     button.onClickEvent();
                     button.setIsClicked(false);
+                }
+            }
+        }
+        // Current camera position
+        float camY = canvas.getCamera().position.y;
+
+        // Modal's fixed position on the screen (make sure to center it correctly)
+        float modalY = camY - 360;
+        //for all active modals, check (and process) their button states
+        for(Modal modal : modals){
+            if(modal.getActive()){
+                for(UIButton button : modal.getElements()){
+                    float minX = button.getX();
+                    float maxX = button.getX() + button.getWidth();
+                    float minY = modalY + button.getY();
+                    float maxY = modalY + button.getY() + button.getHeight();
+                    if(button.getSticky()){
+                        minX = button.getAdjustedX();
+                        maxX = button.getAdjustedX() + button.getWidth();
+                        minY = button.getAdjustedY();
+                        maxY = button.getAdjustedY() + button.getHeight();
+                    }
+                    if(processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY)){
+                        button.setHovered(true);
+                        button.onHoverEvent();
+                    }
+                    else{
+                        button.setHovered(false);
+                        button.onUnhoverEvent();
+                    }
+                    //if input is within bounds of button
+                    if(processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY) && input.click){
+                        button.setIsClicked(true);
+                        button.onClickEvent();
+                        button.setIsClicked(false);
+                    }
                 }
             }
         }

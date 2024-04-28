@@ -100,7 +100,7 @@ public class SaveController {
         if (file.exists()) {
             if (file.delete()) {
                 System.out.println("Save file deleted successfully.");
-                createDefaultKeyValuePairs();
+                readFile();
             } else {
                 System.out.println("Failed to delete the save file.");
             }
