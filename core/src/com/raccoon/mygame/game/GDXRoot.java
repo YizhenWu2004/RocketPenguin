@@ -126,7 +126,7 @@ public class GDXRoot extends Game implements ScreenListener {
         pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
         result = new ResultController(canvas, new Texture("result/result_final.png"),input);
         levelselect = new LevelSelectController(canvas, input, loader, saveController);
-        mainmenu = new MainMenuController(canvas,input);
+        mainmenu = new MainMenuController(canvas,input, saveController, levelselect);
         mainmenu.on_main = true;
 
         /*
@@ -231,6 +231,7 @@ public class GDXRoot extends Game implements ScreenListener {
             sounds.cafeStop();
             if(mainmenu.checkForGoToLevelSelect()){
                 current = -1;
+                mainmenu.setForGoToLevelSelect(false);
             }
             if(mainmenu.checkForExit()){
                 Gdx.app.exit();
@@ -243,6 +244,12 @@ public class GDXRoot extends Game implements ScreenListener {
             sounds.cafeStop();
             restaurant.setActive(false);
             store.setActive(false);
+            if(levelselect.checkForGoToMainMenu()){
+                this.current = -2;
+                levelselect.setForGoToMainMenu(false);
+                canvas.getCamera().position.y = 360;
+                canvas.getCamera().update();
+            }
             if(levelselect.checkForGoToLevel()){
                 this.levelToGoTo = levelselect.getLevelToGoTo();
                 restart();
@@ -271,6 +278,8 @@ public class GDXRoot extends Game implements ScreenListener {
 
             }else if (result.select){
                 current = -1;
+                //this just resets the scores according to whats new
+                levelselect = new LevelSelectController(canvas,input,loader,saveController);
                 result.select = false;
             }
             return;

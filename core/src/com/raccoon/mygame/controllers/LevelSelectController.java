@@ -19,6 +19,8 @@ public class LevelSelectController extends WorldController{
     //the background background
     private final Texture background = new Texture("menu/levelselectbackground.png");
     private final Texture backgroundBlank = new Texture("menu/levelselectbackgroundblank.png");
+    private final Texture napkinbox = new Texture("menu/napkinbox.png");
+    private final Texture week = new Texture("menu/week.png");
     //canvas to draw onto
     private GameCanvas canvas;
     //input controller to use
@@ -52,6 +54,14 @@ public class LevelSelectController extends WorldController{
 
     private LevelLoader loader;
 
+    private Array<Integer> shiftingYs = new Array<>();
+    private int cameraShiftI = 0;
+    private boolean shouldIScroll = false;
+    private float  targetCameraY;
+    private float scrollAmount = 0;
+
+    private boolean goToMainMenu = false;
+
     /**
      * Creates a new level select controller
      *
@@ -63,57 +73,23 @@ public class LevelSelectController extends WorldController{
         this.input = input;
         this.saveController = saveController;
 
-//        constructBooklet("1");
-//        constructBooklet("2");
-//        constructBooklet("3");
-//
-//        //level one button
-//        UIButton levelOneButton = new UIButton(new Texture("menu/levelbooklet.png"),"level1",10,30,0.8f,0.8f,canvas);
-//        //The addbutton method has many overloads. Please see them below.
-//        addButton(levelOneButton,
-//                ()-> {
-////          //on click
-//            System.out.println(levelOneButton.getID());
-//            findModalOfID("1").setActive(true);
-//                    },
-//                ()->{
-//            //on hover
-//            levelOneButton.setSX(0.9f);
-//            levelOneButton.setSY(0.9f);
-//        }, ()->{
-//            //on un-hover
-//            levelOneButton.resetStyleProperties();
-//        }
-//
-//
-//        );
-//
-//        UIButton levelTwoButton = new UIButton(new Texture("menu/levelbooklet.png"),"level2",420,30,0.8f,0.8f,canvas);
-//        addButton(levelTwoButton, ()-> {
-//            //on click
-//                    System.out.println(levelOneButton.getID());
-//                    findModalOfID("2").setActive(true);
-//        },()->{
-//            //on hover
-//                    levelTwoButton.setSX(0.9f);
-//                    levelTwoButton.setSY(0.9f);
-//        }, levelTwoButton::resetStyleProperties //on un-hover
-//        );
-//
-//        UIButton levelThreeButton = new UIButton(new Texture("menu/levelbooklet.png"),"level3",840,30,0.8f,0.8f,canvas);
-//        addButton(levelThreeButton, ()-> {
-//            //on click
-//                    System.out.println(levelOneButton.getID());
-//                    findModalOfID("3").setActive(true);
-//        },()->{
-//            //on hover
-//            levelThreeButton.setSX(0.9f);
-//            levelThreeButton.setSY(0.9f);
-//        }, levelThreeButton::resetStyleProperties //on un-hover
-//        );
         System.out.println(loader.getLevels().size);
         generateLevelSelectors(loader.getLevels().size);
 
+        UIButton up = new UIButton(new Texture("menu/upunhovered.png"),"up", 1100,600,1,1,canvas,canvas.getCamera(),true);
+        up.setDefaultScale(0.5f,0.5f);
+        addButton(up, ()->{upCameraShiftI();System.out.println(cameraShiftI);}, ()->{up.setSX(0.6f);up.setSY(0.6f);up.setTexture(new Texture("menu/uphovered.png"));}, up::resetStyleProperties);
+
+        UIButton down = new UIButton(new Texture("menu/downunhovered.png"),"down", 1100,20,1,1,canvas,canvas.getCamera(),true);
+        down.setDefaultScale(0.5f,0.5f);
+        addButton(down, ()->{downCameraShiftI();System.out.println(cameraShiftI);}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(new Texture("menu/downhovered.png"));}, down::resetStyleProperties);
+
+        UIButton backtotitle = new UIButton(new Texture("menu/titlebackunhovered.png"), "titleback", 10,10,1,1,canvas,canvas.getCamera(),true);
+        backtotitle.setDefaultScale(0.6f, 0.6f);
+        addButton(backtotitle, ()->{this.goToMainMenu = true;},()->{backtotitle.setTexture(new Texture("menu/titlebackhovered.png"));},()->{backtotitle.resetStyleProperties();});
+
+        this.shiftingYs = makeBackgroundPoints(loader.getLevels().size);
+        this.targetCameraY = canvas.getCamera().position.y;
     }
 
     public void dispose() {
@@ -124,14 +100,28 @@ public class LevelSelectController extends WorldController{
 
     public void update() {
 
-        //camera scrolling
-        float cameraSpeed = 10;
-        int scrollAmount = scroller.getScroll();
-        canvas.getCamera().position.y -= scrollAmount * cameraSpeed;
-        if(canvas.getCamera().position.y < -3000)
-            canvas.getCamera().position.y = -3000;
-        if(canvas.getCamera().position.y > 360)
-            canvas.getCamera().position.y = 360;
+        //this code is for scrolling via buttons
+        //I LOVE LERP
+        float lerpFactor = 0.1f;
+
+        System.out.println(cameraShiftI);
+        scrollAmount = scroller.getScroll();
+        if (scrollAmount != 0) {
+            canvas.getCamera().position.y -= scrollAmount * 10;
+            shouldIScroll = false;
+        }
+
+        if(shouldIScroll) {
+            if (Math.abs(canvas.getCamera().position.y - targetCameraY) > 1) {
+                canvas.getCamera().position.y += (targetCameraY - canvas.getCamera().position.y) * lerpFactor;
+                canvas.getCamera().update();
+            } else {
+                canvas.getCamera().position.y = targetCameraY;
+                setShouldIScroll(false);
+            }
+        }
+
+        clampCameraPosition();
         canvas.getCamera().update();
         scroller.resetScroll();
 
@@ -150,18 +140,33 @@ public class LevelSelectController extends WorldController{
     public void draw(){
 
         //draw the background background. Might have to change this later.
-        canvas.draw(background, Color.WHITE, 0, 0,
-                0, 0, 0.0f, 0.7f, 0.7f);
-        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
-                0, -720, 0.0f, 0.7f, 0.7f);
-        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
-                0, -1440, 0.0f, 0.7f, 0.7f);
-        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
-                0, -2160, 0.0f, 0.7f, 0.7f);
-        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
-                0, -2880, 0.0f, 0.7f, 0.7f);
-        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
-                0, -3600, 0.0f, 0.7f, 0.7f);
+        for(int i = 0; i < shiftingYs.size; i++) {
+            if(i == 0){
+                canvas.draw(background, Color.WHITE, 0, 0,
+                        0, shiftingYs.get(i), 0.0f, 0.7f, 0.7f);
+                canvas.draw(napkinbox,Color.WHITE, 0,0,670,shiftingYs.get(i)+600,0,0.6f,0.6f);
+                canvas.draw(week,Color.WHITE, 0,0,740,shiftingYs.get(i)+630,0,0.6f,0.6f);
+                drawSimpleNumber(i, 870,shiftingYs.get(i)+601,0.8f,0.8f);
+                continue;
+            }
+            canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
+                    0, shiftingYs.get(i), 0.0f, 0.7f, 0.7f);
+            canvas.draw(napkinbox,Color.WHITE, 0,0,670,shiftingYs.get(i)+600,0,0.6f,0.6f);
+            canvas.draw(week,Color.WHITE, 0,0,740,shiftingYs.get(i)+630,0,0.6f,0.6f);
+            drawSimpleNumber(i, 870,shiftingYs.get(i)+601,0.8f,0.8f);
+        }
+//        canvas.draw(background, Color.WHITE, 0, 0,
+//                0, -0, 0.0f, 0.7f, 0.7f);
+//        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
+//                0, -757, 0.0f, 0.7f, 0.7f);
+//        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
+//                0, -1440, 0.0f, 0.7f, 0.7f);
+//        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
+//                0, -2160, 0.0f, 0.7f, 0.7f);
+//        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
+//                0, -2880, 0.0f, 0.7f, 0.7f);
+//        canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
+//                0, -3600, 0.0f, 0.7f, 0.7f);
 
         //for every button in this scene (excluding those within a modal)
         //draw them
@@ -175,6 +180,22 @@ public class LevelSelectController extends WorldController{
             if(modal.getActive())
                 modal.draw(canvas);
         }
+    }
+
+    /**
+     * amount of levels divided by 3
+     * @return the scroll y points of each background
+     * last y in this array is the maximum camera point
+     * */
+    private Array<Integer> makeBackgroundPoints(int amountOfLevels){
+        int spacing = 0;
+        int amountOfBackgroundsToDraw = (int)(amountOfLevels/3);
+        Array<Integer> ypoints = new Array<>();
+        for(int i = 0; i <= amountOfBackgroundsToDraw+2; i++){
+            ypoints.add(spacing);
+            spacing -= 757;
+        }
+        return ypoints;
     }
 
     public void debug() {
@@ -249,6 +270,12 @@ public class LevelSelectController extends WorldController{
                 float maxX = button.getX() + button.getWidth();
                 float minY = button.getY();
                 float maxY = button.getY() + button.getHeight();
+                if(button.getSticky()){
+                    minX = button.getAdjustedX();
+                    maxX = button.getAdjustedX() + button.getWidth();
+                    minY = button.getAdjustedY();
+                    maxY = button.getAdjustedY() + button.getHeight();
+                }
                 if (processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY)) {
                     button.setHovered(true);
                     button.onHoverEvent();
@@ -277,6 +304,12 @@ public class LevelSelectController extends WorldController{
                     float maxX = button.getX() + button.getWidth();
                     float minY = modalY + button.getY();
                     float maxY = modalY + button.getY() + button.getHeight();
+                    if(button.getSticky()){
+                        minX = button.getAdjustedX();
+                        maxX = button.getAdjustedX() + button.getWidth();
+                        minY = button.getAdjustedY();
+                        maxY = button.getAdjustedY() + button.getHeight();
+                    }
                     if(processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY)){
                         button.setHovered(true);
                         button.onHoverEvent();
@@ -354,7 +387,7 @@ public class LevelSelectController extends WorldController{
             String is = Integer.toString(i);
 
             //level one button
-            UIButton levelButton = new UIButton(new Texture("menu/levelbooklet.png"),is,10 + (i*400),30,0.8f,0.8f,canvas);
+            UIButton levelButton = new UIButton(new Texture("menu/levelbooklet.png"),is,90 + (i*400),120,0.7f,0.7f,canvas);
             UIButton dayNumber = createNumberElement(i, 270,260,1,1);
             Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(i)),118,  170,1f,1f);
 
@@ -372,8 +405,8 @@ public class LevelSelectController extends WorldController{
                     },
                     ()->{
                         //on hover
-                        levelButton.setSX(0.9f);
-                        levelButton.setSY(0.9f);
+                        levelButton.setSX(0.75f);
+                        levelButton.setSY(0.75f);
                     }, levelButton::resetStyleProperties
             );
 
@@ -387,6 +420,12 @@ public class LevelSelectController extends WorldController{
         //270, 415, 0.5f, 0.5f
         UIButton number = new UIButton(new Texture("menu/" + is + ".png"),is + "num", x, y, sx,sy,canvas);
         return number;
+    }
+
+    //for modal
+    private void drawSimpleNumber(int num, int x, int y, float sx, float sy){
+        String is = Integer.toString(num);
+        canvas.draw(new Texture("menu/" + is + ".png"),Color.BLACK,0,0,x,y,0,sx,sy);
     }
 
     private Array<UIButton> createMultipleNumbers(int num, int x, int y, float sx, float sy){
@@ -453,5 +492,45 @@ public class LevelSelectController extends WorldController{
     }
     public int getLevelToGoTo(){
         return this.levelToGoTo;
+    }
+
+    private void upCameraShiftI(){
+        if (this.cameraShiftI > 0) {
+            this.cameraShiftI -= 1;
+            performSmoothScroll();
+        }
+    }
+    private void downCameraShiftI(){
+        if (this.cameraShiftI < shiftingYs.size - 1) {
+            this.cameraShiftI += 1;
+            performSmoothScroll();
+        }
+    }
+
+    private void performSmoothScroll() {
+        if (cameraShiftI < 0)
+            cameraShiftI = 0;
+        else if (cameraShiftI >= shiftingYs.size)
+            cameraShiftI = shiftingYs.size - 1;
+        this.targetCameraY = shiftingYs.get(cameraShiftI) + canvas.getCamera().viewportHeight / 2f;
+        shouldIScroll = true;
+    }
+    private void setShouldIScroll(boolean a){
+        this.shouldIScroll = a;
+    }
+
+    private void clampCameraPosition(){
+        if (canvas.getCamera().position.y < shiftingYs.peek() + canvas.getCamera().viewportHeight / 2) {
+            canvas.getCamera().position.y = shiftingYs.peek() + canvas.getCamera().viewportHeight / 2;
+        }
+        if (canvas.getCamera().position.y > shiftingYs.first() + canvas.getCamera().viewportHeight / 2) {
+            canvas.getCamera().position.y = shiftingYs.first() + canvas.getCamera().viewportHeight / 2;
+        }
+
+    }
+
+    public boolean checkForGoToMainMenu(){return this.goToMainMenu;}
+    public void setForGoToMainMenu(boolean a){
+        this.goToMainMenu = a;
     }
 }
