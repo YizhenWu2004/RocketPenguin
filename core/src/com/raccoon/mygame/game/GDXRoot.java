@@ -306,11 +306,13 @@ public class GDXRoot extends Game implements ScreenListener {
               sounds.cafePlay();
           }
           if(pause.quit){
-              Gdx.app.exit();
+              pause.quit = false;
+              current = -1;
           }
           if(pause.restart){
               pause.on_pause = false;
               restart();
+              pause.restart = false;
           }
           if(pause.options){
 
