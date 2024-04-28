@@ -3,10 +3,7 @@ package com.raccoon.mygame.controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
-import com.raccoon.mygame.models.ButtonAction;
-import com.raccoon.mygame.models.ButtonHover;
-import com.raccoon.mygame.models.ButtonUnhover;
-import com.raccoon.mygame.models.UIButton;
+import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class MainMenuController extends WorldController{
@@ -25,6 +22,7 @@ public class MainMenuController extends WorldController{
     private Array<UIButton> setting_buttons = new Array<>();
     private Array<UIButton> audio_buttons = new Array<>();
     private Array<UIButton> control_buttons = new Array<>();
+    private Array<Modal> modals = new Array<>();
 
     private boolean goToLevelSelect = false;
     private boolean goToOptionsSelect = false;
@@ -35,6 +33,8 @@ public class MainMenuController extends WorldController{
     public boolean on_settings = false;
     public boolean on_audio = false;
     public boolean on_control = false;
+
+    private boolean aModalIsActive = false;
 
     public MainMenuController(GameCanvas canvas, InputController input){
         this.canvas = canvas;
@@ -131,6 +131,40 @@ public class MainMenuController extends WorldController{
             save.setSY(1.1f);
             //back1.setTexture(cont_hover);
         },save::resetStyleProperties,audio_buttons);
+
+        Modal deletesure = new Modal("deletesure", 0,0, new Texture("menu/modalbackground.png"));
+        UIButton deletetext = new UIButton(new Texture("menu/deleteconfirmation.png"),"deleteconfirm",0,0,canvas);
+        deletetext.setSX(0.65f);
+        deletetext.setSY(0.65f);
+
+        UIButton confirmtext = new UIButton(new Texture("menu/confirmtext.png"),"confirm",380,320,canvas);
+        confirmtext.setSX(0.6f);
+        confirmtext.setSY(0.6f);
+
+        UIButton yes = new UIButton(new Texture("menu/yes.png"),"yes",450,210,canvas);
+        yes.setOnHoverAction(()->{yes.setTexture(new Texture("menu/yeshovered.png"));});
+        yes.setSX(0.6f);
+        yes.setSY(0.6f);
+
+        UIButton no = new UIButton(new Texture("menu/no.png"),"no",740,207,canvas);
+        no.setOnHoverAction(()->{no.setTexture(new Texture("menu/nohovered.png"));System.out.println("yes");});
+        no.setSX(0.6f);
+        no.setSY(0.6f);
+
+        deletesure.addElement(deletetext);
+        deletesure.addElement(confirmtext);
+        deletesure.addElement(yes);
+        deletesure.addElement(no);
+        modals.add(deletesure);
+
+        UIButton deletesave = new UIButton(new Texture("menu/deletesave.png"),"deletesave",1020,10,canvas);
+        addButton(deletesave, ()-> {
+            deletesure.setActive(true);
+        },()->{
+            deletesave.setSX(1.1f);
+            deletesave.setSY(1.1f);
+            //back1.setTexture(cont_hover);
+        },()->{deletesave.resetStyleProperties();});
     }
 
     public void dispose() {
@@ -140,6 +174,14 @@ public class MainMenuController extends WorldController{
     }
 
     public void update() {
+        aModalIsActive = false;
+        //if a single modal is active set this to true
+        for (Modal modal : modals) {
+            if (modal.getActive()) {
+                aModalIsActive = true;
+                break;
+            }
+        }
         if(on_main){
             checkButtons(buttons);
         } else if (on_settings){
@@ -158,8 +200,13 @@ public class MainMenuController extends WorldController{
                     0, 0, 0.0f, 0.7f, 0.7f);
 //        canvas.draw(debug, Color.WHITE, 0, 0,
 //                500, 400, 0.0f, 1f, 1f);
+
             for(UIButton button : buttons){
                 button.draw(canvas);
+            }
+            for(Modal modal : modals){
+                if(modal.getActive())
+                    modal.draw(canvas);
             }
         } else if (on_settings){
             canvas.draw(background, Color.WHITE, 0, 0,
@@ -210,33 +257,48 @@ public class MainMenuController extends WorldController{
         button.setOnClickAction(action);
         button.setOnHoverAction(hover);
     }
+    private void addButton(UIButton button, ButtonAction action, ButtonHover hover, ButtonUnhover unhover){
+        buttons.add(button);
+        button.setOnClickAction(action);
+        button.setOnHoverAction(hover);
+        button.setOnUnhoverAction(unhover);
+    }
 
     private boolean processBounds(float x, float y, float minX, float maxX, float minY, float maxY){
         return (x >= minX && x <= maxX && y >= minY && y <= maxY);
     }
-    private void checkButtons(Array<UIButton> buttons){
-        for(UIButton button : buttons){
-            float minX = button.getX();
-            float maxX = button.getX() + button.getWidth();
-            float minY = button.getY();
-            float maxY = button.getY() + button.getHeight();
-            if(processBounds(input.getMouseX(), input.getMouseY(), minX, maxX, minY, maxY)){
-                button.setHovered(true);
-                button.onHoverEvent();
-            }
-            else{
-                button.setHovered(false);
-                button.onUnhoverEvent();
-            }
-            //if input is within bounds of button
-            if(processBounds(input.getMouseX(), input.getMouseY(), minX, maxX, minY, maxY) && input.click){
-                button.setIsClicked(true);
-                button.onClickEvent();
-                button.setIsClicked(false);
+    private void checkButtons(Array<UIButton> buttons) {
+        //If no modals are active, check state for normal buttons.
+        if (!aModalIsActive) {
+            for (UIButton button : buttons) {
+                float minX = button.getX();
+                float maxX = button.getX() + button.getWidth();
+                float minY = button.getY();
+                float maxY = button.getY() + button.getHeight();
+                if (button.getSticky()) {
+                    minX = button.getAdjustedX();
+                    maxX = button.getAdjustedX() + button.getWidth();
+                    minY = button.getAdjustedY();
+                    maxY = button.getAdjustedY() + button.getHeight();
+                }
+                if (processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY)) {
+                    button.setHovered(true);
+                    button.onHoverEvent();
+                } else {
+                    button.setHovered(false);
+                    button.onUnhoverEvent();
+                }
+                //if input is within bounds of button
+                if (processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY) && input.click) {
+                    button.setIsClicked(true);
+                    button.onClickEvent();
+                    button.setIsClicked(false);
+                }
             }
         }
     }
     public boolean checkForGoToLevelSelect(){return this.goToLevelSelect;}
+    public void setForGoToLevelSelect(boolean a){this.goToLevelSelect = a;}
     public boolean checkForGoToOptions(){return this.goToOptionsSelect;}
     public boolean checkForExit(){return this.exit;}
 }

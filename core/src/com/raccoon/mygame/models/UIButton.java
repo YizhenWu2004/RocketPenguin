@@ -325,4 +325,12 @@ public class UIButton {
         return this.isSticky;
     }
 
+    public float getAdjustedX() {
+        return isSticky ? x + (camera.position.x - camera.viewportWidth / 2) : x;
+    }
+
+    public float getAdjustedY() {
+        return isSticky ? y + (camera.position.y - camera.viewportHeight / 2) : y;
+    }
+
 }

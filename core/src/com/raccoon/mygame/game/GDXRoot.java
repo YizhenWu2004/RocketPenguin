@@ -231,6 +231,7 @@ public class GDXRoot extends Game implements ScreenListener {
             sounds.cafeStop();
             if(mainmenu.checkForGoToLevelSelect()){
                 current = -1;
+                mainmenu.setForGoToLevelSelect(false);
             }
             if(mainmenu.checkForExit()){
                 Gdx.app.exit();
@@ -243,6 +244,12 @@ public class GDXRoot extends Game implements ScreenListener {
             sounds.cafeStop();
             restaurant.setActive(false);
             store.setActive(false);
+            if(levelselect.checkForGoToMainMenu()){
+                this.current = -2;
+                levelselect.setForGoToMainMenu(false);
+                canvas.getCamera().position.y = 360;
+                canvas.getCamera().update();
+            }
             if(levelselect.checkForGoToLevel()){
                 this.levelToGoTo = levelselect.getLevelToGoTo();
                 restart();
