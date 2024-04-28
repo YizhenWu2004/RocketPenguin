@@ -1,6 +1,7 @@
 package com.raccoon.mygame.models;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
@@ -39,6 +40,9 @@ public class UIButton {
     private float OX = defaultOX, OY = defaultOY;
     private float SX = defaultSX, SY = defaultSY;
     private Color COLOR = defaultCOLOR;
+
+    private OrthographicCamera camera;
+    private boolean isSticky = false;
 
     private Array<UIButton> children = new Array<UIButton>();
 
@@ -111,12 +115,46 @@ public class UIButton {
     }
 
     /**
+     * Creates a UIButton relative to camera
+     * DONT LET THIS TYPE OF BUTTON HAVE CHILDREN I DONT ADJUST FOR IT
+     * NO BABIES
+     * */
+    public UIButton(Texture texture, String id, float x, float y, float defaultSX, float defaultSY,GameCanvas canvas, OrthographicCamera camera, boolean isSticky) {
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.texture = texture;
+        this.defaultWidth = texture.getWidth();
+        this.defaultHeight = texture.getHeight();
+        this.defaultSX = defaultSX;
+        this.defaultSY = defaultSY;
+        this.width = defaultWidth * defaultSX;
+        this.height = defaultHeight * defaultSY;
+        this.SX = defaultSX;
+        this.SY = defaultSY;
+        this.default_texture = texture;
+        this.camera = camera;
+        this.isSticky = isSticky;
+    }
+
+
+    /**
      * Draws this button.
      * @param canvas Canvas to draw the button onto.
      * */
     public void draw(GameCanvas canvas) {
         if(this.texture == null)
             return;
+
+        if (isSticky && camera != null) {
+            float drawX = this.x;
+            float drawY = this.y;
+            drawX += camera.position.x - camera.viewportWidth / 2;
+            drawY += camera.position.y - camera.viewportHeight / 2;
+            canvas.draw(new TextureRegion(this.texture), this.COLOR, this.OX, this.OY, drawX, drawY, 0, this.SX, this.SY);
+            return;
+        }
+
         canvas.draw(new TextureRegion(this.texture),COLOR, this.OX, this.OY, this.x, this.y, 0, this.SX, this.SY);
 //        TextureRegion region, Color tint, float ox, float oy,
 //        float x, float y, float angle, float sx, float sy
@@ -281,6 +319,10 @@ public class UIButton {
     }
     private float getSY(){
         return this.SY;
+    }
+
+    public boolean getSticky(){
+        return this.isSticky;
     }
 
 }

@@ -114,6 +114,9 @@ public class LevelSelectController extends WorldController{
         System.out.println(loader.getLevels().size);
         generateLevelSelectors(loader.getLevels().size);
 
+        UIButton up = new UIButton(new Texture("menu/uparrow.png"),"up", 1000,30,1,1,canvas,canvas.getCamera(),true);
+        addButton(up, ()->{}, ()->{up.setSX(1.1f);up.setSY(1.1f);}, up::resetStyleProperties);
+
     }
 
     public void dispose() {
@@ -249,6 +252,14 @@ public class LevelSelectController extends WorldController{
                 float maxX = button.getX() + button.getWidth();
                 float minY = button.getY();
                 float maxY = button.getY() + button.getHeight();
+
+                float camX = canvas.getCamera().position.x - canvas.getCamera().viewportWidth / 2;
+                float camY = canvas.getCamera().position.y - canvas.getCamera().viewportHeight / 2;
+
+                if (button.getSticky()) {
+                    minY += (canvas.getCamera().position.x - canvas.getCamera().viewportWidth / 2);
+                    maxY += (canvas.getCamera().position.y - canvas.getCamera().viewportHeight / 2);
+                }
                 if (processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY)) {
                     button.setHovered(true);
                     button.onHoverEvent();
@@ -277,6 +288,7 @@ public class LevelSelectController extends WorldController{
                     float maxX = button.getX() + button.getWidth();
                     float minY = modalY + button.getY();
                     float maxY = modalY + button.getY() + button.getHeight();
+
                     if(processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY)){
                         button.setHovered(true);
                         button.onHoverEvent();
