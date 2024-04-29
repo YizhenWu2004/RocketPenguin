@@ -524,9 +524,7 @@ public class LevelSelectController extends WorldController{
         return elements;
     }
 
-    private void goToLevel(StoreController store, int level, Inventory inv){
-        store.setLevel(loader.getLevels().get(level), inv);
-    }
+
     private void setLevelToGoTo(int level){
         this.levelToGoTo = level;
     }
