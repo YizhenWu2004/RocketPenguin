@@ -17,10 +17,34 @@ import java.awt.*;
  * */
 public class LevelSelectController extends WorldController{
     //the background background
+    private final Texture modalbackground = new Texture("menu/modalbackground.png");
     private final Texture background = new Texture("menu/levelselectbackground.png");
     private final Texture backgroundBlank = new Texture("menu/levelselectbackgroundblank.png");
     private final Texture napkinbox = new Texture("menu/napkinbox.png");
     private final Texture week = new Texture("menu/week.png");
+    private final Texture upunhovered = new Texture("menu/upunhovered.png");
+    private final Texture downunhovered = new Texture("menu/downunhovered.png");
+    private final Texture titlebackunhovered = new Texture("menu/titlebackunhovered.png");
+    private final Texture titlebackhovered = new Texture("menu/titlebackhovered.png");
+    private final Texture downhovered = new Texture("menu/downhovered.png");
+    private final Texture uphovered = new Texture("menu/uphovered.png");
+    private final Texture booklet = new Texture("menu/booklet.png");
+    private final Texture back = new Texture("menu/back.png");
+    private final Texture start = new Texture("menu/start.png");
+    private final Texture filledstar = new Texture("menu/filledstar.png");
+    private final Texture unfilledstar= new Texture("menu/unfilledstar.png");
+    private final Texture levelbooklet = new Texture("menu/levelbooklet.png");
+    private final Texture zero = new Texture("menu/0.png");
+    private final Texture one = new Texture("menu/1.png");
+    private final Texture two = new Texture("menu/2.png");
+    private final Texture three = new Texture("menu/3.png");
+    private final Texture four = new Texture("menu/4.png");
+    private final Texture five = new Texture("menu/5.png");
+    private final Texture six = new Texture("menu/6.png");
+    private final Texture seven = new Texture("menu/7.png");
+    private final Texture eight = new Texture("menu/8.png");
+    private final Texture nine = new Texture("menu/9.png");
+    private Array<Texture> numbers = new Array<Texture>();
     //canvas to draw onto
     private GameCanvas canvas;
     //input controller to use
@@ -73,20 +97,31 @@ public class LevelSelectController extends WorldController{
         this.input = input;
         this.saveController = saveController;
 
+        numbers.add(zero);
+        numbers.add(one);
+        numbers.add(two);
+        numbers.add(three);
+        numbers.add(four);
+        numbers.add(five);
+        numbers.add(six);
+        numbers.add(seven);
+        numbers.add(eight);
+        numbers.add(nine);
+
         System.out.println(loader.getLevels().size);
         generateLevelSelectors(loader.getLevels().size);
 
-        UIButton up = new UIButton(new Texture("menu/upunhovered.png"),"up", 1100,600,1,1,canvas,canvas.getCamera(),true);
+        UIButton up = new UIButton(upunhovered,"up", 1100,600,1,1,canvas,canvas.getCamera(),true);
         up.setDefaultScale(0.5f,0.5f);
-        addButton(up, ()->{upCameraShiftI();System.out.println(cameraShiftI);}, ()->{up.setSX(0.6f);up.setSY(0.6f);up.setTexture(new Texture("menu/uphovered.png"));}, up::resetStyleProperties);
+        addButton(up, ()->{upCameraShiftI();System.out.println(cameraShiftI);}, ()->{up.setSX(0.6f);up.setSY(0.6f);up.setTexture(uphovered);}, up::resetStyleProperties);
 
-        UIButton down = new UIButton(new Texture("menu/downunhovered.png"),"down", 1100,20,1,1,canvas,canvas.getCamera(),true);
+        UIButton down = new UIButton(downunhovered,"down", 1100,20,1,1,canvas,canvas.getCamera(),true);
         down.setDefaultScale(0.5f,0.5f);
         addButton(down, ()->{downCameraShiftI();System.out.println(cameraShiftI);}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(new Texture("menu/downhovered.png"));}, down::resetStyleProperties);
 
-        UIButton backtotitle = new UIButton(new Texture("menu/titlebackunhovered.png"), "titleback", 10,10,1,1,canvas,canvas.getCamera(),true);
+        UIButton backtotitle = new UIButton(titlebackunhovered, "titleback", 10,10,1,1,canvas,canvas.getCamera(),true);
         backtotitle.setDefaultScale(0.6f, 0.6f);
-        addButton(backtotitle, ()->{this.goToMainMenu = true;},()->{backtotitle.setTexture(new Texture("menu/titlebackhovered.png"));},()->{backtotitle.resetStyleProperties();});
+        addButton(backtotitle, ()->{this.goToMainMenu = true;},()->{backtotitle.setTexture(titlebackhovered);},()->{backtotitle.resetStyleProperties();});
 
         this.shiftingYs = makeBackgroundPoints(loader.getLevels().size);
         this.targetCameraY = canvas.getCamera().position.y;
@@ -332,16 +367,20 @@ public class LevelSelectController extends WorldController{
         int num = Integer.parseInt(id);
         //this is the modal for when you click on an individual level entry
         //mostly just for testing now
-        Modal selectModal = new Modal(id, 125, 75, new Texture("menu/modalbackground.png"));
+        Modal selectModal = new Modal(id, 125, 75,modalbackground);
         //This is the menu that displays for that modal
-        UIButton booklet = new UIButton(new Texture("menu/booklet.png"),"levelbutton",0,0,0.5f, 0.5f, canvas);
 
-        UIButton back = new UIButton(new Texture("menu/back.png"), "back", 190, 75, 0.5f, 0.5f,canvas);
+        //texture might need a rename
+        UIButton booklet = new UIButton(this.booklet,"levelbutton",0,0,0.5f, 0.5f, canvas);
+
+        //texture might need a rename
+        UIButton back = new UIButton(this.back, "back", 190, 75, 0.5f, 0.5f,canvas);
         back.setOnClickAction(()->{selectModal.setActive(false);});
         back.setOnHoverAction(()->{back.setSX(0.6f);back.setSY(0.6f);});
         back.setOnUnhoverAction(()->{back.resetStyleProperties();});
 
-        UIButton start = new UIButton(new Texture("menu/start.png"), "start", 650, 75, 0.5f, 0.5f,canvas);
+        //texture might need a rename
+        UIButton start = new UIButton(this.start, "start", 650, 75, 0.5f, 0.5f,canvas);
         start.setOnClickAction(()->{selectModal.setActive(false);this.goToLevel=true;this.setLevelToGoTo(num);});
         start.setOnHoverAction(()->{start.setSX(0.6f);start.setSY(0.6f);});
         start.setOnUnhoverAction(()->{start.resetStyleProperties();});
@@ -379,7 +418,7 @@ public class LevelSelectController extends WorldController{
             }
         }
         //fake modal
-        return new Modal("-1", 0,0,new Texture("menu/filledstar.png"));
+        return new Modal("-1", 0,0,filledstar);
     }
 
     private void generateLevelSelectors(int numberOfLevels){
@@ -387,7 +426,7 @@ public class LevelSelectController extends WorldController{
             String is = Integer.toString(i);
 
             //level one button
-            UIButton levelButton = new UIButton(new Texture("menu/levelbooklet.png"),is,90 + (i*400),120,0.7f,0.7f,canvas);
+            UIButton levelButton = new UIButton(levelbooklet,is,90 + (i*400),120,0.7f,0.7f,canvas);
             UIButton dayNumber = createNumberElement(i, 270,260,1,1);
             Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(i)),118,  170,1f,1f);
 
@@ -425,7 +464,7 @@ public class LevelSelectController extends WorldController{
     //for modal
     private void drawSimpleNumber(int num, int x, int y, float sx, float sy){
         String is = Integer.toString(num);
-        canvas.draw(new Texture("menu/" + is + ".png"),Color.BLACK,0,0,x,y,0,sx,sy);
+        canvas.draw(getTextureOfNumber(num),Color.BLACK,0,0,x,y,0,sx,sy);
     }
 
     private Array<UIButton> createMultipleNumbers(int num, int x, int y, float sx, float sy){
@@ -433,7 +472,8 @@ public class LevelSelectController extends WorldController{
         String numstring = Integer.toString(num);
         for(int i = 0; i < numstring.length(); i++){
             String currentchar = numstring.substring(i,i+1);
-            UIButton number = new UIButton(new Texture("menu/" + currentchar + ".png"),currentchar + "multnum", x + (i * 25), y, sx,sy,canvas);
+            int currentnum = Integer.parseInt(currentchar);
+            UIButton number = new UIButton(getTextureOfNumber(currentnum),currentchar + "multnum", x + (i * 25), y, sx,sy,canvas);
             number.setCOLOR(Color.BLACK);
             elements.add(number);
         }
@@ -441,8 +481,8 @@ public class LevelSelectController extends WorldController{
     }
     private Array<UIButton> generateStars(int score, int x, int y, float sx, float sy){
         Array<UIButton> elements = new Array<>();
-        Texture starFilled = new Texture("menu/filledstar.png");
-        Texture starEmpty = new Texture("menu/unfilledstar.png");
+        Texture starFilled = filledstar;
+        Texture starEmpty = unfilledstar;
         int[] star_req = new int[]{50,75,100};
         if(score < star_req[0]){
             for(int i = 0; i < 3; i++){
@@ -532,5 +572,14 @@ public class LevelSelectController extends WorldController{
     public boolean checkForGoToMainMenu(){return this.goToMainMenu;}
     public void setForGoToMainMenu(boolean a){
         this.goToMainMenu = a;
+    }
+
+    private Texture getTextureOfNumber(int num){
+        for(int i = 0; i < this.numbers.size; i++){
+            if(i == num){
+                return this.numbers.get(i);
+            }
+        }
+        return this.numbers.get(0);
     }
 }
