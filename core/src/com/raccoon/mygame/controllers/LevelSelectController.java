@@ -108,16 +108,15 @@ public class LevelSelectController extends WorldController{
         numbers.add(eight);
         numbers.add(nine);
 
-        System.out.println(loader.getLevels().size);
         generateLevelSelectors(loader.getLevels().size);
 
         UIButton up = new UIButton(upunhovered,"up", 1100,600,1,1,canvas,canvas.getCamera(),true);
         up.setDefaultScale(0.5f,0.5f);
-        addButton(up, ()->{upCameraShiftI();System.out.println(cameraShiftI);}, ()->{up.setSX(0.6f);up.setSY(0.6f);up.setTexture(uphovered);}, up::resetStyleProperties);
+        addButton(up, ()->{upCameraShiftI();}, ()->{up.setSX(0.6f);up.setSY(0.6f);up.setTexture(uphovered);}, up::resetStyleProperties);
 
         UIButton down = new UIButton(downunhovered,"down", 1100,20,1,1,canvas,canvas.getCamera(),true);
         down.setDefaultScale(0.5f,0.5f);
-        addButton(down, ()->{downCameraShiftI();System.out.println(cameraShiftI);}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(new Texture("menu/downhovered.png"));}, down::resetStyleProperties);
+        addButton(down, ()->{downCameraShiftI();}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(new Texture("menu/downhovered.png"));}, down::resetStyleProperties);
 
         UIButton backtotitle = new UIButton(titlebackunhovered, "titleback", 10,10,1,1,canvas,canvas.getCamera(),true);
         backtotitle.setDefaultScale(0.6f, 0.6f);
@@ -139,7 +138,6 @@ public class LevelSelectController extends WorldController{
         //I LOVE LERP
         float lerpFactor = 0.1f;
 
-        System.out.println(cameraShiftI);
         scrollAmount = scroller.getScroll();
         if (scrollAmount != 0) {
             canvas.getCamera().position.y -= scrollAmount * 10;
@@ -439,7 +437,6 @@ public class LevelSelectController extends WorldController{
             addButton(levelButton,
                     ()-> {
 //          //on click
-                        System.out.println(levelButton.getID());
                         findModalOfID(is).setActive(true);
                     },
                     ()->{

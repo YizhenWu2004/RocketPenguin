@@ -90,7 +90,7 @@ public class LevelModel {
         else if (rotate == 2) {
             direction = enums.PatrolDirection.ROTATE_CCW;
         }
-        System.out.println("Rotation: " + rotate + ", Sleep: " + sleep);
+//        System.out.println("Rotation: " + rotate + ", Sleep: " + sleep);
         guards.add(new Guard(x, y, 1.67f, 0.83f, guardIdle, storeWorld, canvas,
                 direction,collisionLayer, (sleep || (rotate != 0) ? new Array<>() : nodes),
                 GuardAIController.GuardOrientation.LEFT));
@@ -140,7 +140,7 @@ public class LevelModel {
             float x = ((TextureMapObject) o).getX()/40f + CELL_SIZE/2;
             float y = ((TextureMapObject) o).getY()/40f + CELL_SIZE/2;
             NormalObstacle obstacle;
-            System.out.println(o.getName());
+//            System.out.println(o.getName());
             switch (o.getName()) {
                 case "HorizShelf":
                     addShelfHorizontal(x-0.1f, y-1.5f);
@@ -259,7 +259,7 @@ public class LevelModel {
             String orientation = (String)g.getProperties().get("Orientation");
             guardNodes.get(idx - 1).add(createNode(g));
             if (sleep.equals("Yes")) {
-                System.out.println("this is happening");
+//                System.out.println("this is happening");
                 guardSleep.set(idx-1, true);
             }
 

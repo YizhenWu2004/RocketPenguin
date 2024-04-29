@@ -182,7 +182,7 @@ public class GDXRoot extends Game implements ScreenListener {
     /**
      * Called when the Application is resized.
      * <p>
-     * This can happen at any point during a non-paused state but will never happen
+     * Thiss can happen at any point during a non-paused state but will never happen
      * before a call to create().
      *
      * @param width  The new width in pixels
