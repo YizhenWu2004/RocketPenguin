@@ -87,7 +87,7 @@ public class AnimationController {
         playerCook = new FilmStrip(new Texture("720/rockocook.png"),1,5,5);
         playerChop = new FilmStrip(new Texture("720/rockochop.png"), 2,5,9);
         playerKickedOut = new FilmStrip(new Texture("720/rockokickedout.png"),4,5,20);
-        playerSneak = new FilmStrip(new Texture("720/rockosneak.png"),1,8,8);
+        playerSneak = new FilmStrip(new Texture("720/rockosneak.png"),1,10,10);
 
         goatWalk = new FilmStrip(new Texture("720/goatwalk.png"), 1, 4, 4);
         goatIdle = new FilmStrip(new Texture("720/goatsit.png"), 1,1,1);
