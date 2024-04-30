@@ -25,6 +25,7 @@ public class LevelModel {
     private static final float CELL_SIZE = 230f/40f;
     private final int GRID_WIDTH = 32;
     private final int GRID_HEIGHT = 18;
+    private final int MAX_ORDER = 3;
     private World storeWorld;
     private GameCanvas canvas;
     private Array<NormalObstacle> storeObjects = new Array<>();
@@ -36,21 +37,17 @@ public class LevelModel {
     //0 = No rotate, 1 = CW, 2 = CCW
     private Array<Integer> guardRotate = new Array<>();
     private Array<String> guardOrientations = new Array<>();
+    private Array<String[]> customerData = new Array<>();
     private TiledMap tiledMap;
     private MapLayer storeObjectsLayer;
     private MapLayer ingredientsLayer;
     private MapLayer guardsLayer;
     private MapLayer guardNodesLayer;
+    private MapLayer customersLayer;
     private FilmStrip guardIdle;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
-
-    private float[] customerTimes;
-    private int numStations;
-    private int minOrder;
-    private int maxOrder;
-    private String[] orderIngredients;
     private float guardSpeed;
-    private float patienceTime;
+    private int patienceTime;
 
     private void addShelfHorizontal(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 1f, 1f, 0f, -40f,
@@ -96,15 +93,9 @@ public class LevelModel {
                 GuardAIController.GuardOrientation.LEFT));
     }
 
-    public LevelModel(String tmxFile, float[] customerTimes, int numStations, int minOrder, int maxOrder,
-                      String[] orderIngredients, float guardSpeed, float patienceTime, GameCanvas canvas) {
+    public LevelModel(String tmxFile, GameCanvas canvas) {
         storeWorld = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
-        this.customerTimes = customerTimes;
-        this.numStations = numStations;
-        this.minOrder = minOrder;
-        this.maxOrder = maxOrder;
-        this.orderIngredients = orderIngredients;
         this.guardSpeed = guardSpeed;
         this.patienceTime = patienceTime;
         tiledMap = new TmxMapLoader().load("tiled/" + tmxFile + ".tmx");
@@ -112,20 +103,20 @@ public class LevelModel {
         ingredientsLayer = tiledMap.getLayers().get("Ingredients");
         guardsLayer = tiledMap.getLayers().get("Guards");
         guardNodesLayer = tiledMap.getLayers().get("GuardNodes");
+        customersLayer = tiledMap.getLayers().get("Customers");
         guardIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
+        guardSpeed = Float.parseFloat((String)tiledMap.getProperties().get("Guard Speed"));
+        patienceTime = Integer.parseInt((String)tiledMap.getProperties().get("Guard Speed"));
         processObjects();
         processIngredients();
         initializeCollisionLayer();
         processGuards();
+        processCustomers();
     }
 
     public World getStoreWorld() { return storeWorld; }
 
-    public float[] getCustomerTimes() { return customerTimes; }
-    public int getNumStations() { return numStations; }
-    public int getMinOrder() { return minOrder; }
-    public int getMaxOrder() { return maxOrder; }
-    public String[] getOrderIngredients() { return orderIngredients; }
+    public Array<String[]> getCustomerData() { return customerData; }
     public float getGuardSpeed() { return guardSpeed; }
     public float getPatienceTime() { return patienceTime; }
 
@@ -284,6 +275,19 @@ public class LevelModel {
         for (int i = 0; i < numGuards; i++) {
             Vector2 init = guardNodes.get(i).get(0);
             addGuard(init.x, init.y, guardSleep.get(i), guardRotate.get(i), guardOrientations.get(i), guardNodes.get(i));
+        }
+    }
+
+    private void processCustomers() {
+        for (MapObject c : customersLayer.getObjects()) {
+            String time = (String)c.getProperties().get("Time");
+            String[] order = ((String)c.getProperties().get("Order")).split(" ");
+            String[] data = new String[MAX_ORDER+1];
+            data[0] = time;
+            for (int i = 0; i < order.length; i++) {
+                data[i+1] = order[i];
+            }
+            customerData.add(data);
         }
     }
 }

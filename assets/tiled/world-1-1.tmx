@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="10" nextobjectid="165">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="11" nextobjectid="166">
+ <properties>
+  <property name="Guard Speed" value="10"/>
+  <property name="Patience Time" value="120"/>
+  <property name="Tutorial" value="No"/>
+ </properties>
  <tileset firstgid="1" source="Rocko Store Floor.tsx"/>
  <tileset firstgid="577" source="RockoGuard.tsx"/>
  <tileset firstgid="578" source="Rocko Store Objects.tsx"/>
@@ -26,6 +31,14 @@
 545,546,547,548,549,550,551,552,553,554,555,556,557,558,559,560,561,562,563,564,565,566,567,568,569,570,571,572,573,574,575,576
 </data>
  </layer>
+ <objectgroup id="10" name="Customers">
+  <object id="165" gid="577" x="34.9131" y="923.548" width="102" height="131">
+   <properties>
+    <property name="Order" value="pot apple green"/>
+    <property name="Time" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="2" name="Obstacles">
   <object id="3" name="HorizShelf" gid="580" x="-7.32363" y="144.664" width="230" height="230"/>
   <object id="21" name="HorizWall" gid="578" x="-19.3325" y="644.837" width="230" height="230"/>
