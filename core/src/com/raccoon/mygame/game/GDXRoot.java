@@ -182,7 +182,7 @@ public class GDXRoot extends Game implements ScreenListener {
     /**
      * Called when the Application is resized.
      * <p>
-     * This can happen at any point during a non-paused state but will never happen
+     * Thiss can happen at any point during a non-paused state but will never happen
      * before a call to create().
      *
      * @param width  The new width in pixels
@@ -406,12 +406,12 @@ public class GDXRoot extends Game implements ScreenListener {
     }
 
     public void drawDebug() {
-        canvas.beginDebug();
-        if (current == 1) {
-            store.debug();
-        } else if(current == 0){
-            restaurant.debug();
-        }
-        canvas.endDebug();
+//        canvas.beginDebug();
+//        if (current == 1) {
+//            store.debug();
+//        } else if(current == 0){
+//            restaurant.debug();
+//        }
+//        canvas.endDebug();
     }
 }

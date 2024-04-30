@@ -27,6 +27,7 @@ import com.raccoon.mygame.view.GameCanvas;
 import java.awt.Font;
 
 import java.lang.reflect.GenericArrayType;
+import java.util.HashMap;
 
 public class RestaurantController extends WorldController implements ContactListener {
     private World world;
@@ -81,10 +82,33 @@ public class RestaurantController extends WorldController implements ContactList
     Texture light = new Texture("light.png");
 
     private Texture singleInv = new Texture("trashInv.png");
+    private Texture table = new Texture("720/table.png");
+    private Texture wallbump =  new Texture("720/wallbump.png");
+    private Texture invisible = new Texture("invisible" + ".png");
+    private Texture rockoidle = new Texture("720/rockoidle.png");
+    private Texture wallrestaurant =  new Texture("720/wallrestaurant.png");
+    private Texture new_pot_station = new Texture("new_pot_station.png");
+    private Texture new_wok_station = new Texture("new_wok_station.png");
+    private Texture temp_cutting_station =  new Texture("temp_cutting_station.png");
+    private Texture new_counter = new Texture("new_counter.png");
+    private Texture goat = new Texture("720/goat.png");
+    private Texture BaseTimer = new Texture("720/BaseTimer.png");
+    private Texture smallwall = new Texture("720/smallwall.png");
+    private Texture notAsTallWall = new Texture("720/notAsTallWall.png");
+    private Texture window = new Texture("720/window.png");
+    private Texture plant = new Texture("720/plant.png");
+    private Texture sidelamp = new Texture("720/sidelamp.png");
+    private Texture decorativeshelf = new Texture("720/decorativeshelf.png");
+    private Texture trashcan = new Texture("720/trashcan.png");
+    private Texture vent = new Texture("720/vent.png");
+    private HashMap<String, Texture> decorationTextures = new HashMap();
+
+
+    private HashMap<String, Texture> obstacleTextures = new HashMap<>();
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
-                new Texture("720/table.png"), world, canvas);
+                table, world, canvas);
         obstacles.add(t);
         drawableObjects.add(t);
         tables.add(t);
@@ -92,21 +116,21 @@ public class RestaurantController extends WorldController implements ContactList
 
     private void addWallBump(float x, float y) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 5f, 1f, 1f, 0f, 0f,
-                new Texture("720/wallbump.png"), world, canvas);
+               wallbump, world, canvas);
         obstacles.add(t);
         drawableObjects.add(t);
     }
     //obstacles are real, their collisions affect things
     private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
         NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("720/" + texturename + ".png"), world, canvas);
+                decorationTextures.get(texturename), world, canvas);
 
         obstacles.add(t);
         drawableObjects.add(t);
     }
     private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
         NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+                decorationTextures.get(texturename), world, canvas, drawPriority);
 
         obstacles.add(t);
         drawableObjects.add(t);
@@ -118,22 +142,22 @@ public class RestaurantController extends WorldController implements ContactList
     //decorations are sensors, no collision will be detected
     private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
         NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+                decorationTextures.get(texturename), world, canvas, drawPriority);
 
         obstacles.add(t);
         drawableObjects.add(t);
     }
-    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
-        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("720/" + texturename + ".png"), world, canvas);
-
-        obstacles.add(t);
-        drawableObjects.add(t);
-    }
+//    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+//        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+//                new Texture("720/" + texturename + ".png"), world, canvas);
+//
+//        obstacles.add(t);
+//        drawableObjects.add(t);
+//    }
 
     private void addTrashcan(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority, boolean isForDishes) {
         NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+                decorationTextures.get(texturename), world, canvas, drawPriority);
 
         obstacles.add(t);
         drawableObjects.add(t);
@@ -144,7 +168,7 @@ public class RestaurantController extends WorldController implements ContactList
 
     private void addInvisibleWall(float x, float y, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
         NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("invisible" + ".png"), world, canvas);
+               invisible, world, canvas);
 
         obstacles.add(t);
     }
@@ -155,8 +179,16 @@ public class RestaurantController extends WorldController implements ContactList
         this.canvas = canvas;
         this.background = texture;
 
+        decorationTextures.put("smallwall", smallwall);
+        decorationTextures.put("notAsTallWall", notAsTallWall);
+        decorationTextures.put("window", window);
+        decorationTextures.put("plant", plant);
+        decorationTextures.put("sidelamp", sidelamp);
+        decorationTextures.put("decorativeshelf", decorativeshelf);
+        decorationTextures.put("trashcan", trashcan);
+
         //Setting the default filmstrip for the player
-        playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
+        playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
         player = new Player(3f, 6.5f, 1, 0.7f, playerIdle, sharedInv, canvas, world);
 
         drawableObjects.add(player);
@@ -165,28 +197,28 @@ public class RestaurantController extends WorldController implements ContactList
 
         //this seems pointless now im not sure
         NormalObstacle normalOb1 = (new NormalObstacle(16f, 17f, 32f, 2.5f, 1f, 1f, 0f, 320f,
-                new Texture("720/wallrestaurant.png"), world, canvas));
+                wallrestaurant, world, canvas));
         obstacles.add(normalOb1);
         drawableObjects.add(normalOb1);
 
         stations = new Array<>();
 
         CookingStationObject temp = new CookingStationObject(27f, 15f, 6f, 3f, 1, 1, 0f, 0f,
-                new Texture("new_pot_station.png"), world, canvas, 1,1);
+                new_pot_station, world, canvas, 1,1);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
         temp.drawoy=-30;
 
         temp = new CookingStationObject(30.97f, 10f, 2f, 4f, 1.2f, 1.2f, 0f, 0f,
-                new Texture("new_wok_station.png"), world, canvas, 2,0);
+                new_wok_station, world, canvas, 2,0);
         temp.drawoy = 0;
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
 
         temp = new CookingStationObject(24.5f, 2f, 2.2f, 4f, 1.2f, 1f, 0f, 0f,
-                new Texture("temp_cutting_station.png"), world, canvas, 2,2);
+               temp_cutting_station, world, canvas, 2,2);
         temp.drawoy = -10;
         obstacles.add(temp);
         stations.add(temp);
@@ -194,7 +226,7 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         NormalObstacle obs = new NormalObstacle(30.97f, 14.5f, 2,5, 1.2f,0.9f, 0,0,
-                new Texture("new_counter.png"), world, canvas, false);
+                new_counter, world, canvas, false);
         obstacles.add(obs);
         drawableObjects.add(obs);
 
@@ -246,7 +278,7 @@ public class RestaurantController extends WorldController implements ContactList
         //I think I just use the same default for all customers.
         //Again it's fine because they ger set immediately in the animation controller
         //We just wrote shitty code that requires textures off-rip.
-        goatIdle = new FilmStrip(new Texture("720/goat.png"), 1,4,4);
+        goatIdle = new FilmStrip(goat, 1,4,4);
         Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
       
         customers.add(customer1);
@@ -261,7 +293,7 @@ public class RestaurantController extends WorldController implements ContactList
         if (!player.isIgnoreInput()) {
             this.input = input;
         }
-        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1) ,world, canvas);
+        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, new FilmStrip(vent,1,1,1) ,world, canvas);
         localStartingPos = new Vector2(vent1.getX()-2.3f, vent1.getY());
         drawableObjects.add(vent1);
 
@@ -414,7 +446,7 @@ public class RestaurantController extends WorldController implements ContactList
                         sounds.chopPlay();
                         time = 1;
                     }
-                    c.timer = new Worldtimer(time, canvas, new Texture("720/BaseTimer.png"));
+                    c.timer = new Worldtimer(time, canvas, BaseTimer);
                     c.timer.create();
                     c.setMaxTime();
                 } else if ((c.pot.size != 0 && !c.interacting) || input.getDown()){
@@ -717,7 +749,7 @@ public class RestaurantController extends WorldController implements ContactList
 
     public void startVentTimer(VentObstacle o, Player p){
         p.playerIsVenting = true;
-        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, new Texture("720/BaseTimer.png"));
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer);
         o.ventTimer.create();
     }
 

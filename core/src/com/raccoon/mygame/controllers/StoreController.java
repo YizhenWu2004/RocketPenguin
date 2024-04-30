@@ -3,6 +3,7 @@ package com.raccoon.mygame.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -19,6 +20,8 @@ import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
+
+import java.util.HashMap;
 
 import static com.raccoon.mygame.enums.enums.PatrolDirection;
 
@@ -73,65 +76,74 @@ public class StoreController extends WorldController implements ContactListener 
 
     public Guard guardInAction;
 
+    private final Texture groceryshelfhorizontal = new Texture("720/groceryshelfhorizontal.png");
+    private final Texture shelfvertical = new Texture("720/shelfvertical.png");
+    private final Texture rockoidle = new Texture("720/rockoidle.png");
+    private final Texture vent = new Texture("720/vent.png");
+    private final Texture BaseTimer = new Texture("720/BaseTimer.png");
+    private final Texture invisible = new Texture("invisible" + ".png");
+    private final Texture apple = new Texture("720/apple.png");
+    private HashMap<String, Texture> ingredientTextures;
+
 
 //    public boolean totalReset = false;
 
-    private void addShelfHorizontal(float x, float y) {
-        //0.95
-        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -30f,
-                new Texture("720/groceryshelfhorizontal.png"), world, canvas);
-        obstacles.add(obstacle);
-        drawableObjects.add(obstacle);
-    }
-
-    private void addShelfVertical(float x, float y) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 4f, 0.95f, 1, 0f, 0f,
-                new Texture("720/shelfvertical.png"), world, canvas);
-        obstacles.add(obstacle);
-        drawableObjects.add(obstacle);
-    }
-
-    private void addFruitCrate(float x, float y, Ingredient ingredient) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 1, 1, 0f, 0f,
-                new Texture("720/" + ingredient.type + ".png"), world, canvas, ingredient);
-        obstacles.add(obstacle);
-        drawableObjects.add(obstacle);
-    }
-
-    //obstacles are real, their collisions affect things
-    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
-        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("720/" + texturename + ".png"), world, canvas);
-
-        obstacles.add(t);
-        drawableObjects.add(t);
-    }
-    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
-        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
-
-        obstacles.add(t);
-        drawableObjects.add(t);
-    }
-    //decorations are sensors, no collision will be detected
-    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
-        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
-
-        obstacles.add(t);
-        drawableObjects.add(t);
-    }
-    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
-        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("720/" + texturename + ".png"), world, canvas);
-
-        obstacles.add(t);
-        drawableObjects.add(t);
-    }
+//    private void addShelfHorizontal(float x, float y) {
+//        //0.95
+//        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -30f,
+//                new Texture("720/groceryshelfhorizontal.png"), world, canvas);
+//        obstacles.add(obstacle);
+//        drawableObjects.add(obstacle);
+//    }
+//
+//    private void addShelfVertical(float x, float y) {
+//        NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 4f, 0.95f, 1, 0f, 0f,
+//                new Texture("720/shelfvertical.png"), world, canvas);
+//        obstacles.add(obstacle);
+//        drawableObjects.add(obstacle);
+//    }
+//
+//    private void addFruitCrate(float x, float y, Ingredient ingredient) {
+//        NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 1, 1, 0f, 0f,
+//               getIngredientTexture(ingredient.type), world, canvas, ingredient);
+//        obstacles.add(obstacle);
+//        drawableObjects.add(obstacle);
+//    }
+//
+//    //obstacles are real, their collisions affect things
+//    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+//        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+//                new Texture("720/" + texturename + ".png"), world, canvas);
+//
+//        obstacles.add(t);
+//        drawableObjects.add(t);
+//    }
+//    private void addNormalObstacle(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+//        NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+//                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+//
+//        obstacles.add(t);
+//        drawableObjects.add(t);
+//    }
+//    //decorations are sensors, no collision will be detected
+//    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset, boolean drawPriority) {
+//        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+//                new Texture("720/" + texturename + ".png"), world, canvas, drawPriority);
+//
+//        obstacles.add(t);
+//        drawableObjects.add(t);
+//    }
+//    private void addDecoration(float x, float y, String texturename, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
+//        NormalObstacle t = new NormalDecoration(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
+//                new Texture("720/" + texturename + ".png"), world, canvas);
+//
+//        obstacles.add(t);
+//        drawableObjects.add(t);
+//    }
 
     private void addInvisibleWall(float x, float y, float colliderWidth, float colliderHeight, float scaleX, float scaleY, float xOffset, float yOffset) {
         NormalObstacle t = new NormalObstacle(x, y, colliderWidth, colliderHeight, scaleX, scaleY, xOffset, yOffset,
-                new Texture("invisible" + ".png"), world, canvas);
+                invisible, world, canvas);
 
         obstacles.add(t);
     }
@@ -146,14 +158,15 @@ public class StoreController extends WorldController implements ContactListener 
         guards = new Array<>();
         guardX = new Array<>();
         guardY = new Array<>();
+        ingredientTextures = new HashMap<>();
 
-        playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
+        playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
 
         player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
         drawableObjects.add(player);
         this.input = input;
 
-        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(vent,1,1,1),world, canvas);
         drawableObjects.add(vent1);
 
         localStartingPos = new Vector2(vent1.getX()+2.3f, vent1.getY());
@@ -189,13 +202,16 @@ public class StoreController extends WorldController implements ContactListener 
         vent1.deactivatePhysics(world);
         world = level.getStoreWorld();
         player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
-        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(new Texture("720/vent.png"),1,1,1),world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(vent,1,1,1),world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
 //        guards = new Array<Guard>(1);
 //        guards.add(new Guard(20f, 10, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.ROTATE_CCW,collisionLayer,new Array<>(), GuardAIController.GuardOrientation.LEFT));
         System.out.println("Size: " + level.getIngredients().size);
         ingredients = level.getIngredients();
+//        for(Ingredient i: ingredients){
+//            ingredientTextures.put(i.type, new Texture("720/" + i.type + ".png"));
+//        }
         drawableObjects.clear();
         for (Object o : level.getStoreObjectsAndDecor()) {
             drawableObjects.add(o);
@@ -563,7 +579,7 @@ public class StoreController extends WorldController implements ContactListener 
     public void startVentTimer(VentObstacle o, Player p){
         duringventing = true;
         p.playerIsVenting = true;
-        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, new Texture("720/BaseTimer.png"));
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer);
         o.ventTimer.create();
     }
 
@@ -577,5 +593,15 @@ public class StoreController extends WorldController implements ContactListener 
 
     public boolean gettingCaught(){
         return playerJustCaughtTimer > 0;
+    }
+
+    private Texture getIngredientTexture(String id){
+        try{
+            return ingredientTextures.get(id);
+        } catch(Exception e){
+            System.out.println("This texture does not exist yet");
+            System.out.println(e);
+        }
+        return apple;
     }
 }

@@ -47,7 +47,6 @@ public class MainMenuController extends WorldController{
         UIButton play = new UIButton(new Texture("menu/play.png"),"play",20,330, 0.5f,0.5f,canvas);
         addButton(play, ()-> {
             this.goToLevelSelect = true;
-            System.out.println(play.getID());
         }, ()->{
             play.setSX(0.6f);
             play.setSY(0.6f);
@@ -58,7 +57,6 @@ public class MainMenuController extends WorldController{
             this.goToOptionsSelect = true;
             this.on_settings = true;
             this.on_main = false;
-            System.out.println(options.getID());
         }, ()->{
             options.setSX(0.6f);
             options.setSY(0.6f);
@@ -68,7 +66,6 @@ public class MainMenuController extends WorldController{
         UIButton exit = new UIButton(new Texture("menu/exit.png"),"exit",20,130,0.5f,0.5f,canvas);
         addButton(exit, ()-> {
             this.exit = true;
-            System.out.println(exit.getID());
         },()->{
             exit.setSX(0.6f);
             exit.setSY(0.6f);
