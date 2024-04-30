@@ -328,6 +328,13 @@ public class AnimationController {
         //wok = 0
         //pot = 1
         //chop = 2
+        if(o.interacting && o.getSX() == o.getDefaultSX()){
+            o.setSX(o.getSX()+0.1f);
+            o.setSY(o.getSY()+0.1f);
+        }
+        else if(!o.interacting && o.getSX() > o.getDefaultSX()){
+            o.resetScales();
+        }
 
         if(o.getStationType() == 0 && o.timer != null){
             if(o.timer.getTime() <= 0){

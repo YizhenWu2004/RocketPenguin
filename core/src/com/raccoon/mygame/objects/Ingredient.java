@@ -8,8 +8,10 @@ import com.raccoon.mygame.view.GameCanvas;
 public class Ingredient implements GameObject, Comparable<Ingredient> {
 
     //Initially 0.2, changed to 1
-    private static final float TEXTURE_SX = 1f;
-    private static final float TEXTURE_SY = 1f;
+    private float defaultSX = 1f;
+    private float defaultSY = 1f;
+    private float TEXTURE_SX = 1f;
+    private float TEXTURE_SY = 1f;
     private Texture jalapeno = new Texture("order/jalapeno.png");
 
     public int name;
@@ -100,6 +102,17 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
 
     public float getTextureHeight() {
         return texture.getHeight() * TEXTURE_SY;
+    }
+
+    public void setSX(float sx){
+        this.TEXTURE_SX = sx;
+    }
+    public void setSY(float sy){
+        this.TEXTURE_SY = sy;
+    }
+    public void resetScales(){
+        this.TEXTURE_SX = defaultSX;
+        this.TEXTURE_SY = defaultSY;
     }
 
     @Override
