@@ -420,11 +420,20 @@ public class LevelSelectController extends WorldController{
     }
 
     private void generateLevelSelectors(int numberOfLevels){
+        int yOffset = 140;
+        int xOffset = 0;
         for(int i = 0; i < numberOfLevels; i++){
+            xOffset += 1;
+            if(i % 3 == 0){
+                xOffset = 0;
+            }
+            if(i%3 == 0 && i != 0){
+                yOffset -= 720;
+            }
             String is = Integer.toString(i);
 
             //level one button
-            UIButton levelButton = new UIButton(levelbooklet,is,90 + (i*400),120,0.7f,0.7f,canvas);
+            UIButton levelButton = new UIButton(levelbooklet,is,90 + (xOffset*400),yOffset,0.7f,0.7f,canvas);
             UIButton dayNumber = createNumberElement(i, 270,260,1,1);
             Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(i)),118,  170,1f,1f);
 

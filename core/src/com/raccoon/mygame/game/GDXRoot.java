@@ -279,6 +279,7 @@ public class GDXRoot extends Game implements ScreenListener {
             }else if (result.select){
                 current = -1;
                 //this just resets the scores according to whats new
+                //System.out.println("pressed,current is" + current);
                 levelselect = new LevelSelectController(canvas,input,loader,saveController);
                 result.select = false;
             }
