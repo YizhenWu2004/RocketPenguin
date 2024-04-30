@@ -29,7 +29,7 @@ public class SoundController {
         storeSound = Gdx.audio.newMusic(Gdx.files.internal("sounds/storeAmbience.ogg"));
         orderSound = Gdx.audio.newSound(Gdx.files.internal("sounds/order.ogg"));
         chopSound = Gdx.audio.newSound(Gdx.files.internal("sounds/chop.ogg"));
-        cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/CafeTrackV2.ogg"));
+        cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/cafetrackv2.ogg"));
     }
     public void cookplay(){
         cookingSound.play();
