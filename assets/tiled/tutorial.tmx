@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="10" nextobjectid="164">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="11" nextobjectid="165">
+ <properties>
+  <property name="Guard Speed" value="10"/>
+  <property name="Patience Time" value="120"/>
+  <property name="Tutorial" value="No"/>
+ </properties>
  <tileset firstgid="1" source="Rocko Store Floor.tsx"/>
  <tileset firstgid="577" source="RockoGuard.tsx"/>
  <tileset firstgid="578" source="Rocko Store Objects.tsx"/>
@@ -122,6 +127,14 @@
     <property name="Orientation" value="Left"/>
     <property name="Rotate" value="CW"/>
     <property name="Sleep" value="No"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="10" name="Customers">
+  <object id="164" gid="577" x="53.772" y="908.88" width="102" height="131">
+   <properties>
+    <property name="Order" value="pot apple green"/>
+    <property name="Time" value="1"/>
    </properties>
   </object>
  </objectgroup>

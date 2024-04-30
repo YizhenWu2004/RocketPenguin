@@ -29,8 +29,7 @@ public class LevelLoader {
 
     private void loadLevels(GameCanvas canvas) {
         for (int i = 0; i < levelsData.length; i++) {
-            levels.add(new LevelModel(levelsData[i], new float[]{}, 3, 1, 3,
-                    new String[]{"apple", "banana", "orange"}, 10f, 120f, canvas));
+            levels.add(new LevelModel(levelsData[i], canvas));
         }
     }
 
