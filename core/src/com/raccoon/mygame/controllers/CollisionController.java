@@ -84,7 +84,18 @@ public class CollisionController {
         for (Customer c : customers) {
             if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
                 if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
-                    sounds.orderPlay();
+//                    sounds.orderPlay();
+                    if(c.getCustomerType() == "bear"){
+                        sounds.bearPlay();
+                    } else if (c.getCustomerType() == "goat") {
+                        sounds.goatPlay();
+                    } else if (c.getCustomerType() == "cat") {
+                        sounds.catPlay();
+                    } else if (c.getCustomerType() == "otter"){
+                        sounds.otterPlay();
+                    } else{
+                        sounds.ferretPlay();
+                    }
                     c.setShow(true);
                 }
                 if(p.dishInventory.leftFilled()){

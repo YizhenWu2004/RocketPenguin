@@ -7,6 +7,7 @@ import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class MainMenuController extends WorldController{
+    private SoundController sounds;
     private Texture background = new Texture("menu/fullmenubackground.png");
     private Texture audio_background = new Texture("menu_option/audio.png");
     private Texture settings_background = new Texture("menu_option/settings.png");
@@ -43,9 +44,11 @@ public class MainMenuController extends WorldController{
         this.input = input;
         this.saveController = saveController;
         this.levelSelectController = levelSelect;
+        sounds = new SoundController();
 
         UIButton play = new UIButton(new Texture("menu/play.png"),"play",20,330, 0.5f,0.5f,canvas);
         addButton(play, ()-> {
+            sounds.clickPlay();
             this.goToLevelSelect = true;
         }, ()->{
             play.setSX(0.6f);
@@ -54,6 +57,7 @@ public class MainMenuController extends WorldController{
 
         UIButton options = new UIButton(new Texture("menu/options.png"),"options", 20,230,0.5f,0.5f,canvas);
         addButton(options, ()-> {
+            sounds.clickPlay();
             this.goToOptionsSelect = true;
             this.on_settings = true;
             this.on_main = false;
@@ -65,6 +69,7 @@ public class MainMenuController extends WorldController{
 
         UIButton exit = new UIButton(new Texture("menu/exit.png"),"exit",20,130,0.5f,0.5f,canvas);
         addButton(exit, ()-> {
+            sounds.clickPlay();
             this.exit = true;
         },()->{
             exit.setSX(0.6f);
@@ -74,6 +79,7 @@ public class MainMenuController extends WorldController{
 
         UIButton cont = new UIButton(new Texture("menu_option/control_button_normal.png"),"exit",230,430,canvas);
         addButton(cont, ()-> {
+            sounds.clickPlay();
             this.on_control = true;
             this.on_settings = false;
         },()->{
@@ -84,6 +90,7 @@ public class MainMenuController extends WorldController{
 
         UIButton aud = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",270,310,canvas);
         addButton(aud, ()-> {
+            sounds.clickPlay();
             this.on_audio = true;
             this.on_settings = false;
         },()->{
@@ -94,6 +101,7 @@ public class MainMenuController extends WorldController{
 
         UIButton back1 = new UIButton(new Texture("menu_option/back_setting.png"),"exit",290,180,canvas);
         addButton(back1, ()-> {
+            sounds.clickPlay();
             this.on_main = true;
             this.on_settings = false;
         },()->{
@@ -104,6 +112,7 @@ public class MainMenuController extends WorldController{
 
         UIButton back2 = new UIButton(new Texture("menu_option/back.png"),"exit",150,150,canvas);
         addButton(back2, ()-> {
+            sounds.clickPlay();
             this.on_control = false;
             this.on_settings = true;
         },()->{
@@ -115,6 +124,7 @@ public class MainMenuController extends WorldController{
 
         UIButton back3 = new UIButton(new Texture("menu_option/back.png"),"exit",160,150,canvas);
         addButton(back3, ()-> {
+            sounds.clickPlay();
             this.on_audio = false;
             this.on_settings = true;
         },()->{
@@ -125,6 +135,7 @@ public class MainMenuController extends WorldController{
 
         UIButton save = new UIButton(new Texture("menu_option/save.png"),"exit",440,160,canvas);
         addButton(save, ()-> {
+            sounds.clickPlay();
             this.on_audio = false;
             this.on_settings = true;
         },()->{
@@ -143,7 +154,7 @@ public class MainMenuController extends WorldController{
         confirmtext.setSY(0.6f);
 
         UIButton yes = new UIButton(new Texture("menu/yes.png"),"yes",450,210,canvas);
-        yes.setOnClickAction(()->{this.saveController.deleteSaveFile();});
+        yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();});
         yes.setOnHoverAction(()->{yes.setTexture(new Texture("menu/yeshovered.png"));});
         yes.setOnUnhoverAction(()->{yes.resetStyleProperties();        yes.setSX(0.6f);
             yes.setSY(0.6f);});
@@ -151,7 +162,7 @@ public class MainMenuController extends WorldController{
         yes.setSY(0.6f);
 
         UIButton no = new UIButton(new Texture("menu/no.png"),"no",740,207,canvas);
-        no.setOnClickAction(()->{deletesure.setActive(false);});
+        no.setOnClickAction(()->{sounds.clickPlay();deletesure.setActive(false);});
         no.setOnHoverAction(()->{no.setTexture(new Texture("menu/nohovered.png"));});
         no.setOnUnhoverAction(()->{no.resetStyleProperties();        no.setSX(0.6f);
             no.setSY(0.6f);});
@@ -166,6 +177,7 @@ public class MainMenuController extends WorldController{
 
         UIButton deletesave = new UIButton(new Texture("menu/deletesave.png"),"deletesave",1020,10,canvas);
         addButton(deletesave, ()-> {
+            sounds.clickPlay();
             deletesure.setActive(true);
         },()->{
             deletesave.setSX(1.1f);

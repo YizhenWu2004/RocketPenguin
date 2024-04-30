@@ -136,7 +136,7 @@ public class InputController {
         }
         if (Gdx.input.isKeyJustPressed(Keys.P)) {
             pause = true;
-            sounds.clickPlay();
+//            sounds.clickPlay();
         } else {
             pause = false;
         }
@@ -148,7 +148,7 @@ public class InputController {
         }
         if (Gdx.input.isButtonJustPressed(Buttons.LEFT)) {
             click = true;
-            sounds.clickPlay();
+//            sounds.clickPlay();
         } else {
             click = false;
         }

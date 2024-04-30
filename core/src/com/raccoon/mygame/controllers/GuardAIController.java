@@ -40,7 +40,7 @@ public class GuardAIController extends ScreenAdapter {
     public PatrolDirection patrolDirection;
 
     boolean[][] collisionLayer;
-    private float timerSeconds = 10;
+    private float timerSeconds = 1f;
 
     int counter;
     int counter2;
