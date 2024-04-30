@@ -23,6 +23,12 @@ public class Worldtimer extends ApplicationAdapter {
     public boolean timerPaused;
     private boolean timerStarted;
     private Texture timerTexture;
+    private int maxTime;
+
+    private Texture timer_frame = new Texture("720/timer_frame.png");
+    private Texture timer_background = new Texture("720/timer_background.png");
+    private Texture timer_green = new Texture("720/timer_green.png");
+    private Texture timer_red = new Texture("720/timer_red.png");
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("720/PatrickHandSC-Regular.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter p = new FreeTypeFontGenerator.FreeTypeFontParameter();
     BitmapFont font = generator.generateFont(p);
@@ -38,6 +44,7 @@ public class Worldtimer extends ApplicationAdapter {
         timerStarted = false;
         timerTexture = t;
         font.setColor(Color.BLACK);
+        this.maxTime = count;
     }
 
     public void create() {
@@ -73,8 +80,23 @@ public class Worldtimer extends ApplicationAdapter {
 
 
     public void draw(int x,int y) {
-        gameCanvas.draw(timerTexture, Color.WHITE, 10, 10,
+        float ratio = (float)countdownSeconds/maxTime;
+        gameCanvas.draw(timer_background, Color.WHITE, 10, 10,
+                103, 620, 0.0f, 0.92f, 1);
+        if(ratio >= 0.15){
+            gameCanvas.draw(timer_green, Color.WHITE, 10, 10,
+                    93, 620, 0.0f, ratio, 1);
+        } else {
+            gameCanvas.draw(timer_red, Color.WHITE, 10, 10,
+                    93, 620, 0.0f, ratio, 1);
+        }
+
+        gameCanvas.draw(timer_frame, Color.WHITE, 10, 10,
                 10, 600, 0.0f, 1, 1);
+
+
+
+
 //        gameCanvas.draw(timerTexture, x, y);
         int mins = countdownSeconds / 60;
         int secs = countdownSeconds % 60;
