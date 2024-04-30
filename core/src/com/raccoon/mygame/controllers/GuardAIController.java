@@ -113,6 +113,10 @@ public class GuardAIController extends ScreenAdapter {
         sounds = new SoundController();
     }
 
+    public void resetRotateTimer(){
+        rotateTimer = ROTATE_DURATION;
+    }
+
     public void setAIStateChase() {
         currentState = AIState.CHASE;
     }
@@ -233,21 +237,15 @@ public class GuardAIController extends ScreenAdapter {
         }
 
         rotateTimer -= deltaTime;
-//        if(rotateTimer <= 0){
-//            System.out.println("1" + orien);
-//            getNextRotateOrien(patrolDirection);
-//            System.out.println("2" + orien);
-//            rotateTimer = ROTATE_DURATION;
-//        }
 
         sleepWakeTimer -= deltaTime;
         if(currentState == AIState.ROTATE && rotateTimer <= 0){
-            System.out.println("1" + orien);
             getNextRotateOrien(patrolDirection);
-            System.out.println("2" + orien);
             rotateTimer = ROTATE_DURATION;
             return speedVector;
-        }else if((patrolDirection == PatrolDirection.ROTATE_CW || patrolDirection == PatrolDirection.ROTATE_CCW) && currentState == AIState.ROTATE){
+        }
+
+        if((patrolDirection == PatrolDirection.ROTATE_CW || patrolDirection == PatrolDirection.ROTATE_CCW) && currentState == AIState.ROTATE){
             return speedVector;
         }
         else if (currentState == AIState.WAKE && sleepWakeTimer <= 0) {
@@ -272,6 +270,9 @@ public class GuardAIController extends ScreenAdapter {
         }
         else if(currentState == AIState.SUS && patrolDirection == PatrolDirection.SLEEP_WAKE){
             orien = defaultOrien;
+            return speedVector;
+        }
+        else if(currentState == AIState.SUS && (patrolDirection == PatrolDirection.ROTATE_CCW || patrolDirection == PatrolDirection.ROTATE_CW)){
             return speedVector;
         }
         else if ((currentState == AIState.WANDER || currentState == AIState.SUS) && nodes.size > 0) {
