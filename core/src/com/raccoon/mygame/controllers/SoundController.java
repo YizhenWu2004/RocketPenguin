@@ -43,8 +43,8 @@ public class SoundController {
         bearSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bear.ogg"));
         otterSound = Gdx.audio.newSound(Gdx.files.internal("sounds/otter.ogg"));
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
-        musicVol = 1.0f;
-        sfxvol = 1.0f;
+        musicVol = 0.6f;
+        sfxvol = 1.5f;
     }
     public void cookplay(){
         cookingSound.play(sfxvol);
