@@ -336,6 +336,7 @@ public class GDXRoot extends Game implements ScreenListener {
               store.setVentCollision(false);
               restaurant.setVentCollision(false);
               sounds.cafePlay();
+              store.guardWanderReset();
           }
           else if (store.getVentCollision() && current == 1) {
               current = 0;
