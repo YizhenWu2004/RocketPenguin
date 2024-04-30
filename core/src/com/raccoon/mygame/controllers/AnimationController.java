@@ -199,7 +199,17 @@ public class AnimationController {
             o.updateAnimation(delta);
             return;
         }
-        if(o.getAIController().getCurrentState() == GuardAIController.AIState.SLEEP){
+        if(o.getAIController().sleeping()){
+            o.setFilmStrip(gooseSleep);
+            o.updateAnimation(delta);
+            return;
+        }
+        if(o.getAIController().waking()){
+            o.setFilmStrip(gooseWake);
+            o.updateAnimation(delta);
+            return;
+        }
+        else if(o.getAIController().getCurrentState() == GuardAIController.AIState.SLEEP){
             o.setFilmStrip(gooseSleepIdle);
             o.updateAnimation(delta);
             return;

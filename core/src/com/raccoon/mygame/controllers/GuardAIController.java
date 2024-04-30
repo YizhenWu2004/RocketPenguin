@@ -554,6 +554,13 @@ public class GuardAIController extends ScreenAdapter {
         return orien;
     }
 
+    public boolean sleeping(){
+        return currentState == AIState.SLEEP && (AWAKE_DURATION-sleepWakeTimer)<2.5f;
+    }
+
+    public boolean waking(){
+        return currentState == AIState.WAKE && (AWAKE_DURATION-sleepWakeTimer)<0.7f;
+    }
     /**
      * requires PatrolDirection to be ROTATE_CCW or ROTATE_CW
      * @param dir
