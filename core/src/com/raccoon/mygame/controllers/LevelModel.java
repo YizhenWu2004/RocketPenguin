@@ -20,6 +20,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
+import com.raccoon.mygame.models.Customer;
 
 public class LevelModel {
     private static final float CELL_SIZE = 230f/40f;
@@ -27,6 +28,7 @@ public class LevelModel {
     private final int GRID_HEIGHT = 18;
     private final int MAX_ORDER = 3;
     private World storeWorld;
+    private World restaurantWorld;
     private GameCanvas canvas;
     private Array<NormalObstacle> storeObjects = new Array<>();
     private Array<Ingredient> ingredients = new Array<>();
@@ -37,7 +39,7 @@ public class LevelModel {
     //0 = No rotate, 1 = CW, 2 = CCW
     private Array<Integer> guardRotate = new Array<>();
     private Array<String> guardOrientations = new Array<>();
-    private Array<String[]> customerData = new Array<>();
+    private Array<Customer> customers = new Array<>();
     private TiledMap tiledMap;
     private MapLayer storeObjectsLayer;
     private MapLayer ingredientsLayer;
@@ -45,6 +47,7 @@ public class LevelModel {
     private MapLayer guardNodesLayer;
     private MapLayer customersLayer;
     private FilmStrip guardIdle;
+    private FilmStrip goatIdle;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
     private float guardSpeed;
     private int patienceTime;
@@ -93,8 +96,9 @@ public class LevelModel {
                 GuardAIController.GuardOrientation.LEFT));
     }
 
-    public LevelModel(String tmxFile, GameCanvas canvas) {
+    public LevelModel(String tmxFile, World restaurantWorld, GameCanvas canvas) {
         storeWorld = new World(new Vector2(0, 0), false);
+        this.restaurantWorld = restaurantWorld;
         this.canvas = canvas;
         this.guardSpeed = guardSpeed;
         this.patienceTime = patienceTime;
@@ -105,6 +109,7 @@ public class LevelModel {
         guardNodesLayer = tiledMap.getLayers().get("GuardNodes");
         customersLayer = tiledMap.getLayers().get("Customers");
         guardIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
+        goatIdle = new FilmStrip(new Texture("720/goat.png"), 1,4,4);
         guardSpeed = Float.parseFloat((String)tiledMap.getProperties().get("Guard Speed"));
         patienceTime = Integer.parseInt((String)tiledMap.getProperties().get("Guard Speed"));
         processObjects();
@@ -116,7 +121,7 @@ public class LevelModel {
 
     public World getStoreWorld() { return storeWorld; }
 
-    public Array<String[]> getCustomerData() { return customerData; }
+    public Array<Customer> getCustomers() { return customers; }
     public float getGuardSpeed() { return guardSpeed; }
     public float getPatienceTime() { return patienceTime; }
 
@@ -281,13 +286,9 @@ public class LevelModel {
     private void processCustomers() {
         for (MapObject c : customersLayer.getObjects()) {
             String time = (String)c.getProperties().get("Time");
-            String[] order = ((String)c.getProperties().get("Order")).split(" ");
-            String[] data = new String[MAX_ORDER+1];
-            data[0] = time;
-            for (int i = 0; i < order.length; i++) {
-                data[i+1] = order[i];
-            }
-            customerData.add(data);
+            Array<String> order = new Array(((String)c.getProperties().get("Order")).split(" "));
+            customers.add(new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, restaurantWorld, canvas, 1,
+                    180 - Integer.parseInt(time), order));
         }
     }
 }

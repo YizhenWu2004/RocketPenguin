@@ -34,7 +34,7 @@
  <objectgroup id="10" name="Customers">
   <object id="165" gid="577" x="34.9131" y="923.548" width="102" height="131">
    <properties>
-    <property name="Order" value="pot apple green"/>
+    <property name="Order" value="1 apple apple"/>
     <property name="Time" value="1"/>
    </properties>
   </object>
