@@ -263,7 +263,7 @@ public class GDXRoot extends Game implements ScreenListener {
             levelselect.update();
             w.pauseTimer();
             sounds.storeStop();
-            sounds.cafeStop();
+            sounds.cafeeactualstop();
             restaurant.setActive(false);
             store.setActive(false);
             if(levelselect.checkForGoToMainMenu()){
@@ -288,7 +288,7 @@ public class GDXRoot extends Game implements ScreenListener {
 //            sounds.storeStop();
         }
         if (current == 2){
-            sounds.cafeStop();
+            sounds.cafeeactualstop();
             sounds.storeStop();
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
             saveController.editKeyValuePair(levelToGoTo, result.score);
