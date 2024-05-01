@@ -114,7 +114,7 @@ public class Customer extends BoxObstacle {
 
 
     public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world,
-                    GameCanvas canvas, Array<TableObstacle> tables, int ordernum,
+                    GameCanvas canvas, int ordernum,
                     int showUpTime, Array<String> inputOrder) {
         super(x, y, width, height);
 //        this.texture = texture;
@@ -209,8 +209,10 @@ public class Customer extends BoxObstacle {
 
 //        shadow;
 
-        controller = new CustomerAIController(tables, this, shadow,
-                new float[]{scaleX, scaleY, this.height});
+        //CONTROLLER INITIALIZATION
+//        controller = new CustomerAIController(tables, this, shadow,
+//                new float[]{scaleX, scaleY, this.height});
+
         show = false;
         flipScale = -1;
         onRight = false;
@@ -231,6 +233,11 @@ public class Customer extends BoxObstacle {
         thumbsUp = new Expression("customerThumbsUp", x, y);
 
         thumbsDown = new Expression("customerThumbsDown", x, y);
+    }
+
+    public void initializeAIController(Array<TableObstacle> tables){
+        controller = new CustomerAIController(tables, this, shadow,
+                new float[]{scaleX, scaleY, this.height});
     }
 
     public Ingredient[] getOrder() {

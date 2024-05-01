@@ -285,12 +285,16 @@ public class RestaurantController extends WorldController implements ContactList
         Array<String> customer1Order = new Array<String>();
         customer1Order.add("0");
         customer1Order.add("red");
-        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1, 178,customer1Order);
-        Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1, 175,customer1Order);
-        Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1, 173,customer1Order);
+        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 178,customer1Order);
+        Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 175,customer1Order);
+        Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 173,customer1Order);
         customersToAdd.add(customer1);
         customersToAdd.add(customer2);
         customersToAdd.add(customer3);
+
+        for(Customer c : customersToAdd){
+            c.initializeAIController(tables);
+        }
 
         //todo CUSTOMER
 //        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
