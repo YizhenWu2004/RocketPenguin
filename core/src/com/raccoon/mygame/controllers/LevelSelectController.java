@@ -1,5 +1,6 @@
 package com.raccoon.mygame.controllers;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -17,6 +18,7 @@ import java.awt.*;
  * */
 public class LevelSelectController extends WorldController{
     //the background background
+    private SoundController sounds;
     private final Texture modalbackground = new Texture("menu/modalbackground.png");
     private final Texture background = new Texture("menu/levelselectbackground.png");
     private final Texture backgroundBlank = new Texture("menu/levelselectbackgroundblank.png");
@@ -94,6 +96,7 @@ public class LevelSelectController extends WorldController{
      * */
     public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController){
         this.canvas = canvas;
+        sounds = new SoundController();
         this.input = input;
         this.saveController = saveController;
 
@@ -112,15 +115,15 @@ public class LevelSelectController extends WorldController{
 
         UIButton up = new UIButton(upunhovered,"up", 1100,600,1,1,canvas,canvas.getCamera(),true);
         up.setDefaultScale(0.5f,0.5f);
-        addButton(up, ()->{upCameraShiftI();}, ()->{up.setSX(0.6f);up.setSY(0.6f);up.setTexture(uphovered);}, up::resetStyleProperties);
+        addButton(up, ()->{sounds.clickPlay();upCameraShiftI();}, ()->{up.setSX(0.6f);up.setSY(0.6f);up.setTexture(uphovered);}, up::resetStyleProperties);
 
         UIButton down = new UIButton(downunhovered,"down", 1100,20,1,1,canvas,canvas.getCamera(),true);
         down.setDefaultScale(0.5f,0.5f);
-        addButton(down, ()->{downCameraShiftI();}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(new Texture("menu/downhovered.png"));}, down::resetStyleProperties);
+        addButton(down, ()->{sounds.clickPlay();downCameraShiftI();}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(new Texture("menu/downhovered.png"));}, down::resetStyleProperties);
 
         UIButton backtotitle = new UIButton(titlebackunhovered, "titleback", 10,10,1,1,canvas,canvas.getCamera(),true);
         backtotitle.setDefaultScale(0.6f, 0.6f);
-        addButton(backtotitle, ()->{this.goToMainMenu = true;},()->{backtotitle.setTexture(titlebackhovered);},()->{backtotitle.resetStyleProperties();});
+        addButton(backtotitle, ()->{sounds.clickPlay();this.goToMainMenu = true;},()->{backtotitle.setTexture(titlebackhovered);},()->{backtotitle.resetStyleProperties();});
 
         this.shiftingYs = makeBackgroundPoints(loader.getLevels().size);
         this.targetCameraY = canvas.getCamera().position.y;
@@ -373,13 +376,13 @@ public class LevelSelectController extends WorldController{
 
         //texture might need a rename
         UIButton back = new UIButton(this.back, "back", 190, 75, 0.5f, 0.5f,canvas);
-        back.setOnClickAction(()->{selectModal.setActive(false);});
+        back.setOnClickAction(()->{sounds.clickPlay();selectModal.setActive(false);});
         back.setOnHoverAction(()->{back.setSX(0.6f);back.setSY(0.6f);});
         back.setOnUnhoverAction(()->{back.resetStyleProperties();});
 
         //texture might need a rename
         UIButton start = new UIButton(this.start, "start", 650, 75, 0.5f, 0.5f,canvas);
-        start.setOnClickAction(()->{selectModal.setActive(false);this.goToLevel=true;this.setLevelToGoTo(num);});
+        start.setOnClickAction(()->{sounds.clickPlay();selectModal.setActive(false);this.goToLevel=true;this.setLevelToGoTo(num);});
         start.setOnHoverAction(()->{start.setSX(0.6f);start.setSY(0.6f);});
         start.setOnUnhoverAction(()->{start.resetStyleProperties();});
 
@@ -445,6 +448,7 @@ public class LevelSelectController extends WorldController{
             //on un-hover
             addButton(levelButton,
                     ()-> {
+                        sounds.clickPlay();
 //          //on click
                         findModalOfID(is).setActive(true);
                     },

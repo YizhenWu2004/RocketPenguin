@@ -12,6 +12,7 @@ import com.raccoon.mygame.view.GameCanvas;
 
 public class MenuController extends WorldController{
     private Texture pause_background;
+    private SoundController sounds;
     private Texture resume_hover = new Texture("pause/resume_hover.png");
     private Texture option_hover = new Texture("pause/option_hover.png");
     private Texture restart_hover = new Texture("pause/restart_hover.png");
@@ -43,7 +44,6 @@ public class MenuController extends WorldController{
     //button for audio page
     private Array<UIButton> aud_buttons = new Array<>();
     public boolean aud_back = false;
-
     public boolean on_pause = false;
     public boolean on_options = false;
     public boolean on_control = false;
@@ -53,8 +53,10 @@ public class MenuController extends WorldController{
         this.canvas = canvas;
         this.input = input;
 
+        sounds = new SoundController();
         UIButton resume = new UIButton(new Texture("pause/resume_pause.png"),"resume",485,475,canvas);
         addButton(resume, ()-> {
+            sounds.clickPlay();
             this.resume = true;
         }, ()->{
             resume.setSX(0.8f);
@@ -65,6 +67,7 @@ public class MenuController extends WorldController{
 
         UIButton options = new UIButton(new Texture("pause/option_pause.png"),"options", 485,375,canvas);
         addButton(options, ()-> {
+            sounds.clickPlay();
             this.options = true;
             this.on_options = true;
             this.on_pause = false;
@@ -77,6 +80,7 @@ public class MenuController extends WorldController{
 
         UIButton quit = new UIButton(new Texture("pause/quit_pause.png"),"quit",485,275,canvas);
         addButton(quit, ()-> {
+            sounds.clickPlay();
             this.quit = true;
         },()->{
             quit.setSX(0.8f);
@@ -88,6 +92,7 @@ public class MenuController extends WorldController{
         UIButton restart = new UIButton(new Texture("pause/restart_pause.png"),"restart",485,175,canvas);
         addButton(restart, ()-> {
             this.restart = true;
+            sounds.clickPlay();
         },()->{
             restart.setSX(0.8f);
             restart.setSY(0.8f);
@@ -97,6 +102,7 @@ public class MenuController extends WorldController{
 
         UIButton cont = new UIButton(new Texture("options_pause/control_button.png"),"restart",445,445,canvas);
         addButton(cont, ()-> {
+            sounds.clickPlay();
             this.control = true;
             this.on_options = false;
             this.on_control = true;
@@ -109,6 +115,7 @@ public class MenuController extends WorldController{
 
         UIButton aud = new UIButton(new Texture("options_pause/audio_button.png"),"restart",490,345,canvas);
         addButton(aud, ()-> {
+            sounds.clickPlay();
             this.audio = true;
             this.on_audio = true;
             this.on_options=false;
@@ -120,6 +127,7 @@ public class MenuController extends WorldController{
 
         UIButton back_ = new UIButton(new Texture("options_pause/back_button.png"),"restart",500,245,canvas);
         addButton(back_, ()-> {
+            sounds.clickPlay();
             this.opt_back = true;
             this.on_options = false;
             this.on_pause = true;
@@ -131,6 +139,7 @@ public class MenuController extends WorldController{
 
         UIButton back2 = new UIButton(new Texture("options_pause/back_button.png"),"restart",520,125,canvas);
         addButton(back2, ()-> {
+            sounds.clickPlay();
             this.cont_back = true;
             this.on_options = true;
             this.on_control = false;
@@ -142,6 +151,7 @@ public class MenuController extends WorldController{
 
         UIButton back3 = new UIButton(new Texture("options_pause/back_button.png"),"restart",520,200,canvas);
         addButton(back3, ()-> {
+            sounds.clickPlay();
             this.aud_back = true;
             this.on_options = true;
             this.on_audio = false;
