@@ -29,8 +29,12 @@ public class Customer extends BoxObstacle {
 
     private final int WORLD_WIDTH = 32;
     private final int WORLD_HEIGHT = 18;
+    private float defaultScaleX;
+    private float defaultScaleY;
     private float scaleX;
     private float scaleY;
+    private float nonBox2DScaleX = 1;
+    private float nonBox2DScaleY = 1;
     public GameCanvas canvas;
     public PatienceMeter pat;
 
@@ -122,6 +126,8 @@ public class Customer extends BoxObstacle {
         this.sprite = defaultCustomerSprite;
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
+        this.defaultScaleX = nonBox2DScaleX;
+        this.defaultScaleY = nonBox2DScaleY;
         this.canvas = canvas;
         setFixedRotation(true);
         setDensity(1);//heavy so player cant move them
@@ -458,6 +464,92 @@ public class Customer extends BoxObstacle {
         }
     }
 
+    public void draw() {
+
+        if (isActive && controller.state != CustomerAIController.FSMState.WAIT) {
+            shadow.draw(canvas);
+        }
+
+//        //todo still shows when order has been taken, and when order has been satisfied, and also weird that doesn't show for some customers
+//        //todo essentially, i only want this to show during WAIT and if order has not been taken
+//        if(controller.state == CustomerAIController.FSMState.WAIT && !satisfied && !show){
+//            question.drawCustomerQuestion(canvas,this.getX(),this.getY()+10,this.drawScale.x,this.drawScale.y);
+//        }
+
+        float customerYOffset;
+        float customerXOffset;
+
+        if (customerType == "cat") {
+            customerYOffset = 2;
+            customerXOffset = 0.6f;
+        } else if (customerType == "bear") {
+            customerYOffset = 1;
+            customerXOffset = 0.6f;
+        } else if (customerType == "goat") {
+            customerYOffset = 0;
+            customerXOffset = 0;
+        } else {
+            customerYOffset = 0;
+            customerXOffset = 0;
+        }
+
+        if (isSatisfied()) {
+            thumbsUp.drawCustomerQuestion(canvas, this.getX() + customerXOffset, this.getY() + 3 + customerYOffset, this.drawScale.x, this.drawScale.y);
+        }
+
+        if (satisfied == SATISFIED.NO) {
+            thumbsDown.drawCustomerQuestion(canvas, this.getX() + customerXOffset, this.getY() + 3 + customerYOffset, this.drawScale.x, this.drawScale.y);
+        }
+
+        //somehow give the ability to specify the ox and oy offset
+        drawSprite(canvas, (flipScale * -1) * nonBox2DScaleX, nonBox2DScaleY, this.sprite.getRegionWidth() / 2f + offsetX, offsetY);
+        if (!(pat == null) && pat.getTime() > 0) {
+            pat.draw(this.drawScale.x, this.drawScale.y);
+        }
+        //Texture image, Color tint, float ox, float oy,
+        //float x, float y, float angle, float sx, float sy
+        if (show && controller.state == CustomerAIController.FSMState.WAIT) {
+            if (!onRight) {
+                //System.out.println(this.getX() * this.getDrawScale().x);
+                if (orderSize == 1) {
+                    canvas.draw(one, Color.WHITE, 150, -280, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, -0.7f, 0.7f);
+                    drawCooking(-10, -285);
+                    drawOrder(-85, -288);
+                } else if (orderSize == 2) {
+                    canvas.draw(two, Color.WHITE, 190, -280, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, -0.7f, 0.7f);
+                    drawCooking(0, -285);
+                    drawOrder(-125, -288);
+                } else if (orderSize == 3) {
+                    canvas.draw(three, Color.WHITE, 220, -280, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, -0.7f, 0.7f);
+                    drawCooking(20, -285);
+                    drawOrder(-150, -288);
+                }
+
+            } else {
+                if (orderSize == 1) {
+                    canvas.draw(one, Color.WHITE, 150, -220, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, 0.7f, 0.7f);
+                    drawCooking(170, -225);
+                    drawOrder(90, -225);
+                } else if (orderSize == 2) {
+                    canvas.draw(two, Color.WHITE, 190, -220, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, 0.7f, 0.7f);
+                    drawCooking(210, -225);
+                    drawOrder(90, -225);
+                } else if (orderSize == 3) {
+                    canvas.draw(three, Color.WHITE, 220, -220, this.getX() * this.getDrawScale().x,
+                            this.getY() * this.getDrawScale().y, 0, 0.7f, 0.7f);
+                    drawCooking(240, -225);
+                    drawOrder(70, -225);
+                }
+
+            }
+        }
+    }
+
     public void drawOrder(int ox, int oy) {
         for (int i = order.length - 1; i >= 0; i--) {
             if (order[i] != null) {
@@ -486,5 +578,16 @@ public class Customer extends BoxObstacle {
 
     public void debug(GameCanvas canvas) {
         drawDebug(canvas);
+    }
+
+    public void setScaleX(float scaleX){
+        this.nonBox2DScaleX = scaleX;
+    }
+    public void setScaleY(float scaleY){
+        this.nonBox2DScaleY = scaleY;
+    }
+    public void resetScales(){
+        this.nonBox2DScaleX = defaultScaleX;
+        this.nonBox2DScaleY = defaultScaleY;
     }
 }

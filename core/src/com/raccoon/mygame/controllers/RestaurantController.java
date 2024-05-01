@@ -426,6 +426,8 @@ public class RestaurantController extends WorldController implements ContactList
                 boolean colliding = collision.handleCollision(player, obstacle);
                 if(colliding && obstacle.getTrashcan()){
                     trashActive = true;
+                    obstacle.setSX(1.1f);
+                    obstacle.setSY(1.1f);
                     if(input.getSpace()){
                         player.dishInventory.clear(0);
                         player.dishInventory.clear(1);
@@ -433,6 +435,8 @@ public class RestaurantController extends WorldController implements ContactList
                     if(input.getUp()){
                         player.removeItem();
                     }
+                } else if(!colliding && obstacle.getTrashcan()){
+                    obstacle.resetScales();
                 }
             }
             if(trashActive){
@@ -586,7 +590,7 @@ public class RestaurantController extends WorldController implements ContactList
         if(obj instanceof NormalObstacle)
             ((NormalObstacle) obj).draw();
         if(obj instanceof Customer)
-            ((Customer) obj).draw(1, 1);
+            ((Customer) obj).draw();
     }
 
     private boolean getDrawPriorityOfAnyType(Object obj){

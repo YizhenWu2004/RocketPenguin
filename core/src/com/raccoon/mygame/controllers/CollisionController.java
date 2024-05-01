@@ -82,40 +82,47 @@ public class CollisionController {
 
     public void processCustomers(Player p, Array<Customer> customers) {
         for (Customer c : customers) {
-            if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
-                if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
+            if (p.getPosition().dst(c.getPosition()) <= 4) {
+                c.setScaleX(1.1f);
+                c.setScaleY(1.1f);
+                if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
+                    if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
 //                    sounds.orderPlay();
-                    if(c.getCustomerType() == "bear"){
-                        sounds.bearPlay();
-                    } else if (c.getCustomerType() == "goat") {
-                        sounds.goatPlay();
-                    } else if (c.getCustomerType() == "cat") {
-                        sounds.catPlay();
-                    } else if (c.getCustomerType() == "otter"){
-                        sounds.otterPlay();
-                    } else{
-                        sounds.ferretPlay();
+                        if (c.getCustomerType() == "bear") {
+                            sounds.bearPlay();
+                        } else if (c.getCustomerType() == "goat") {
+                            sounds.goatPlay();
+                        } else if (c.getCustomerType() == "cat") {
+                            sounds.catPlay();
+                        } else if (c.getCustomerType() == "otter") {
+                            sounds.otterPlay();
+                        } else {
+                            sounds.ferretPlay();
+                        }
+                        c.setShow(true);
                     }
-                    c.setShow(true);
-                }
-                if(p.dishInventory.leftFilled()){
-                    if (c.serve(p.dishInventory.get(0))){
+                    if (p.dishInventory.leftFilled()) {
+                        if (c.serve(p.dishInventory.get(0))) {
 //                        System.out.println("served");
-                        p.dishInventory.clear(0);
-                        c.setShow(false);
+                            p.dishInventory.clear(0);
+                            c.setShow(false);
 //                        System.out.println(c.getShow());
+                        }
                     }
-                }
-                if (p.dishInventory.rightFilled()){
-                    if (c.serve(p.dishInventory.get(1))){
-                        p.dishInventory.clear(1);
-                        c.setShow(false);
+                    if (p.dishInventory.rightFilled()) {
+                        if (c.serve(p.dishInventory.get(1))) {
+                            p.dishInventory.clear(1);
+                            c.setShow(false);
+                        }
                     }
-                }
 //                if (c.serve(p.getInventory().getSelectedItem())) {
 //                    c.setShow(false);
 //                    //p.getInventory().drop();
 //                }
+                }
+            }
+            else{
+                c.resetScales();
             }
         }
     }
