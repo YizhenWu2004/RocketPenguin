@@ -142,6 +142,8 @@ public class InputController {
         }
 
         if (Gdx.input.isKeyPressed(Keys.R)) {
+            sounds.cafeeactualstop();
+            sounds.storeStop();
             reset = true;
         } else {
             reset = false;

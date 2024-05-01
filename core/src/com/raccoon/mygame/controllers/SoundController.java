@@ -84,6 +84,9 @@ public class SoundController {
         ventSound.play(sfxvol);
     }
 
+    public void cafeeactualstop(){
+        cafeSong.stop();
+    }
     public void storePlay(){
         storeSound.setVolume(musicVol);
         storeSound.play();

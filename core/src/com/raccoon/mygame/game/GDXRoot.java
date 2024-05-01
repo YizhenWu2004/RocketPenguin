@@ -144,6 +144,8 @@ public class GDXRoot extends Game implements ScreenListener {
     public void restart(){
         //canvas = new GameCanvas();
         //180
+//        sounds.storeStop();
+//        sounds.cafeStop();
         w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
         w.create();
 
@@ -272,6 +274,8 @@ public class GDXRoot extends Game implements ScreenListener {
             saveController.editKeyValuePair(levelToGoTo, result.score);
             result.update();
             if (result.retry){
+                sounds.cafeeactualstop();
+                sounds.storeStop();
                 restart();
                 result.retry = false;
             } else if (result.next){
@@ -311,6 +315,8 @@ public class GDXRoot extends Game implements ScreenListener {
               current = -1;
           }
           if(pause.restart){
+              sounds.storeStop();
+              sounds.cafeeactualstop();
               pause.on_pause = false;
               restart();
               pause.restart = false;
