@@ -17,6 +17,8 @@ import com.raccoon.mygame.view.GameCanvas;
 
 import java.util.*;
 
+import static com.badlogic.gdx.math.MathUtils.random;
+
 public class Customer extends BoxObstacle {
     protected static final float TEXTURE_SX = 0.1f;
     protected static final float TEXTURE_SY = 0.1f;
@@ -31,6 +33,31 @@ public class Customer extends BoxObstacle {
     private float scaleY;
     public GameCanvas canvas;
     public PatienceMeter pat;
+
+    /**
+     * This is a description of how inputOrder (Array<String>) can be translated to
+     * cooking_method and Ingredient[] order.
+     *
+     * Specification for inputOrder
+     * first element (index 0): string of one digit integer from 0 to 2 representing a Cooking Station
+     *      , not allowed to be null.
+     *      Note that wok is 0, pot is 1, and board is 2.
+     *      It is allowed to be "-1" in which case, a random cooking station will be generated
+     * second element (index 1): string, all lowercase name of an ingredient, not allowed to be null,
+     *      e.g. "greenpepper" (=> this is actually jalapeno but whatever) or "apple"
+     *      It is allowed to be a color, e.g. "red", "orange", "yellow", or "green" in which case
+     *      a random ingredient of that color will be generated.
+     * third and fourth element (index 2 and 3): string, lowercase name of an ingredient (same as previous
+     *      element) but this is allowed to be empty (nullable).
+     *      It is allowed to be a color, e.g. "red", "orange", "yellow", or "green" in which case
+     *      a random ingredient of that color will be generated.
+     *
+     * Additional note, when you fill this array, please fill each element in order (e.g. DO NOT have third
+     * element as null but fourth is not null)
+     *
+     * Final notes, when you want to represent jalapeno please write "greenpepepr" instead pretty please
+     * otherwise the entirety of universe will crash ♥
+     */
     private Ingredient[] order;
     private int cooking_method;
 
@@ -55,9 +82,10 @@ public class Customer extends BoxObstacle {
 
     float height;
     float width;
-    private Shadow shadow = new Shadow(0,0,1f,1f);;
+    private Shadow shadow = new Shadow(0, 0, 1f, 1f);
+    ;
     private String customerType;
-    public String[] types = new String[]{"goat","cat","otter","ferret","bear"};
+    public String[] types = new String[]{"goat", "cat", "otter", "ferret", "bear"};
 
     private float offsetX = 0;
     private float offsetY = 0;
@@ -67,7 +95,7 @@ public class Customer extends BoxObstacle {
     private Texture one = new Texture("order/one.png");
     private Texture two = new Texture("order/two.png");
     private Texture three = new Texture("order/three.png");
-    private Texture wok =new Texture("order/wok.png");
+    private Texture wok = new Texture("order/wok.png");
     private Texture pot = new Texture("order/pot.png");
     private Texture cutting_board = new Texture("order/cutting_board.png");
 
@@ -76,7 +104,18 @@ public class Customer extends BoxObstacle {
     private Expression thumbsUp;
 
     private Expression thumbsDown;
-    public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world, GameCanvas canvas, Array<TableObstacle> tables, int ordernum) {
+
+    public int showUpTime;
+
+    private String[] red = {"apple", "tomato", "redpepper"};
+    private String[] yellow = {"banana","corn","lemon"};
+    private String[] orange = {"carrot","orange","persimmon"};
+    private String[] green = {"greenpepper","pear","cabbage"};
+
+
+    public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world,
+                    GameCanvas canvas, Array<TableObstacle> tables, int ordernum,
+                    int showUpTime, Array<String> inputOrder) {
         super(x, y, width, height);
 //        this.texture = texture;
 //        setTexture(new TextureRegion(texture));
@@ -94,30 +133,84 @@ public class Customer extends BoxObstacle {
         this.getBody().setUserData(this);
         order = new Ingredient[3];
 
-        Array<Ingredient> menu = new Array<Ingredient>();
-        menu.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
-        menu.add(new Ingredient("banana", 200, 200, new Texture("720/banana.png"), -1));
-        menu.add(new Ingredient("orange", 200, 200, new Texture("720/orange.png"), -1));
-        menu.add(new Ingredient("greenpepper", 200, 200, new Texture("720/greenpepper.png"), -1));
+//        Array<Ingredient> menu = new Array<Ingredient>();
+//        menu.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
+//        menu.add(new Ingredient("banana", 200, 200, new Texture("720/banana.png"), -1));
+//        menu.add(new Ingredient("orange", 200, 200, new Texture("720/orange.png"), -1));
+//        menu.add(new Ingredient("greenpepper", 200, 200, new Texture("720/greenpepper.png"), -1));
+//
+//        Random random = new Random();
+//        int r = random.nextInt(3) + 1;
+//        orderSize = r;
+//        for (int i = 0; i < r; i++) {
+//            int r_ing = random.nextInt(menu.size);
+//            order[i] = menu.get(r_ing).clone();
+//            //System.out.println(menu.get(r_ing).type);
+//            //System.out.println("ORDER");
+//        }
+//        cooking_method = random.nextInt(3);
+//        System.out.println(cooking_method);
+
+        if(Integer.parseInt(inputOrder.get(0)) == -1){
+            cooking_method = random.nextInt(3);
+        }
+        else{
+            cooking_method = Integer.parseInt(inputOrder.get(0));
+        }
 
         Random random = new Random();
-        int r = random.nextInt(3) + 1;
-        orderSize = r;
-        for(int i = 0; i < r; i++){
-            int r_ing = random.nextInt(menu.size);
-            order[i] = menu.get(r_ing).clone();
-            //System.out.println(menu.get(r_ing).type);
-            //System.out.println("ORDER");
+
+        for(int i = 1; i < inputOrder.size; i++){
+            if(inputOrder.get(i) == null){
+                break;
+            }
+            else if(inputOrder.get(i) == "red"){
+                int r = random.nextInt(3);
+                orderSize++;
+                String ingName = red[r];
+                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                order[i-1] = ing;
+            }
+            else if(inputOrder.get(i) == "yellow"){
+                int r = random.nextInt(3);
+                orderSize++;
+                String ingName = yellow[r];
+                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                order[i-1] = ing;
+            }
+            else if(inputOrder.get(i) == "orange"){
+                int r = random.nextInt(3);
+                orderSize++;
+                String ingName = orange[r];
+                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                order[i-1] = ing;
+            }
+            else if(inputOrder.get(i) == "green"){
+                int r = random.nextInt(3);
+                orderSize++;
+                String ingName = green[r];
+                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                order[i-1] = ing;
+            }
+            else{
+                orderSize++;
+                String ingName = inputOrder.get(i);
+                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                order[i-1] = ing;
+            }
         }
-        cooking_method = random.nextInt(3);
-//        System.out.println(cooking_method);
+
+        System.out.println(order);
+
+        this.showUpTime = showUpTime;
+
         satisfied = SATISFIED.NOTYET;
         isActive = true;
 
 //        shadow;
 
-        controller = new CustomerAIController(tables, this,shadow,
-                new float[]{scaleX,scaleY,this.height});
+        controller = new CustomerAIController(tables, this, shadow,
+                new float[]{scaleX, scaleY, this.height});
         show = false;
         flipScale = -1;
         onRight = false;
@@ -126,18 +219,18 @@ public class Customer extends BoxObstacle {
 
         pat = null;
 
-        justSatisfied=false;
+        justSatisfied = false;
 
         this.height = height;
         this.width = width;
 
         setCustomerType();
 
-        question = new Expression("customerQuestion",x,y);
+        question = new Expression("customerQuestion", x, y);
 
-        thumbsUp = new Expression("customerThumbsUp",x,y);
+        thumbsUp = new Expression("customerThumbsUp", x, y);
 
-        thumbsDown = new Expression("customerThumbsDown",x,y);
+        thumbsDown = new Expression("customerThumbsDown", x, y);
     }
 
     public Ingredient[] getOrder() {
@@ -164,75 +257,77 @@ public class Customer extends BoxObstacle {
         show = b;
     }
 
-    public String getCustomerType(){return this.customerType;}
-
-    private void setCustomerType(){
-        this.customerType = types[(int)(Math.random()*types.length)];
+    public String getCustomerType() {
+        return this.customerType;
     }
 
-    public boolean canShow(){
+    private void setCustomerType() {
+        this.customerType = types[(int) (Math.random() * types.length)];
+    }
+
+    public boolean canShow() {
         return controller.state == CustomerAIController.FSMState.WAIT;
     }
 
     public boolean serve(Dish d) {
-        if(!(controller.state == CustomerAIController.FSMState.WAIT)){
+        if (!(controller.state == CustomerAIController.FSMState.WAIT)) {
             return false;
         }
-        for (Ingredient i : this.order){
-            if(i!= null) {
+        for (Ingredient i : this.order) {
+            if (i != null) {
 //                System.out.println(i.type);
             }
         }
-        for (Ingredient i : d.type){
-            if (i!=null) {
+        for (Ingredient i : d.type) {
+            if (i != null) {
 //                System.out.println(i.type);
             }
         }
-        if(d == null){
+        if (d == null) {
             return false;
         }
-        if(d.station_type != cooking_method){
+        if (d.station_type != cooking_method) {
             return false;
         }
         ArrayList<Ingredient> temp1 = new ArrayList<>();
         ArrayList<Ingredient> temp2 = new ArrayList<>();
-        for(int i = 0; i < 3; i++){
-            if (d.type[i] != null){
+        for (int i = 0; i < 3; i++) {
+            if (d.type[i] != null) {
                 temp1.add(d.type[i]);
                 //System.out.println(d.type[i]);
             }
         }
-        for(int i = 0; i < 3; i++){
-            if (order[i] != null){
+        for (int i = 0; i < 3; i++) {
+            if (order[i] != null) {
                 temp2.add(order[i]);
             }
         }
-        if(temp1.size() != temp2.size()){
+        if (temp1.size() != temp2.size()) {
             //System.out.println("stopped here");
             return false;
         }
         //System.out.println("HERE");
         Collections.sort(temp1);
-        for(Ingredient i :temp1){
-            if (i != null){
+        for (Ingredient i : temp1) {
+            if (i != null) {
 //                System.out.println(i.type);
             }
         }
         Collections.sort(temp2);
-        for(Ingredient i :temp2){
-            if (i != null){
+        for (Ingredient i : temp2) {
+            if (i != null) {
 //                System.out.println(i.type);
             }
         }
 
-        for(int i = 0; i < temp1.size(); i++){
-            if (!(temp1.get(i).type).equals(temp2.get(i).type)){
+        for (int i = 0; i < temp1.size(); i++) {
+            if (!(temp1.get(i).type).equals(temp2.get(i).type)) {
                 //System.out.println("stopper here");
                 return false;
             }
         }
         satisfied = SATISFIED.HAPPY;
-        justSatisfied =true;
+        justSatisfied = true;
         servedDish = d;
         return true;
     }
@@ -241,37 +336,38 @@ public class Customer extends BoxObstacle {
         controller.getAction();
     }
 
-    public int time(){
-        if(pat == null){
+    public int time() {
+        if (pat == null) {
             //means pat hasn't been initialized yet
             return 1;
         }
         return pat.getTime();
     }
 
-    public int maxTime(){
+    public int maxTime() {
         return pat.getMaxTime();
     }
 
-    public void timeOut(){
+    public void timeOut() {
         controller.timeOut();
     }
 
-    private float provideOXoffset(){
+    private float provideOXoffset() {
         return 0;
     }
 
-    public void setOffsetX(float offsetX){
+    public void setOffsetX(float offsetX) {
         this.offsetX = offsetX;
     }
-    public void setOffsetY(float offsetY){
+
+    public void setOffsetY(float offsetY) {
         this.offsetY = offsetY;
     }
 
 
     public void draw(float scaleX, float scaleY) {
 
-        if(isActive && controller.state != CustomerAIController.FSMState.WAIT){
+        if (isActive && controller.state != CustomerAIController.FSMState.WAIT) {
             shadow.draw(canvas);
         }
 
@@ -284,34 +380,31 @@ public class Customer extends BoxObstacle {
         float customerYOffset;
         float customerXOffset;
 
-        if(customerType == "cat") {
+        if (customerType == "cat") {
             customerYOffset = 2;
             customerXOffset = 0.6f;
-        }
-        else if(customerType == "bear" ) {
+        } else if (customerType == "bear") {
             customerYOffset = 1;
             customerXOffset = 0.6f;
-        }
-        else if(customerType == "goat"){
+        } else if (customerType == "goat") {
             customerYOffset = 0;
             customerXOffset = 0;
-        }
-        else {
+        } else {
             customerYOffset = 0;
             customerXOffset = 0;
         }
 
-        if(isSatisfied()){
-            thumbsUp.drawCustomerQuestion(canvas,this.getX()+customerXOffset,this.getY()+3+customerYOffset,this.drawScale.x,this.drawScale.y);
+        if (isSatisfied()) {
+            thumbsUp.drawCustomerQuestion(canvas, this.getX() + customerXOffset, this.getY() + 3 + customerYOffset, this.drawScale.x, this.drawScale.y);
         }
 
-        if(satisfied == SATISFIED.NO){
-            thumbsDown.drawCustomerQuestion(canvas,this.getX()+customerXOffset,this.getY()+3+customerYOffset,this.drawScale.x,this.drawScale.y);
+        if (satisfied == SATISFIED.NO) {
+            thumbsDown.drawCustomerQuestion(canvas, this.getX() + customerXOffset, this.getY() + 3 + customerYOffset, this.drawScale.x, this.drawScale.y);
         }
 
         //somehow give the ability to specify the ox and oy offset
-        drawSprite(canvas, (flipScale*-1) * scaleX, scaleY, this.sprite.getRegionWidth()/2f + offsetX, offsetY);
-        if (!(pat == null) &&pat.getTime() > 0){
+        drawSprite(canvas, (flipScale * -1) * scaleX, scaleY, this.sprite.getRegionWidth() / 2f + offsetX, offsetY);
+        if (!(pat == null) && pat.getTime() > 0) {
             pat.draw(this.drawScale.x, this.drawScale.y);
         }
         //Texture image, Color tint, float ox, float oy,
@@ -322,44 +415,44 @@ public class Customer extends BoxObstacle {
                 if (orderSize == 1) {
                     canvas.draw(one, Color.WHITE, 150, -280, this.getX() * this.getDrawScale().x,
                             this.getY() * this.getDrawScale().y, 0, -0.7f, 0.7f);
-                    drawCooking(-10,-285);
-                    drawOrder(-85,-288);
+                    drawCooking(-10, -285);
+                    drawOrder(-85, -288);
                 } else if (orderSize == 2) {
                     canvas.draw(two, Color.WHITE, 190, -280, this.getX() * this.getDrawScale().x,
                             this.getY() * this.getDrawScale().y, 0, -0.7f, 0.7f);
-                    drawCooking(0,-285);
-                    drawOrder(-125,-288);
+                    drawCooking(0, -285);
+                    drawOrder(-125, -288);
                 } else if (orderSize == 3) {
                     canvas.draw(three, Color.WHITE, 220, -280, this.getX() * this.getDrawScale().x,
                             this.getY() * this.getDrawScale().y, 0, -0.7f, 0.7f);
                     drawCooking(20, -285);
-                    drawOrder(-150,-288);
+                    drawOrder(-150, -288);
                 }
 
             } else {
                 if (orderSize == 1) {
                     canvas.draw(one, Color.WHITE, 150, -220, this.getX() * this.getDrawScale().x,
                             this.getY() * this.getDrawScale().y, 0, 0.7f, 0.7f);
-                    drawCooking(170,-225);
-                    drawOrder(90,-225);
+                    drawCooking(170, -225);
+                    drawOrder(90, -225);
                 } else if (orderSize == 2) {
                     canvas.draw(two, Color.WHITE, 190, -220, this.getX() * this.getDrawScale().x,
                             this.getY() * this.getDrawScale().y, 0, 0.7f, 0.7f);
-                    drawCooking(210,-225);
-                    drawOrder(90,-225);
+                    drawCooking(210, -225);
+                    drawOrder(90, -225);
                 } else if (orderSize == 3) {
                     canvas.draw(three, Color.WHITE, 220, -220, this.getX() * this.getDrawScale().x,
                             this.getY() * this.getDrawScale().y, 0, 0.7f, 0.7f);
-                    drawCooking(240,-225);
-                    drawOrder(70,-225);
+                    drawCooking(240, -225);
+                    drawOrder(70, -225);
                 }
 
             }
         }
     }
 
-    public void drawOrder(int ox, int oy){
-        for (int i = order.length-1; i >= 0; i--) {
+    public void drawOrder(int ox, int oy) {
+        for (int i = order.length - 1; i >= 0; i--) {
             if (order[i] != null) {
                 order[i].drawTextBubble(canvas, this.getX() * this.drawScale.x,
                         (this.getY()) * drawScale.y, ox + (45 * i), oy);
@@ -367,18 +460,18 @@ public class Customer extends BoxObstacle {
         }
     }
 
-    public void drawCooking(int ox, int oy){
+    public void drawCooking(int ox, int oy) {
         if (cooking_method == 0) {
             canvas.draw(wok, Color.WHITE, ox, oy,
                     this.getX() * this.getDrawScale().x,
                     this.getY() * this.getDrawScale().y,
                     0.0f, 0.7f, 0.7f);
         } else if (cooking_method == 1) {
-            canvas.draw(pot, Color.WHITE, ox-30, oy,
+            canvas.draw(pot, Color.WHITE, ox - 30, oy,
                     this.getX() * this.getDrawScale().x,
                     this.getY() * this.getDrawScale().y, 0.0f, 0.7f, 0.7f);
         } else {
-            canvas.draw(cutting_board, Color.WHITE, ox-30, oy,
+            canvas.draw(cutting_board, Color.WHITE, ox - 30, oy,
                     this.getX() * this.getDrawScale().x,
                     this.getY() * this.getDrawScale().y, 0.0f, 0.7f, 0.7f);
         }
