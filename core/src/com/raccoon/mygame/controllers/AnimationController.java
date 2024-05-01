@@ -27,6 +27,8 @@ public class AnimationController {
     private final FilmStrip playerChop;
     private final FilmStrip playerSneak;
     private final FilmStrip playerKickedOut;
+    private final FilmStrip playerSwipe;
+    private final FilmStrip playerSneakIdle;
 
     private final FilmStrip goatWalk;
     private final FilmStrip goatIdle;
@@ -88,6 +90,8 @@ public class AnimationController {
         playerChop = new FilmStrip(new Texture("720/rockochop.png"), 2,5,9);
         playerKickedOut = new FilmStrip(new Texture("720/rockokickedout.png"),4,5,20);
         playerSneak = new FilmStrip(new Texture("720/rockosneak.png"),1,10,10);
+        playerSwipe = new FilmStrip(new Texture("720/rockoswipe.png"),1,6,6);
+        playerSneakIdle = new FilmStrip(new Texture("720/rockosneakidle.png"),1,1,1);
 
         goatWalk = new FilmStrip(new Texture("720/goatwalk.png"), 1, 4, 4);
         goatIdle = new FilmStrip(new Texture("720/goatsit.png"), 1,1,1);
@@ -148,6 +152,14 @@ public class AnimationController {
             o.updateAnimation(delta);
             return;
         }
+        if(o.getSwiping()){
+            o.setFilmStrip(playerSwipe);
+            o.updateAnimation(delta);
+            if(o.getFrame() == o.getFilmStrip().getSize()-1){
+                o.setSwiping(false);
+            }
+            return;
+        }
 
         //This is pretty self-explanatory.
         if(o.playerIsCooking && o.potCookingIn == 2){
@@ -176,6 +188,9 @@ public class AnimationController {
 
         if((input.getYMovement()!=0 || input.getXMovement()!=0) && o.current == 1){
             o.setFilmStrip(playerSneak);
+        }
+        else if(o.current == 1){
+            o.setFilmStrip(playerSneakIdle);
         }
         else if(input.getYMovement()!=0 || input.getXMovement()!=0){
             o.setFilmStrip(playerWalk);

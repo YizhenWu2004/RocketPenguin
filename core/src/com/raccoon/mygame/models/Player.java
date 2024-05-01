@@ -40,6 +40,8 @@ public class Player extends CapsuleObstacle {
     //not sure if this should go here uhhh
     private boolean isTeleporting = false;
 
+    private boolean isSwiping = false;
+
     //-1 is right
     public int direction = -1;
 
@@ -244,6 +246,13 @@ public class Player extends CapsuleObstacle {
 
     public void setPotCookingIn(int pot){
         this.potCookingIn = pot;
+    }
+
+    public void setSwiping(boolean swipe){
+        this.isSwiping = swipe;
+    }
+    public boolean getSwiping(){
+        return this.isSwiping;
     }
 
 }
