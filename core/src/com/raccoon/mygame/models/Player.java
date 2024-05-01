@@ -12,10 +12,11 @@ import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
 import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.obstacle.BoxObstacle;
+import com.raccoon.mygame.obstacle.CapsuleObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
-public class Player extends BoxObstacle {
+public class Player extends CapsuleObstacle {
 
     protected static final float TEXTURE_SX = 0.1f;
     protected static final float TEXTURE_SY = 0.1f;
@@ -38,6 +39,8 @@ public class Player extends BoxObstacle {
 
     //not sure if this should go here uhhh
     private boolean isTeleporting = false;
+
+    private boolean isSwiping = false;
 
     //-1 is right
     public int direction = -1;
@@ -243,6 +246,13 @@ public class Player extends BoxObstacle {
 
     public void setPotCookingIn(int pot){
         this.potCookingIn = pot;
+    }
+
+    public void setSwiping(boolean swipe){
+        this.isSwiping = swipe;
+    }
+    public boolean getSwiping(){
+        return this.isSwiping;
     }
 
 }

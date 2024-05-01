@@ -37,7 +37,6 @@ public class SoundController {
         storeSound = Gdx.audio.newMusic(Gdx.files.internal("sounds/storeAmbience.ogg"));
         orderSound = Gdx.audio.newSound(Gdx.files.internal("sounds/order.ogg"));
         chopSound = Gdx.audio.newSound(Gdx.files.internal("sounds/chop.ogg"));
-        cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/CafeTrackV2.ogg"));
         catSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cat.ogg"));
         ferretSound = Gdx.audio.newSound(Gdx.files.internal("sounds/ferret.ogg"));
         bearSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bear.ogg"));
@@ -45,6 +44,7 @@ public class SoundController {
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
         musicVol = 0.6f;
         sfxvol = 1.5f;
+        cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/cafetrackv2.ogg"));
     }
     public void cookplay(){
         cookingSound.play(sfxvol);

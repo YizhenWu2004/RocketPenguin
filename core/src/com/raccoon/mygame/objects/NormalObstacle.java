@@ -17,6 +17,8 @@ public class NormalObstacle extends BoxObstacle {
     private float scaleY;
     private float ox;
     private float oy;
+    private float defaultSX;
+    private float defaultSY;
     private float sx;
     private float sy;
     private GameCanvas canvas;
@@ -32,6 +34,8 @@ public class NormalObstacle extends BoxObstacle {
         setTexture(new TextureRegion(texture));
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
+        this.defaultSX = sx;
+        this.defaultSY = sy;
         this.sx = sx;
         this.sy = sy;
         this.ox = ox;
@@ -54,6 +58,8 @@ public class NormalObstacle extends BoxObstacle {
         setTexture(new TextureRegion(texture));
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
+        this.defaultSX = sx;
+        this.defaultSY = sy;
         this.sx = sx;
         this.sy = sy;
         this.ox = ox;
@@ -77,6 +83,8 @@ public class NormalObstacle extends BoxObstacle {
         setTexture(new TextureRegion(texture));
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
+        this.defaultSX = sx;
+        this.defaultSY = sy;
         this.sx = sx;
         this.sy = sy;
         this.ox = ox;
@@ -99,6 +107,8 @@ public class NormalObstacle extends BoxObstacle {
 //        setTexture(new TextureRegion(texture));
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
+        this.defaultSX = sx;
+        this.defaultSY = sy;
         this.sx = sx;
         this.sy = sy;
         this.ox = ox;
@@ -132,6 +142,20 @@ public class NormalObstacle extends BoxObstacle {
 
     public void setSX(float sx){this.sx = sx;}
     public void setSY(float sy){this.sy = sy;}
+
+    public void resetSX(){
+        this.sx = defaultSX;
+    }
+    public void resetSY(){
+        this.sy = defaultSY;
+    }
+    public void resetScales(){
+        this.sx = defaultSX;
+        this.sy = defaultSX;
+    }
+
+    public float getDefaultSX(){return this.defaultSX;}
+    public float getDefaultSY(){return this.defaultSY;}
 
     public void setOY(float oy){this.oy = oy;}
     public void setOX(float ox){this.ox = ox;}

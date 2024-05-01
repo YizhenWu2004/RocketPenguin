@@ -205,15 +205,16 @@ public class Guard extends WheelObstacle {
 
     public void switchToDefaultMode() {
         if(aiController.patrolDirection ==  PatrolDirection.SLEEP_WAKE){
-            this.aiController.setAIStateWake();
+            aiController.setAIStateWake();
         }
-        else if(aiController.patrolDirection ==  PatrolDirection.ROTATE_CCW || aiController.patrolDirection ==  PatrolDirection.ROTATE_CCW){
-            this.aiController.setAIStateRotate();
+        else if(aiController.patrolDirection ==  PatrolDirection.ROTATE_CCW || aiController.patrolDirection ==  PatrolDirection.ROTATE_CW){
+            System.out.println(this.aiController.getCurrentState());
+            aiController.setAIStateRotate();
+            aiController.resetRotateTimer();
         }
-        else {
-            this.aiController.setAIStateWander();
+        else if(aiController.patrolDirection == PatrolDirection.LEFT_RIGHT ||aiController.patrolDirection == PatrolDirection.UP_DOWN  ){
+            aiController.setAIStateWander();
         }
-//        isChaseMode = false;
     }
     public PatrolDirection getP(){
         return this.aiController.getPatrolDirection();

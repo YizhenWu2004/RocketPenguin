@@ -34,6 +34,7 @@ public class RestaurantController extends WorldController implements ContactList
     private GameCanvas canvas;
     private Texture background;
     private Array<Customer> customers;
+    private Array<Customer> customersToAdd;
     private Array<NormalObstacle> obstacles;
     private Player player;
     private InputController input;
@@ -189,7 +190,7 @@ public class RestaurantController extends WorldController implements ContactList
 
         //Setting the default filmstrip for the player
         playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
-        player = new Player(3f, 6.5f, 1, 0.7f, playerIdle, sharedInv, canvas, world);
+        player = new Player(3f, 6.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world);
 
         drawableObjects.add(player);
 
@@ -279,10 +280,23 @@ public class RestaurantController extends WorldController implements ContactList
         //Again it's fine because they ger set immediately in the animation controller
         //We just wrote shitty code that requires textures off-rip.
         goatIdle = new FilmStrip(goat, 1,4,4);
-        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
+
+        customersToAdd = new Array<>();
+        Array<String> customer1Order = new Array<String>();
+        customer1Order.add("0");
+        customer1Order.add("red");
+        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1, 178,customer1Order);
+        Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1, 175,customer1Order);
+        Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1, 173,customer1Order);
+        customersToAdd.add(customer1);
+        customersToAdd.add(customer2);
+        customersToAdd.add(customer3);
+
+        //todo CUSTOMER
+//        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
       
-        customers.add(customer1);
-        drawableObjects.add(customer1);
+//        customers.add(customer1);
+//        drawableObjects.add(customer1);
 
         Filter f = new Filter();
         f.categoryBits = 0x0002;
@@ -347,13 +361,14 @@ public class RestaurantController extends WorldController implements ContactList
         player.update(delta);
         player.current = this.current;
 
-        if ((t.getTime() == 178 || t.getTime() == 176 ||t.getTime() == 130|| t.getTime() == 128 || t.getTime() ==126 || t.getTime() ==80 || t.getTime() == 78 || t.getTime() == 76) && !t.action_round && paused == false){
-            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
-
-            customers.add(customer1);
-            sounds.doorPlay();
-            drawableObjects.add(customer1);
-            t.action_round=true;
+        //todo CUSTOMER
+//        if ((t.getTime() == 178 || t.getTime() == 176 ||t.getTime() == 130|| t.getTime() == 128 || t.getTime() ==126 || t.getTime() ==80 || t.getTime() == 78 || t.getTime() == 76) && !t.action_round && paused == false){
+//            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
+//
+//            customers.add(customer1);
+//            sounds.doorPlay();
+//            drawableObjects.add(customer1);
+//            t.action_round=true;
 
 //        }else if (t.getTime() == 120&& !t.action_round){
 //            Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 3);
@@ -370,7 +385,19 @@ public class RestaurantController extends WorldController implements ContactList
 //            customers.add(customer4);
 //            drawableObjects.add(customer4);
 //            t.action_round=true;
-    }
+
+//    }
+        for(Customer c: customersToAdd){
+//            System.out.println(c.showUpTime);
+            if(c.showUpTime >= t.getTime() && !t.action_round && paused == false){
+//                System.out.println("Customer incoming");
+                customers.add(c);
+                sounds.doorPlay();
+                drawableObjects.add(c);
+                t.action_round=true;
+                customersToAdd.removeValue(c,true);
+            }
+        }
 
         if (active && !respawning()) {
             if(!ventingOut()&& !player.playerIsVenting && !player.playerIsCooking){
@@ -510,7 +537,6 @@ public class RestaurantController extends WorldController implements ContactList
         animator.processCookingStations(stations, tick);
 
         if(player.justDied == true){
-            System.out.println("Respawn");
             respawnTimer = 1.6666f;
             player.justDied = false;
         }
@@ -639,18 +665,20 @@ public class RestaurantController extends WorldController implements ContactList
 //            setVentCollision(true);
         }
 
-        if (body1.getUserData() instanceof Player && body2.getUserData() instanceof CookingStationObject){
+        if (body1.getUserData() instanceof Player && body2.getUserData() instanceof CookingStationObject) {
             CookingStationObject obj = (CookingStationObject) body2.getUserData();
+            Player player = (Player) body1.getUserData();
             obj.interacting = true;
             obj.interacting_with = obj.id;
-            ((Player) body1.getUserData()).setPotCookingIn(obj.getStationType());
-        }
-        else if (body1.getUserData() instanceof CookingStationObject && body2.getUserData() instanceof Player){
+            player.setPotCookingIn(obj.getStationType());
+        } else if (body1.getUserData() instanceof CookingStationObject && body2.getUserData() instanceof Player) {
             CookingStationObject obj = (CookingStationObject) body1.getUserData();
+            Player player = (Player) body2.getUserData();
             obj.interacting = true;
             obj.interacting_with = obj.id;
-            ((Player) body1.getUserData()).setPotCookingIn(obj.getStationType());
+            player.setPotCookingIn(obj.getStationType());
         }
+
 
 
         //System.out.println("contact");

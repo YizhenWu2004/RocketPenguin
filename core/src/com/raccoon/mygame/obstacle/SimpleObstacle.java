@@ -113,6 +113,7 @@ public abstract class SimpleObstacle extends Obstacle {
     public void setFrame(int frameNumber){
         sprite.setFrame(frameNumber);
     }
+    public int getFrame(){return (int)this.animeframe;}
 
     /**
      * Updates the animation frame for this current filmstrip to use
