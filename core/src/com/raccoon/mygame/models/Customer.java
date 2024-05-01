@@ -152,19 +152,21 @@ public class Customer extends BoxObstacle {
 //        System.out.println(cooking_method);
 
         if(Integer.parseInt(inputOrder.get(0)) == -1){
+            Random random = new Random();
             cooking_method = random.nextInt(3);
         }
         else{
             cooking_method = Integer.parseInt(inputOrder.get(0));
         }
 
-        Random random = new Random();
+//        Random random = new Random();
 
         for(int i = 1; i < inputOrder.size; i++){
             if(inputOrder.get(i) == null){
                 break;
             }
             else if(inputOrder.get(i) == "red"){
+                Random random = new Random();
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = red[r];
@@ -172,6 +174,7 @@ public class Customer extends BoxObstacle {
                 order[i-1] = ing;
             }
             else if(inputOrder.get(i) == "yellow"){
+                Random random = new Random();
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = yellow[r];
@@ -179,6 +182,7 @@ public class Customer extends BoxObstacle {
                 order[i-1] = ing;
             }
             else if(inputOrder.get(i) == "orange"){
+                Random random = new Random();
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = orange[r];
@@ -186,6 +190,7 @@ public class Customer extends BoxObstacle {
                 order[i-1] = ing;
             }
             else if(inputOrder.get(i) == "green"){
+                Random random = new Random();
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = green[r];

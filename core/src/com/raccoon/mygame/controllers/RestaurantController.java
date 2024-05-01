@@ -287,6 +287,8 @@ public class RestaurantController extends WorldController implements ContactList
         Array<String> customer1Order = new Array<String>();
         customer1Order.add("0");
         customer1Order.add("red");
+        customer1Order.add("yellow");
+        customer1Order.add("green");
         Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 178,customer1Order);
         Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 175,customer1Order);
         Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 173,customer1Order);
