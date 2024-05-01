@@ -125,7 +125,6 @@ public class GDXRoot extends Game implements ScreenListener {
         store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         loader = new LevelLoader(canvas, restaurant.getWorld());
         saveController = new SaveController(loader);
-        
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
         pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
