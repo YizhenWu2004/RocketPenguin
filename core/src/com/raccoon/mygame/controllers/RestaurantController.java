@@ -174,6 +174,8 @@ public class RestaurantController extends WorldController implements ContactList
         obstacles.add(t);
     }
 
+    public World getWorld() { return world; }
+
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer) {
 
         world = new World(new Vector2(0, 0), false);
