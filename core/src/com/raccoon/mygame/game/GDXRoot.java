@@ -121,8 +121,8 @@ public class GDXRoot extends Game implements ScreenListener {
         splash = new SplashScreenController(canvas);
 
         inv = new Inventory(new Texture("720/inventorynew.png"));
-        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
-        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
+        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w, star_req);
+        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv, w);
         loader = new LevelLoader(canvas);
         saveController = new SaveController(loader);
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
@@ -156,9 +156,10 @@ public class GDXRoot extends Game implements ScreenListener {
         w.create();
 
         inv = new Inventory(new Texture("720/inventorynew.png"));
-        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
+        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w,star_req);
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
+        store.t=w;
         restaurant.setCustomers(loader.getLevels().get(levelToGoTo).getCustomerData());
         store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
@@ -426,7 +427,6 @@ public class GDXRoot extends Game implements ScreenListener {
 //            result.setStarReq(this.star_req);
             result.draw();
         }
-        w.draw(20, 700);
         if(isPaused){
             pause.draw();
         }

@@ -86,6 +86,7 @@ public class StoreController extends WorldController implements ContactListener 
     private final Texture invisible = new Texture("invisible" + ".png");
     private final Texture apple = new Texture("720/apple.png");
     private HashMap<String, Texture> ingredientTextures;
+    public Worldtimer t;
 
 
 //    public boolean totalReset = false;
@@ -150,10 +151,11 @@ public class StoreController extends WorldController implements ContactListener 
         obstacles.add(t);
     }
 
-    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv) {
+    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
+        this.t = w;
 
         obstacles = new Array<>();
         ingredients = new Array<>();
@@ -419,9 +421,7 @@ public class StoreController extends WorldController implements ContactListener 
         for (Ingredient i : ingredients) {
             i.draw(canvas);
         }
-//        for (Guard g : guards) {
-//            g.draw(0.1f, 0.1f);
-//        }
+        t.draw(20, 700);
     }
 
     public void debug() {
