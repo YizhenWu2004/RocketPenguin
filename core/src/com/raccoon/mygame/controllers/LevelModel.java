@@ -71,7 +71,7 @@ public class LevelModel {
     }
 
     private void addIngredient(float x, float y, String name) {
-        ingredients.add(new Ingredient(name, x, y, new Texture("720/" + name + ".png"), -1));
+        ingredients.add(new Ingredient(name, x, y, new Texture("720/ui" + name + ".png"), -1));
     }
 
     private void addGuard(float x, float y, boolean sleep, int rotate, String orientation, Array<Vector2> nodes) {
@@ -197,7 +197,7 @@ public class LevelModel {
             //addFruitCrate(((TextureMapObject) i).getX()/40f, ((TextureMapObject) i).getY()/40f, ing);
             float x = ((TextureMapObject) i).getX();
             float y = ((TextureMapObject) i).getY();
-            addIngredient(x+10f, y+30f, i.getName());
+            addIngredient(x+5f, y+25f, i.getName());
         }
     }
 

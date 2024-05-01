@@ -17,7 +17,7 @@ public class CookingStationObject extends NormalObstacle{
     public boolean interacting;
     public CookingInventory pot;
     public int state; //0 = idle, 1 = cooking, 2 = finished, 3 = burnt(?)
-    public int station_type; // 0 = wok, 1 = pot, 3 = chop
+    public int station_type; // 0 = wok, 1 = pot, 2 = chop
     public GameCanvas canvas;
     public Texture t;
     public int id;
