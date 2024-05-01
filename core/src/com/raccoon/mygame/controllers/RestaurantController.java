@@ -349,7 +349,7 @@ public class RestaurantController extends WorldController implements ContactList
         respawnTimer = -1;
     }
 
-    public void setCustomers(Array<Array<String>> inputCustomers){
+    public void setCustomers(Array<Array<String>> customerData){
 //        customersToAdd = inputCustomers;
     }
 
