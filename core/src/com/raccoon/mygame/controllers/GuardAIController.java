@@ -567,7 +567,6 @@ public class GuardAIController extends ScreenAdapter {
      * @return
      */
     public void getNextRotateOrien(PatrolDirection dir){
-        System.out.println("getNextRotateOrien" + orien);
         if(dir == PatrolDirection.ROTATE_CCW){
             if(orien == GuardOrientation.LEFT){
                 orien = GuardOrientation.DOWN;

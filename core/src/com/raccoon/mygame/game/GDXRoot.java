@@ -408,12 +408,12 @@ public class GDXRoot extends Game implements ScreenListener {
     }
 
     public void drawDebug() {
-//        canvas.beginDebug();
-//        if (current == 1) {
-//            store.debug();
-//        } else if(current == 0){
-//            restaurant.debug();
-//        }
-//        canvas.endDebug();
+        canvas.beginDebug();
+        if (current == 1) {
+            store.debug();
+        } else if(current == 0){
+            restaurant.debug();
+        }
+        canvas.endDebug();
     }
 }

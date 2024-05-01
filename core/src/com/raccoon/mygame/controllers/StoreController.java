@@ -18,6 +18,7 @@ import com.raccoon.mygame.models.Inventory;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
+import com.raccoon.mygame.obstacle.CapsuleObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
@@ -162,7 +163,7 @@ public class StoreController extends WorldController implements ContactListener 
 
         playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
 
-        player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
+        player = new Player(0, 0, 2, 0.7f,  playerIdle, sharedInv, canvas, world);
         drawableObjects.add(player);
         this.input = input;
 
@@ -201,7 +202,7 @@ public class StoreController extends WorldController implements ContactListener 
         player.deactivatePhysics(world);
         vent1.deactivatePhysics(world);
         world = level.getStoreWorld();
-        player = new Player(0, 0, 1, 0.7f,  playerIdle, sharedInv, canvas, world);
+        player = new Player(0, 0, 2, 0.7f,  playerIdle, sharedInv, canvas, world);
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(vent,1,1,1),world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
@@ -293,6 +294,7 @@ public class StoreController extends WorldController implements ContactListener 
         for (Guard guard : guards) {
             if(gettingCaught()){
                 guard.getBody().setLinearVelocity(0,0);
+                player.getBody().setLinearVelocity(0,0);
             }
             else{
                 guard.update(delta, generatePlayerInfo(), gettingCaught());
@@ -437,30 +439,97 @@ public class StoreController extends WorldController implements ContactListener 
      * index 2: player's midpoint X
      * index 3: player's midpoint Y
      */
+//    public Array<Float> generatePlayerInfo() {
+//        Array<Float> playerInfo = new Array<Float>();
+//
+//        // Upper left corner
+//        float upperLeftX = player.getX();
+//        float upperLeftY = player.getY();
+//        playerInfo.add(upperLeftX);
+//        playerInfo.add(upperLeftY);
+//
+//        // Upper right corner
+//        float upperRightX = player.getX() + player.getWidth();
+//        float upperRightY = player.getY();
+//        playerInfo.add(upperRightX);
+//        playerInfo.add(upperRightY);
+//
+//        // Lower left corner
+//        float lowerLeftX = player.getX();
+//        float lowerLeftY = player.getY() + player.getHeight();
+//        playerInfo.add(lowerLeftX);
+//        playerInfo.add(lowerLeftY);
+//
+//        // Lower right corner
+//        float lowerRightX = player.getX() + player.getWidth();
+//        float lowerRightY = player.getY() + player.getHeight()+0.5f;
+//        playerInfo.add(lowerRightX);
+//        playerInfo.add(lowerRightY);
+//
+//        // Middle point
+//        float middleX = player.getX() + player.getWidth() / 2;
+//        float middleY = player.getY() + player.getHeight() / 2;
+//        playerInfo.add(middleX);
+//        playerInfo.add(middleY);
+//
+//        return playerInfo;
+//    }
+
     public Array<Float> generatePlayerInfo() {
         Array<Float> playerInfo = new Array<Float>();
 
+        float coreWidth = player.getWidth();
+        float coreHeight = player.getHeight();
+        float offsetX = 0;
+        float offsetY = 0;
+
+        float radius = (player.getOrientation() == CapsuleObstacle.Orientation.HORIZONTAL) ? coreHeight / 2 : coreWidth / 2;
+        switch (player.getOrientation()) {
+            case TOP:
+                coreHeight -= radius;
+                offsetY += radius;
+                break;
+            case BOTTOM:
+                coreHeight -= radius;
+                break;
+            case LEFT:
+                coreWidth -= radius;
+                offsetX += radius;
+                break;
+            case RIGHT:
+                coreWidth -= radius;
+                break;
+            case VERTICAL:
+                coreHeight -= 2 * radius;
+                offsetY += radius;
+                break;
+            case HORIZONTAL:
+                coreWidth -= 2 * radius;
+                offsetX += radius;
+                break;
+        }
+
         // Upper left corner
-        float upperLeftX = player.getX();
-        float upperLeftY = player.getY();
+        float upperLeftX = player.getX() + offsetX;
+        float upperLeftY = player.getY() + offsetY;
         playerInfo.add(upperLeftX);
         playerInfo.add(upperLeftY);
 
         // Upper right corner
-        float upperRightX = player.getX() + player.getWidth();
-        float upperRightY = player.getY();
+        float upperRightX = upperLeftX + coreWidth;
+        float upperRightY = upperLeftY;
         playerInfo.add(upperRightX);
         playerInfo.add(upperRightY);
 
         // Lower left corner
-        float lowerLeftX = player.getX();
-        float lowerLeftY = player.getY() + player.getHeight();
+        float lowerLeftX = upperLeftX;
+        float lowerLeftY = upperLeftY + coreHeight;
         playerInfo.add(lowerLeftX);
         playerInfo.add(lowerLeftY);
 
         // Lower right corner
-        float lowerRightX = player.getX() + player.getWidth();
-        float lowerRightY = player.getY() + player.getHeight()+0.5f;
+        float lowerRightX = upperRightX;
+        float lowerRightY = lowerLeftY;
         playerInfo.add(lowerRightX);
         playerInfo.add(lowerRightY);
 
@@ -472,6 +541,7 @@ public class StoreController extends WorldController implements ContactListener 
 
         return playerInfo;
     }
+
 
 
 
