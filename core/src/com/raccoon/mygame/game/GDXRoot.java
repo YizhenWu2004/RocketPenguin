@@ -96,6 +96,7 @@ public class GDXRoot extends Game implements ScreenListener {
     LevelSelectController levelselect;
     MainMenuController mainmenu;
     LevelLoader loader;
+    SplashScreenController splash;
 
     MenuController pause;
 
@@ -115,6 +116,13 @@ public class GDXRoot extends Game implements ScreenListener {
         w.create();
         input = new InputController();
 
+<<<<<<< Updated upstream
+=======
+        loader = new LevelLoader(canvas);
+        saveController = new SaveController(loader);
+        splash = new SplashScreenController(canvas);
+
+>>>>>>> Stashed changes
         inv = new Inventory(new Texture("720/inventorynew.png"));
         restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
         store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
@@ -134,8 +142,9 @@ public class GDXRoot extends Game implements ScreenListener {
          * 1 = store
          * -1 = level select
          * -2 = main menu
+         * -3 = splash screen
          * */
-        current = -2;
+        current = -3;
         isPaused = false;
         star_req = new int[]{50,75,100};
     }
@@ -222,6 +231,18 @@ public class GDXRoot extends Game implements ScreenListener {
         store.current = this.current;
         restaurant.current = this.current;
         input.readInput();
+        if(current == -3){
+            splash.update();
+            w.pauseTimer();
+            restaurant.setActive(false);
+            restaurant.setPaused(true);
+            store.setActive(false);
+            sounds.storeStop();
+            sounds.cafeStop();
+            if(splash.videoDonePlaying){
+                current = -2;
+            }
+        }
         if(current == -2){
             mainmenu.update();
             w.pauseTimer();
@@ -385,6 +406,10 @@ public class GDXRoot extends Game implements ScreenListener {
     }
 
     public void draw() {
+        if(current == -3){
+            splash.draw();
+            return;
+        }
         if(current == -2){
             mainmenu.draw();
             return;
