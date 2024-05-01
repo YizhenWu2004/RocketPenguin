@@ -103,10 +103,37 @@ public class RestaurantController extends WorldController implements ContactList
     private Texture decorativeshelf = new Texture("720/decorativeshelf.png");
     private Texture trashcan = new Texture("720/trashcan.png");
     private Texture vent = new Texture("720/vent.png");
+    private Texture zero = new Texture("score/zero.png");
+    private Texture one = new Texture("score/one.png");
+    private Texture two = new Texture("score/two.png");
+    private Texture three = new Texture("score/three.png");
+    private Texture star0 = new Texture("score/star0.png");
+    private Texture star1 = new Texture("score/star1.png");
+    private Texture star2 = new Texture("score/star2.png");
+    private Texture star3 = new Texture("score/star3.png");
+    private Texture star4 = new Texture("score/star4.png");
+    private Texture star5 = new Texture("score/star5.png");
+    private Texture star6 = new Texture("score/star6.png");
+    private Texture star7 = new Texture("score/star7.png");
+    private Texture star8 = new Texture("score/star8.png");
+    private Texture star9 = new Texture("score/star9.png");
+    private Texture score0 = new Texture("score/0.png");
+    private Texture score1 = new Texture("score/1.png");
+    private Texture score2 = new Texture("score/2.png");
+    private Texture score3 = new Texture("score/3.png");
+    private Texture score4 = new Texture("score/4.png");
+    private Texture score5 = new Texture("score/5.png");
+    private Texture score6 = new Texture("score/6.png");
+    private Texture score7 = new Texture("score/7.png");
+    private Texture score8 = new Texture("score/8.png");
+    private Texture score9 = new Texture("score/9.png");
+
     private HashMap<String, Texture> decorationTextures = new HashMap();
 
 
     private HashMap<String, Texture> obstacleTextures = new HashMap<>();
+
+    private int[] star_req;
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
@@ -177,11 +204,12 @@ public class RestaurantController extends WorldController implements ContactList
 
     public World getWorld() { return world; }
 
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer) {
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req) {
 
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
+        this.star_req = star_req;
 
         decorationTextures.put("smallwall", smallwall);
         decorationTextures.put("notAsTallWall", notAsTallWall);
@@ -647,8 +675,8 @@ public class RestaurantController extends WorldController implements ContactList
         for(CookingStationObject o : stations){
             o.drawInventory();
         }
-        canvas.drawText("Score:", f,20, 600,2,2, layout);
-        canvas.drawText(Integer.toString(score), f, 130, 600, 2, 2,layout);
+        //canvas.drawText("Score:", f,20, 600,2,2, layout);
+        //canvas.drawText(Integer.toString(score), f, 130, 600, 2, 2,layout);
         canvas.draw(light,Color.WHITE, 0, 0,
                 0, 5f*40, 0.0f, 1f, 1f);
 
@@ -657,6 +685,127 @@ public class RestaurantController extends WorldController implements ContactList
             canvas.draw(singleInv, Color.WHITE, 10, 10,
                     midpoint, 90, 0.0f, 1, 1);
         }
+        t.draw(20, 700);
+        drawOutline();
+        drawReq();
+        drawScore();
+    }
+
+    //----my draw method for score----
+    public void drawOutline(){
+        Texture t = zero;
+        if(score >= star_req[2]){
+            t = three;
+        } else if (score >= star_req[1]){
+            t = two;
+        }else if(score >= star_req[0]){
+            t = one;
+        }
+        canvas.draw(t,Color.WHITE, 0, 0,
+                0, 490, 0.0f, 1f, 1f);
+    }
+
+    public Texture getTexture(boolean isScore, int num){
+        if(isScore){
+            if(num == 0){
+                return score0;
+            } else if (num == 1){
+                return score1;
+            }else if (num == 2){
+                return score2;
+            }else if (num == 3){
+                return score3;
+            }else if (num == 4){
+                return score4;
+            }else if (num == 5){
+                return score5;
+            }else if (num == 6){
+                return score6;
+            }else if (num == 7){
+                return score7;
+            }else if (num == 8){
+                return score8;
+            }else if (num == 9){
+                return score9;
+            }
+        }else {
+            if(num == 0){
+                return star0;
+            } else if (num == 1){
+                return star1;
+            }else if (num == 2){
+                return star2;
+            }else if (num == 3){
+                return star3;
+            }else if (num == 4){
+                return star4;
+            }else if (num == 5){
+                return star5;
+            }else if (num == 6){
+                return star6;
+            }else if (num == 7){
+                return star7;
+            }else if (num == 8){
+                return star8;
+            }else if (num == 9){
+                return star9;
+            }
+        }
+        return score0;
+    }
+    public void drawReqHelper(int x, int y, int ox, int num){
+        int hundred = num / 100;
+        int ten = (num/10)%10;
+        int one = num%10;
+        if(num >= 100){
+            canvas.draw(getTexture(false,hundred),Color.WHITE, 0, 0,
+                    x, y, 0.0f, 1f, 1f);
+            canvas.draw(getTexture(false,ten),Color.WHITE, 0, 0,
+                    x+12, y, 0.0f, 1f, 1f);
+            canvas.draw(getTexture(false,one),Color.WHITE, 0, 0,
+                    x+24, y, 0.0f, 1f, 1f);
+        }else if (num >= 10){
+            canvas.draw(getTexture(false,ten),Color.WHITE, 0, 0,
+                    x+8, y, 0.0f, 1f, 1f);
+            canvas.draw(getTexture(false,one),Color.WHITE, 0, 0,
+                    x+20, y, 0.0f, 1f, 1f);
+        }else{
+            canvas.draw(getTexture(false,one),Color.WHITE, 0, 0,
+                    x+12, y, 0.0f, 1f, 1f);
+        }
+    }
+    public void drawReq(){
+        drawReqHelper(65,550,0,star_req[0]);
+        drawReqHelper(120,550,0,star_req[1]);
+        drawReqHelper(185,550,0,star_req[2]);
+
+    }
+
+    public void drawScore(){
+        int hundred = score / 100;
+        int ten = (score/10)%10;
+        int one = score%10;
+
+        if(score >= 1000){
+
+        }else if (score >= 100){
+            canvas.draw(getTexture(true,hundred),Color.WHITE, 0, 0,
+                    110, 510, 0.0f, 1f, 1f);
+            canvas.draw(getTexture(true,ten),Color.WHITE, 0, 0,
+                    110+18, 510, 0.0f, 1f, 1f);
+            canvas.draw(getTexture(true,one),Color.WHITE, 0, 0,
+                    110+36, 510, 0.0f, 1f, 1f);
+        }else if (score >= 10){
+            canvas.draw(getTexture(true,ten),Color.WHITE, 0, 0,
+                    110+12, 510, 0.0f, 1f, 1f);
+            canvas.draw(getTexture(true,one),Color.WHITE, 0, 0,
+                    110+30, 510, 0.0f, 1f, 1f);
+        } else {
+            canvas.draw(getTexture(true,one),Color.WHITE, 0, 0,
+                    110+20, 510, 0.0f, 1f, 1f);
+
+        }
+
     }
 
     public void debug() {

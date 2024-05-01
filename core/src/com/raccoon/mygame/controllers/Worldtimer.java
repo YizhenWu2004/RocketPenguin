@@ -82,17 +82,17 @@ public class Worldtimer extends ApplicationAdapter {
     public void draw(int x,int y) {
         float ratio = (float)countdownSeconds/maxTime;
         gameCanvas.draw(timer_background, Color.WHITE, 10, 10,
-                103, 620, 0.0f, 0.92f, 1);
+                103, 635, 0.0f, 0.92f, 1);
         if(ratio >= 0.15){
             gameCanvas.draw(timer_green, Color.WHITE, 10, 10,
-                    93, 620, 0.0f, ratio, 1);
+                    93, 635, 0.0f, ratio, 1);
         } else {
             gameCanvas.draw(timer_red, Color.WHITE, 10, 10,
-                    93, 620, 0.0f, ratio, 1);
+                    93, 635, 0.0f, ratio, 1);
         }
 
         gameCanvas.draw(timer_frame, Color.WHITE, 10, 10,
-                10, 600, 0.0f, 1, 1);
+                10, 615, 0.0f, 1, 1);
 
 
 
@@ -106,12 +106,12 @@ public class Worldtimer extends ApplicationAdapter {
         }
         if (secs < 10) {
             gameCanvas.drawText(Integer.toString(mins),
-                    font, 120, 670, 2, 3,layout);
-            gameCanvas.drawText( "0" + Integer.toString(secs), font, 170, 670, 3, 3,layout);
+                    font, 120, 690, 2, 3,layout);
+            gameCanvas.drawText( "0" + Integer.toString(secs), font, 170, 690, 3, 3,layout);
         } else {
             gameCanvas.drawText(Integer.toString(mins),
-                    font, 120, 670,2,3,layout);
-            gameCanvas.drawText(Integer.toString(secs), font,170, 670, 2, 3, layout);
+                    font, 120, 690,2,3,layout);
+            gameCanvas.drawText(Integer.toString(secs), font,170, 690, 2, 3, layout);
         }
     }
 
