@@ -283,20 +283,26 @@ public class RestaurantController extends WorldController implements ContactList
         //We just wrote shitty code that requires textures off-rip.
         goatIdle = new FilmStrip(goat, 1,4,4);
 
+
+        //todo start hard code customers
         customersToAdd = new Array<>();
         Array<String> customer1Order = new Array<String>();
         customer1Order.add("0");
         customer1Order.add("red");
+        customer1Order.add("yellow");
+        customer1Order.add("green");
         Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 178,customer1Order);
         Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 175,customer1Order);
         Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 173,customer1Order);
         customersToAdd.add(customer1);
         customersToAdd.add(customer2);
         customersToAdd.add(customer3);
+        //todo end hard code customers
 
         for(Customer c : customersToAdd){
             c.initializeAIController(tables);
         }
+
 
         //todo CUSTOMER
 //        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
@@ -341,6 +347,10 @@ public class RestaurantController extends WorldController implements ContactList
         //score = 78;
 
         respawnTimer = -1;
+    }
+
+    public void setCustomers(Array<Array<String>> inputCustomers){
+//        customersToAdd = inputCustomers;
     }
 
     public void setActive(boolean b) {

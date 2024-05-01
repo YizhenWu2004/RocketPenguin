@@ -12,16 +12,14 @@ public class LevelLoader {
     //private JsonValue restaurantJson;
     private String[] levelsData;
     private Array<LevelModel> levels = new Array<>();
-    private World restaurantWorld;
 
     public LevelLoader(AssetDirectory directory, GameCanvas canvas) {
         gatherAssets(directory);
         loadLevels(canvas);
     }
 
-    public LevelLoader(GameCanvas canvas, World restaurant) {
+    public LevelLoader(GameCanvas canvas) {
         levelsData = new String[]{"tutorial", "world-1-1", "world-1-2", "rocko store"};
-        restaurantWorld = restaurant;
         loadLevels(canvas);
     }
 
@@ -32,7 +30,7 @@ public class LevelLoader {
 
     private void loadLevels(GameCanvas canvas) {
         for (int i = 0; i < levelsData.length; i++) {
-            levels.add(new LevelModel(levelsData[i], restaurantWorld, canvas));
+            levels.add(new LevelModel(levelsData[i], canvas));
         }
     }
 
