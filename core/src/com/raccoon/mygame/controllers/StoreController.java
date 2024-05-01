@@ -75,6 +75,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     public float playerJustCaughtTimer;
 
+    private int a = 0;
     public Guard guardInAction;
 
     private final Texture groceryshelfhorizontal = new Texture("720/groceryshelfhorizontal.png");
@@ -381,6 +382,9 @@ public class StoreController extends WorldController implements ContactListener 
             ((Guard) obj).draw(1, 1);
     }
 
+    public void setA(int i){
+        a = i;
+    }
     public void draw() {
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
@@ -564,7 +568,11 @@ public class StoreController extends WorldController implements ContactListener 
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
 //            setVentCollision(true);
             startVentTimer(vent1, player);
-            sounds.ventPlay();
+            if(a > 1) {
+                sounds.ventPlay();
+                System.out.println("vent playing");
+            }
+            a++;
         }
         if ((body1.getUserData() instanceof Guard && body2.getUserData() instanceof NormalObstacle) ||
                 (body2.getUserData() instanceof Guard && body1.getUserData() instanceof NormalObstacle)) {

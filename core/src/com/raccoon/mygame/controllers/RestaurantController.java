@@ -71,6 +71,7 @@ public class RestaurantController extends WorldController implements ContactList
     //Do not worry about it, it can be literally any filmstrip.
     //It will get updated immediately by the animation controller.
     private FilmStrip goatIdle;
+    private int a = 0;
 
     //The animation controller in question.
     private AnimationController animator;
@@ -681,7 +682,9 @@ public class RestaurantController extends WorldController implements ContactList
             //System.out.println("colliding with vent");
             //execute
             startVentTimer(vent1, player);
-            sounds.ventPlay();
+                sounds.ventPlay();
+                System.out.println("vent playing");
+
 //            setVentCollision(true);
         }
 
