@@ -26,7 +26,7 @@ public class AnimationController {
     private final FilmStrip playerCook;
     private final FilmStrip playerChop;
     private final FilmStrip playerSneak;
-    private final FilmStrip playerKickedOut;
+    //private final FilmStrip playerKickedOut;
     private final FilmStrip playerSwipe;
     private final FilmStrip playerSneakIdle;
 
@@ -88,7 +88,7 @@ public class AnimationController {
         playerServeIdle = new FilmStrip(new Texture("720/rockodishidle.png"),1,1,1);
         playerCook = new FilmStrip(new Texture("720/rockocook.png"),1,5,5);
         playerChop = new FilmStrip(new Texture("720/rockochop.png"), 2,5,9);
-        playerKickedOut = new FilmStrip(new Texture("720/rockokickedout.png"),4,5,20);
+        //playerKickedOut = new FilmStrip(new Texture("720/rockokickedout.png"),4,5,20);
         playerSneak = new FilmStrip(new Texture("720/rockosneak.png"),1,10,10);
         playerSwipe = new FilmStrip(new Texture("720/rockoswipe.png"),1,6,6);
         playerSneakIdle = new FilmStrip(new Texture("720/rockosneakidle.png"),1,1,1);

@@ -24,12 +24,12 @@ public class CookingStationObject extends NormalObstacle{
     public int interacting_with;
     public Worldtimer timer;
     public int maxTime;
-    private FilmStrip wok_pic =new FilmStrip(new Texture("wok.png"),1,1,1);
-    private FilmStrip pot_pic = new FilmStrip(new Texture("pot.png"),1,1,1);
-    private FilmStrip chop_pic = new FilmStrip(new Texture("cutting_board.png"),1,1,1);
+    private final FilmStrip wok_pic =new FilmStrip(new Texture("wok.png"),1,1,1);
+    private final FilmStrip pot_pic = new FilmStrip(new Texture("pot.png"),1,1,1);
+    private final FilmStrip chop_pic = new FilmStrip(new Texture("cutting_board.png"),1,1,1);
 
-    private FilmStrip wok_pic_cooked =new FilmStrip(new Texture("wok_cooked.png"),1,1,1);
-    private FilmStrip pot_pic_cooked = new FilmStrip(new Texture("pot_cooked.png"),1,1,1);
+    private final FilmStrip wok_pic_cooked =new FilmStrip(new Texture("wok_cooked.png"),1,1,1);
+    private final FilmStrip pot_pic_cooked = new FilmStrip(new Texture("pot_cooked.png"),1,1,1);
     public float drawox=0;
     public float drawoy=0;
     public float x;
