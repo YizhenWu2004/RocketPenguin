@@ -19,7 +19,7 @@ public class LevelLoader {
     }
 
     public LevelLoader(GameCanvas canvas) {
-        levelsData = new String[]{"world_0-1", "world-1-1", "world-1-2", "rocko store"};
+        levelsData = new String[]{"world_0-1", "world_0-2", "world_0-3", "world-1-1", "world-1-2", "rocko store"};
         loadLevels(canvas);
     }
 
