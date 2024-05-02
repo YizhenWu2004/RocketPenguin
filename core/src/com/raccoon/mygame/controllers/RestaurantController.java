@@ -381,13 +381,13 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
     public void setCustomers(Array<Array<String>> customerData){
-//        for(Array<String> arr : customerData){
-//            System.out.println(arr);
-//            int time = Integer.parseInt(arr.get(0));
-//            arr.removeIndex(0);
-//            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 178,arr);
-//            customersToAdd.add(customer1);
-//        }
+        for(Array<String> arr : customerData){
+            System.out.println(arr);
+            int time = Integer.parseInt(arr.get(0));
+            arr.removeIndex(0);
+            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr);
+            customersToAdd.add(customer1);
+        }
 
 //        String[][] customerOrders = {
 //                {"118", "2", "greenpepper"},
@@ -399,22 +399,22 @@ public class RestaurantController extends WorldController implements ContactList
 //        };
 
 
-        Array<Array<String>> customerOrders = new Array<>();
-
-        customerOrders.add(new Array<>(new String[]{"178", "2", "greenpepper"}));
-        customerOrders.add(new Array<>(new String[]{"160", "2", "greenpepper", "greenpepper"}));
-        customerOrders.add(new Array<>(new String[]{"145", "2", "lemon"}));
-        customerOrders.add(new Array<>(new String[]{"143", "2", "corn", "lemon"}));
-        customerOrders.add(new Array<>(new String[]{"115", "2", "greenpepper", "lemon"}));
-        customerOrders.add(new Array<>(new String[]{"113", "2", "greenpepper", "corn"}));
-
-        for(Array<String> arr : customerOrders){
-            System.out.println(arr);
-            int time = Integer.parseInt(arr.get(0));
-            arr.removeIndex(0);
-            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr);
-            customersToAdd.add(customer1);
-        }
+//        Array<Array<String>> customerOrders = new Array<>();
+//
+//        customerOrders.add(new Array<>(new String[]{"178", "2", "greenpepper"}));
+//        customerOrders.add(new Array<>(new String[]{"160", "2", "greenpepper", "greenpepper"}));
+//        customerOrders.add(new Array<>(new String[]{"145", "2", "lemon"}));
+//        customerOrders.add(new Array<>(new String[]{"143", "2", "corn", "lemon"}));
+//        customerOrders.add(new Array<>(new String[]{"115", "2", "greenpepper", "lemon"}));
+//        customerOrders.add(new Array<>(new String[]{"113", "2", "greenpepper", "corn"}));
+//
+//        for(Array<String> arr : customerOrders){
+//            System.out.println(arr);
+//            int time = Integer.parseInt(arr.get(0));
+//            arr.removeIndex(0);
+//            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr);
+//            customersToAdd.add(customer1);
+//        }
 
 
         for(Customer c : customersToAdd){

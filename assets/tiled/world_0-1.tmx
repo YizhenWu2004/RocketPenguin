@@ -135,37 +135,37 @@
   <object id="171" gid="577" x="116.71" y="906.821" width="102" height="131">
    <properties>
     <property name="Order" value="2 greenpepper"/>
-    <property name="Time" value="118"/>
+    <property name="Time" value="178"/>
    </properties>
   </object>
   <object id="172" gid="577" x="265.963" y="902.557" width="102" height="131">
    <properties>
     <property name="Order" value="2 greenpepper greenpepper"/>
-    <property name="Time" value="100"/>
+    <property name="Time" value="160"/>
    </properties>
   </object>
   <object id="173" gid="577" x="413.085" y="906.821" width="102" height="131">
    <properties>
     <property name="Order" value="2 lemon"/>
-    <property name="Time" value="85"/>
+    <property name="Time" value="145"/>
    </properties>
   </object>
   <object id="174" gid="577" x="560.206" y="906.821" width="102" height="131">
    <properties>
     <property name="Order" value="2 corn lemon"/>
-    <property name="Time" value="83"/>
+    <property name="Time" value="143"/>
    </properties>
   </object>
   <object id="175" gid="577" x="698.799" y="904.689" width="102" height="131">
    <properties>
     <property name="Order" value="2 greenpepper lemon"/>
-    <property name="Time" value="55"/>
+    <property name="Time" value="115"/>
    </properties>
   </object>
   <object id="176" gid="577" x="837.392" y="904.689" width="102" height="131">
    <properties>
     <property name="Order" value="2 greenpepper corn"/>
-    <property name="Time" value="53"/>
+    <property name="Time" value="113"/>
    </properties>
   </object>
  </objectgroup>
