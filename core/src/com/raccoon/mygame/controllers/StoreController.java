@@ -75,6 +75,8 @@ public class StoreController extends WorldController implements ContactListener 
     private Array<UIButton> buttons = new Array<>();
     private UIButton orders;
 
+    private int a = 0;
+
     public Guard guardInAction;
 
     private final Texture groceryshelfhorizontal = new Texture("720/groceryshelfhorizontal.png");
@@ -85,6 +87,7 @@ public class StoreController extends WorldController implements ContactListener 
     private final Texture invisible = new Texture("invisible" + ".png");
     private final Texture apple = new Texture("720/apple.png");
     private HashMap<String, Texture> ingredientTextures;
+    public Worldtimer t;
 
 
 //    public boolean totalReset = false;
@@ -149,10 +152,11 @@ public class StoreController extends WorldController implements ContactListener 
         obstacles.add(t);
     }
 
-    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv) {
+    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
+        this.t = w;
 
         obstacles = new Array<>();
         ingredients = new Array<>();
@@ -390,6 +394,9 @@ public class StoreController extends WorldController implements ContactListener 
             ((Guard) obj).draw(1, 1);
     }
 
+    public void setA(int i){
+        a = i;
+    }
     public void draw() {
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
@@ -430,6 +437,7 @@ public class StoreController extends WorldController implements ContactListener 
 //        for (Guard g : guards) {
 //            g.draw(0.1f, 0.1f);
 //        }
+        t.draw(20, 700);
     }
 
     public void debug() {
@@ -576,7 +584,11 @@ public class StoreController extends WorldController implements ContactListener 
         if ((body1.getUserData() instanceof Player && body2.getUserData() instanceof VentObstacle) || (body2.getUserData() instanceof Player && body1.getUserData() instanceof VentObstacle)) {
 //            setVentCollision(true);
             startVentTimer(vent1, player);
-            sounds.ventPlay();
+            if(a > 1) {
+                sounds.ventPlay();
+                System.out.println("vent playing");
+            }
+            a++;
         }
         if ((body1.getUserData() instanceof Guard && body2.getUserData() instanceof NormalObstacle) ||
                 (body2.getUserData() instanceof Guard && body1.getUserData() instanceof NormalObstacle)) {
