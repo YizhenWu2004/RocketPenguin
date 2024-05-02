@@ -123,7 +123,33 @@ public class MenuController extends WorldController{
             aud.setSX(1.1f);
             aud.setSY(1.1f);
             aud.setTexture(aud_button_hover);
+        },aud::resetStyleProperties,aud_buttons);
+
+        UIButton increase = new UIButton(new Texture("options_pause/audio_button.png"),"restart",490,345,canvas);
+        addButton(aud, ()-> {
+            sounds.clickPlay();
+            this.audio = true;
+            this.on_audio = true;
+            this.on_options=false;
+        },()->{
+            aud.setSX(1.1f);
+            aud.setSY(1.1f);
+            aud.setTexture(aud_button_hover);
+        },aud::resetStyleProperties,aud_buttons);
+
+
+        UIButton decrease = new UIButton(new Texture("options_pause/audio_button.png"),"restart",490,345,canvas);
+        addButton(aud, ()-> {
+            sounds.clickPlay();
+            this.audio = true;
+            this.on_audio = true;
+            this.on_options=false;
+        },()->{
+            aud.setSX(1.1f);
+            aud.setSY(1.1f);
+            aud.setTexture(aud_button_hover);
         },aud::resetStyleProperties,opt_buttons);
+
 
         UIButton back_ = new UIButton(new Texture("options_pause/back_button.png"),"restart",500,245,canvas);
         addButton(back_, ()-> {
@@ -193,6 +219,7 @@ public class MenuController extends WorldController{
                 button.draw(canvas);
             }
         }else if (on_options){
+            System.out.println("draw options");
             canvas.draw(opt_background, Color.WHITE, 0, 0,
                     0, 0, 0.0f, 1f, 1f);
             for(UIButton button : opt_buttons) {
@@ -202,16 +229,17 @@ public class MenuController extends WorldController{
             canvas.draw(cont_background, Color.WHITE, 0, 0,
                     0, 0, 0.0f, 1f, 1f);
             for(UIButton button : cont_buttons) {
+                System.out.println("on control");
                 button.draw(canvas);
             }
         } else if (on_audio){
+            System.out.println("on audio");
             canvas.draw(aud_background, Color.WHITE, 0, 0,
                     0, 0, 0.0f, 1f, 1f);
             for(UIButton button : aud_buttons) {
                 button.draw(canvas);
             }
         }
-
     }
 
     private void addButton(UIButton button, ButtonAction action, ButtonHover hover, ButtonUnhover unhover, Array<UIButton> b){
