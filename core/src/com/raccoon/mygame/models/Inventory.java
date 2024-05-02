@@ -43,6 +43,10 @@ public class Inventory {
         }
     }
 
+    public void setIndex(int i) {
+        selected = i;
+    }
+
     //gets the index of the current slot selected
     public int getSelected() {
         return selected;

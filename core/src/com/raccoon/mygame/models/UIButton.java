@@ -29,6 +29,8 @@ public class UIButton {
     private ButtonHover onHoverAction;
     private ButtonUnhover onUnhoverAction;
 
+    private float defaultX;
+    private float defaultY;
     private float defaultOX = 0;
     private float defaultOY = 0;
     private float defaultSX = 1;
@@ -59,6 +61,8 @@ public class UIButton {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.defaultX = x;
+        this.defaultY = y;
         this.defaultWidth = width;
         this.defaultHeight = height;
         this.width = defaultWidth;
@@ -79,6 +83,8 @@ public class UIButton {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.defaultX = x;
+        this.defaultY = y;
         this.texture = texture;
         this.default_texture = texture;
         this.defaultWidth = texture.getWidth();
@@ -102,6 +108,8 @@ public class UIButton {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.defaultX = x;
+        this.defaultY = y;
         this.texture = texture;
         this.defaultWidth = texture.getWidth();
         this.defaultHeight = texture.getHeight();
@@ -123,6 +131,8 @@ public class UIButton {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.defaultX = x;
+        this.defaultY = y;
         this.texture = texture;
         this.defaultWidth = texture.getWidth();
         this.defaultHeight = texture.getHeight();
@@ -265,6 +275,11 @@ public class UIButton {
     public void setDefaultScale(float sx, float sy){
         this.defaultSX = sx;
         this.defaultSY = sy;
+    }
+
+    public void resetPosition(){
+        this.x = defaultX;
+        this.y = defaultY;
     }
 
     /**

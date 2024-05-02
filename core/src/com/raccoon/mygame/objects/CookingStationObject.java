@@ -17,19 +17,19 @@ public class CookingStationObject extends NormalObstacle{
     public boolean interacting;
     public CookingInventory pot;
     public int state; //0 = idle, 1 = cooking, 2 = finished, 3 = burnt(?)
-    public int station_type; // 0 = wok, 1 = pot, 3 = chop
+    public int station_type; // 0 = wok, 1 = pot, 2 = chop
     public GameCanvas canvas;
     public Texture t;
     public int id;
     public int interacting_with;
     public Worldtimer timer;
     public int maxTime;
-    private FilmStrip wok_pic =new FilmStrip(new Texture("wok.png"),1,1,1);
-    private FilmStrip pot_pic = new FilmStrip(new Texture("pot.png"),1,1,1);
-    private FilmStrip chop_pic = new FilmStrip(new Texture("cutting_board.png"),1,1,1);
+    private final FilmStrip wok_pic =new FilmStrip(new Texture("wok.png"),1,1,1);
+    private final FilmStrip pot_pic = new FilmStrip(new Texture("pot.png"),1,1,1);
+    private final FilmStrip chop_pic = new FilmStrip(new Texture("cutting_board.png"),1,1,1);
 
-    private FilmStrip wok_pic_cooked =new FilmStrip(new Texture("wok_cooked.png"),1,1,1);
-    private FilmStrip pot_pic_cooked = new FilmStrip(new Texture("pot_cooked.png"),1,1,1);
+    private final FilmStrip wok_pic_cooked =new FilmStrip(new Texture("wok_cooked.png"),1,1,1);
+    private final FilmStrip pot_pic_cooked = new FilmStrip(new Texture("pot_cooked.png"),1,1,1);
     public float drawox=0;
     public float drawoy=0;
     public float x;

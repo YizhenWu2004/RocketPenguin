@@ -4,5 +4,309 @@
 		"levels": [
 			"Rocko Store"
 		]
+	},
+	"textures" : {
+		"apple": "720/apple.png",
+		"banana": "720/banana.png",
+		"cabbage": "720/cabbage.png",
+		"carrot": "720/carrot.png",
+		"corn": "720/corn.png",
+		"greenpepper": "720/greenpepper.png",
+		"lemon": "720/lemon.png",
+		"orange": "720/orange.png",
+		"pear": "720/pear.png",
+		"persimmon": "720/persimmon.png",
+		"redpepper": "720/redpepper.png",
+		"tomato": "720/tomato.png",
+
+		"uiapple": "720/uiapple.png",
+		"uibanana": "720/uibanana.png",
+		"uicabbage": "720/uicabbage.png",
+		"uicarrot": "720/uicarrot.png",
+		"uicorn": "720/uicorn.png",
+		"uigreenpepper": "720/uigreenpepper.png",
+		"uilemon": "720/uilemon.png",
+		"uiorange": "720/uiorange.png",
+		"uipear": "720/uipear.png",
+		"uipersimmon": "720/uipersimmon.png",
+		"uiredpepper": "720/uiredpepper.png",
+		"uitomato": "720/uitomato.png",
+
+		"rockodishidle": "720/rockodishidle.png",
+		"rockoidle": "720/rockoidle.png",
+		"rockosneakidle": "720/rockosneakidle.png",
+		"rockochop":  {
+			"file" : "720/rockochop.png",
+			"sprites" : {
+				"strip": {
+					"rows": 2,
+					"cols": 5
+				}
+			}
+		},
+		"rockocook":  {
+			"file" : "720/rockocook.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 5
+				}
+			}
+		},
+		"rockodish":  {
+			"file" : "720/rockodish.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 4
+				}
+			}
+		},
+		"rockokickedout":  {
+			"file" : "720/kickedoutreturn.png",
+			"sprites" : {
+				"strip": {
+					"rows": 4,
+					"cols": 5
+				}
+			}
+		},
+		"rockorun":  {
+			"file" : "720/rockorun.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 5
+				}
+			}
+		},
+		"rockosneak":  {
+			"file" : "720/rockosneak.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 10
+				}
+			}
+		},
+		"rockoswipe":  {
+			"file" : "720/rockoswipe.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 6
+				}
+			}
+		},
+		"rockoventin":  {
+			"file" : "720/rockoventin.png",
+			"sprites" : {
+				"strip": {
+					"rows": 3,
+					"cols": 4
+				}
+			}
+		},
+		"rockoventout":  {
+			"file" : "720/rockoventout.png",
+			"sprites" : {
+				"strip": {
+					"rows": 3,
+					"cols": 4
+				}
+			}
+		},
+		"rockocaught":  {
+			"file" : "gettingCaught.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 4
+				}
+			}
+		},
+
+		"gooseidle": "720/gooseidle.png",
+		"gooseidledown": "720/gooseIdleDown.png",
+		"gooseidleup": "720/gooseIdleUp.png",
+		"goosesleepidle": "720/goosesleepidle.png",
+		"goosechase":  {
+			"file" : "720/goosechase.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 6
+				}
+			}
+		},
+		"goosesleep":  {
+			"file" : "720/goosesleep.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 7
+				}
+			}
+		},
+		"goosewake":  {
+			"file" : "720/goosewake.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 7
+				}
+			}
+		},
+		"goosewalk":  {
+			"file" : "720/goosewalk.png",
+			"sprites" : {
+				"strip": {
+					"rows": 2,
+					"cols": 5
+				}
+			}
+		},
+		"goosewalkback":  {
+			"file" : "720/goosewalkback.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 6
+				}
+			}
+		},
+		"goosewalkup":  {
+			"file" : "720/goosewalkup.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 6
+				}
+			}
+		},
+
+		"bearsit": "720/bearsit.png",
+		"bearwalk":  {
+			"file" : "720/bearwalk.png",
+			"sprites" : {
+				"strip": {
+					"rows": 2,
+					"cols": 4
+				}
+			}
+		},
+		"catsit": "720/catsit.png",
+		"catwalk":  {
+			"file" : "720/catwalk.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 4
+				}
+			}
+		},
+		"ferretsit": "720/ferretsit.png",
+		"ferretwalk":  {
+			"file" : "720/ferretwalk.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 4
+				}
+			}
+		},
+		"goat": "720/goat.png",
+		"goatsit": "720/goatsit.png",
+		"goatwalk":  {
+			"file" : "720/goatwalk.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 4
+				}
+			}
+		},
+		"ottersit": "720/ottersit.png",
+		"otterwalk":  {
+			"file" : "720/otterwalk.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 4
+				}
+			}
+		},
+
+		"shadow": "720/shadow.png",
+		"vent": "720/vent.png",
+
+		"floorstore": "720/grocerybg.png",
+		"boxlarge": "720/boxlarge.png",
+		"boxmedium": "720/boxmedium.png",
+		"boxsmall": "720/boxsmall.png",
+		"fridge": "720/fridge.png",
+		"janitoritems": "720/janitoritems.png",
+		"ladder": "720/ladder.png",
+		"shelfhorizontal": "720/groceryshelfhorizontal.png",
+		"shelfvertical": "720/shelfvertical.png",
+		"fruitcrate": "720/fruitcrate.png",
+		"ventwallhorizontal": "720/ventwallhorizontal.png",
+		"ventwallvertical": "720/ventwallvertical.png",
+
+		"floorrestaurant": "720/floorrestaurant.png",
+		"decorativeshelf": "720/decorativeshelf.png",
+		"frontlamp": "720/frontlamp.png",
+		"notastallwall": "720/notAsTallWall.png",
+		"plant": "720/plant.png",
+		"sidelamp": "720/sidelamp.png",
+		"smallwall": "720/smallwall.png",
+		"table": "720/table.png",
+		"trashcan": "720/trashcan.png",
+		"wallbump": "720/wallbump.png",
+		"wallrestaurant": "720/wallrestaurant.png",
+		"window": "720/window.png",
+
+		"cuttingboard": "cutting_board.png",
+
+		"wok": "720/wok.png",
+		"wokcooking":  {
+			"file" : "720/pansizzle.png",
+			"sprites" : {
+				"strip": {
+					"rows": 4,
+					"cols": 5
+				}
+			}
+		},
+		"wokcooked": "720/wok_cooked.png",
+
+		"pot": "720/pot.png",
+		"potbar": "720/potbar.png",
+		"potsizzle":  {
+			"file" : "720/potsizzle.png",
+			"sprites" : {
+				"strip": {
+					"rows": 2,
+					"cols": 4
+				}
+			}
+		},
+
+		"inventory": "720/inventorynew.png",
+		"inventoryselect": "720/inventoryselect.png",
+		"basetimer": "720/BaseTimer.png",
+		"timerbackground": "720/timer_background.png",
+		"timerframe": "720/timer_frame.png",
+		"timergreen": "720/timer_green.png",
+		"timerred": "720/timer_red.png",
+		"exclamation": "720/exclamation.png",
+		"zzz": "720/zzz.png",
+		"circlebackground": "720/circleBackground.png",
+		"hollow": "720/hollow.png",
+		"customerquestion": "720/customerquestion.png",
+		"customerthumbsdown": "720/customerthumbsdown.png",
+		"customerthumbsup": "720/customerthumbsup.png",
+		"space": "720/space.png"
+
 	}
 }

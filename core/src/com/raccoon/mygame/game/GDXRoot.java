@@ -17,6 +17,7 @@ package com.raccoon.mygame.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -121,8 +122,8 @@ public class GDXRoot extends Game implements ScreenListener {
         splash = new SplashScreenController(canvas);
 
         inv = new Inventory(new Texture("720/inventorynew.png"));
-        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
-        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
+        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w, star_req);
+        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv, w);
         loader = new LevelLoader(canvas);
         saveController = new SaveController(loader);
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
@@ -151,13 +152,15 @@ public class GDXRoot extends Game implements ScreenListener {
         //180
 //        sounds.storeStop();
 //        sounds.cafeStop();
+        store.setA(1);
         w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
         w.create();
 
         inv = new Inventory(new Texture("720/inventorynew.png"));
-        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w);
+        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w,star_req);
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
+        store.t=w;
         restaurant.setCustomers(loader.getLevels().get(levelToGoTo).getCustomerData());
         store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
@@ -262,7 +265,7 @@ public class GDXRoot extends Game implements ScreenListener {
             levelselect.update();
             w.pauseTimer();
             sounds.storeStop();
-            sounds.cafeStop();
+            sounds.cafeeactualstop();
             restaurant.setActive(false);
             store.setActive(false);
             if(levelselect.checkForGoToMainMenu()){
@@ -287,7 +290,7 @@ public class GDXRoot extends Game implements ScreenListener {
 //            sounds.storeStop();
         }
         if (current == 2){
-            sounds.cafeStop();
+            sounds.cafeeactualstop();
             sounds.storeStop();
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
             saveController.editKeyValuePair(levelToGoTo, result.score);
@@ -425,7 +428,6 @@ public class GDXRoot extends Game implements ScreenListener {
 //            result.setStarReq(this.star_req);
             result.draw();
         }
-        w.draw(20, 700);
         if(isPaused){
             pause.draw();
         }
