@@ -42,8 +42,8 @@ public class SoundController {
         bearSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bear.ogg"));
         otterSound = Gdx.audio.newSound(Gdx.files.internal("sounds/otter.ogg"));
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
-        musicVol = 0.6f;
-        sfxvol = 1.5f;
+        musicVol = 0.8f;
+        sfxvol = 1.4f;
         cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/cafetrackv2.ogg"));
     }
     public void cookplay(){
@@ -84,6 +84,53 @@ public class SoundController {
         ventSound.play(sfxvol);
     }
 
+//    public void setsfx(float sfx){
+//        sfxvol = sfx;
+//    }
+//    public void setmusic(float music){
+//        musicVol = music;
+//    }
+
+    public void incmusic(){
+        if(musicVol < 1.0f){
+            System.out.println("increasing music");
+            musicVol = musicVol + 0.1f;
+        } else {
+            musicVol = 2.0f;
+        }
+    }
+    public void decmusic(){
+        if(musicVol > 0.0f){
+            System.out.println("decreasing music");
+            musicVol = musicVol - 0.1f;
+        } else {
+            musicVol = 0.0f;
+        }
+    }
+
+    public float getmusic(){
+        return musicVol;
+    }
+    public float getsfx(){
+        return sfxvol;
+    }
+    public void incsfx(){
+        if(sfxvol < 2.0f){
+            System.out.println("increasing sfx");
+            sfxvol = sfxvol + 0.2f;
+        } else {
+            sfxvol = 2.0f;
+        }
+    }
+
+    public void decsfx(){
+        if(sfxvol > 0.0f){
+            System.out.println("decreasing sfx");
+            sfxvol = sfxvol - 0.2f;
+        } else {
+            sfxvol = 0.0f;
+        }
+    }
     public void cafeeactualstop(){
         cafeSong.stop();
     }

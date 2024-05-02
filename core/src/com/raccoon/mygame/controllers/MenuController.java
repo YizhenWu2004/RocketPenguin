@@ -123,33 +123,58 @@ public class MenuController extends WorldController{
             aud.setSX(1.1f);
             aud.setSY(1.1f);
             aud.setTexture(aud_button_hover);
-        },aud::resetStyleProperties,aud_buttons);
-
-        UIButton increase = new UIButton(new Texture("options_pause/audio_button.png"),"restart",490,345,canvas);
-        addButton(aud, ()-> {
-            sounds.clickPlay();
-            this.audio = true;
-            this.on_audio = true;
-            this.on_options=false;
-        },()->{
-            aud.setSX(1.1f);
-            aud.setSY(1.1f);
-            aud.setTexture(aud_button_hover);
-        },aud::resetStyleProperties,aud_buttons);
-
-
-        UIButton decrease = new UIButton(new Texture("options_pause/audio_button.png"),"restart",490,345,canvas);
-        addButton(aud, ()-> {
-            sounds.clickPlay();
-            this.audio = true;
-            this.on_audio = true;
-            this.on_options=false;
-        },()->{
-            aud.setSX(1.1f);
-            aud.setSY(1.1f);
-            aud.setTexture(aud_button_hover);
         },aud::resetStyleProperties,opt_buttons);
 
+        UIButton incmusic = new UIButton(new Texture("options_pause/audio_button.png"),"restart",600,545,canvas);
+        addButton(incmusic, ()-> {
+            sounds.clickPlay();
+            sounds.incmusic();
+            this.audio = true;
+            this.on_audio = true;
+            this.on_options=false;
+        },()->{
+            incmusic.setSX(1.1f);
+            incmusic.setSY(1.1f);
+            incmusic.setTexture(aud_button_hover);
+        },incmusic::resetStyleProperties,aud_buttons);
+
+        UIButton decmusic = new UIButton(new Texture("options_pause/audio_button.png"),"restart",300,545,canvas);
+        addButton(decmusic, ()-> {
+            sounds.clickPlay();
+            sounds.decmusic();
+            this.audio = true;
+            this.on_audio = true;
+            this.on_options=false;
+        },()->{
+            decmusic.setSX(1.1f);
+            decmusic.setSY(1.1f);
+            decmusic.setTexture(aud_button_hover);
+        },decmusic::resetStyleProperties,aud_buttons);
+
+        UIButton incsfx = new UIButton(new Texture("options_pause/audio_button.png"),"restart",600,445,canvas);
+        addButton(incsfx, ()-> {
+            sounds.clickPlay();
+            sounds.incsfx();
+            this.audio = true;
+            this.on_audio = true;
+            this.on_options=false;
+        },()->{
+            incsfx.setSX(1.1f);
+            incsfx.setSY(1.1f);
+            incsfx.setTexture(aud_button_hover);
+        },incsfx::resetStyleProperties,aud_buttons);
+
+        UIButton decsfx = new UIButton(new Texture("options_pause/audio_button.png"),"restart",300,445,canvas);
+        addButton(decsfx, ()-> {
+            sounds.clickPlay();
+            sounds.decsfx();
+            this.audio = true;
+            this.on_audio = true;
+            this.on_options=false;
+        },()->{
+            decsfx.setSX(1.1f);
+            decsfx.setTexture(aud_button_hover);
+        },decsfx::resetStyleProperties,aud_buttons);
 
         UIButton back_ = new UIButton(new Texture("options_pause/back_button.png"),"restart",500,245,canvas);
         addButton(back_, ()-> {
