@@ -27,6 +27,7 @@ import com.raccoon.mygame.view.GameCanvas;
 import java.awt.Font;
 
 import java.lang.reflect.GenericArrayType;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class RestaurantController extends WorldController implements ContactListener {
@@ -285,24 +286,25 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         //todo start hard code customers
-        customersToAdd = new Array<>();
-        Array<String> customer1Order = new Array<String>();
-        customer1Order.add("0");
-        customer1Order.add("red");
-        customer1Order.add("yellow");
-        customer1Order.add("green");
-        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 178,customer1Order);
-        Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 175,customer1Order);
-        Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 173,customer1Order);
-        customersToAdd.add(customer1);
-        customersToAdd.add(customer2);
-        customersToAdd.add(customer3);
+//        customersToAdd = new Array<>();
+//        Array<String> customer1Order = new Array<String>();
+//        customer1Order.add("0");
+//        customer1Order.add("red");
+//        customer1Order.add("yellow");
+//        customer1Order.add("green");
+//        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 178,customer1Order);
+//        Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 175,customer1Order);
+//        Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 173,customer1Order);
+//        customersToAdd.add(customer1);
+//        customersToAdd.add(customer2);
+//        customersToAdd.add(customer3);
         //todo end hard code customers
 
-        for(Customer c : customersToAdd){
-            c.initializeAIController(tables);
-        }
+//        for(Customer c : customersToAdd){
+//            c.initializeAIController(tables);
+//        }
 
+        customersToAdd = new Array<>();
 
         //todo CUSTOMER
 //        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
@@ -350,6 +352,45 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
     public void setCustomers(Array<Array<String>> customerData){
+//        for(Array<String> arr : customerData){
+//            System.out.println(arr);
+//            int time = Integer.parseInt(arr.get(0));
+//            arr.removeIndex(0);
+//            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 178,arr);
+//            customersToAdd.add(customer1);
+//        }
+
+//        String[][] customerOrders = {
+//                {"118", "2", "greenpepper"},
+//                {"100", "2", "greenpepper", "greenpepper"},
+//                {"85", "2", "lemon"},
+//                {"83", "2", "corn", "lemon"},
+//                {"55", "2", "greenpepper", "lemon"},
+//                {"53", "2", "greenpepper", "corn"}
+//        };
+
+
+        Array<Array<String>> customerOrders = new Array<>();
+
+        customerOrders.add(new Array<>(new String[]{"178", "2", "greenpepper"}));
+        customerOrders.add(new Array<>(new String[]{"160", "2", "greenpepper", "greenpepper"}));
+        customerOrders.add(new Array<>(new String[]{"145", "2", "lemon"}));
+        customerOrders.add(new Array<>(new String[]{"143", "2", "corn", "lemon"}));
+        customerOrders.add(new Array<>(new String[]{"115", "2", "greenpepper", "lemon"}));
+        customerOrders.add(new Array<>(new String[]{"113", "2", "greenpepper", "corn"}));
+
+        for(Array<String> arr : customerOrders){
+            System.out.println(arr);
+            int time = Integer.parseInt(arr.get(0));
+            arr.removeIndex(0);
+            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr);
+            customersToAdd.add(customer1);
+        }
+
+
+        for(Customer c : customersToAdd){
+            c.initializeAIController(tables);
+        }
 //        customersToAdd = inputCustomers;
     }
 

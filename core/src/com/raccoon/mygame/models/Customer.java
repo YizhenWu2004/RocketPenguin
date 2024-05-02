@@ -187,7 +187,7 @@ public class Customer extends BoxObstacle {
                 Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
                 order[i-1] = ing;
             }
-            else if(inputOrder.get(i) == "orange"){
+            else if(inputOrder.get(i) == "orange_color"){
                 Random random = new Random();
                 int r = random.nextInt(3);
                 orderSize++;
