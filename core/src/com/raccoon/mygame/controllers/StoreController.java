@@ -12,10 +12,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
-import com.raccoon.mygame.models.Customer;
-import com.raccoon.mygame.models.Guard;
-import com.raccoon.mygame.models.Inventory;
-import com.raccoon.mygame.models.Player;
+import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
 import com.raccoon.mygame.obstacle.CapsuleObstacle;
@@ -74,6 +71,9 @@ public class StoreController extends WorldController implements ContactListener 
     private float ventOutTimer;
 
     public float playerJustCaughtTimer;
+
+    private Array<UIButton> buttons = new Array<>();
+    private UIButton orders;
 
     public Guard guardInAction;
 
@@ -160,6 +160,11 @@ public class StoreController extends WorldController implements ContactListener 
         guardX = new Array<>();
         guardY = new Array<>();
         ingredientTextures = new HashMap<>();
+
+        orders = new UIButton(new Texture("menu/levelbook.png"), "orders",1000,700,0.5f,0.5f,canvas);
+        orders.setOnHoverAction(()->{orders.setY(500);});
+        orders.setOnUnhoverAction(()->{orders.resetPosition();});
+        buttons.add(orders);
 
         playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
 
@@ -287,6 +292,9 @@ public class StoreController extends WorldController implements ContactListener 
                 player.setLinearVelocity(new Vector2(x, y));
                 player.setSpace(input.getSpace());
                 player.setInteraction(input.getInteraction());
+                if(input.getOneThroughFivePressed()){
+                    player.getInventory().setIndex(input.getNumIndex());
+                }
                 player.getInventory().setSelected((int) input.getScroll());
             }
             animator.handleAnimation(vent1, player, delta, ventingOut());
@@ -342,6 +350,7 @@ public class StoreController extends WorldController implements ContactListener 
 
         animator.processGuards(guards, delta, guardInAction,gettingCaught());
         animator.handleAnimation(player, delta, respawning());
+        checkButtons();
     }
 
     private float getYPosOfAnyObject(Object obj){
@@ -414,6 +423,9 @@ public class StoreController extends WorldController implements ContactListener 
 //        player.draw(0.25f, 0.25f);
         for (Ingredient i : ingredients) {
             i.draw(canvas);
+        }
+        for(UIButton button: buttons){
+            button.draw(canvas);
         }
 //        for (Guard g : guards) {
 //            g.draw(0.1f, 0.1f);
@@ -673,5 +685,42 @@ public class StoreController extends WorldController implements ContactListener 
             System.out.println(e);
         }
         return apple;
+    }
+
+    private boolean processBounds(float x, float y, float minX, float maxX, float minY, float maxY){
+        return (x >= minX && x <= maxX && y >= minY && y <= maxY);
+    }
+    /**
+     * For every button in the scene (modal and non modal)
+     * Check for clicks, hovers, and unhovers.
+     * Call events that should happen in those circumstances.
+     * */
+    private void checkButtons(){
+        //If no modals are active, check state for normal buttons.
+        for (UIButton button : buttons) {
+            float minX = button.getX();
+            float maxX = button.getX() + button.getWidth();
+            float minY = button.getY();
+            float maxY = button.getY() + button.getHeight();
+            if(button.getSticky()){
+                minX = button.getAdjustedX();
+                maxX = button.getAdjustedX() + button.getWidth();
+                minY = button.getAdjustedY();
+                maxY = button.getAdjustedY() + button.getHeight();
+            }
+            if ((processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY)) || input.getShiftHeld()) {
+                button.setHovered(true);
+                button.onHoverEvent();
+            } else {
+                button.setHovered(false);
+                button.onUnhoverEvent();
+            }
+            //if input is within bounds of button
+            if (processBounds(input.getAdjustedMouseX(canvas.getCamera()), input.getAdjustedMouseY(canvas.getCamera()), minX, maxX, minY, maxY) && input.click) {
+                button.setIsClicked(true);
+                button.onClickEvent();
+                button.setIsClicked(false);
+            }
+        }
     }
 }

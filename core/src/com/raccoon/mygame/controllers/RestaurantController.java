@@ -422,6 +422,9 @@ public class RestaurantController extends WorldController implements ContactList
                 player.setLinearVelocity(new Vector2(x, y));
                 player.setSpace(input.getSpace());
                 player.setInteraction(input.getInteraction());
+                if(input.getOneThroughFivePressed()){
+                    player.getInventory().setIndex(input.getNumIndex());
+                }
                 player.getInventory().setSelected((int) input.getScroll());
                 collision.processCustomers(player, customers);
             }

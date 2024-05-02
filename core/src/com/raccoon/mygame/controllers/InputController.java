@@ -29,6 +29,11 @@ public class InputController {
     private boolean up;
     private boolean down;
     private boolean pause;
+    private boolean oppositePause;
+
+    private boolean shiftHeld;
+    private int numIndex;
+    private boolean oneThroughFivePressed;
 
     private boolean camUp;
     private boolean camDown;
@@ -69,6 +74,9 @@ public class InputController {
     }
 
     public boolean getPause() {return pause;}
+    public boolean getOppositePause(){
+        return oppositePause;
+    }
 
     public float getMouseX(){
         return Gdx.input.getX();
@@ -89,9 +97,12 @@ public class InputController {
         y_movement = 0;
         x_movement = 0;
         scroll = 0;
+        numIndex = 0;
         interaction = false;
         click = false;
         resume_clicked = false;
+        shiftHeld = false;
+        oneThroughFivePressed = false;
         sounds = new SoundController();
     }
 
@@ -112,6 +123,8 @@ public class InputController {
         } else {
             x_movement = 0;
         }
+
+        this.shiftHeld = Gdx.input.isKeyPressed(Keys.SHIFT_LEFT);
 
         if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
             scroll = -1;
@@ -134,11 +147,13 @@ public class InputController {
         } else {
             space = false;
         }
-        if (Gdx.input.isKeyJustPressed(Keys.P)) {
+        if (Gdx.input.isKeyJustPressed(Keys.P) || Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
             pause = true;
+            oppositePause = false;
 //            sounds.clickPlay();
         } else {
             pause = false;
+            oppositePause = true;
         }
 
         if (Gdx.input.isKeyPressed(Keys.R)) {
@@ -190,8 +205,37 @@ public class InputController {
             camDown = false;
         }
 
+        if(Gdx.input.isKeyJustPressed(Keys.NUM_1)){
+            oneThroughFivePressed = true;
+            numIndex = 0;}
+        else if(Gdx.input.isKeyJustPressed(Keys.NUM_2)){
+            oneThroughFivePressed = true;
+            numIndex = 1;}
+        else if(Gdx.input.isKeyJustPressed(Keys.NUM_3)){
+            oneThroughFivePressed = true;
+            numIndex = 2;}
+        else if(Gdx.input.isKeyJustPressed(Keys.NUM_4)){
+            oneThroughFivePressed = true;
+            numIndex = 3;}
+        else if(Gdx.input.isKeyJustPressed(Keys.NUM_5)){
+            oneThroughFivePressed = true;
+            numIndex = 4;}
+        else{
+            oneThroughFivePressed = false;
+        }
+
         //15f, 11f, 5f, 1.5f
 
+    }
+
+    public boolean getShiftHeld(){
+        return this.shiftHeld;
+    }
+    public int getNumIndex(){
+        return this.numIndex;
+    }
+    public boolean getOneThroughFivePressed(){
+        return this.oneThroughFivePressed;
     }
 
 }
