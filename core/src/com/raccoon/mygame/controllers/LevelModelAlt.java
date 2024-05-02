@@ -19,17 +19,17 @@ public class LevelModelAlt {
     private Array<Float> guardX = new Array<>();
     private Array<Float> guardY = new Array<>();
 
-    private void addShelfHorizontal(float x, float y) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
-                new Texture("groceryshelfhorizontal.png"), storeWorld, canvas);
-        storeObjects.add(obstacle);
-    }
-
-    private void addShelfVertical(float x, float y) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 6f, 0.3f, 0.3f, 0f, 0f,
-                new Texture("groceryshelfvertical.png"), storeWorld, canvas);
-        storeObjects.add(obstacle);
-    }
+//    private void addShelfHorizontal(float x, float y) {
+//        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.25f, 0.25f, 0f, -100f,
+//                new Texture("groceryshelfhorizontal.png"), storeWorld, canvas);
+//        storeObjects.add(obstacle);
+//    }
+//
+//    private void addShelfVertical(float x, float y) {
+//        NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 6f, 0.3f, 0.3f, 0f, 0f,
+//                new Texture("groceryshelfvertical.png"), storeWorld, canvas);
+//        storeObjects.add(obstacle);
+//    }
 
     private void addFruitCrate(float x, float y, Ingredient ingredient) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 0.4f, 0.4f, 0f, 0f,

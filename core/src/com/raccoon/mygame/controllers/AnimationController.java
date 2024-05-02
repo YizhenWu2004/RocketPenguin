@@ -50,7 +50,7 @@ public class AnimationController {
     private final FilmStrip gooseWalkUp;
     private final FilmStrip gooseIdle;
     private final FilmStrip gooseChase;
-    private final FilmStrip gooseCatch;
+    //private final FilmStrip gooseCatch;
     private final FilmStrip gooseSleep;
     private final FilmStrip gooseSleepIdle;
     private final FilmStrip gooseWake;
@@ -113,7 +113,9 @@ public class AnimationController {
         gooseWalkUp = new FilmStrip(new Texture("720/goosewalkup.png"),1,6,6);
         gooseIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
         gooseChase = new FilmStrip(new Texture("720/goosechase.png"),1,6,6);
-        gooseCatch = new FilmStrip(new Texture("720/rockochop.png"),1,4,4);
+
+        //gooseCatch = new FilmStrip(new Texture("720/rockocaught.png"),1,4,4);
+
         gooseSleepIdle = new FilmStrip(new Texture("720/goosesleepidle.png"),1,1,1);
         gooseSleep = new FilmStrip(new Texture("720/goosesleep.png"),1,7,7);
         gooseWake = new FilmStrip(new Texture("720/goosewake.png"),1,7,7);
