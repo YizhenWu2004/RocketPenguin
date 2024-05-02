@@ -76,7 +76,6 @@ public class MainMenuController extends WorldController{
             exit.setSY(0.6f);
             },exit::resetStyleProperties,buttons);
 
-
         UIButton cont = new UIButton(new Texture("menu_option/control_button_normal.png"),"exit",230,430,canvas);
         addButton(cont, ()-> {
             sounds.clickPlay();
@@ -97,7 +96,59 @@ public class MainMenuController extends WorldController{
 //            aud.setSX(1.1f);
 //            aud.setSY(1.1f);
             aud.setTexture(audio_hover);
-        },aud::resetStyleProperties,setting_buttons);
+        },aud::resetStyleProperties, setting_buttons);
+
+        UIButton incmusic = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",510,480,canvas);
+        addButton(incmusic, ()-> {
+            sounds.incmusic();
+            sounds.clickPlay();
+            this.on_audio = true;
+            this.on_settings = false;
+        },()->{
+//            System.out.println("inc hovered");
+//            inc.setSX(1.1f);
+//            inc.setSY(1.1f);
+            incmusic.setTexture(audio_hover);
+        },incmusic::resetStyleProperties, audio_buttons);
+
+        UIButton decmusic = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",100,480,canvas);
+        addButton(decmusic, ()-> {
+            sounds.decmusic();
+            sounds.clickPlay();
+            this.on_audio = true;
+            this.on_settings = false;
+        },()->{
+//            System.out.println("inc hovered");
+//            inc.setSX(1.1f);
+//            inc.setSY(1.1f);
+            decmusic.setTexture(audio_hover);
+        },decmusic::resetStyleProperties, audio_buttons);
+
+        UIButton incsfx = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",510,310,canvas);
+        addButton(incsfx, ()-> {
+            sounds.clickPlay();
+            sounds.incsfx();
+            this.on_audio = true;
+            this.on_settings = false;
+        },()->{
+//            System.out.println("inc hovered");
+//            inc.setSX(1.1f);
+//            inc.setSY(1.1f);
+            incsfx.setTexture(audio_hover);
+        },incsfx::resetStyleProperties, audio_buttons);
+
+        UIButton decsfx = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",100,310,canvas);
+        addButton(decsfx, ()-> {
+            sounds.clickPlay();
+            sounds.decsfx();
+            this.on_audio = true;
+            this.on_settings = false;
+        },()->{
+//            System.out.println("inc hovered");
+//            inc.setSX(1.1f);
+//            inc.setSY(1.1f);
+            decsfx.setTexture(audio_hover);
+        }, decsfx::resetStyleProperties, audio_buttons);
 
         UIButton back1 = new UIButton(new Texture("menu_option/back_setting.png"),"exit",290,180,canvas);
         addButton(back1, ()-> {
@@ -206,6 +257,7 @@ public class MainMenuController extends WorldController{
         } else if (on_settings){
             checkButtons(setting_buttons);
         } else if (on_audio){
+//            System.out.println("on audio");
             checkButtons(audio_buttons);
         } else if (on_control){
             checkButtons(control_buttons);
@@ -241,6 +293,7 @@ public class MainMenuController extends WorldController{
             canvas.draw(audio_background, Color.WHITE, 0, 0,
                     -250, 0, 0.0f, 1f, 1f);
             for(UIButton button : audio_buttons){
+//                System.out.println("audio buttons");
                 button.draw(canvas);
             }
         } else if (on_control){
