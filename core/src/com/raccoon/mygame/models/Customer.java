@@ -171,7 +171,7 @@ public class Customer extends BoxObstacle {
             if(inputOrder.get(i) == null){
                 break;
             }
-            else if(inputOrder.get(i) == "red"){
+            else if(inputOrder.get(i).equals("red")){
                 Random random = new Random();
                 int r = random.nextInt(3);
                 orderSize++;
@@ -179,7 +179,7 @@ public class Customer extends BoxObstacle {
                 Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
                 order[i-1] = ing;
             }
-            else if(inputOrder.get(i) == "yellow"){
+            else if(inputOrder.get(i).equals("yellow")){
                 Random random = new Random();
                 int r = random.nextInt(3);
                 orderSize++;
@@ -187,7 +187,7 @@ public class Customer extends BoxObstacle {
                 Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
                 order[i-1] = ing;
             }
-            else if(inputOrder.get(i) == "orange_color"){
+            else if(inputOrder.get(i).equals("orange")){
                 Random random = new Random();
                 int r = random.nextInt(3);
                 orderSize++;
@@ -195,7 +195,7 @@ public class Customer extends BoxObstacle {
                 Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
                 order[i-1] = ing;
             }
-            else if(inputOrder.get(i) == "green"){
+            else if(inputOrder.get(i).equals("green")){
                 Random random = new Random();
                 int r = random.nextInt(3);
                 orderSize++;
