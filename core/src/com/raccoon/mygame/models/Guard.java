@@ -1,5 +1,6 @@
 package com.raccoon.mygame.models;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.GuardAIController;
+import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.objects.Expression;
 import com.raccoon.mygame.objects.QuestionExpression;
@@ -42,6 +44,7 @@ public class Guard extends WheelObstacle {
     private Expression exclam;
 
     private Expression zzz;
+    private SoundController sounds;
 
     private QuestionExpression question;
 

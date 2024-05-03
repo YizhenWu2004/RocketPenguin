@@ -43,6 +43,7 @@ public class LevelModel {
     private MapLayer ingredientsLayer;
     private MapLayer guardsLayer;
     private MapLayer guardNodesLayer;
+    private SoundController sounds;
     private MapLayer customersLayer;
     private FilmStrip guardIdle;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
@@ -93,7 +94,7 @@ public class LevelModel {
                 GuardAIController.GuardOrientation.LEFT));
     }
 
-    public LevelModel(String tmxFile, GameCanvas canvas) {
+    public LevelModel(String tmxFile, GameCanvas canvas, SoundController s) {
         storeWorld = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.guardSpeed = guardSpeed;

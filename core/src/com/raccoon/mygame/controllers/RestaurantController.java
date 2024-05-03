@@ -205,7 +205,7 @@ public class RestaurantController extends WorldController implements ContactList
 
     public World getWorld() { return world; }
 
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req) {
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s) {
 
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
@@ -355,7 +355,7 @@ public class RestaurantController extends WorldController implements ContactList
         drawableObjects.add(vent1);
 
 
-        collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
+        collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
         active = true;
         tick = 0;
         world.setContactListener(this);
@@ -370,7 +370,7 @@ public class RestaurantController extends WorldController implements ContactList
 //        drawableObjects.add(ob);
 
 
-        sounds = new SoundController();
+        sounds =s;
         happy=0;
         neutral=0;
         angry=0;

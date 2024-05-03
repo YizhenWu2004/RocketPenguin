@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class LevelLoader {
     //private JsonValue restaurantJson;
     private String[] levelsData;
+    private SoundController sounds;
     private Array<LevelModel> levels = new Array<>();
 
     public LevelLoader(AssetDirectory directory, GameCanvas canvas) {
@@ -30,7 +31,7 @@ public class LevelLoader {
 
     private void loadLevels(GameCanvas canvas) {
         for (int i = 0; i < levelsData.length; i++) {
-            levels.add(new LevelModel(levelsData[i], canvas));
+            levels.add(new LevelModel(levelsData[i], canvas, sounds));
         }
     }
 

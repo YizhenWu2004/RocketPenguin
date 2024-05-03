@@ -94,9 +94,9 @@ public class LevelSelectController extends WorldController{
      * @param canvas Canvas to draw with
      * @param input InputController to use
      * */
-    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController){
+    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController, SoundController s){
         this.canvas = canvas;
-        sounds = new SoundController();
+        sounds = s;
         this.input = input;
         this.saveController = saveController;
 
