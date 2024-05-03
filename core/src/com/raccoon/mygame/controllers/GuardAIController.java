@@ -100,7 +100,7 @@ public class GuardAIController extends ScreenAdapter {
 
         this.guardDimension = guardDimension;
         this.counter = 0;
-        this.chaseSpeed = speed * 3;
+        this.chaseSpeed = speed * 4;
         this.chaseCounter = 0;
         this.counter2 = 0;
 

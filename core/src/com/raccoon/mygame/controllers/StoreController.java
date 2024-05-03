@@ -89,7 +89,6 @@ public class StoreController extends WorldController implements ContactListener 
     private HashMap<String, Texture> ingredientTextures;
     public Worldtimer t;
 
-
 //    public boolean totalReset = false;
 
 //    private void addShelfHorizontal(float x, float y) {
@@ -201,8 +200,6 @@ public class StoreController extends WorldController implements ContactListener 
         addInvisibleWall(0,-1,80,1,1,1,0,0);
         addInvisibleWall(-1,0,1,40,1,1,0,0);
         addInvisibleWall(33,0,1,40,1,1,0,0);
-
-
     }
 
     public void setLevel(LevelModel level, Inventory sharedInv) {
@@ -438,6 +435,7 @@ public class StoreController extends WorldController implements ContactListener 
 //            g.draw(0.1f, 0.1f);
 //        }
         t.draw(20, 700);
+        player.inventory.draw(canvas);
     }
 
     public void debug() {

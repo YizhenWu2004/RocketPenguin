@@ -226,7 +226,8 @@ public class Player extends CapsuleObstacle {
         }
 
 //        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
-        this.inventory.draw(canvas);
+        //inventory draw moved to Store and Restaurant
+//        this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){
             if(direction == -1){
                 dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0, true);
