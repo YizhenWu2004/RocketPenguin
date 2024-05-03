@@ -264,6 +264,7 @@ public class LevelModel {
             guardOrientations.set(idx-1, orientation);
         }
         for (MapObject n : guardNodesLayer.getObjects()) {
+            //System.out.println("gidx " + (String) n.getProperties().get("GuardNum"));
             int gIdx = Integer.parseInt((String) n.getProperties().get("GuardNum"));
             int nIdx = Integer.parseInt((String) n.getProperties().get("NodeNum"));
             Array<Vector2> gN = guardNodes.get(gIdx - 1);
