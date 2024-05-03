@@ -48,12 +48,12 @@ public class MenuController extends WorldController{
     public boolean on_options = false;
     public boolean on_control = false;
     public boolean on_audio = false;
-    public MenuController(GameCanvas canvas, Texture background, InputController input){
+    public MenuController(GameCanvas canvas, Texture background, InputController input, SoundController s){
         this.pause_background = background;
         this.canvas = canvas;
         this.input = input;
 
-        sounds = new SoundController();
+        sounds = s;
         UIButton resume = new UIButton(new Texture("pause/resume_pause.png"),"resume",485,475,canvas);
         addButton(resume, ()-> {
             sounds.clickPlay();

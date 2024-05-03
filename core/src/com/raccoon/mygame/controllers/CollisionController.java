@@ -41,14 +41,14 @@ public class CollisionController {
      * @param width  Width of the screen
      * @param height Height of the screen
      */
-    public CollisionController(float width, float height) {
+    public CollisionController(float width, float height, SoundController s) {
         this.width = width;
         this.height = height;
         //this.player = p;
         //this.guards = guards;
         //collide=false;
         //inSight=false;
-        sounds = new SoundController();
+        sounds = s;
     }
 
     public void processBounds(Player p) {

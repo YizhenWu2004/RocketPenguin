@@ -115,23 +115,23 @@ public class GDXRoot extends Game implements ScreenListener {
         //180
         w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
         w.create();
-        input = new InputController();
+        input = new InputController(sounds);
 
         //I think I fucked something up
 
         splash = new SplashScreenController(canvas);
 
-        inv = new Inventory(new Texture("720/inventorynew.png"));
-        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w, star_req);
-        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv, w);
+        inv = new Inventory(new Texture("720/inventorynew.png"), sounds);
+        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w, star_req, sounds);
+        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv, w, sounds);
         loader = new LevelLoader(canvas);
         saveController = new SaveController(loader);
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
-        pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
+        pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input, sounds);
         result = new ResultController(canvas, new Texture("result/result_final.png"),input);
-        levelselect = new LevelSelectController(canvas, input, loader, saveController);
-        mainmenu = new MainMenuController(canvas,input, saveController, levelselect);
+        levelselect = new LevelSelectController(canvas, input, loader, saveController, sounds);
+        mainmenu = new MainMenuController(canvas,input, saveController, levelselect, sounds);
         mainmenu.on_main = true;
 
         /*
@@ -156,8 +156,8 @@ public class GDXRoot extends Game implements ScreenListener {
         w = new Worldtimer(5, canvas, new Texture("720/BaseTimer.png"));
         w.create();
 
-        inv = new Inventory(new Texture("720/inventorynew.png"));
-        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w,star_req);
+        inv = new Inventory(new Texture("720/inventorynew.png"), sounds);
+        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w,star_req, sounds);
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
         store.t=w;

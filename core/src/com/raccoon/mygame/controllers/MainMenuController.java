@@ -39,12 +39,12 @@ public class MainMenuController extends WorldController{
     private SaveController saveController;
     private LevelSelectController levelSelectController;
 
-    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect){
+    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s){
         this.canvas = canvas;
         this.input = input;
         this.saveController = saveController;
         this.levelSelectController = levelSelect;
-        sounds = new SoundController();
+        sounds = s;
 
         UIButton play = new UIButton(new Texture("menu/play.png"),"play",20,330, 0.5f,0.5f,canvas);
         addButton(play, ()-> {

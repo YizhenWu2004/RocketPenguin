@@ -18,7 +18,7 @@ public class Inventory {
     //boolean array to keep track of which indices in items are filled
     private boolean[] filled;
     private SoundController sounds;
-    public Inventory(Texture t) {
+    public Inventory(Texture t, SoundController s) {
         items = new Ingredient[5];
         filled = new boolean[5];
         selected = 0;
@@ -26,7 +26,7 @@ public class Inventory {
         for (int i = 0; i < filled.length; i++) {
             filled[i] = false;
         }
-        sounds = new SoundController();
+        sounds = s;
     }
     //used when the player selects another item in their inventory
 
