@@ -206,12 +206,13 @@ public class RestaurantController extends WorldController implements ContactList
     public World getWorld() { return world; }
 
     public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s) {
+        sounds = s;
+        collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
 
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
         this.star_req = star_req;
-
         decorationTextures.put("smallwall", smallwall);
         decorationTextures.put("notAsTallWall", notAsTallWall);
         decorationTextures.put("window", window);
@@ -353,9 +354,6 @@ public class RestaurantController extends WorldController implements ContactList
         vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, new FilmStrip(vent,1,1,1) ,world, canvas);
         localStartingPos = new Vector2(vent1.getX()-2.3f, vent1.getY());
         drawableObjects.add(vent1);
-
-
-        collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
         active = true;
         tick = 0;
         world.setContactListener(this);

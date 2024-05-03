@@ -156,6 +156,8 @@ public class StoreController extends WorldController implements ContactListener 
         this.canvas = canvas;
         this.background = texture;
         this.t = w;
+        sounds = s;
+        collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
 
         obstacles = new Array<>();
         ingredients = new Array<>();
@@ -183,8 +185,6 @@ public class StoreController extends WorldController implements ContactListener 
         //localStartingPos = new Vector2(3.8f, 1f);
 
         float nodOff = 1.5f;
-        collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
-
         active = false;
         world.setContactListener(this);
 
@@ -194,7 +194,6 @@ public class StoreController extends WorldController implements ContactListener 
         playerJustDied = false;
 
         animator = new AnimationController(input);
-        sounds = s;
         duringventing = false;
 
         addInvisibleWall(0,-1,80,1,1,1,0,0);

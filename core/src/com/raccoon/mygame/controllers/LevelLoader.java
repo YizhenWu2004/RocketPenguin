@@ -19,7 +19,8 @@ public class LevelLoader {
         loadLevels(canvas);
     }
 
-    public LevelLoader(GameCanvas canvas) {
+    public LevelLoader(GameCanvas canvas, SoundController s) {
+        sounds = s;
         levelsData = new String[]{"world_0-1", "world_0-2", "world_0-3", "world_1-1", "world_1-1", "world_1-1", "world_2-1"};
         loadLevels(canvas);
     }

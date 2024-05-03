@@ -77,8 +77,9 @@ public class GuardAIController extends ScreenAdapter {
                              float worldHeight, float patrolRange,
                              float speed, PatrolDirection patrolDirection,
                              boolean[][] collisionLayer, Vector2 guardDimension,
-                             Array<Vector2> nodes, GuardOrientation spawnOrien) {
+                             Array<Vector2> nodes, GuardOrientation spawnOrien, SoundController s) {
         this.speed = speed;
+        sounds = s;
         this.patrolDirection = patrolDirection;
         this.collisionLayer = collisionLayer;
         if (patrolDirection == PatrolDirection.LEFT_RIGHT) {
@@ -110,7 +111,7 @@ public class GuardAIController extends ScreenAdapter {
 
         orien = spawnOrien;
         defaultOrien = spawnOrien;
-        sounds = new SoundController();
+//        sounds = new SoundController();
     }
 
     public void resetRotateTimer(){
