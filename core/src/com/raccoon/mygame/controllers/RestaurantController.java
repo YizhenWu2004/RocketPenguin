@@ -223,7 +223,7 @@ public class RestaurantController extends WorldController implements ContactList
 
         //Setting the default filmstrip for the player
         playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
-        player = new Player(3f, 6.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world);
+        player = new Player(3f, 6.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world, sounds);
 
         drawableObjects.add(player);
 
@@ -238,21 +238,21 @@ public class RestaurantController extends WorldController implements ContactList
         stations = new Array<>();
 
         CookingStationObject temp = new CookingStationObject(27f, 15f, 6f, 3f, 1, 1, 0f, 0f,
-                new_pot_station, world, canvas, 1,1);
+                new_pot_station, world, canvas, 1,1, sounds);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
         temp.drawoy=-30;
 
         temp = new CookingStationObject(30.97f, 10f, 2f, 4f, 1.2f, 1.2f, 0f, 0f,
-                new_wok_station, world, canvas, 2,0);
+                new_wok_station, world, canvas, 2,0, sounds);
         temp.drawoy = 0;
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
 
         temp = new CookingStationObject(24.5f, 2f, 2.2f, 4f, 1.2f, 1f, 0f, 0f,
-               temp_cutting_station, world, canvas, 2,2);
+               temp_cutting_station, world, canvas, 2,2, sounds);
         temp.drawoy = -10;
         obstacles.add(temp);
         stations.add(temp);

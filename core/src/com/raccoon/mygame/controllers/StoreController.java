@@ -173,7 +173,7 @@ public class StoreController extends WorldController implements ContactListener 
 
         playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
 
-        player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world);
+        player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world, sounds);
         drawableObjects.add(player);
         this.input = input;
 
@@ -207,7 +207,7 @@ public class StoreController extends WorldController implements ContactListener 
         player.deactivatePhysics(world);
         vent1.deactivatePhysics(world);
         world = level.getStoreWorld();
-        player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world);
+        player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world, sounds);
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(vent,1,1,1),world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();

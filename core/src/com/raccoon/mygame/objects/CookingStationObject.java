@@ -3,6 +3,7 @@ package com.raccoon.mygame.objects;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.controllers.Worldtimer;
 import com.raccoon.mygame.models.CookingInventory;
 import com.raccoon.mygame.models.Inventory;
@@ -34,7 +35,7 @@ public class CookingStationObject extends NormalObstacle{
     public float drawoy=0;
     public float x;
     public float y;
-
+    public SoundController sounds;
     public Pot wok;
     public Pot pott;
     public Pot chop;
@@ -42,11 +43,12 @@ public class CookingStationObject extends NormalObstacle{
 //    private Expression spaceIcon;
 
     public CookingStationObject(float x, float y, float width, float height, float sx, float sy,
-            float ox, float oy, Texture texture,
-            World world, GameCanvas canvas, int id, int station_type) {
+                                float ox, float oy, Texture texture,
+                                World world, GameCanvas canvas, int id, int station_type, SoundController s) {
         super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas);
+        sounds = s;
         interacting = false;
-        pot = new CookingInventory(new Texture("720/potbar.png"));
+        pot = new CookingInventory(new Texture("720/potbar.png"), sounds);
         state = 0;
         this.canvas = canvas;
         this.t = texture;
