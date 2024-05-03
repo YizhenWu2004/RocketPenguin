@@ -384,8 +384,13 @@ public class RestaurantController extends WorldController implements ContactList
         for(Array<String> arr : customerData){
             System.out.println(arr);
             int time = Integer.parseInt(arr.get(0));
-            arr.removeIndex(0);
-            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr);
+            Array<String> copied = new Array<String>();
+            for(int i = 1; i<arr.size; i++){
+                copied.add(arr.get(i));
+            }
+
+            //arr.removeIndex(0);
+            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied);
             customersToAdd.add(customer1);
         }
 
