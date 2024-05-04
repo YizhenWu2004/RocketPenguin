@@ -194,6 +194,12 @@ public class GDXRoot extends Game implements ScreenListener {
         canvas.dispose();
         canvas = null;
 
+        if (directory != null) {
+            directory.unloadAssets();
+            directory.dispose();
+            directory = null;
+        }
+
         super.dispose();
     }
 
