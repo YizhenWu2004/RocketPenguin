@@ -27,7 +27,9 @@ public class Worldtimer extends ApplicationAdapter {
 
     private Texture timer_frame = new Texture("720/timer_frame.png");
     private Texture timer_background = new Texture("720/timer_background.png");
+    private Texture cooking_timer = new Texture("720/cooktimer.png");
     private Texture timer_green = new Texture("720/timer_green.png");
+    private Texture green2 = new Texture("720/green2.png");
     private Texture timer_red = new Texture("720/timer_red.png");
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("720/PatrickHandSC-Regular.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter p = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -117,11 +119,14 @@ public class Worldtimer extends ApplicationAdapter {
 
     public void drawNoFormat(float x, float y){
         int time= Math.max(countdownSeconds, 0);
-        gameCanvas.drawText(Integer.toString(time),
-                font, x, y, 2, 2, layout);
+        float ratio = (float)time/maxTime;
+        gameCanvas.draw(cooking_timer, Color.WHITE, 10, 10,
+                x- 30, y- 10, 0.0f, 1, 1);
+        gameCanvas.draw(green2, Color.WHITE, 10, 10,
+                x-35, y, 0.0f, ratio, 1);
+//        gameCanvas.drawText(Integer.toString(time),
+//                font, x, y, 2, 2, layout);
     }
-
-
 
     public int getTime(){
         return countdownSeconds;
