@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.controllers.*;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.GameObject;
@@ -45,6 +46,7 @@ import java.util.Arrays;
  * and you would draw it as a root class in an architecture specification.
  */
 public class GDXRoot extends Game implements ScreenListener {
+    private AssetDirectory directory;
     private GameCanvas canvas;
     private Worldtimer w;
     InputController input;
@@ -112,8 +114,12 @@ public class GDXRoot extends Game implements ScreenListener {
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
         sounds = new SoundController();
+        directory = new AssetDirectory( "assets.json" );
+        directory.loadAssets();
+        directory.finishLoading();
         //180
-        w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
+        //w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
+        w = new Worldtimer(180, canvas, directory.getEntry( "basetimer", Texture.class ));
         w.create();
         input = new InputController(sounds);
 

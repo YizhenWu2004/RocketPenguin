@@ -1,10 +1,4 @@
 {
-	"jsons" : {
-		"restaurant": "raccoonrestaurant.json",
-		"levels": [
-			"Rocko Store"
-		]
-	},
 	"textures" : {
 		"apple": "720/apple.png",
 		"banana": "720/banana.png",
@@ -267,7 +261,7 @@
 		"window": "720/window.png",
 
 
-		"wok": "720/wok.png",
+		"wok": "wok.png",
 		"wokcooking":  {
 			"file" : "720/pansizzle.png",
 			"sprites" : {
@@ -277,7 +271,7 @@
 				}
 			}
 		},
-		"wokcooked": "720/wok_cooked.png",
+		"wokcooked": "wok_cooked.png",
 
 		"pot": "720/pot.png",
 		"potbar": "720/potbar.png",
@@ -349,7 +343,7 @@
 		"m_titlebackunhovered": "menu/titlebackunhovered.png",
 		"m_unfilledstar": "menu/unfilledstar.png",
 		"m_uphovered": "menu/uphovered.png",
-		"m_upunhovered": "menu/upunhovered",
+		"m_upunhovered": "menu/upunhovered.png",
 		"m_week": "menu/week.png",
 		"m_yes": "menu/yes.png",
 		"m_yeshovered": "menu/yeshovered.png",
@@ -485,8 +479,6 @@
 		"pot_cooked": "pot_cooked.png",
 		"serve": "serve.png",
 		"cutting_station": "temp_cutting_station.png",
-		"trashInv": "trashInv.png",
-		"wok1": "wok.png",
-		"wok_cooked": "wok_cooked.png"
+		"trashInv": "trashInv.png"
 	}
 }
