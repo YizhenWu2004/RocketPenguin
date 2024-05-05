@@ -3,6 +3,7 @@ package com.raccoon.mygame.objects;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.controllers.Worldtimer;
 import com.raccoon.mygame.models.CookingInventory;
@@ -25,12 +26,14 @@ public class CookingStationObject extends NormalObstacle{
     public int interacting_with;
     public Worldtimer timer;
     public int maxTime;
-    private final FilmStrip wok_pic =new FilmStrip(new Texture("wok.png"),1,1,1);
-    private final FilmStrip pot_pic = new FilmStrip(new Texture("pot.png"),1,1,1);
-    private final FilmStrip chop_pic = new FilmStrip(new Texture("cutting_board.png"),1,1,1);
+    private Texture potbar;
+    private Texture serve;
+    private FilmStrip wok_pic;
+    private FilmStrip pot_pic;
+    private FilmStrip chop_pic;
 
-    private final FilmStrip wok_pic_cooked =new FilmStrip(new Texture("wok_cooked.png"),1,1,1);
-    private final FilmStrip pot_pic_cooked = new FilmStrip(new Texture("pot_cooked.png"),1,1,1);
+    private FilmStrip wok_pic_cooked;
+    private FilmStrip pot_pic_cooked;
     public float drawox=0;
     public float drawoy=0;
     public float x;
@@ -40,15 +43,26 @@ public class CookingStationObject extends NormalObstacle{
     public Pot pott;
     public Pot chop;
 
+    private void createTextures(AssetDirectory directory) {
+        potbar = directory.getEntry("potbar", Texture.class);
+        serve = directory.getEntry("serve", Texture.class);
+        wok_pic = directory.getEntry("wok.strip", FilmStrip.class);
+        pot_pic = directory.getEntry("pot.strip", FilmStrip.class);
+        chop_pic = directory.getEntry("cutting_board.strip", FilmStrip.class);
+        wok_pic_cooked = directory.getEntry("wok_cooked.strip", FilmStrip.class);
+        pot_pic_cooked = directory.getEntry("pot_cooked.strip", FilmStrip.class);
+    }
+
 //    private Expression spaceIcon;
 
     public CookingStationObject(float x, float y, float width, float height, float sx, float sy,
                                 float ox, float oy, Texture texture,
-                                World world, GameCanvas canvas, int id, int station_type, SoundController s) {
+                                World world, GameCanvas canvas, int id, int station_type, SoundController s, AssetDirectory directory) {
         super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas);
+        createTextures(directory);
         sounds = s;
         interacting = false;
-        pot = new CookingInventory(new Texture("720/potbar.png"), sounds);
+        pot = new CookingInventory(potbar, sounds);
         state = 0;
         this.canvas = canvas;
         this.t = texture;
@@ -71,7 +85,7 @@ public class CookingStationObject extends NormalObstacle{
 
         Ingredient[] dish = Arrays.copyOf(pot.inv, pot.inv.length);
         pot.clearAll();
-        return new Dish(dish, new Texture("serve.png"), -1,this.station_type);
+        return new Dish(dish, serve, -1,this.station_type);
     }
 
     @Override
