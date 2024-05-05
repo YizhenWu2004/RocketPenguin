@@ -31,7 +31,7 @@ public class SoundController {
     public SoundController(){
         pan = Gdx.audio.newSound(Gdx.files.internal("sounds/pan.ogg"));
         pot =  Gdx.audio.newSound(Gdx.files.internal("sounds/pot.ogg"));
-        cookingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cooking.ogg"));
+        cookingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cookingsound.ogg"));
         bellSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bell.ogg"));
         doorSound = Gdx.audio.newSound(Gdx.files.internal("sounds/door.ogg"));
         honkSound = Gdx.audio.newSound(Gdx.files.internal("sounds/honk.ogg"));
