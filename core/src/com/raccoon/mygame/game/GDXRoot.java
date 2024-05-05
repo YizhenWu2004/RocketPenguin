@@ -313,6 +313,9 @@ public class GDXRoot extends Game implements ScreenListener {
                 restart();
                 result.retry = false;
             } else if (result.next){
+                current = -1;
+                levelselect.setNext();
+                result.next = false;
 
             }else if (result.select){
                 current = -1;
