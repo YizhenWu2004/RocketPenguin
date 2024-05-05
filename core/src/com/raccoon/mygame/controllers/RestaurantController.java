@@ -1042,4 +1042,8 @@ public class RestaurantController extends WorldController implements ContactList
     public boolean ventingOut(){
         return ventOutTimer > 0;
     }
+
+    public Array<Customer> getTakenCustomers(){
+        return collision.getOrders();
+    }
 }
