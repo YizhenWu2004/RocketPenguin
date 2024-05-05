@@ -143,7 +143,7 @@ public class LevelSelectController extends WorldController{
 
         scrollAmount = scroller.getScroll();
         if (scrollAmount != 0) {
-            canvas.getCamera().position.y -= scrollAmount * 10;
+            canvas.getCamera().position.y -= scrollAmount * 100;
             shouldIScroll = false;
         }
 
@@ -421,6 +421,11 @@ public class LevelSelectController extends WorldController{
         //fake modal
         return new Modal("-1", 0,0,filledstar);
     }
+
+    public void setNext(){
+        findModalOfID(Integer.toString(getLevelToGoTo()+1)).setActive(true);
+    }
+
 
     private void generateLevelSelectors(int numberOfLevels){
         int yOffset = 140;
