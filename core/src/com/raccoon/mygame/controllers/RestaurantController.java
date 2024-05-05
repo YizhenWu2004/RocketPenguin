@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
@@ -74,6 +75,7 @@ public class RestaurantController extends WorldController implements ContactList
     //Do not worry about it, it can be literally any filmstrip.
     //It will get updated immediately by the animation controller.
     private FilmStrip goatIdle;
+    private FilmStrip vent;
     private int a = 0;
 
     //The animation controller in question.
@@ -84,52 +86,51 @@ public class RestaurantController extends WorldController implements ContactList
 
     public boolean ventOutFlag;
     private float ventOutTimer;
-    Texture light = new Texture("light.png");
+    Texture light;
 
-    private Texture singleInv = new Texture("trashInv.png");
-    private Texture table = new Texture("720/table.png");
-    private Texture wallbump =  new Texture("720/wallbump.png");
-    private Texture invisible = new Texture("invisible" + ".png");
-    private Texture rockoidle = new Texture("720/rockoidle.png");
-    private Texture wallrestaurant =  new Texture("720/wallrestaurant.png");
-    private Texture new_pot_station = new Texture("new_pot_station.png");
-    private Texture new_wok_station = new Texture("new_wok_station.png");
-    private Texture temp_cutting_station =  new Texture("temp_cutting_station.png");
-    private Texture new_counter = new Texture("new_counter.png");
-    private Texture goat = new Texture("720/goat.png");
-    private Texture BaseTimer = new Texture("720/BaseTimer.png");
-    private Texture smallwall = new Texture("720/smallwall.png");
-    private Texture notAsTallWall = new Texture("720/notAsTallWall.png");
-    private Texture window = new Texture("720/window.png");
-    private Texture plant = new Texture("720/plant.png");
-    private Texture sidelamp = new Texture("720/sidelamp.png");
-    private Texture decorativeshelf = new Texture("720/decorativeshelf.png");
-    private Texture trashcan = new Texture("720/trashcan.png");
-    private Texture vent = new Texture("720/vent.png");
-    private Texture zero = new Texture("score/zero.png");
-    private Texture one = new Texture("score/one.png");
-    private Texture two = new Texture("score/two.png");
-    private Texture three = new Texture("score/three.png");
-    private Texture star0 = new Texture("score/star0.png");
-    private Texture star1 = new Texture("score/star1.png");
-    private Texture star2 = new Texture("score/star2.png");
-    private Texture star3 = new Texture("score/star3.png");
-    private Texture star4 = new Texture("score/star4.png");
-    private Texture star5 = new Texture("score/star5.png");
-    private Texture star6 = new Texture("score/star6.png");
-    private Texture star7 = new Texture("score/star7.png");
-    private Texture star8 = new Texture("score/star8.png");
-    private Texture star9 = new Texture("score/star9.png");
-    private Texture score0 = new Texture("score/0.png");
-    private Texture score1 = new Texture("score/1.png");
-    private Texture score2 = new Texture("score/2.png");
-    private Texture score3 = new Texture("score/3.png");
-    private Texture score4 = new Texture("score/4.png");
-    private Texture score5 = new Texture("score/5.png");
-    private Texture score6 = new Texture("score/6.png");
-    private Texture score7 = new Texture("score/7.png");
-    private Texture score8 = new Texture("score/8.png");
-    private Texture score9 = new Texture("score/9.png");
+    private Texture singleInv;
+    private Texture table;
+    private Texture wallbump;
+    private Texture invisible;
+    private Texture rockoidle;
+    private Texture wallrestaurant;
+    private Texture new_pot_station;
+    private Texture new_wok_station;
+    private Texture temp_cutting_station;
+    private Texture new_counter;
+    private Texture goat;
+    private Texture BaseTimer;
+    private Texture smallwall;
+    private Texture notAsTallWall;
+    private Texture window;
+    private Texture plant;
+    private Texture sidelamp;
+    private Texture decorativeshelf;
+    private Texture trashcan;
+    private Texture zero;
+    private Texture one;
+    private Texture two;
+    private Texture three;
+    private Texture star0;
+    private Texture star1;
+    private Texture star2;
+    private Texture star3;
+    private Texture star4;
+    private Texture star5;
+    private Texture star6;
+    private Texture star7;
+    private Texture star8;
+    private Texture star9;
+    private Texture score0;
+    private Texture score1;
+    private Texture score2;
+    private Texture score3;
+    private Texture score4;
+    private Texture score5;
+    private Texture score6;
+    private Texture score7;
+    private Texture score8;
+    private Texture score9;
 
     private HashMap<String, Texture> decorationTextures = new HashMap();
 
@@ -137,6 +138,58 @@ public class RestaurantController extends WorldController implements ContactList
     private HashMap<String, Texture> obstacleTextures = new HashMap<>();
 
     private int[] star_req;
+
+
+    private void createTextures(AssetDirectory directory) {
+        light = directory.getEntry("light", Texture.class);
+        singleInv = directory.getEntry("trashInv", Texture.class);
+        table = directory.getEntry("table", Texture.class);
+        wallbump =  directory.getEntry("wallbump", Texture.class);
+        invisible = directory.getEntry("invisible", Texture.class);
+        rockoidle = directory.getEntry("rockoidle", Texture.class);
+        wallrestaurant =  directory.getEntry("wallrestaurant", Texture.class);
+        new_pot_station = directory.getEntry("new_pot_station", Texture.class);
+        new_wok_station = directory.getEntry("new_wok_station", Texture.class);
+        temp_cutting_station =  directory.getEntry("cutting_station", Texture.class);
+        new_counter = directory.getEntry("new_counter", Texture.class);
+        goat = directory.getEntry("goat", Texture.class);
+        BaseTimer = directory.getEntry("basetimer", Texture.class);
+        smallwall = directory.getEntry("smallwall", Texture.class);
+        notAsTallWall = directory.getEntry("notastallwall", Texture.class);
+        window = directory.getEntry("window", Texture.class);
+        plant = directory.getEntry("plant", Texture.class);
+        sidelamp = directory.getEntry("sidelamp", Texture.class);
+        decorativeshelf = directory.getEntry("decorativeshelf", Texture.class);
+        trashcan = directory.getEntry("trashcan", Texture.class);
+        vent = directory.getEntry("vent.strip", FilmStrip.class);
+        zero = directory.getEntry("s_zero", Texture.class);
+        one = directory.getEntry("s_one", Texture.class);
+        two = directory.getEntry("s_two", Texture.class);
+        three = directory.getEntry("s_three", Texture.class);
+        star0 = directory.getEntry("s_star0", Texture.class);
+        star1 = directory.getEntry("s_star1", Texture.class);
+        star2 = directory.getEntry("s_star2", Texture.class);
+        star3 = directory.getEntry("s_star3", Texture.class);
+        star4 = directory.getEntry("s_star4", Texture.class);
+        star5 = directory.getEntry("s_star5", Texture.class);
+        star6 = directory.getEntry("s_star6", Texture.class);
+        star7 = directory.getEntry("s_star7", Texture.class);
+        star8 = directory.getEntry("s_star8", Texture.class);
+        star9 = directory.getEntry("s_star9", Texture.class);
+        score0 = directory.getEntry("s_0", Texture.class);
+        score1 = directory.getEntry("s_1", Texture.class);
+        score2 = directory.getEntry("s_2", Texture.class);
+        score3 = directory.getEntry("s_3", Texture.class);
+        score4 = directory.getEntry("s_4", Texture.class);
+        score5 = directory.getEntry("s_5", Texture.class);
+        score6 = directory.getEntry("s_6", Texture.class);
+        score7 = directory.getEntry("s_7", Texture.class);
+        score8 = directory.getEntry("s_8", Texture.class);
+        score9 = directory.getEntry("s_9", Texture.class);
+
+        playerIdle = directory.getEntry("rockoidle.strip", FilmStrip.class);
+        goatIdle = directory.getEntry("goatwalk.strip", FilmStrip.class);
+    }
 
     private void addTable(float x, float y, boolean flip) {
         TableObstacle t = new TableObstacle(x, y, 2.5f, 2.5f, (flip ? -1 : 1), 1, -0f, 0f,
@@ -207,7 +260,8 @@ public class RestaurantController extends WorldController implements ContactList
 
     public World getWorld() { return world; }
 
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s) {
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s, AssetDirectory directory) {
+        createTextures(directory);
         sounds = s;
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
 
@@ -226,7 +280,6 @@ public class RestaurantController extends WorldController implements ContactList
         decorationTextures.put("trashcan", trashcan);
 
         //Setting the default filmstrip for the player
-        playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
         player = new Player(3f, 6.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world, sounds);
 
         drawableObjects.add(player);
@@ -242,21 +295,21 @@ public class RestaurantController extends WorldController implements ContactList
         stations = new Array<>();
 
         CookingStationObject temp = new CookingStationObject(27f, 15f, 6f, 3f, 1, 1, 0f, 0f,
-                new_pot_station, world, canvas, 1,1, sounds);
+                new_pot_station, world, canvas, 1,1, sounds, directory);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
         temp.drawoy=-30;
 
         temp = new CookingStationObject(30.97f, 10f, 2f, 4f, 1.2f, 1.2f, 0f, 0f,
-                new_wok_station, world, canvas, 2,0, sounds);
+                new_wok_station, world, canvas, 2,0, sounds, directory);
         temp.drawoy = 0;
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
 
         temp = new CookingStationObject(24.5f, 2f, 2.2f, 4f, 1.2f, 1f, 0f, 0f,
-               temp_cutting_station, world, canvas, 2,2, sounds);
+               temp_cutting_station, world, canvas, 2,2, sounds, directory);
         temp.drawoy = -10;
         obstacles.add(temp);
         stations.add(temp);
@@ -316,7 +369,7 @@ public class RestaurantController extends WorldController implements ContactList
         //I think I just use the same default for all customers.
         //Again it's fine because they ger set immediately in the animation controller
         //We just wrote shitty code that requires textures off-rip.
-        goatIdle = new FilmStrip(goat, 1,4,4);
+        //goatIdle = new FilmStrip(goat, 1,4,4);
 
 
         //todo start hard code customers
@@ -355,7 +408,7 @@ public class RestaurantController extends WorldController implements ContactList
         if (!player.isIgnoreInput()) {
             this.input = input;
         }
-        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, new FilmStrip(vent,1,1,1) ,world, canvas);
+        vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, vent ,world, canvas);
         localStartingPos = new Vector2(vent1.getX()-2.3f, vent1.getY());
         drawableObjects.add(vent1);
         active = true;

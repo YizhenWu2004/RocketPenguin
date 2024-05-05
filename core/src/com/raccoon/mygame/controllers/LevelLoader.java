@@ -16,13 +16,13 @@ public class LevelLoader {
 
     public LevelLoader(AssetDirectory directory, GameCanvas canvas) {
         gatherAssets(directory);
-        loadLevels(canvas);
+        loadLevels(canvas, directory);
     }
 
-    public LevelLoader(GameCanvas canvas, SoundController s) {
+    public LevelLoader(GameCanvas canvas, SoundController s, AssetDirectory d) {
         sounds = s;
         levelsData = new String[]{"world_0-1", "world_0-2", "world_0-3", "world_1-1", "world_1-1", "world_1-1", "world_2-1"};
-        loadLevels(canvas);
+        loadLevels(canvas, d);
     }
 
     private void gatherAssets(AssetDirectory directory) {
@@ -30,9 +30,9 @@ public class LevelLoader {
         levelsData = directory.getEntry("levels", JsonValue.class).get("levels").asStringArray();
     }
 
-    private void loadLevels(GameCanvas canvas) {
+    private void loadLevels(GameCanvas canvas, AssetDirectory d) {
         for (int i = 0; i < levelsData.length; i++) {
-            levels.add(new LevelModel(levelsData[i], canvas, sounds));
+            levels.add(new LevelModel(levelsData[i], canvas, sounds, d));
         }
     }
 

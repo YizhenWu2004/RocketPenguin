@@ -114,12 +114,12 @@ public class GDXRoot extends Game implements ScreenListener {
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
         sounds = new SoundController();
-//        directory = new AssetDirectory( "assets.json" );
-//        directory.loadAssets();
-//        directory.finishLoading();
+        directory = new AssetDirectory( "assets.json" );
+        directory.loadAssets();
+        directory.finishLoading();
         //180
-        w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
-        //w = new Worldtimer(180, canvas, directory.getEntry( "basetimer", Texture.class ));
+        //w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
+        w = new Worldtimer(180, canvas, directory.getEntry( "basetimer", Texture.class ));
         w.create();
         input = new InputController(sounds);
 
@@ -127,15 +127,15 @@ public class GDXRoot extends Game implements ScreenListener {
 
         splash = new SplashScreenController(canvas);
 
-        inv = new Inventory(new Texture("720/inventorynew.png"), sounds);
-        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w, star_req, sounds);
-        store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv, w, sounds);
-        loader = new LevelLoader(canvas, sounds);
+        inv = new Inventory(directory.getEntry("inventory", Texture.class), sounds);
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory);
+        store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, sounds);
+        loader = new LevelLoader(canvas, sounds, directory);
         saveController = new SaveController(loader);
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
-        pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input, sounds);
-        result = new ResultController(canvas, new Texture("result/result_final.png"),input);
+        pause = new MenuController(canvas, directory.getEntry("p_paused", Texture.class),input, sounds);
+        result = new ResultController(canvas, directory.getEntry("r_result", Texture.class),input);
         levelselect = new LevelSelectController(canvas, input, loader, saveController, sounds);
         mainmenu = new MainMenuController(canvas,input, saveController, levelselect, sounds);
         mainmenu.on_main = true;
@@ -159,11 +159,11 @@ public class GDXRoot extends Game implements ScreenListener {
 //        sounds.storeStop();
 //        sounds.cafeStop();
         store.setA(1);
-        w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
+        w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class));
         w.create();
 
-        inv = new Inventory(new Texture("720/inventorynew.png"), sounds);
-        restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w,star_req, sounds);
+        inv = new Inventory(directory.getEntry("inventory", Texture.class), sounds);
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory);
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
         store.t=w;

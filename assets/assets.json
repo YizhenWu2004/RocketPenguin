@@ -27,7 +27,15 @@
 		"uitomato": "720/uitomato.png",
 
 		"rockodishidle": "720/rockodishidle.png",
-		"rockoidle": "720/rockoidle.png",
+		"rockoidle": {
+			"file" : "720/rockoidle.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"rockosneakidle": "720/rockosneakidle.png",
 		"rockochop":  {
 			"file" : "720/rockochop.png",
@@ -120,7 +128,15 @@
 			}
 		},
 
-		"gooseidle": "720/gooseidle.png",
+		"gooseidle": {
+			"file" : "720/gooseidle.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"gooseidledown": "720/gooseIdleDown.png",
 		"gooseidleup": "720/gooseIdleUp.png",
 		"goosesleepidle": "720/goosesleepidle.png",
@@ -232,7 +248,15 @@
 		},
 
 		"shadow": "720/shadow.png",
-		"vent": "720/vent.png",
+		"vent": {
+			"file" : "720/vent.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 
 		"floorstore": "720/grocerybg.png",
 		"boxlarge": "720/boxlarge.png",
@@ -261,7 +285,15 @@
 		"window": "720/window.png",
 
 
-		"wok": "wok.png",
+		"wok":  {
+			"file" : "wok.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"wokcooking":  {
 			"file" : "720/pansizzle.png",
 			"sprites" : {
@@ -271,9 +303,25 @@
 				}
 			}
 		},
-		"wokcooked": "wok_cooked.png",
+		"wok_cooked":  {
+			"file" : "wok_cooked.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 
-		"pot": "720/pot.png",
+		"pot":  {
+			"file" : "pot.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"potbar": "720/potbar.png",
 		"potsizzle":  {
 			"file" : "720/potsizzle.png",
@@ -461,7 +509,15 @@
 		"s_three": "score/three.png",
 		"s_zero": "score/zero.png",
 
-		"cuttingboard": "cutting_board.png",
+		"cutting_board":  {
+			"file" : "cutting_board.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"goodHollow": "goodHollow.png",
 		"guard": "guard.png",
 		"invisible": "invisible.png",
@@ -475,8 +531,15 @@
 		"pmGrey": "pmGrey.png",
 		"pmRed": "pmRed.png",
 		"pmYellow": "pmYellow.png",
-		"pot1": "pot.png",
-		"pot_cooked": "pot_cooked.png",
+		"pot_cooked":  {
+			"file" : "pot_cooked.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"serve": "serve.png",
 		"cutting_station": "temp_cutting_station.png",
 		"trashInv": "trashInv.png"
