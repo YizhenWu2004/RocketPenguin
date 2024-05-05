@@ -26,6 +26,7 @@ public class SoundController {
     private Sound pot;
     private Sound pan;
     private float musicVol;
+    private Music menu;
     private float sfxvol;
     public SoundController(){
         pan = Gdx.audio.newSound(Gdx.files.internal("sounds/pan.ogg"));
@@ -45,6 +46,7 @@ public class SoundController {
         ferretSound = Gdx.audio.newSound(Gdx.files.internal("sounds/ferret.ogg"));
         bearSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bear.ogg"));
         otterSound = Gdx.audio.newSound(Gdx.files.internal("sounds/otter.ogg"));
+        menu = Gdx.audio.newMusic(Gdx.files.internal("sounds/racoon_menu.mp3"));
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
         musicVol = 0.8f;
         sfxvol = 1.4f;
@@ -70,6 +72,14 @@ public class SoundController {
     }
     public void chopPlay(){
         chopSound.play(sfxvol);
+    }
+    public void menuPlay(){
+        menu.setVolume(musicVol);
+        menu.play();
+        menu.setLooping(true);
+    }
+    public void menuStop(){
+        menu.stop();
     }
     public void panStopp(){
         pan.stop();
@@ -117,8 +127,11 @@ public class SoundController {
     }
     public void decmusic(){
         if(musicVol > 0.0f){
-            System.out.println("decreasing music");
-            musicVol = musicVol - 0.1f;
+            if(musicVol - 0.1f > 0) {
+                musicVol = musicVol - 0.1f;
+            } else {
+                musicVol = 0.0f;
+            }
         } else {
             musicVol = 0.0f;
         }

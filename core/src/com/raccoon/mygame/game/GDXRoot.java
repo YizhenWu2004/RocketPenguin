@@ -429,6 +429,7 @@ public class GDXRoot extends Game implements ScreenListener {
         }
         if(current == -2){
             mainmenu.draw();
+            sounds.menuPlay();
             return;
         }
         else if(current == -1){
@@ -436,6 +437,7 @@ public class GDXRoot extends Game implements ScreenListener {
             return;
         }
         else if (current == 0) {
+            sounds.menuStop();
             restaurant.draw();
         } else if (current == 1) {
             store.draw();
