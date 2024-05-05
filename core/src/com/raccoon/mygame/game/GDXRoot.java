@@ -129,10 +129,10 @@ public class GDXRoot extends Game implements ScreenListener {
         splash = new SplashScreenController(canvas);
 
 
-        inv = new Inventory(directory.getEntry("inventory", Texture.class), sounds);
+        inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
         restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory);
         notepadOrders = new Array<>();
-        store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, notepadOrders, sounds);
+        store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, notepadOrders, sounds, directory);
         loader = new LevelLoader(canvas, sounds, directory);
 
         saveController = new SaveController(loader);
@@ -169,7 +169,7 @@ public class GDXRoot extends Game implements ScreenListener {
         w.create();
 
 
-        inv = new Inventory(directory.getEntry("inventory", Texture.class), sounds);
+        inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
         restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory);
         notepadOrders = new Array<>();
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);

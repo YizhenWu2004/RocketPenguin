@@ -15,14 +15,17 @@ public class Inventory {
     //pointer representing the current slot in the inventory thats selected
     private int selected;
     private Texture itexture;
+    //selection texture
+    private Texture h;
     //boolean array to keep track of which indices in items are filled
     private boolean[] filled;
     private SoundController sounds;
-    public Inventory(Texture t, SoundController s) {
+    public Inventory(Texture t, Texture h, SoundController s) {
         items = new Ingredient[5];
         filled = new boolean[5];
         selected = 0;
         itexture = t;
+        this.h = h;
         for (int i = 0; i < filled.length; i++) {
             filled[i] = false;
         }
@@ -65,7 +68,6 @@ public class Inventory {
 //        System.out.println(midpoint);
         canvas.draw(itexture, Color.WHITE, 10, 10,
                 midpoint, 0, 0.0f, 1, 1);
-        Texture h = new Texture("720/inventoryselect.png");
         //selected * (94 - selected) + 480
         canvas.draw(h, Color.WHITE, 0, 5, selected * (itexture.getWidth()/5.6f) + midpoint + 8, 0, 0.0f, 1, 1);
         for (int i = 0; i < items.length; i++) {

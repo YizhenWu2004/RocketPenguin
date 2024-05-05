@@ -415,7 +415,7 @@ public class RestaurantController extends WorldController implements ContactList
         tick = 0;
         world.setContactListener(this);
 
-        animator = new AnimationController(input);
+        animator = new AnimationController(input, directory);
 
         //dont touch this its my debug dummy obstacle
 
