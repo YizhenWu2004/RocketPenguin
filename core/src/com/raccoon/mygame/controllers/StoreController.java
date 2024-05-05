@@ -161,7 +161,7 @@ public class StoreController extends WorldController implements ContactListener 
         obstacles.add(t);
     }
 
-    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, Array<Customer> notepadOrders) {
+    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, Array<Customer> notepadOrders, SoundController s) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
