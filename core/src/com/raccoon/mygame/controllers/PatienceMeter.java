@@ -119,10 +119,13 @@ public class PatienceMeter extends ApplicationAdapter{
 
     public float multiplier(){
         if (countdownSeconds >= max_countdown/2) {
+            //happy
             return 1;
         } else if (countdownSeconds >= max_countdown*0.2){
+            //neutral
             return 0.7f;
         } else {
+            //sad
             return 0.3f;
         }
     }
