@@ -114,12 +114,12 @@ public class GDXRoot extends Game implements ScreenListener {
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
         sounds = new SoundController();
-        directory = new AssetDirectory( "assets.json" );
-        directory.loadAssets();
-        directory.finishLoading();
+//        directory = new AssetDirectory( "assets.json" );
+//        directory.loadAssets();
+//        directory.finishLoading();
         //180
-        //w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
-        w = new Worldtimer(180, canvas, directory.getEntry( "basetimer", Texture.class ));
+        w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
+        //w = new Worldtimer(180, canvas, directory.getEntry( "basetimer", Texture.class ));
         w.create();
         input = new InputController(sounds);
 
