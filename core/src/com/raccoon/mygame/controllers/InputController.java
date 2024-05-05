@@ -93,7 +93,7 @@ public class InputController {
     }
 
 
-    public InputController() {
+    public InputController(SoundController s) {
         y_movement = 0;
         x_movement = 0;
         scroll = 0;
@@ -103,7 +103,7 @@ public class InputController {
         resume_clicked = false;
         shiftHeld = false;
         oneThroughFivePressed = false;
-        sounds = new SoundController();
+        sounds = s;
     }
 
     public void readInput() {

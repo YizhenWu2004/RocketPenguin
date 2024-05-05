@@ -14,12 +14,12 @@ public class CookingInventory {
     public int size;
     private SoundController sounds;
 
-    public CookingInventory(Texture texture){
+    public CookingInventory(Texture texture, SoundController s){
         this.texture = texture;
         inv = new Ingredient[3];
         filled = new boolean[3];
         size = 0;
-        sounds = new SoundController();
+        sounds = s;
     }
 
     public void clearAll(){

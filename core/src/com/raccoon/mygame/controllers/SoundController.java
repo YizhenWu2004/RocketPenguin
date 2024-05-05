@@ -23,9 +23,13 @@ public class SoundController {
     private Sound goatSound;
     private Music cafeSong;
 
+    private Sound pot;
+    private Sound pan;
     private float musicVol;
     private float sfxvol;
     public SoundController(){
+        pan = Gdx.audio.newSound(Gdx.files.internal("sounds/pan.ogg"));
+        pot =  Gdx.audio.newSound(Gdx.files.internal("sounds/pot.ogg"));
         cookingSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cooking.ogg"));
         bellSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bell.ogg"));
         doorSound = Gdx.audio.newSound(Gdx.files.internal("sounds/door.ogg"));
@@ -36,7 +40,7 @@ public class SoundController {
         switchSound = Gdx.audio.newSound(Gdx.files.internal("sounds/inventory.ogg"));
         storeSound = Gdx.audio.newMusic(Gdx.files.internal("sounds/storeAmbience.ogg"));
         orderSound = Gdx.audio.newSound(Gdx.files.internal("sounds/order.ogg"));
-        chopSound = Gdx.audio.newSound(Gdx.files.internal("sounds/chop.ogg"));
+        chopSound = Gdx.audio.newSound(Gdx.files.internal("sounds/newchop.ogg"));
         catSound = Gdx.audio.newSound(Gdx.files.internal("sounds/cat.ogg"));
         ferretSound = Gdx.audio.newSound(Gdx.files.internal("sounds/ferret.ogg"));
         bearSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bear.ogg"));
@@ -67,11 +71,23 @@ public class SoundController {
     public void chopPlay(){
         chopSound.play(sfxvol);
     }
+    public void panStopp(){
+        pan.stop();
+    }
+    public void potStop(){
+        pot.stop();
+    }
     public void orderPlay(){
         orderSound.play(sfxvol);
     }
     public void bellPlay(){
         bellSound.play(sfxvol);
+    }
+    public void panPlay(){
+        pan.play(sfxvol);
+    }
+    public void potPlay(){
+        pot.play(sfxvol);
     }
     public void doorPlay(){
         doorSound.play(sfxvol);

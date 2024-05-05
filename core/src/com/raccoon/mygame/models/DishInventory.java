@@ -10,11 +10,12 @@ public class DishInventory {
     private Texture texture;
     private boolean[] filled;
     private SoundController sounds;
-    public DishInventory(Texture texture){
+    public DishInventory(Texture texture, SoundController s){
+        sounds = s;
         inv = new Dish[2];
         filled = new boolean[2];
         this.texture = texture;
-        sounds = new SoundController();
+//        sounds = new SoundController();
     }
 
     public boolean leftFilled(){

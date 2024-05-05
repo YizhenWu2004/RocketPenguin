@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.controllers.*;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.GameObject;
@@ -45,6 +46,7 @@ import java.util.Arrays;
  * and you would draw it as a root class in an architecture specification.
  */
 public class GDXRoot extends Game implements ScreenListener {
+    private AssetDirectory directory;
     private GameCanvas canvas;
     private Worldtimer w;
     InputController input;
@@ -113,10 +115,14 @@ public class GDXRoot extends Game implements ScreenListener {
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
         sounds = new SoundController();
+        directory = new AssetDirectory( "assets.json" );
+        directory.loadAssets();
+        directory.finishLoading();
         //180
-        w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
+        //w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
+        w = new Worldtimer(180, canvas, directory.getEntry( "basetimer", Texture.class ));
         w.create();
-        input = new InputController();
+        input = new InputController(sounds);
 
         //I think I fucked something up
 
@@ -129,15 +135,16 @@ public class GDXRoot extends Game implements ScreenListener {
         store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv, w, notepadOrders);
 
         loader = new LevelLoader(canvas);
+
         saveController = new SaveController(loader);
 
 
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
-        pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
+        pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input, sounds);
         result = new ResultController(canvas, new Texture("result/result_final.png"),input);
-        levelselect = new LevelSelectController(canvas, input, loader, saveController);
-        mainmenu = new MainMenuController(canvas,input, saveController, levelselect);
+        levelselect = new LevelSelectController(canvas, input, loader, saveController, sounds);
+        mainmenu = new MainMenuController(canvas,input, saveController, levelselect, sounds);
         mainmenu.on_main = true;
 
         /*
@@ -165,6 +172,7 @@ public class GDXRoot extends Game implements ScreenListener {
         inv = new Inventory(new Texture("720/inventorynew.png"));
         restaurant = new RestaurantController(canvas, new Texture("720/floorrestaurant.png"), input, inv,w,star_req);
         notepadOrders = new Array<>();
+
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
         store.t=w;
@@ -194,6 +202,12 @@ public class GDXRoot extends Game implements ScreenListener {
 
         canvas.dispose();
         canvas = null;
+
+        if (directory != null) {
+            directory.unloadAssets();
+            directory.dispose();
+            directory = null;
+        }
 
         super.dispose();
     }
@@ -313,7 +327,7 @@ public class GDXRoot extends Game implements ScreenListener {
                 current = -1;
                 //this just resets the scores according to whats new
                 //System.out.println("pressed,current is" + current);
-                levelselect = new LevelSelectController(canvas,input,loader,saveController);
+                //levelselect = new LevelSelectController(canvas,input,loader,saveController);
                 result.select = false;
             }
             return;

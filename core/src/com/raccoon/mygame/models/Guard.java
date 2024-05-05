@@ -1,5 +1,6 @@
 package com.raccoon.mygame.models;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.controllers.GuardAIController;
+import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.enums.enums;
 import com.raccoon.mygame.objects.Expression;
 import com.raccoon.mygame.objects.QuestionExpression;
@@ -42,6 +44,7 @@ public class Guard extends WheelObstacle {
     private Expression exclam;
 
     private Expression zzz;
+    private SoundController sounds;
 
     private QuestionExpression question;
 
@@ -50,8 +53,9 @@ public class Guard extends WheelObstacle {
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
                  PatrolDirection patrolDirection, boolean[][] collisionLayer,
-                 Array<Vector2> nodes, GuardAIController.GuardOrientation spawnOrien) {
+                 Array<Vector2> nodes, GuardAIController.GuardOrientation spawnOrien, SoundController s) {
         super(width/3);
+        sounds = s;
 //        patrolTexture = texture;
 //        setTexture(new TextureRegion(texture));
         this.sprite = defaultAnimation;
@@ -73,14 +77,11 @@ public class Guard extends WheelObstacle {
         this.aiController =
                 new GuardAIController(this.getX(), this.getY(), 32, 18,
                         150, 2, patrolDirection, collisionLayer, new Vector2(width,height)
-                ,nodes, spawnOrien);
+                ,nodes, spawnOrien, sounds);
 
         exclam = new Expression("exclamation",x,y);
         zzz = new Expression("zzz",x,y);
         question = new QuestionExpression("question",x,y,aiController.getSusMeter(),30);
-
-
-
     }
 
     public float getTextureWidth() {

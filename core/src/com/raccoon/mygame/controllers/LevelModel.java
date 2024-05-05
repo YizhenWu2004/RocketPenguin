@@ -43,6 +43,7 @@ public class LevelModel {
     private MapLayer ingredientsLayer;
     private MapLayer guardsLayer;
     private MapLayer guardNodesLayer;
+    private SoundController sounds;
     private MapLayer customersLayer;
     private FilmStrip guardIdle;
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
@@ -90,10 +91,11 @@ public class LevelModel {
 //        System.out.println("Rotation: " + rotate + ", Sleep: " + sleep);
         guards.add(new Guard(x, y, 1.67f, 0.83f, guardIdle, storeWorld, canvas,
                 direction,collisionLayer, (sleep || (rotate != 0) ? new Array<>() : nodes),
-                GuardAIController.GuardOrientation.LEFT));
+                GuardAIController.GuardOrientation.LEFT, sounds));
     }
 
-    public LevelModel(String tmxFile, GameCanvas canvas) {
+    public LevelModel(String tmxFile, GameCanvas canvas, SoundController s) {
+        sounds = s;
         storeWorld = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.guardSpeed = guardSpeed;
@@ -264,6 +266,7 @@ public class LevelModel {
             guardOrientations.set(idx-1, orientation);
         }
         for (MapObject n : guardNodesLayer.getObjects()) {
+            //System.out.println("gidx " + (String) n.getProperties().get("GuardNum"));
             int gIdx = Integer.parseInt((String) n.getProperties().get("GuardNum"));
             int nIdx = Integer.parseInt((String) n.getProperties().get("NodeNum"));
             Array<Vector2> gN = guardNodes.get(gIdx - 1);

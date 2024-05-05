@@ -17,6 +17,7 @@ import java.util.Objects;
 public class AnimationController {
     /** How fast we change frames (one frame per 4 calls to update) */
     private static final float ANIMATION_SPEED = 0.10f;
+    // sus
 
     //If you want to add a new animation you store it in here.
     private final FilmStrip playerWalk;

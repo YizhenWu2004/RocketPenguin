@@ -32,6 +32,8 @@ import java.util.HashMap;
 
 public class RestaurantController extends WorldController implements ContactListener {
     private World world;
+    private boolean potplay;
+    private boolean panplay;
     private GameCanvas canvas;
     private Texture background;
     private Array<Customer> customers;
@@ -205,13 +207,16 @@ public class RestaurantController extends WorldController implements ContactList
 
     public World getWorld() { return world; }
 
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req) {
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s) {
+        sounds = s;
+        collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
 
+        panplay = false;
+        potplay = false;
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
         this.star_req = star_req;
-
         decorationTextures.put("smallwall", smallwall);
         decorationTextures.put("notAsTallWall", notAsTallWall);
         decorationTextures.put("window", window);
@@ -222,7 +227,7 @@ public class RestaurantController extends WorldController implements ContactList
 
         //Setting the default filmstrip for the player
         playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
-        player = new Player(3f, 6.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world);
+        player = new Player(3f, 6.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world, sounds);
 
         drawableObjects.add(player);
 
@@ -237,21 +242,21 @@ public class RestaurantController extends WorldController implements ContactList
         stations = new Array<>();
 
         CookingStationObject temp = new CookingStationObject(27f, 15f, 6f, 3f, 1, 1, 0f, 0f,
-                new_pot_station, world, canvas, 1,1);
+                new_pot_station, world, canvas, 1,1, sounds);
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
         temp.drawoy=-30;
 
         temp = new CookingStationObject(30.97f, 10f, 2f, 4f, 1.2f, 1.2f, 0f, 0f,
-                new_wok_station, world, canvas, 2,0);
+                new_wok_station, world, canvas, 2,0, sounds);
         temp.drawoy = 0;
         obstacles.add(temp);
         stations.add(temp);
         drawableObjects.add(temp);
 
         temp = new CookingStationObject(24.5f, 2f, 2.2f, 4f, 1.2f, 1f, 0f, 0f,
-               temp_cutting_station, world, canvas, 2,2);
+               temp_cutting_station, world, canvas, 2,2, sounds);
         temp.drawoy = -10;
         obstacles.add(temp);
         stations.add(temp);
@@ -353,9 +358,6 @@ public class RestaurantController extends WorldController implements ContactList
         vent1 = new VentObstacle(30.5f,1f, 1.5f,1.5f, 1, 1, 27, 27f, new FilmStrip(vent,1,1,1) ,world, canvas);
         localStartingPos = new Vector2(vent1.getX()-2.3f, vent1.getY());
         drawableObjects.add(vent1);
-
-
-        collision = new CollisionController(canvas.getWidth(), canvas.getHeight());
         active = true;
         tick = 0;
         world.setContactListener(this);
@@ -370,7 +372,7 @@ public class RestaurantController extends WorldController implements ContactList
 //        drawableObjects.add(ob);
 
 
-        sounds = new SoundController();
+        sounds =s;
         happy=0;
         neutral=0;
         angry=0;
@@ -384,8 +386,13 @@ public class RestaurantController extends WorldController implements ContactList
         for(Array<String> arr : customerData){
             System.out.println(arr);
             int time = Integer.parseInt(arr.get(0));
-            arr.removeIndex(0);
-            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr);
+            Array<String> copied = new Array<String>();
+            for(int i = 1; i<arr.size; i++){
+                copied.add(arr.get(i));
+            }
+
+            //arr.removeIndex(0);
+            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied);
             customersToAdd.add(customer1);
         }
 
@@ -557,10 +564,14 @@ public class RestaurantController extends WorldController implements ContactList
                     c.state = 1;
                     int time;
                     if(c.station_type == 0){
+                        panplay = true;
                         sounds.cookplay();
+                        sounds.panPlay();
                         time = 15;
                     } else if(c.station_type == 1){
+                        potplay = true;
                         sounds.cookplay();
+                        sounds.potPlay();
                         time =30;
                     }else {
                         sounds.chopPlay();
@@ -585,6 +596,14 @@ public class RestaurantController extends WorldController implements ContactList
                 //System.out.println(c.timer.getTime());
                 if (c.timer.getTime() <= 0){
                     sounds.bellPlay();
+                    if(c.getStationType() == 1){
+                        sounds.potStop();
+                        potplay = false;
+                    } else if (c.getStationType() == 0){
+                        sounds.panStopp();
+                        panplay = false;
+                    }
+//                    sounds.potStop();
                     c.state = 2;
                 }
             } else if (c.state == 2){
@@ -640,6 +659,12 @@ public class RestaurantController extends WorldController implements ContactList
         if(ventOutFlag == true){
             ventOutTimer = 1.1666f;
             ventOutFlag = false;
+            if(panplay){
+                sounds.panPlay();
+            }
+            if(potplay){
+                sounds.potPlay();
+            }
         }
 
         ventOutTimer = Math.max(ventOutTimer-delta,0);
@@ -733,6 +758,7 @@ public class RestaurantController extends WorldController implements ContactList
         drawOutline();
         drawReq();
         drawScore();
+        player.inventory.draw(canvas);
     }
 
     //----my draw method for score----
@@ -875,6 +901,8 @@ public class RestaurantController extends WorldController implements ContactList
             //System.out.println("colliding with vent");
             //execute
             startVentTimer(vent1, player);
+            sounds.panStopp();
+            sounds.potStop();
                 sounds.ventPlay();
                 System.out.println("vent playing");
 

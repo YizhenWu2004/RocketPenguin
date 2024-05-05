@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.Ingredient;
@@ -67,6 +68,7 @@ public class Player extends CapsuleObstacle {
 
     private boolean ignoreInput = false;
 
+    private SoundController sounds;
     public boolean respawning;
 
     public boolean isIgnoreInput() {
@@ -85,10 +87,11 @@ public class Player extends CapsuleObstacle {
 
     public Player(float x, float y, float width, float height,
                   FilmStrip defaultPlayerSprite, Inventory inventory,
-                  GameCanvas canvas, World world) {
+                  GameCanvas canvas, World world, SoundController s) {
         super(width, height);
+        sounds = s;
         this.inventory = inventory;
-        this.dishInventory = new DishInventory(new Texture("720/inventorynew.png"));
+        this.dishInventory = new DishInventory(new Texture("720/inventorynew.png"), sounds);
 //        setTexture(new TextureRegion(texture));
         this.canvas = canvas;
         setFixedRotation(true);
@@ -226,7 +229,8 @@ public class Player extends CapsuleObstacle {
         }
 
 //        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
-        this.inventory.draw(canvas);
+        //inventory draw moved to Store and Restaurant
+//        this.inventory.draw(canvas);
         if(dishInventory.leftFilled()){
             if(direction == -1){
                 dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0, true);
