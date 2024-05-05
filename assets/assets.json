@@ -26,7 +26,15 @@
 		"uiredpepper": "720/uiredpepper.png",
 		"uitomato": "720/uitomato.png",
 
-		"rockodishidle": "720/rockodishidle.png",
+		"rockodishidle": {
+			"file" : "720/rockodishidle.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"rockoidle": {
 			"file" : "720/rockoidle.png",
 			"sprites" : {
@@ -36,7 +44,15 @@
 				}
 			}
 		},
-		"rockosneakidle": "720/rockosneakidle.png",
+		"rockosneakidle": {
+			"file" : "720/rockosneakidle.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"rockochop":  {
 			"file" : "720/rockochop.png",
 			"sprites" : {
@@ -65,7 +81,7 @@
 			}
 		},
 		"rockokickedout":  {
-			"file" : "720/kickedoutreturn.png",
+			"file" : "720/kickedOutReturn.png",
 			"sprites" : {
 				"strip": {
 					"rows": 4,
@@ -137,9 +153,33 @@
 				}
 			}
 		},
-		"gooseidledown": "720/gooseIdleDown.png",
-		"gooseidleup": "720/gooseIdleUp.png",
-		"goosesleepidle": "720/goosesleepidle.png",
+		"gooseidledown": {
+			"file" : "720/gooseIdleDown.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
+		"gooseidleup": {
+			"file" : "720/gooseIdleUp.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
+		"goosesleepidle": {
+			"file" : "720/goosesleepidle.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"goosechase":  {
 			"file" : "720/goosechase.png",
 			"sprites" : {
@@ -195,7 +235,15 @@
 			}
 		},
 
-		"bearsit": "720/bearsit.png",
+		"bearsit": {
+			"file" : "720/bearsit.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"bearwalk":  {
 			"file" : "720/bearwalk.png",
 			"sprites" : {
@@ -205,7 +253,15 @@
 				}
 			}
 		},
-		"catsit": "720/catsit.png",
+		"catsit": {
+			"file" : "720/catsit.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"catwalk":  {
 			"file" : "720/catwalk.png",
 			"sprites" : {
@@ -215,7 +271,15 @@
 				}
 			}
 		},
-		"ferretsit": "720/ferretsit.png",
+		"ferretsit": {
+			"file" : "720/ferretsit.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"ferretwalk":  {
 			"file" : "720/ferretwalk.png",
 			"sprites" : {
@@ -226,7 +290,15 @@
 			}
 		},
 		"goat": "720/goat.png",
-		"goatsit": "720/goatsit.png",
+		"goatsit": {
+			"file" : "720/goatsit.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"goatwalk":  {
 			"file" : "720/goatwalk.png",
 			"sprites" : {
@@ -236,7 +308,15 @@
 				}
 			}
 		},
-		"ottersit": "720/ottersit.png",
+		"ottersit": {
+			"file" : "720/ottersit.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"otterwalk":  {
 			"file" : "720/otterwalk.png",
 			"sprites" : {
@@ -542,6 +622,12 @@
 		},
 		"serve": "serve.png",
 		"cutting_station": "temp_cutting_station.png",
-		"trashInv": "trashInv.png"
+		"trashInv": "trashInv.png",
+
+		"notepadhappy": "720/notepadhappy.png",
+		"notepadneutral": "720/notepadneutral.png",
+		"notepadangry": "720/notepadangry.png",
+		"notepadtoggled": "720/notepadtoggled.png",
+		"notepaduntoggled": "720/notepaduntoggled.png"
 	}
 }

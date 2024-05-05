@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.models.Player;
@@ -80,62 +81,62 @@ public class AnimationController {
      *
      * @param input The input controller used for determining animation state
      * */
-    AnimationController(InputController input){
+    AnimationController(InputController input, AssetDirectory directory){
         this.input = input;
 
-        playerWalk = new FilmStrip(new Texture("720/rockorun.png"), 1, 5, 5);
-        playerIdle = new FilmStrip(new Texture("720/rockoidle.png"), 1, 1, 1);
-        playerServe = new FilmStrip(new Texture("720/rockodish.png"), 1, 4, 4);
-        playerServeIdle = new FilmStrip(new Texture("720/rockodishidle.png"),1,1,1);
-        playerCook = new FilmStrip(new Texture("720/rockocook.png"),1,5,5);
-        playerChop = new FilmStrip(new Texture("720/rockochop.png"), 2,5,9);
+        playerWalk = directory.getEntry("rockorun.strip", FilmStrip.class);
+        playerIdle = directory.getEntry("rockoidle.strip", FilmStrip.class);
+        playerServe = directory.getEntry("rockodish.strip", FilmStrip.class);
+        playerServeIdle = directory.getEntry("rockodishidle.strip", FilmStrip.class);
+        playerCook = directory.getEntry("rockocook.strip", FilmStrip.class);
+        playerChop = directory.getEntry("rockochop.strip", FilmStrip.class);
         //playerKickedOut = new FilmStrip(new Texture("720/rockokickedout.png"),4,5,20);
-        playerSneak = new FilmStrip(new Texture("720/rockosneak.png"),1,10,10);
-        playerSwipe = new FilmStrip(new Texture("720/rockoswipe.png"),1,6,6);
-        playerSneakIdle = new FilmStrip(new Texture("720/rockosneakidle.png"),1,1,1);
+        playerSneak = directory.getEntry("rockosneak.strip", FilmStrip.class);
+        playerSwipe = directory.getEntry("rockoswipe.strip", FilmStrip.class);
+        playerSneakIdle = directory.getEntry("rockosneakidle.strip", FilmStrip.class);
 
-        goatWalk = new FilmStrip(new Texture("720/goatwalk.png"), 1, 4, 4);
-        goatIdle = new FilmStrip(new Texture("720/goatsit.png"), 1,1,1);
+        goatWalk = directory.getEntry("goatwalk.strip", FilmStrip.class);
+        goatIdle = directory.getEntry("goatsit.strip", FilmStrip.class);
 
-        ferretWalk = new FilmStrip(new Texture("720/ferretwalk.png"),1,4,4);
-        ferretIdle = new FilmStrip(new Texture("720/ferretsit.png"),1,1,1);
+        ferretWalk = directory.getEntry("ferretwalk.strip", FilmStrip.class);
+        ferretIdle = directory.getEntry("ferretsit.strip", FilmStrip.class);
 
-        catIdle = new FilmStrip(new Texture("720/catsit.png"),1,1,1);
-        catWalk = new FilmStrip(new Texture("720/catwalk.png"),1,4,4);
+        catIdle = directory.getEntry("catsit.strip", FilmStrip.class);
+        catWalk = directory.getEntry("catwalk.strip", FilmStrip.class);
 
-        bearIdle = new FilmStrip(new Texture("720/bearsit.png"),1,1,1);
-        bearWalk = new FilmStrip(new Texture("720/bearwalk.png"),2,4,8);
+        bearIdle = directory.getEntry("bearsit.strip", FilmStrip.class);
+        bearWalk = directory.getEntry("bearwalk.strip", FilmStrip.class);
 
-        otterIdle = new FilmStrip(new Texture("720/ottersit.png"),1,1,1);
-        otterWalk = new FilmStrip(new Texture("720/otterwalk.png"), 1,4,4);
+        otterIdle = directory.getEntry("ottersit.strip", FilmStrip.class);
+        otterWalk = directory.getEntry("otterwalk.strip", FilmStrip.class);
 
-        gooseWalk = new FilmStrip(new Texture("720/goosewalk.png"), 2,5,10);
-        gooseWalkBack = new FilmStrip(new Texture("720/goosewalkback.png"),1,6,6);
-        gooseWalkUp = new FilmStrip(new Texture("720/goosewalkup.png"),1,6,6);
-        gooseIdle = new FilmStrip(new Texture("720/gooseidle.png"),1,1,1);
-        gooseChase = new FilmStrip(new Texture("720/goosechase.png"),1,6,6);
+        gooseWalk = directory.getEntry("goosewalk.strip", FilmStrip.class);
+        gooseWalkBack = directory.getEntry("goosewalkback.strip", FilmStrip.class);
+        gooseWalkUp = directory.getEntry("goosewalkup.strip", FilmStrip.class);
+        gooseIdle = directory.getEntry("gooseidle.strip", FilmStrip.class);
+        gooseChase = directory.getEntry("goosechase.strip", FilmStrip.class);
 
         //gooseCatch = new FilmStrip(new Texture("720/rockocaught.png"),1,4,4);
 
-        gooseSleepIdle = new FilmStrip(new Texture("720/goosesleepidle.png"),1,1,1);
-        gooseSleep = new FilmStrip(new Texture("720/goosesleep.png"),1,7,7);
-        gooseWake = new FilmStrip(new Texture("720/goosewake.png"),1,7,7);
-        gooseIdleUp = new FilmStrip(new Texture("720/gooseIdleUp.png"),1,1,1);
-        gooseIdleDown = new FilmStrip(new Texture("720/gooseIdleDown.png"),1,1,1);
+        gooseSleepIdle = directory.getEntry("goosesleepidle.strip", FilmStrip.class);
+        gooseSleep = directory.getEntry("goosesleep.strip", FilmStrip.class);
+        gooseWake = directory.getEntry("goosewake.strip", FilmStrip.class);
+        gooseIdleUp = directory.getEntry("gooseidleup.strip", FilmStrip.class);
+        gooseIdleDown = directory.getEntry("gooseidledown.strip", FilmStrip.class);
 
-        ventIdle = new FilmStrip(new Texture("720/vent.png"),1,1,1);
-        ventIn = new FilmStrip(new Texture("720/rockoventin.png"),3,4,12);
-        ventOut = new FilmStrip(new Texture("720/rockoventout.png"),3,4,11);
+        ventIdle = directory.getEntry("vent.strip", FilmStrip.class);
+        ventIn = directory.getEntry("rockoventin.strip", FilmStrip.class);
+        ventOut = directory.getEntry("rockoventout.strip", FilmStrip.class);
 
-        kickedOutReturn = new FilmStrip(new Texture("720/kickedOutReturn.png"),4,5,20);
+        kickedOutReturn = directory.getEntry("rockokickedout.strip", FilmStrip.class);
 
-        wokSizzle = new FilmStrip(new Texture("720/pansizzle.png"),4,5,20);
-        wokIdle = new FilmStrip(new Texture("wok.png"),1,1,1);
+        wokSizzle = directory.getEntry("wokcooking.strip", FilmStrip.class);
+        wokIdle = directory.getEntry("wok.strip", FilmStrip.class);
 
-        potSizzle = new FilmStrip(new Texture("720/potsizzle.png"),2,4,8);
-        potIdle = new FilmStrip(new Texture("pot.png"),1,1,1);
+        potSizzle = directory.getEntry("potcooking.strip", FilmStrip.class);
+        potIdle = directory.getEntry("pot.strip", FilmStrip.class);
 
-        getCaught = new FilmStrip(new Texture("gettingCaught.png"),1,4,4);
+        getCaught = directory.getEntry("rockocaught.strip", FilmStrip.class);
     }
 
     //all instances of handleAnimation must be called in the update loop of a given WorldController.

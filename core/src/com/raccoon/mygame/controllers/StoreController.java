@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
 import com.raccoon.mygame.obstacle.BoxObstacle;
@@ -62,7 +63,7 @@ public class StoreController extends WorldController implements ContactListener 
     private Array<Object> drawableObjects = new Array<>();
 
     private FilmStrip playerIdle;
-    private FilmStrip guardIdle;
+    private FilmStrip vent;
 
     private AnimationController animator;
     private Array<Customer> notepadOrders;
@@ -81,23 +82,33 @@ public class StoreController extends WorldController implements ContactListener 
 
     public Guard guardInAction;
 
-    private final Texture groceryshelfhorizontal = new Texture("720/groceryshelfhorizontal.png");
-    private final Texture shelfvertical = new Texture("720/shelfvertical.png");
-    private final Texture rockoidle = new Texture("720/rockoidle.png");
-    private final Texture vent = new Texture("720/vent.png");
-    private final Texture BaseTimer = new Texture("720/BaseTimer.png");
-    private final Texture invisible = new Texture("invisible" + ".png");
-    private final Texture apple = new Texture("720/apple.png");
+
+    private Texture invisible;
+    private Texture BaseTimer;
+    private Texture apple;
 
     //TODO ADD THESE TO ASSET DIRECTORY I AM WORKING ON AN OLD BRANCH
-    private final Texture notepadhappy = new Texture("720/notepadhappy.png");
-    private final Texture notepadneutral = new Texture("720/notepadneutral.png");
-    private final Texture notepadangry = new Texture("720/notepadangry.png");
-    private final Texture notepadtoggled = new Texture("720/notepadtoggled.png");
-    private final Texture notepaduntoggled = new Texture("720/notepaduntoggled.png");
+    private Texture notepadhappy;
+    private Texture notepadneutral;
+    private Texture notepadangry;
+    private Texture notepadtoggled;
+    private Texture notepaduntoggled;
 
     private HashMap<String, Texture> ingredientTextures;
     public Worldtimer t;
+
+    private void createTextures(AssetDirectory directory) {
+        playerIdle = directory.getEntry("rockoidle.strip", FilmStrip.class);
+        vent = directory.getEntry("vent.strip", FilmStrip.class);
+        invisible = directory.getEntry("invisible", Texture.class);
+        BaseTimer = directory.getEntry("basetimer", Texture.class);
+        notepadhappy = directory.getEntry("notepadhappy", Texture.class);
+        notepadneutral = directory.getEntry("notepadneutral", Texture.class);
+        notepadangry = directory.getEntry("notepadangry", Texture.class);
+        notepadtoggled = directory.getEntry("notepadtoggled", Texture.class);
+        notepaduntoggled = directory.getEntry("notepaduntoggled", Texture.class);
+        apple = directory.getEntry("apple", Texture.class);
+    }
 
 //    public boolean totalReset = false;
 
@@ -161,7 +172,9 @@ public class StoreController extends WorldController implements ContactListener 
         obstacles.add(t);
     }
 
-    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, Array<Customer> notepadOrders, SoundController s) {
+
+    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, Array<Customer> notepadOrders, SoundController s, AssetDirectory directory) {
+        createTextures(directory);
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
@@ -185,13 +198,11 @@ public class StoreController extends WorldController implements ContactListener 
 
         buttons.add(orders);
 
-        playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
-
         player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world, sounds);
         drawableObjects.add(player);
         this.input = input;
 
-        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(vent,1,1,1),world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, vent, world, canvas);
         drawableObjects.add(vent1);
 
         localStartingPos = new Vector2(vent1.getX()+2.3f, vent1.getY());
@@ -207,7 +218,7 @@ public class StoreController extends WorldController implements ContactListener 
 
         playerJustDied = false;
 
-        animator = new AnimationController(input);
+        animator = new AnimationController(input, directory);
         duringventing = false;
 
         addInvisibleWall(0,-1,80,1,1,1,0,0);
@@ -222,7 +233,7 @@ public class StoreController extends WorldController implements ContactListener 
         vent1.deactivatePhysics(world);
         world = level.getStoreWorld();
         player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world, sounds);
-        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, new FilmStrip(vent,1,1,1),world, canvas);
+        vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, vent, world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
 //        guards = new Array<Guard>(1);
