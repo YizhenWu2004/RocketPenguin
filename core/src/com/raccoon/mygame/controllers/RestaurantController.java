@@ -32,6 +32,8 @@ import java.util.HashMap;
 
 public class RestaurantController extends WorldController implements ContactListener {
     private World world;
+    private boolean potplay;
+    private boolean panplay;
     private GameCanvas canvas;
     private Texture background;
     private Array<Customer> customers;
@@ -209,6 +211,8 @@ public class RestaurantController extends WorldController implements ContactList
         sounds = s;
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
 
+        panplay = false;
+        potplay = false;
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
@@ -560,10 +564,14 @@ public class RestaurantController extends WorldController implements ContactList
                     c.state = 1;
                     int time;
                     if(c.station_type == 0){
+                        panplay = true;
                         sounds.cookplay();
+                        sounds.panPlay();
                         time = 15;
                     } else if(c.station_type == 1){
+                        potplay = true;
                         sounds.cookplay();
+                        sounds.potPlay();
                         time =30;
                     }else {
                         sounds.chopPlay();
@@ -588,6 +596,14 @@ public class RestaurantController extends WorldController implements ContactList
                 //System.out.println(c.timer.getTime());
                 if (c.timer.getTime() <= 0){
                     sounds.bellPlay();
+                    if(c.getStationType() == 1){
+                        sounds.potStop();
+                        potplay = false;
+                    } else if (c.getStationType() == 0){
+                        sounds.panStopp();
+                        panplay = false;
+                    }
+//                    sounds.potStop();
                     c.state = 2;
                 }
             } else if (c.state == 2){
@@ -643,6 +659,12 @@ public class RestaurantController extends WorldController implements ContactList
         if(ventOutFlag == true){
             ventOutTimer = 1.1666f;
             ventOutFlag = false;
+            if(panplay){
+                sounds.panPlay();
+            }
+            if(potplay){
+                sounds.potPlay();
+            }
         }
 
         ventOutTimer = Math.max(ventOutTimer-delta,0);
@@ -879,6 +901,8 @@ public class RestaurantController extends WorldController implements ContactList
             //System.out.println("colliding with vent");
             //execute
             startVentTimer(vent1, player);
+            sounds.panStopp();
+            sounds.potStop();
                 sounds.ventPlay();
                 System.out.println("vent playing");
 
