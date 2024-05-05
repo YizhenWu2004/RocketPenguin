@@ -5,6 +5,8 @@ import com.badlogic.gdx.utils.*;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
 
+import java.util.Arrays;
+
 //detects collision for now
 public class CollisionController {
     /**
@@ -34,6 +36,8 @@ public class CollisionController {
     private Player player;
 
     private Array<Guard> guards;
+
+    private Array<Customer> takenOrders = new Array<>();
 
     /**
      * Creates a CollisionController for the given screen dimensions.
@@ -87,6 +91,7 @@ public class CollisionController {
                 c.setScaleY(1.1f);
                 if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
                     if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
+                        addOrder(c);
 //                    sounds.orderPlay();
                         if (c.getCustomerType() == "bear") {
                             sounds.bearPlay();
@@ -271,6 +276,18 @@ public class CollisionController {
                 p.getInventory().drop();
             }
         }
+    }
+
+    private void addOrder(Customer order) {
+        System.out.println("Adding order" + order);
+        if (takenOrders.size >= 3) {
+            takenOrders.removeIndex(0);
+        }
+        takenOrders.add(order);
+    }
+
+    public Array<Customer> getOrders(){
+        return this.takenOrders;
     }
 //    public boolean collide;
 //    public boolean inSight;

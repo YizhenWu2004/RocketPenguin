@@ -105,6 +105,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
     ResultController result;
     Inventory inv;
+    Array<Customer> notepadOrders;
 
     int current; // 0 = restaurant, 1 = store, 2 = result
     public boolean isPaused;
@@ -127,11 +128,16 @@ public class GDXRoot extends Game implements ScreenListener {
 
         splash = new SplashScreenController(canvas);
 
+
         inv = new Inventory(directory.getEntry("inventory", Texture.class), sounds);
         restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory);
-        store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, sounds);
+        notepadOrders = new Array<>();
+        store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, notepadOrders, sounds);
         loader = new LevelLoader(canvas, sounds, directory);
+
         saveController = new SaveController(loader);
+
+
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
         pause = new MenuController(canvas, directory.getEntry("p_paused", Texture.class),input, sounds);
@@ -162,8 +168,10 @@ public class GDXRoot extends Game implements ScreenListener {
         w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class));
         w.create();
 
+
         inv = new Inventory(directory.getEntry("inventory", Texture.class), sounds);
         restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory);
+        notepadOrders = new Array<>();
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
         store.t=w;
@@ -354,6 +362,7 @@ public class GDXRoot extends Game implements ScreenListener {
           if(pause.restart){
               sounds.storeStop();
               sounds.cafeeactualstop();
+              notepadOrders = new Array<>();
               pause.on_pause = false;
               restart();
               pause.restart = false;
@@ -409,12 +418,13 @@ public class GDXRoot extends Game implements ScreenListener {
           } else {
               canvas.getCamera().position.y = 360;
               canvas.getCamera().update();
-
               restaurant.setActive(false);
               store.setActive(true);
           }
           store.update();
           restaurant.update();
+          notepadOrders = restaurant.getTakenCustomers();
+          store.setNotepadOrders(notepadOrders);
 
           if (input.getReset()) {
               create();

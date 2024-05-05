@@ -348,4 +348,7 @@ public class UIButton {
         return isSticky ? y + (camera.position.y - camera.viewportHeight / 2) : y;
     }
 
+    public void resetChildren(){
+        children.clear();
+    }
 }

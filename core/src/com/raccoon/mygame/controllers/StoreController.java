@@ -19,6 +19,7 @@ import com.raccoon.mygame.obstacle.CapsuleObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static com.raccoon.mygame.enums.enums.PatrolDirection;
@@ -64,6 +65,7 @@ public class StoreController extends WorldController implements ContactListener 
     private FilmStrip guardIdle;
 
     private AnimationController animator;
+    private Array<Customer> notepadOrders;
 
     public int current = -3;
 
@@ -86,6 +88,14 @@ public class StoreController extends WorldController implements ContactListener 
     private final Texture BaseTimer = new Texture("720/BaseTimer.png");
     private final Texture invisible = new Texture("invisible" + ".png");
     private final Texture apple = new Texture("720/apple.png");
+
+    //TODO ADD THESE TO ASSET DIRECTORY I AM WORKING ON AN OLD BRANCH
+    private final Texture notepadhappy = new Texture("720/notepadhappy.png");
+    private final Texture notepadneutral = new Texture("720/notepadneutral.png");
+    private final Texture notepadangry = new Texture("720/notepadangry.png");
+    private final Texture notepadtoggled = new Texture("720/notepadtoggled.png");
+    private final Texture notepaduntoggled = new Texture("720/notepaduntoggled.png");
+
     private HashMap<String, Texture> ingredientTextures;
     public Worldtimer t;
 
@@ -151,13 +161,15 @@ public class StoreController extends WorldController implements ContactListener 
         obstacles.add(t);
     }
 
-    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, SoundController s) {
+    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, Array<Customer> notepadOrders, SoundController s) {
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
         this.t = w;
         sounds = s;
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
+
+        this.notepadOrders = notepadOrders;
 
         obstacles = new Array<>();
         ingredients = new Array<>();
@@ -166,9 +178,11 @@ public class StoreController extends WorldController implements ContactListener 
         guardY = new Array<>();
         ingredientTextures = new HashMap<>();
 
-        orders = new UIButton(new Texture("menu/levelbook.png"), "orders",1000,700,0.5f,0.5f,canvas);
-        orders.setOnHoverAction(()->{orders.setY(500);});
-        orders.setOnUnhoverAction(()->{orders.resetPosition();});
+        orders = new UIButton(notepaduntoggled, "orders",1100,680,0.6f,0.6f,canvas);
+        orders.setOnHoverAction(()->{orders.setY(490);orders.setTexture(notepadtoggled);});
+        orders.setOnUnhoverAction(()->{orders.resetPosition();orders.resetStyleProperties();});
+
+
         buttons.add(orders);
 
         playerIdle = new FilmStrip(rockoidle, 1, 1, 1);
@@ -347,10 +361,11 @@ public class StoreController extends WorldController implements ContactListener 
             player.stopDrawing = true;
         }
         player.update(delta);
-
         animator.processGuards(guards, delta, guardInAction,gettingCaught());
         animator.handleAnimation(player, delta, respawning());
         checkButtons();
+
+        addOrdersToNotepad();
     }
 
     private float getYPosOfAnyObject(Object obj){
@@ -731,5 +746,39 @@ public class StoreController extends WorldController implements ContactListener 
                 button.setIsClicked(false);
             }
         }
+    }
+
+    private void addOrdersToNotepad(){
+        orders.resetChildren();
+        Array<Customer> takenOrders = this.notepadOrders;
+        Texture happinessTexture;
+        for(int j = 0; j< takenOrders.size; j++){
+            Ingredient[] ingredients = takenOrders.get(j).getOrder();
+            if(takenOrders.get(j).pat == null)
+                continue;
+            float happiness = takenOrders.get(j).pat.multiplier();
+            switch(Float.toString(happiness)){
+                case "0.7":
+                    happinessTexture = notepadneutral;
+                    break;
+                case "1.0":
+                    happinessTexture = notepadhappy;
+                    break;
+                case"0.3":
+                    happinessTexture = notepadangry;
+                    break;
+                default:
+                    happinessTexture = apple;
+            }
+            orders.addChild(new UIButton(happinessTexture,"ingred",20, (-110*j)+295,1f,1f,canvas));
+            for(int i = 0; i < ingredients.length; i++){
+                Ingredient currentIngredient = ingredients[i];
+                if(currentIngredient != null)
+                    orders.addChild(new UIButton(currentIngredient.getTexture(),"ingred",(50*i)+90, (-110*j)+293,1f,1f,canvas));
+            }
+        }
+    }
+    public void setNotepadOrders(Array<Customer> ordersrs){
+        this.notepadOrders = ordersrs;
     }
 }
