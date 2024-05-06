@@ -76,7 +76,7 @@ public class Customer extends BoxObstacle {
     public SATISFIED satisfied;
     private boolean isActive;
     private boolean show;
-    private CustomerAIController controller;
+    public CustomerAIController controller;
     //public Vector2 position_on_table;
     //public TableObstacle t;
     //public int collided = 0;

@@ -440,42 +440,30 @@ public class RestaurantController extends WorldController implements ContactList
 
     public void setCustomers(Array<Array<String>> customerData){
         for(Array<String> arr : customerData){
-            System.out.println(arr);
             int time = Integer.parseInt(arr.get(0));
             Array<String> copied = new Array<String>();
             for(int i = 1; i<arr.size; i++){
                 copied.add(arr.get(i));
             }
 
-            //arr.removeIndex(0);
             Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied, directory);
             customersToAdd.add(customer1);
         }
 
-//        String[][] customerOrders = {
-//                {"118", "2", "greenpepper"},
-//                {"100", "2", "greenpepper", "greenpepper"},
-//                {"85", "2", "lemon"},
-//                {"83", "2", "corn", "lemon"},
-//                {"55", "2", "greenpepper", "lemon"},
-//                {"53", "2", "greenpepper", "corn"}
-//        };
-
-
 //        Array<Array<String>> customerOrders = new Array<>();
 //
 //        customerOrders.add(new Array<>(new String[]{"178", "2", "greenpepper"}));
-//        customerOrders.add(new Array<>(new String[]{"160", "2", "greenpepper", "greenpepper"}));
-//        customerOrders.add(new Array<>(new String[]{"145", "2", "lemon"}));
-//        customerOrders.add(new Array<>(new String[]{"143", "2", "corn", "lemon"}));
-//        customerOrders.add(new Array<>(new String[]{"115", "2", "greenpepper", "lemon"}));
-//        customerOrders.add(new Array<>(new String[]{"113", "2", "greenpepper", "corn"}));
-//
+////        customerOrders.add(new Array<>(new String[]{"160", "2", "greenpepper", "greenpepper"}));
+////        customerOrders.add(new Array<>(new String[]{"145", "2", "lemon"}));
+////        customerOrders.add(new Array<>(new String[]{"143", "2", "corn", "lemon"}));
+////        customerOrders.add(new Array<>(new String[]{"115", "2", "greenpepper", "lemon"}));
+////        customerOrders.add(new Array<>(new String[]{"113", "2", "greenpepper", "corn"}));
+////
 //        for(Array<String> arr : customerOrders){
 //            System.out.println(arr);
 //            int time = Integer.parseInt(arr.get(0));
 //            arr.removeIndex(0);
-//            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr);
+//            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr,directory);
 //            customersToAdd.add(customer1);
 //        }
 
@@ -505,6 +493,9 @@ public class RestaurantController extends WorldController implements ContactList
     public void update() {
         tick += 1;
 
+//        System.out.println("customersToAdd"+customersToAdd);
+//        System.out.println("customers"+customers);
+//        System.out.println("allCustomersLeave"+allCustomersLeave());
         //We will use this deltatime to update animation frames
         float delta = Gdx.graphics.getDeltaTime();
         player.update(delta);
@@ -1103,5 +1094,19 @@ public class RestaurantController extends WorldController implements ContactList
 
     public Array<Customer> getTakenCustomers(){
         return collision.getOrders();
+    }
+
+    public boolean allCustomersLeave(){
+        if(customersToAdd.size > 0){
+            return false;
+        }
+        else{
+            for(Customer customer : customers){
+                if(customer.controller.state != CustomerAIController.FSMState.LEAVE){
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
