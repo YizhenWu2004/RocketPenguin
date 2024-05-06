@@ -18,10 +18,7 @@
 package com.raccoon.mygame.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.*;
@@ -41,6 +38,7 @@ import java.util.ArrayList;
  * that mode must be done in a separate begin/end pass.
  */
 public class GameCanvas {
+
     /**
      * Enumeration to track which pass we are in
      */
@@ -1392,4 +1390,8 @@ public class GameCanvas {
 //        spriteBatch.draw(holder, x + holder.getRegionWidth(), y);
 //        System.out.println("flipping");
 //    }
+
+    public void setCamera(OrthographicCamera camera){
+        this.camera = camera;
+    }
 }

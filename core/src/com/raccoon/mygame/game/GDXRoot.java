@@ -20,10 +20,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.controllers.*;
 import com.raccoon.mygame.models.Player;
@@ -63,6 +67,7 @@ public class GDXRoot extends Game implements ScreenListener {
     public Texture background;
     public Texture winPic;
     public SoundController sounds;
+    private Viewport viewport;
 
     public SaveController saveController;
 
@@ -114,6 +119,7 @@ public class GDXRoot extends Game implements ScreenListener {
     public void create() {
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
+
         sounds = new SoundController();
         directory = new AssetDirectory( "assets.json" );
         directory.loadAssets();
@@ -242,6 +248,7 @@ public class GDXRoot extends Game implements ScreenListener {
     @Override
     public void render() {
         update();
+//        canvas.setCamera((OrthographicCamera) viewport.getCamera());
         canvas.begin();
         draw();
         canvas.end();
