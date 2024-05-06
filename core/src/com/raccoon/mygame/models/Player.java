@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.objects.Dish;
 import com.raccoon.mygame.objects.GameObject;
@@ -87,11 +88,11 @@ public class Player extends CapsuleObstacle {
 
     public Player(float x, float y, float width, float height,
                   FilmStrip defaultPlayerSprite, Inventory inventory,
-                  GameCanvas canvas, World world, SoundController s) {
+                  GameCanvas canvas, World world, SoundController s, AssetDirectory directory) {
         super(width, height);
         sounds = s;
         this.inventory = inventory;
-        this.dishInventory = new DishInventory(new Texture("720/inventorynew.png"), sounds);
+        this.dishInventory = new DishInventory(directory.getEntry("inventory", Texture.class), sounds);
 //        setTexture(new TextureRegion(texture));
         this.canvas = canvas;
         setFixedRotation(true);

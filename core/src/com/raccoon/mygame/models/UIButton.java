@@ -161,11 +161,11 @@ public class UIButton {
             float drawY = this.y;
             drawX += camera.position.x - camera.viewportWidth / 2;
             drawY += camera.position.y - camera.viewportHeight / 2;
-            canvas.draw(new TextureRegion(this.texture), this.COLOR, this.OX, this.OY, drawX, drawY, 0, this.SX, this.SY);
+            canvas.draw(this.texture, this.COLOR, this.OX, this.OY, drawX, drawY, 0, this.SX, this.SY);
             return;
         }
 
-        canvas.draw(new TextureRegion(this.texture),COLOR, this.OX, this.OY, this.x, this.y, 0, this.SX, this.SY);
+        canvas.draw(this.texture,COLOR, this.OX, this.OY, this.x, this.y, 0, this.SX, this.SY);
 //        TextureRegion region, Color tint, float ox, float oy,
 //        float x, float y, float angle, float sx, float sy
         for(UIButton child: children){
@@ -305,7 +305,7 @@ public class UIButton {
     }
 
     public void draw(GameCanvas canvas, float x, float y) {
-        canvas.draw(new TextureRegion(this.texture),COLOR, this.OX, this.OY, x, y, 0, this.SX, this.SY);
+        canvas.draw(this.texture,COLOR, this.OX, this.OY, x, y, 0, this.SX, this.SY);
         for(UIButton child: children){
             float childX = x + child.getX();
             float childY = y + child.getY();
@@ -317,7 +317,7 @@ public class UIButton {
     public void draw(GameCanvas canvas, float x, float y, float sx, float sy){
         if(this.texture == null)
             return;
-        canvas.draw(new TextureRegion(this.texture),COLOR, this.OX, this.OY, x, y, 0, sx, sy);
+        canvas.draw(this.texture,COLOR, this.OX, this.OY, x, y, 0, sx, sy);
     }
     public void addChild(UIButton child){
         children.add(child);

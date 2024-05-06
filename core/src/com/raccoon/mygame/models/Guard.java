@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.controllers.SoundController;
 import com.raccoon.mygame.enums.enums;
@@ -47,14 +48,17 @@ public class Guard extends WheelObstacle {
     private SoundController sounds;
 
     private QuestionExpression question;
+    private AssetDirectory directory;
+
 
     private Shadow shadow = new Shadow(0,0,1f,1f);;
 
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
                  PatrolDirection patrolDirection, boolean[][] collisionLayer,
-                 Array<Vector2> nodes, GuardAIController.GuardOrientation spawnOrien, SoundController s) {
+                 Array<Vector2> nodes, GuardAIController.GuardOrientation spawnOrien, SoundController s, AssetDirectory directory) {
         super(width/3);
+        this.directory = directory;
         sounds = s;
 //        patrolTexture = texture;
 //        setTexture(new TextureRegion(texture));
@@ -81,7 +85,7 @@ public class Guard extends WheelObstacle {
 
         exclam = new Expression("exclamation",x,y);
         zzz = new Expression("zzz",x,y);
-        question = new QuestionExpression("question",x,y,aiController.getSusMeter(),30);
+        question = new QuestionExpression("question",x,y,aiController.getSusMeter(),30, directory);
     }
 
     public float getTextureWidth() {

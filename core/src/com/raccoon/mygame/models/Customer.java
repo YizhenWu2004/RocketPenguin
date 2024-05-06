@@ -98,12 +98,12 @@ public class Customer extends BoxObstacle {
     private AssetDirectory directory;
 
     public int orderSize;
-    private Texture one = new Texture("order/one.png");
-    private Texture two = new Texture("order/two.png");
-    private Texture three = new Texture("order/three.png");
-    private Texture wok = new Texture("order/wok.png");
-    private Texture pot = new Texture("order/pot.png");
-    private Texture cutting_board = new Texture("order/cutting_board.png");
+    private Texture one;
+    private Texture two;
+    private Texture three ;
+    private Texture wok;
+    private Texture pot ;
+    private Texture cutting_board;
 
     private Expression question;
 
@@ -123,6 +123,15 @@ public class Customer extends BoxObstacle {
                     GameCanvas canvas, int ordernum,
                     int showUpTime, Array<String> inputOrder, AssetDirectory directory) {
         super(x, y, width, height);
+
+
+        one = directory.getEntry("o_one", Texture.class);
+        two = directory.getEntry("o_two", Texture.class);
+        three = directory.getEntry("o_three", Texture.class);
+        wok = directory.getEntry("o_wok", Texture.class);
+        pot = directory.getEntry("o_pot", Texture.class);
+        cutting_board = directory.getEntry("o_cutting_board", Texture.class);
+
 //        this.texture = texture;
 //        setTexture(new TextureRegion(texture));
         this.sprite = defaultCustomerSprite;

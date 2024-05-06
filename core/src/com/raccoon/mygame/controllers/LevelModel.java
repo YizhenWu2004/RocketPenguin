@@ -93,7 +93,7 @@ public class LevelModel {
 //        System.out.println("Rotation: " + rotate + ", Sleep: " + sleep);
         guards.add(new Guard(x, y, 1.67f, 0.83f, guardIdle, storeWorld, canvas,
                 direction,collisionLayer, (sleep || (rotate != 0) ? new Array<>() : nodes),
-                GuardAIController.GuardOrientation.LEFT, sounds));
+                GuardAIController.GuardOrientation.LEFT, sounds, directory));
     }
 
     public LevelModel(String tmxFile, GameCanvas canvas, SoundController s, AssetDirectory directory) {
