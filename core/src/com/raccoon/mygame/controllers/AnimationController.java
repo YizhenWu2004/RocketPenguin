@@ -133,7 +133,7 @@ public class AnimationController {
         wokSizzle = directory.getEntry("wokcooking.strip", FilmStrip.class);
         wokIdle = directory.getEntry("wok.strip", FilmStrip.class);
 
-        potSizzle = directory.getEntry("potcooking.strip", FilmStrip.class);
+        potSizzle = directory.getEntry("potsizzle.strip", FilmStrip.class);
         potIdle = directory.getEntry("pot.strip", FilmStrip.class);
 
         getCaught = directory.getEntry("rockocaught.strip", FilmStrip.class);
