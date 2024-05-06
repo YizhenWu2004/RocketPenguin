@@ -12,7 +12,7 @@ import com.raccoon.mygame.view.GameCanvas;
 public class NormalObstacle extends BoxObstacle {
     private final int WORLD_WIDTH = 32;
     private final int WORLD_HEIGHT = 18;
-    private Texture texture;
+    private TextureRegion texture;
     private float scaleX;
     private float scaleY;
     private float ox;
@@ -28,10 +28,10 @@ public class NormalObstacle extends BoxObstacle {
 
     public boolean interactingTrash;
 
-    public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas) {
+    public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, TextureRegion texture, World world, GameCanvas canvas) {
         super(x, y, width, height);
         this.texture = texture;
-        setTexture(new TextureRegion(texture));
+        setTexture(texture);
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.defaultSX = sx;
@@ -52,10 +52,10 @@ public class NormalObstacle extends BoxObstacle {
         interactingTrash = false;
     }
 
-    public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas, boolean drawPriority) {
+    public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, TextureRegion texture, World world, GameCanvas canvas, boolean drawPriority) {
         super(x, y, width, height);
         this.texture = texture;
-        setTexture(new TextureRegion(texture));
+        setTexture(texture);
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.defaultSX = sx;
@@ -79,8 +79,8 @@ public class NormalObstacle extends BoxObstacle {
 
     public NormalObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas, Ingredient ingredient) {
         super(x, y, width, height);
-        this.texture = texture;
-        setTexture(new TextureRegion(texture));
+        //this.texture = texture;
+        //setTexture(new TextureRegion(texture));
         scaleX = canvas.getWidth() / WORLD_WIDTH;
         scaleY = canvas.getHeight() / WORLD_HEIGHT;
         this.defaultSX = sx;

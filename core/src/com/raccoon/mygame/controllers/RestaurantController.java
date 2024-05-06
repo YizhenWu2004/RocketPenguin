@@ -89,24 +89,24 @@ public class RestaurantController extends WorldController implements ContactList
     Texture light;
 
     private Texture singleInv;
-    private Texture table;
-    private Texture wallbump;
-    private Texture invisible;
+    private TextureRegion table;
+    private TextureRegion wallbump;
+    private TextureRegion invisible;
     private Texture rockoidle;
-    private Texture wallrestaurant;
-    private Texture new_pot_station;
-    private Texture new_wok_station;
-    private Texture temp_cutting_station;
-    private Texture new_counter;
+    private TextureRegion wallrestaurant;
+    private TextureRegion new_pot_station;
+    private TextureRegion new_wok_station;
+    private TextureRegion temp_cutting_station;
+    private TextureRegion new_counter;
     private Texture goat;
     private Texture BaseTimer;
-    private Texture smallwall;
-    private Texture notAsTallWall;
-    private Texture window;
-    private Texture plant;
-    private Texture sidelamp;
-    private Texture decorativeshelf;
-    private Texture trashcan;
+    private TextureRegion smallwall;
+    private TextureRegion notAsTallWall;
+    private TextureRegion window;
+    private TextureRegion plant;
+    private TextureRegion sidelamp;
+    private TextureRegion decorativeshelf;
+    private TextureRegion trashcan;
     private Texture zero;
     private Texture one;
     private Texture two;
@@ -132,7 +132,7 @@ public class RestaurantController extends WorldController implements ContactList
     private Texture score8;
     private Texture score9;
 
-    private HashMap<String, Texture> decorationTextures = new HashMap();
+    private HashMap<String, TextureRegion> decorationTextures = new HashMap();
 
 
     private HashMap<String, Texture> obstacleTextures = new HashMap<>();
@@ -145,24 +145,24 @@ public class RestaurantController extends WorldController implements ContactList
     private void createTextures(AssetDirectory directory) {
         light = directory.getEntry("light", Texture.class);
         singleInv = directory.getEntry("trashInv", Texture.class);
-        table = directory.getEntry("table", Texture.class);
-        wallbump =  directory.getEntry("wallbump", Texture.class);
-        invisible = directory.getEntry("invisible", Texture.class);
+        table = directory.getEntry("table.region", TextureRegion.class);
+        wallbump =  directory.getEntry("wallbump.region", TextureRegion.class);
+        invisible = directory.getEntry("invisible.region", TextureRegion.class);
         rockoidle = directory.getEntry("rockoidle", Texture.class);
-        wallrestaurant =  directory.getEntry("wallrestaurant", Texture.class);
-        new_pot_station = directory.getEntry("new_pot_station", Texture.class);
-        new_wok_station = directory.getEntry("new_wok_station", Texture.class);
-        temp_cutting_station =  directory.getEntry("cutting_station", Texture.class);
-        new_counter = directory.getEntry("new_counter", Texture.class);
+        wallrestaurant =  directory.getEntry("wallrestaurant.region", TextureRegion.class);
+        new_pot_station = directory.getEntry("new_pot_station.region", TextureRegion.class);
+        new_wok_station = directory.getEntry("new_wok_station.region", TextureRegion.class);
+        temp_cutting_station =  directory.getEntry("cutting_station.region", TextureRegion.class);
+        new_counter = directory.getEntry("new_counter.region", TextureRegion.class);
         goat = directory.getEntry("goat", Texture.class);
         BaseTimer = directory.getEntry("basetimer", Texture.class);
-        smallwall = directory.getEntry("smallwall", Texture.class);
-        notAsTallWall = directory.getEntry("notastallwall", Texture.class);
-        window = directory.getEntry("window", Texture.class);
-        plant = directory.getEntry("plant", Texture.class);
-        sidelamp = directory.getEntry("sidelamp", Texture.class);
-        decorativeshelf = directory.getEntry("decorativeshelf", Texture.class);
-        trashcan = directory.getEntry("trashcan", Texture.class);
+        smallwall = directory.getEntry("smallwall.region", TextureRegion.class);
+        notAsTallWall = directory.getEntry("notastallwall.region", TextureRegion.class);
+        window = directory.getEntry("window.region", TextureRegion.class);
+        plant = directory.getEntry("plant.region", TextureRegion.class);
+        sidelamp = directory.getEntry("sidelamp.region", TextureRegion.class);
+        decorativeshelf = directory.getEntry("decorativeshelf.region", TextureRegion.class);
+        trashcan = directory.getEntry("trashcan.region", TextureRegion.class);
         vent = directory.getEntry("vent.strip", FilmStrip.class);
         zero = directory.getEntry("s_zero", Texture.class);
         one = directory.getEntry("s_one", Texture.class);
@@ -320,7 +320,7 @@ public class RestaurantController extends WorldController implements ContactList
 
 
         NormalObstacle obs = new NormalObstacle(30.97f, 14.5f, 2,5, 1.2f,0.9f, 0,0,
-                new_counter, world, canvas, false);
+                new_counter, world, canvas);
         obstacles.add(obs);
         drawableObjects.add(obs);
 

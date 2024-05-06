@@ -2,6 +2,7 @@ package com.raccoon.mygame.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.controllers.SoundController;
@@ -21,7 +22,7 @@ public class CookingStationObject extends NormalObstacle{
     public int state; //0 = idle, 1 = cooking, 2 = finished, 3 = burnt(?)
     public int station_type; // 0 = wok, 1 = pot, 2 = chop
     public GameCanvas canvas;
-    public Texture t;
+    public TextureRegion t;
     public int id;
     public int interacting_with;
     public Worldtimer timer;
@@ -58,7 +59,7 @@ public class CookingStationObject extends NormalObstacle{
 //    private Expression spaceIcon;
 
     public CookingStationObject(float x, float y, float width, float height, float sx, float sy,
-                                float ox, float oy, Texture texture,
+                                float ox, float oy, TextureRegion texture,
                                 World world, GameCanvas canvas, int id, int station_type, SoundController s, AssetDirectory directory) {
         super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas);
         createTextures(directory);

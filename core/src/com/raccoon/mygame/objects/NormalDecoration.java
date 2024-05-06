@@ -9,12 +9,12 @@ import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class NormalDecoration extends NormalObstacle {
-    public NormalDecoration(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas, boolean drawPriority) {
+    public NormalDecoration(float x, float y, float width, float height, float sx, float sy, float ox, float oy, TextureRegion texture, World world, GameCanvas canvas, boolean drawPriority) {
         super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas, drawPriority);
         this.body.getFixtureList().get(0).setSensor(true);
     }
 
-    public NormalDecoration(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas) {
+    public NormalDecoration(float x, float y, float width, float height, float sx, float sy, float ox, float oy, TextureRegion texture, World world, GameCanvas canvas) {
         super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas);
         this.body.getFixtureList().get(0).setSensor(true);
     }

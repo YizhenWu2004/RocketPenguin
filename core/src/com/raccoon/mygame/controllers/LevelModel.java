@@ -1,6 +1,7 @@
 package com.raccoon.mygame.controllers;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.objects.TextureMapObject;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
@@ -54,21 +55,21 @@ public class LevelModel {
 
     private void addShelfHorizontal(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 1f, 1f, 0f, -40f,
-                directory.getEntry("shelfhorizontal", Texture.class), storeWorld, canvas);
+                directory.getEntry("shelfhorizontal.region", TextureRegion.class), storeWorld, canvas);
         storeObjects.add(obstacle);
         storeObjectsAndDecor.add(obstacle);
     }
 
     private void addShelfVertical(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 1f, 4f, 1f, 1f, 0f, 0f,
-                directory.getEntry("shelfvertical", Texture.class), storeWorld, canvas);
+                directory.getEntry("shelfvertical.region", TextureRegion.class), storeWorld, canvas);
         storeObjects.add(obstacle);
         storeObjectsAndDecor.add(obstacle);
     }
 
     private void addFruitCrate(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x+CELL_SIZE/2, y+CELL_SIZE/2, 2f, 1f, 1f, 1f, 0f, -40f,
-                directory.getEntry("fruitcrate", Texture.class), storeWorld, canvas);
+                directory.getEntry("fruitcrate.region", TextureRegion.class), storeWorld, canvas);
         storeObjects.add(obstacle);
         storeObjectsAndDecor.add(obstacle);
     }
@@ -149,44 +150,44 @@ public class LevelModel {
                     break;
                 case "HorizWall":
                     obstacle = new NormalObstacle(x, y-1.5f, 5f, 1f, 1f, 1f, 0f, -60f,
-                            directory.getEntry("ventwallhorizontal", Texture.class), storeWorld, canvas);
+                            directory.getEntry("ventwallhorizontal.region", TextureRegion.class), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     storeObjectsAndDecor.add(obstacle);
                     break;
                 case "VertWall":
                     obstacle = new NormalObstacle(x, y-1.5f, 0.6f, 2f, 1f, 1f, 0f, -70f,
-                            directory.getEntry("ventwallvertical", Texture.class), storeWorld, canvas);
+                            directory.getEntry("ventwallvertical.region", TextureRegion.class), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     storeObjectsAndDecor.add(obstacle);
                     break;
                 case "JanitorTools":
                     obstacle = new NormalDecoration(x, y-1.5f, 1f, 0.5f, 1f, 1f, 0f, -50f,
-                            directory.getEntry("janitoritems", Texture.class), storeWorld, canvas, false);
+                            directory.getEntry("janitoritems.region", TextureRegion.class), storeWorld, canvas);
                     storeObjectsAndDecor.add(obstacle);
                     break;
                 case "Ladder":
                     obstacle = new NormalDecoration(x, y-1.5f, 1.2f, -0.5f, 1f, 1f, 0f, -50f,
-                            directory.getEntry("ladder", Texture.class), storeWorld, canvas, false);
+                            directory.getEntry("ladder.region", TextureRegion.class), storeWorld, canvas);
                     storeObjectsAndDecor.add(obstacle);
                     break;
                 case "BoxS":
                     obstacle = new NormalDecoration(x, y-1.5f, 0.8f, -0.5f, 1f, 1f, 0f, 0f,
-                            directory.getEntry("boxsmall", Texture.class), storeWorld, canvas, false);
+                            directory.getEntry("boxsmall.region", TextureRegion.class), storeWorld, canvas);
                     storeObjectsAndDecor.add(obstacle);
                     break;
                 case "BoxM":
                     obstacle = new NormalDecoration(x, y-1.5f, 1f, 1f, 1f, 1f, 0f, 0f,
-                            directory.getEntry("boxmedium", Texture.class), storeWorld, canvas, false);
+                            directory.getEntry("boxmedium.region", TextureRegion.class), storeWorld, canvas);
                     storeObjectsAndDecor.add(obstacle);
                     break;
                 case "BoxL":
                     obstacle = new NormalDecoration(x, y-1.5f, 1.2f, -0.5f, 1f, 1f, 0f, 0f,
-                            directory.getEntry("boxlarge", Texture.class), storeWorld, canvas, false);
+                            directory.getEntry("boxlarge.region", TextureRegion.class), storeWorld, canvas);
                     storeObjectsAndDecor.add(obstacle);
                     break;
                 case "Fridge":
                     obstacle = new NormalObstacle(x, y, 1f, 1f, 0.3f, 0.3f, 0f, 0f,
-                            directory.getEntry("fridge", Texture.class), storeWorld, canvas);
+                            directory.getEntry("fridge.region", TextureRegion.class), storeWorld, canvas);
                     storeObjects.add(obstacle);
                     storeObjectsAndDecor.add(obstacle);
                     break;

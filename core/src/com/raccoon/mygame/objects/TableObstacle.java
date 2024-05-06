@@ -11,7 +11,7 @@ import com.raccoon.mygame.view.GameCanvas;
 public class TableObstacle extends NormalObstacle {
     private boolean[] occupation;
 
-    public TableObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, Texture texture, World world, GameCanvas canvas) {
+    public TableObstacle(float x, float y, float width, float height, float sx, float sy, float ox, float oy, TextureRegion texture, World world, GameCanvas canvas) {
         super(x, y, width, height, sx, sy, ox, oy, texture, world, canvas);
         this.occupation = new boolean[2];
         occupation[0] = false;

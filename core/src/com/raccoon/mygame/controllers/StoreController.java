@@ -3,6 +3,7 @@ package com.raccoon.mygame.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -83,7 +84,7 @@ public class StoreController extends WorldController implements ContactListener 
     public Guard guardInAction;
 
 
-    private Texture invisible;
+    private TextureRegion invisible;
     private Texture BaseTimer;
     private Texture apple;
 
@@ -100,7 +101,7 @@ public class StoreController extends WorldController implements ContactListener 
     private void createTextures(AssetDirectory directory) {
         playerIdle = directory.getEntry("rockoidle.strip", FilmStrip.class);
         vent = directory.getEntry("vent.strip", FilmStrip.class);
-        invisible = directory.getEntry("invisible", Texture.class);
+        invisible = directory.getEntry("invisible.region", TextureRegion.class);
         BaseTimer = directory.getEntry("basetimer", Texture.class);
         notepadhappy = directory.getEntry("notepadhappy", Texture.class);
         notepadneutral = directory.getEntry("notepadneutral", Texture.class);

@@ -339,30 +339,135 @@
 		},
 
 		"floorstore": "720/grocerybg.png",
-		"boxlarge": "720/boxlarge.png",
-		"boxmedium": "720/boxmedium.png",
-		"boxsmall": "720/boxsmall.png",
-		"fridge": "720/fridge.png",
-		"janitoritems": "720/janitoritems.png",
-		"ladder": "720/ladder.png",
-		"shelfhorizontal": "720/groceryshelfhorizontal.png",
-		"shelfvertical": "720/shelfvertical.png",
-		"fruitcrate": "720/fruitcrate.png",
-		"ventwallhorizontal": "720/ventwallhorizontal.png",
-		"ventwallvertical": "720/ventwallvertical.png",
+		"boxlarge": {
+			"file":      "720/boxlarge.png",
+			"atlas":     {
+				"region" : [0, 0, 73, 75]
+			}
+		},
+		"boxmedium": {
+			"file":      "720/boxmedium.png",
+			"atlas":     {
+				"region" : [0, 0, 50, 48]
+			}
+		},
+		"boxsmall": {
+			"file":      "720/boxsmall.png",
+			"atlas":     {
+				"region" : [0, 0, 37, 41]
+			}
+		},
+		"fridge": {
+			"file":      "720/fridge.png",
+			"atlas":     {
+				"region" : [0, 0, 118, 160]
+			}
+		},
+		"janitoritems": {
+			"file":      "720/janitoritems.png",
+			"atlas":     {
+				"region" : [0, 0, 112, 128]
+			}
+		},
+		"ladder": {
+			"file":      "720/ladder.png",
+			"atlas":     {
+				"region" : [0, 0, 69, 121]
+			}
+		},
+		"shelfhorizontal": {
+			"file":      "720/groceryshelfhorizontal.png",
+			"atlas":     {
+				"region" : [0, 0, 221, 112]
+			}
+		},
+		"shelfvertical": {
+			"file":      "720/shelfvertical.png",
+			"atlas":     {
+				"region" : [0, 0, 36, 193]
+			}
+		},
+		"fruitcrate": {
+			"file":      "720/fruitcrate.png",
+			"atlas":     {
+				"region" : [0, 0, 116, 110]
+			}
+		},
+		"ventwallhorizontal": {
+			"file":      "720/ventwallhorizontal.png",
+			"atlas":     {
+				"region" : [0, 0, 201, 161]
+			}
+		},
+		"ventwallvertical": {
+			"file":      "720/ventwallvertical.png",
+			"atlas":     {
+				"region" : [0, 0, 30, 215]
+			}
+		},
 
 		"floorrestaurant": "720/floorrestaurant.png",
-		"decorativeshelf": "720/decorativeshelf.png",
+		"decorativeshelf": {
+			"file":      "720/decorativeshelf.png",
+			"atlas":     {
+				"region" : [0, 0, 61, 226]
+			}
+		},
 		"frontlamp": "720/frontlamp.png",
-		"notastallwall": "720/notAsTallWall.png",
-		"plant": "720/plant.png",
-		"sidelamp": "720/sidelamp.png",
-		"smallwall": "720/smallwall.png",
-		"table": "720/table.png",
-		"trashcan": "720/trashcan.png",
-		"wallbump": "720/wallbump.png",
-		"wallrestaurant": "720/wallrestaurant.png",
-		"window": "720/window.png",
+		"notastallwall": {
+			"file":      "720/notAsTallWall.png",
+			"atlas":     {
+				"region" : [0, 0, 43, 278]
+			}
+		},
+		"plant": {
+			"file":      "720/plant.png",
+			"atlas":     {
+				"region" : [0, 0, 89, 97]
+			}
+		},
+		"sidelamp": {
+			"file":      "720/sidelamp.png",
+			"atlas":     {
+				"region" : [0, 0, 50, 60]
+			}
+		},
+		"smallwall": {
+			"file":      "720/smallwall.png",
+			"atlas":     {
+				"region" : [0, 0, 44, 468]
+			}
+		},
+		"table": {
+			"file":      "720/table.png",
+			"atlas":     {
+				"region" : [0, 0, 226, 172]
+			}
+		},
+		"trashcan": {
+			"file":      "720/trashcan.png",
+			"atlas":     {
+				"region" : [0, 0, 90, 117]
+			}
+		},
+		"wallbump": {
+			"file":      "720/wallbump.png",
+			"atlas":     {
+				"region" : [0, 0, 113, 204]
+			}
+		},
+		"wallrestaurant": {
+			"file":      "720/wallrestaurant.png",
+			"atlas":     {
+				"region" : [0, 0, 1280, 720]
+			}
+		},
+		"window": {
+			"file":      "720/window.png",
+			"atlas":     {
+				"region" : [0, 0, 140, 140]
+			}
+		},
 
 
 		"wok":  {
@@ -605,13 +710,33 @@
 		},
 		"goodHollow": "goodHollow.png",
 		"guard": "guard.png",
-		"invisible": "invisible.png",
+		"invisible": {
+			"file":      "invisible.png",
+			"atlas":     {
+				"region" : [0, 0, 1920, 1080]
+			}
+		},
 		"light": "light.png",
 		"madHollow": "madHollow.png",
 		"neutralHollow": "neutralHollow.png",
-		"new_counter": "new_counter.png",
-		"new_pot_station": "new_pot_station.png",
-		"new_wok_station": "new_wok_station.png",
+		"new_counter": {
+			"file":      "new_counter.png",
+			"atlas":     {
+				"region" : [0, 0, 84, 187]
+			}
+		},
+		"new_pot_station": {
+			"file":      "new_pot_station.png",
+			"atlas":     {
+				"region" : [0, 0, 244, 240]
+			}
+		},
+		"new_wok_station": {
+			"file":      "new_wok_station.png",
+			"atlas":     {
+				"region" : [0, 0, 87, 167]
+			}
+		},
 		"pmGreen": "pmGreen.png",
 		"pmGrey": "pmGrey.png",
 		"pmRed": "pmRed.png",
@@ -626,7 +751,12 @@
 			}
 		},
 		"serve": "serve.png",
-		"cutting_station": "temp_cutting_station.png",
+		"cutting_station": {
+			"file":      "temp_cutting_station.png",
+			"atlas":     {
+				"region" : [0, 0, 84, 182]
+			}
+		},
 		"trashInv": "trashInv.png",
 
 		"notepadhappy": "720/notepadhappy.png",
