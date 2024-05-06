@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.controllers.CustomerAIController;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.controllers.PatienceMeter;
@@ -94,6 +95,7 @@ public class Customer extends BoxObstacle {
     private float offsetX = 0;
     private float offsetY = 0;
     public Dish servedDish;
+    private AssetDirectory directory;
 
     public int orderSize;
     private Texture one = new Texture("order/one.png");
@@ -119,7 +121,7 @@ public class Customer extends BoxObstacle {
 
     public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world,
                     GameCanvas canvas, int ordernum,
-                    int showUpTime, Array<String> inputOrder) {
+                    int showUpTime, Array<String> inputOrder, AssetDirectory directory) {
         super(x, y, width, height);
 //        this.texture = texture;
 //        setTexture(new TextureRegion(texture));
@@ -138,6 +140,7 @@ public class Customer extends BoxObstacle {
         setDrawScale(scaleX, scaleY);
         this.getBody().setUserData(this);
         order = new Ingredient[3];
+        this.directory = directory;
 
 //        Array<Ingredient> menu = new Array<Ingredient>();
 //        menu.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
@@ -248,7 +251,7 @@ public class Customer extends BoxObstacle {
 
     public void initializeAIController(Array<TableObstacle> tables){
         controller = new CustomerAIController(tables, this, shadow,
-                new float[]{scaleX, scaleY, this.height});
+                new float[]{scaleX, scaleY, this.height}, directory);
     }
 
     public Ingredient[] getOrder() {

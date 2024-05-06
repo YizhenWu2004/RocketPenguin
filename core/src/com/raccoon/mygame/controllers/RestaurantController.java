@@ -139,6 +139,8 @@ public class RestaurantController extends WorldController implements ContactList
 
     private int[] star_req;
 
+    private AssetDirectory directory;
+
 
     private void createTextures(AssetDirectory directory) {
         light = directory.getEntry("light", Texture.class);
@@ -189,6 +191,7 @@ public class RestaurantController extends WorldController implements ContactList
 
         playerIdle = directory.getEntry("rockoidle.strip", FilmStrip.class);
         goatIdle = directory.getEntry("goatwalk.strip", FilmStrip.class);
+        this.directory = directory;
     }
 
     private void addTable(float x, float y, boolean flip) {
@@ -445,7 +448,7 @@ public class RestaurantController extends WorldController implements ContactList
             }
 
             //arr.removeIndex(0);
-            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied);
+            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied, directory);
             customersToAdd.add(customer1);
         }
 

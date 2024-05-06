@@ -3,11 +3,13 @@ package com.raccoon.mygame.controllers;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.objects.TableObstacle;
 
 public class CustomerAIController implements AIController {
+    private AssetDirectory directory;
     public static enum FSMState {
         SPAWN,
         SEAT,
@@ -36,7 +38,7 @@ public class CustomerAIController implements AIController {
 
     private float[] customerInfo;
 
-    public CustomerAIController(Array<TableObstacle> tables, Customer customer,Shadow shadow,float[] customerInfo) {
+    public CustomerAIController(Array<TableObstacle> tables, Customer customer,Shadow shadow,float[] customerInfo, AssetDirectory directory) {
         this.tables = tables;
         this.customer = customer;
         state = FSMState.SPAWN;
@@ -46,6 +48,7 @@ public class CustomerAIController implements AIController {
 
         this.customerInfo = customerInfo;
         this.shadow = shadow;
+        this.directory = directory;
     }
 
 
@@ -155,7 +158,7 @@ public class CustomerAIController implements AIController {
 
     private void createPatienceMeter() {
         if (customer.pat == null) {
-            customer.pat = new PatienceMeter(120, customer.canvas, customer);
+            customer.pat = new PatienceMeter(120, customer.canvas, customer, directory);
             customer.pat.create();
         }
     }
