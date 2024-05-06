@@ -42,6 +42,7 @@ public class CookingStationObject extends NormalObstacle{
     public Pot wok;
     public Pot pott;
     public Pot chop;
+    private AssetDirectory directory;
 
     private void createTextures(AssetDirectory directory) {
         potbar = directory.getEntry("potbar", Texture.class);
@@ -51,6 +52,7 @@ public class CookingStationObject extends NormalObstacle{
         chop_pic = directory.getEntry("cutting_board.strip", FilmStrip.class);
         wok_pic_cooked = directory.getEntry("wok_cooked.strip", FilmStrip.class);
         pot_pic_cooked = directory.getEntry("pot_cooked.strip", FilmStrip.class);
+        this.directory = directory;
     }
 
 //    private Expression spaceIcon;
@@ -85,7 +87,7 @@ public class CookingStationObject extends NormalObstacle{
 
         Ingredient[] dish = Arrays.copyOf(pot.inv, pot.inv.length);
         pot.clearAll();
-        return new Dish(dish, serve, -1,this.station_type);
+        return new Dish(dish, serve, -1,this.station_type, directory);
     }
 
     @Override

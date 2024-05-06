@@ -475,6 +475,9 @@
 		"m_week": "menu/week.png",
 		"m_yes": "menu/yes.png",
 		"m_yeshovered": "menu/yeshovered.png",
+		"m_confirmtext": "menu/confirmtext.png",
+		"m_deleteconfirmation": "menu/deleteconfirmation.png",
+		"m_deletesave": "menu/deletesave.png",
 
 		"mo_audio" : "menu_option/audio.png",
 		"mo_audio_b_normal": "menu_option/audio_button_normal.png",

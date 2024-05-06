@@ -115,7 +115,8 @@ public class StoreController extends WorldController implements ContactListener 
 //    private void addShelfHorizontal(float x, float y) {
 //        //0.95
 //        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -30f,
-//                new Texture("720/groceryshelfhorizontal.png"), world, canvas);
+//
+//        new Texture("720/groceryshelfhorizontal.png"), world, canvas);
 //        obstacles.add(obstacle);
 //        drawableObjects.add(obstacle);
 //    }
