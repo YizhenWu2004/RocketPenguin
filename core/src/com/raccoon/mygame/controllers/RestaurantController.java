@@ -510,32 +510,6 @@ public class RestaurantController extends WorldController implements ContactList
         player.update(delta);
         player.current = this.current;
 
-        //todo CUSTOMER
-//        if ((t.getTime() == 178 || t.getTime() == 176 ||t.getTime() == 130|| t.getTime() == 128 || t.getTime() ==126 || t.getTime() ==80 || t.getTime() == 78 || t.getTime() == 76) && !t.action_round && paused == false){
-//            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 2);
-//
-//            customers.add(customer1);
-//            sounds.doorPlay();
-//            drawableObjects.add(customer1);
-//            t.action_round=true;
-
-//        }else if (t.getTime() == 120&& !t.action_round){
-//            Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 3);
-//            customers.add(customer2);
-//            drawableObjects.add(customer2);
-//            t.action_round=true;
-//        }else if (t.getTime() == 90&& !t.action_round){
-//            Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
-//            customers.add(customer3);
-//            drawableObjects.add(customer3);
-//            t.action_round=true;
-//        }else if (t.getTime() == 60&& !t.action_round){
-//            Customer customer4 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 4);
-//            customers.add(customer4);
-//            drawableObjects.add(customer4);
-//            t.action_round=true;
-
-//    }
         for(Customer c: customersToAdd){
 //            System.out.println(c.showUpTime);
             if(c.showUpTime >= t.getTime() && !t.action_round && paused == false){
