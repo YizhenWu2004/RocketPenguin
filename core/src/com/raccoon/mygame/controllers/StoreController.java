@@ -96,7 +96,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     private HashMap<String, Texture> ingredientTextures;
     public Worldtimer t;
-
+    AssetDirectory directory;
     private void createTextures(AssetDirectory directory) {
         playerIdle = directory.getEntry("rockoidle.strip", FilmStrip.class);
         vent = directory.getEntry("vent.strip", FilmStrip.class);
@@ -176,6 +176,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, Array<Customer> notepadOrders, SoundController s, AssetDirectory directory) {
         createTextures(directory);
+        this.directory = directory;
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
@@ -697,7 +698,7 @@ public class StoreController extends WorldController implements ContactListener 
     public void startVentTimer(VentObstacle o, Player p){
         duringventing = true;
         p.playerIsVenting = true;
-        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer);
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer,directory);
         o.ventTimer.create();
     }
 

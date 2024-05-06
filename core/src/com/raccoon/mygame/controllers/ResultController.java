@@ -3,6 +3,7 @@ package com.raccoon.mygame.controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.ButtonAction;
 import com.raccoon.mygame.models.ButtonHover;
 import com.raccoon.mygame.models.ButtonUnhover;
@@ -15,10 +16,6 @@ public class ResultController extends WorldController {
     private GameCanvas canvas;
     private InputController input;
     private Array<UIButton> buttons = new Array<>();
-    private Texture retry_hover = new Texture("result/retry_hover.png");
-    private Texture next_hover = new Texture("result/next_hover.png");
-    private Texture select_hover = new Texture("result/select_hover.png");
-
     public boolean retry = false;
     public boolean next = false;
     public boolean select = false;
@@ -30,51 +27,101 @@ public class ResultController extends WorldController {
     public int score;
 
     public int[] star_req;
+    private Texture retry_hover ;
+    private Texture next_hover ;
+    private Texture select_hover ;
 
-    public Texture c_0 = new Texture("result/complete/0.png");
-    public Texture c_1 = new Texture("result/complete/1.png");
-    public Texture c_2 = new Texture("result/complete/2.png");
-    public Texture c_3 = new Texture("result/complete/3.png");
-    public Texture c_4 = new Texture("result/complete/4.png");
-    public Texture c_5 = new Texture("result/complete/5.png");
-    public Texture c_6 = new Texture("result/complete/6.png");
-    public Texture c_7 = new Texture("result/complete/7.png");
-    public Texture c_8 = new Texture("result/complete/8.png");
-    public Texture c_9 = new Texture("result/complete/9.png");
+    public Texture c_0 ;
+    public Texture c_1 ;
+    public Texture c_2 ;
+    public Texture c_3 ;
+    public Texture c_4 ;
+    public Texture c_5 ;
+    public Texture c_6 ;
+    public Texture c_7 ;
+    public Texture c_8 ;
+    public Texture c_9 ;
 
-    public Texture s_0 = new Texture("result/score/0.png");
-    public Texture s_1 = new Texture("result/score/1.png");
-    public Texture s_2 = new Texture("result/score/2.png");
-    public Texture s_3 = new Texture("result/score/3.png");
-    public Texture s_4 = new Texture("result/score/4.png");
-    public Texture s_5 = new Texture("result/score/5.png");
-    public Texture s_6 = new Texture("result/score/6.png");
-    public Texture s_7 = new Texture("result/score/7.png");
-    public Texture s_8 = new Texture("result/score/8.png");
-    public Texture s_9 = new Texture("result/score/9.png");
+    public Texture s_0 ;
+    public Texture s_1 ;
+    public Texture s_2 ;
+    public Texture s_3 ;
+    public Texture s_4 ;
+    public Texture s_5 ;
+    public Texture s_6 ;
+    public Texture s_7 ;
+    public Texture s_8;
+    public Texture s_9 ;
 
-    public Texture t_0 = new Texture("result/total/0.png");
-    public Texture t_1 = new Texture("result/total/1.png");
-    public Texture t_2 = new Texture("result/total/2.png");
-    public Texture t_3 = new Texture("result/total/3.png");
-    public Texture t_4 = new Texture("result/total/4.png");
-    public Texture t_5 = new Texture("result/total/5.png");
-    public Texture t_6 = new Texture("result/total/6.png");
-    public Texture t_7 = new Texture("result/total/7.png");
-    public Texture t_8 = new Texture("result/total/8.png");
-    public Texture t_9 = new Texture("result/total/9.png");
-    public Texture zero_star= new Texture("result/zero_star.png");
-    public Texture one_star= new Texture("result/one_star.png");
-    public Texture two_stars= new Texture("result/two_stars.png");
-    public Texture three_stars= new Texture("result/three_stars.png");
+    public Texture t_0 ;
+    public Texture t_1 ;
+    public Texture t_2 ;
+    public Texture t_3 ;
+    public Texture t_4 ;
+    public Texture t_5;
+    public Texture t_6 ;
+    public Texture t_7 ;
+    public Texture t_8 ;
+    public Texture t_9 ;
+    public Texture zero_star;
+    public Texture one_star;
+    public Texture two_stars;
+    public Texture three_stars;
+    public Texture retry_b;
+    public Texture next_b;
+    public Texture levelselect;
 
 
-    public ResultController(GameCanvas canvas, Texture background, InputController input){
+    public ResultController(GameCanvas canvas, Texture background, InputController input, AssetDirectory directory){
         this.background = background;
         this.canvas = canvas;
         this.input = input;
 
-        UIButton retry = new UIButton(new Texture("result/retry.png"),"retry",375,102,canvas);
+        retry_hover = directory.getEntry("r_retry_hover",Texture.class);
+        next_hover = directory.getEntry("r_next_hover",Texture.class);
+        select_hover = directory.getEntry("r_select_hover",Texture.class);
+        retry_b = directory.getEntry("r_retry",Texture.class);
+        next_b = directory.getEntry("r_next",Texture.class);
+        levelselect = directory.getEntry("r_select",Texture.class);
+
+        c_0 = directory.getEntry("rc_0",Texture.class);
+        c_1 = directory.getEntry("rc_1",Texture.class);
+        c_2 = directory.getEntry("rc_2",Texture.class);
+         c_3 = directory.getEntry("rc_3",Texture.class);
+         c_4 = directory.getEntry("rc_4",Texture.class);
+        c_5 = directory.getEntry("rc_5",Texture.class);
+         c_6 =directory.getEntry("rc_6",Texture.class);
+        c_7 =directory.getEntry("rc_7",Texture.class);
+         c_8 = directory.getEntry("rc_8",Texture.class);
+        c_9 =directory.getEntry("rc_9",Texture.class);
+
+         s_0 = directory.getEntry("rs_0",Texture.class);
+         s_1 = directory.getEntry("rs_1",Texture.class);
+         s_2 = directory.getEntry("rs_2",Texture.class);
+         s_3 = directory.getEntry("rs_3",Texture.class);
+         s_4 = directory.getEntry("rs_4",Texture.class);
+         s_5 = directory.getEntry("rs_5",Texture.class);
+        s_6 = directory.getEntry("rs_6",Texture.class);
+        s_7 = directory.getEntry("rs_7",Texture.class);
+         s_8 = directory.getEntry("rs_8",Texture.class);
+        s_9 = directory.getEntry("rs_9",Texture.class);
+
+        t_0 =directory.getEntry("rt_0",Texture.class);
+         t_1 =directory.getEntry("rt_1",Texture.class);
+         t_2 = directory.getEntry("rt_2",Texture.class);
+        t_3 = directory.getEntry("rt_3",Texture.class);
+         t_4 = directory.getEntry("rt_4",Texture.class);
+         t_5 = directory.getEntry("rt_5",Texture.class);
+         t_6 = directory.getEntry("rt_6",Texture.class);
+         t_7 = directory.getEntry("rt_7",Texture.class);
+        t_8 = directory.getEntry("rt_8",Texture.class);
+         t_9 = directory.getEntry("rt_9",Texture.class);
+         zero_star= directory.getEntry("r_zerostar",Texture.class);
+        one_star= directory.getEntry("r_onestar",Texture.class);
+         two_stars= directory.getEntry("r_twostars",Texture.class);
+       three_stars= directory.getEntry("r_threestars",Texture.class);
+
+        UIButton retry = new UIButton(retry_b,"retry",375,102,canvas);
         addButton(retry, ()-> {
             this.retry = true;
         }, ()->{
@@ -83,7 +130,7 @@ public class ResultController extends WorldController {
             retry.setTexture(retry_hover);
         }, retry::resetStyleProperties);
 
-        UIButton next = new UIButton(new Texture("result/next.png"),"next", 545,120,canvas);
+        UIButton next = new UIButton(next_b,"next", 545,120,canvas);
         addButton(next, ()-> {
             this.next = true;
         }, ()->{
@@ -92,7 +139,7 @@ public class ResultController extends WorldController {
             next.setTexture(next_hover);
         },next::resetStyleProperties);
 
-        UIButton select = new UIButton(new Texture("result/select.png"),"select",425,65,canvas);
+        UIButton select = new UIButton(levelselect,"select",425,65,canvas);
         addButton(select, ()-> {
             this.select = true;
         },()->{

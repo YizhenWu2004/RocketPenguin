@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Timer;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.view.GameCanvas;
 
 import java.awt.*;
@@ -25,12 +26,12 @@ public class Worldtimer extends ApplicationAdapter {
     private Texture timerTexture;
     private int maxTime;
 
-    private Texture timer_frame = new Texture("720/timer_frame.png");
-    private Texture timer_background = new Texture("720/timer_background.png");
-    private Texture cooking_timer = new Texture("720/cooktimer.png");
-    private Texture timer_green = new Texture("720/timer_green.png");
-    private Texture green2 = new Texture("720/green2.png");
-    private Texture timer_red = new Texture("720/timer_red.png");
+    private Texture timer_frame;
+    private Texture timer_background ;
+    private Texture cooking_timer ;
+    private Texture timer_green ;
+    private Texture green2 ;
+    private Texture timer_red ;
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("720/PatrickHandSC-Regular.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter p = new FreeTypeFontGenerator.FreeTypeFontParameter();
     BitmapFont font = generator.generateFont(p);
@@ -38,7 +39,15 @@ public class Worldtimer extends ApplicationAdapter {
 //    generator.dispose();
     GlyphLayout layout = new GlyphLayout(font, "");
 
-    public Worldtimer(int count, GameCanvas canvas, Texture t){
+    public Worldtimer(int count, GameCanvas canvas, Texture t, AssetDirectory directory){
+
+       timer_frame = directory.getEntry("timerframe",Texture.class);
+        timer_background = directory.getEntry("timerbackground",Texture.class);
+        cooking_timer = directory.getEntry("cooktimer",Texture.class);
+        timer_green = directory.getEntry("timergreen",Texture.class);
+        green2 = directory.getEntry("timergreen2",Texture.class);
+        timer_red = directory.getEntry("timerred",Texture.class);
+
         countdownSeconds = count;
         gameCanvas = canvas;
         action_round = false;

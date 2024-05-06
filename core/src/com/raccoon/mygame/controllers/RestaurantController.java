@@ -633,7 +633,7 @@ public class RestaurantController extends WorldController implements ContactList
                         sounds.chopPlay();
                         time = 1;
                     }
-                    c.timer = new Worldtimer(time, canvas, BaseTimer);
+                    c.timer = new Worldtimer(time, canvas, BaseTimer, directory);
                     c.timer.create();
                     c.setMaxTime();
                 } else if ((c.pot.size != 0 && !c.interacting) || input.getDown()){
@@ -1077,7 +1077,7 @@ public class RestaurantController extends WorldController implements ContactList
 
     public void startVentTimer(VentObstacle o, Player p){
         p.playerIsVenting = true;
-        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer);
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer,directory);
         o.ventTimer.create();
     }
 
