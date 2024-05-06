@@ -74,7 +74,7 @@ public class LevelModel {
     }
 
     private void addIngredient(float x, float y, String name) {
-        ingredients.add(new Ingredient(name, x, y, directory.getEntry("ui" + name, Texture.class), -1));
+        ingredients.add(new Ingredient(name, x, y, directory.getEntry("ui" + name, Texture.class), -1, directory));
     }
 
     private void addGuard(float x, float y, boolean sleep, int rotate, String orientation, Array<Vector2> nodes) {

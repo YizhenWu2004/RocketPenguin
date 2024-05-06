@@ -22,7 +22,7 @@ public class QuestionExpression extends Expression{
     public Texture color6;
 
     public QuestionExpression(String name, float x, float y, float currentProgress, float totalProgress, AssetDirectory directory) {
-        super(name, x, y);
+        super(name, x, y, directory);
 
         color1=directory.getEntry("color1",Texture.class);
         color2=directory.getEntry("color2",Texture.class);

@@ -2,6 +2,7 @@ package com.raccoon.mygame.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Expression {
@@ -14,27 +15,27 @@ public class Expression {
     protected float y;
     private Texture texture;
 
-    public Expression(String name, float x, float y) {
+    public Expression(String name, float x, float y, AssetDirectory directory) {
         this.type = name;
         this.x = x;
         this.y = y;
         if(name == "exclamation"){
-            this.texture = new Texture("720/"+ "exclamation" + ".png");
+            this.texture = directory.getEntry("exclamation",Texture.class);
         }
         else if(name == "zzz"){
-            this.texture = new Texture("720/"+ "zzz" + ".png");
+            this.texture = directory.getEntry("zzz",Texture.class);
         }
 //        else if(name == "space"){
 //            this.texture = new Texture("720/"+ "space" + ".png");
 //        }
         else if(name == "customerQuestion"){
-            this.texture = new Texture("720/"+ "customerQuestion" + ".png");
+            this.texture = directory.getEntry("customerquestion",Texture.class);
         }
         else if(name == "customerThumbsUp"){
-            this.texture = new Texture("720/"+ "customerThumbsUp" + ".png");
+            this.texture =directory.getEntry("customerthumbsup",Texture.class);
         }
         else if(name == "customerThumbsDown"){
-            this.texture = new Texture("720/"+ "customerThumbsDown" + ".png");
+            this.texture = directory.getEntry("customerthumbsdown",Texture.class);
         }
         //commented out because question should always be QuestionExpression class
 //        if(name == "question"){

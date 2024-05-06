@@ -51,7 +51,7 @@ public class Guard extends WheelObstacle {
     private AssetDirectory directory;
 
 
-    private Shadow shadow = new Shadow(0,0,1f,1f);;
+    private Shadow shadow;
 
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
@@ -59,6 +59,7 @@ public class Guard extends WheelObstacle {
                  Array<Vector2> nodes, GuardAIController.GuardOrientation spawnOrien, SoundController s, AssetDirectory directory) {
         super(width/3);
         this.directory = directory;
+        shadow = new Shadow(0,0,1f,1f, directory);
         sounds = s;
 //        patrolTexture = texture;
 //        setTexture(new TextureRegion(texture));
@@ -83,8 +84,8 @@ public class Guard extends WheelObstacle {
                         150, 2, patrolDirection, collisionLayer, new Vector2(width,height)
                 ,nodes, spawnOrien, sounds);
 
-        exclam = new Expression("exclamation",x,y);
-        zzz = new Expression("zzz",x,y);
+        exclam = new Expression("exclamation",x,y, directory);
+        zzz = new Expression("zzz",x,y, directory);
         question = new QuestionExpression("question",x,y,aiController.getSusMeter(),30, directory);
     }
 

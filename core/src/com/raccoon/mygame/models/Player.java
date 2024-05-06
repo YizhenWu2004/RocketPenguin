@@ -113,9 +113,9 @@ public class Player extends CapsuleObstacle {
         this.height = height;
         this.width = width;
 
-        shadow = new Shadow(x,y,1.4f,1.4f);
+        shadow = new Shadow(x,y,1.4f,1.4f, directory);
 
-        shadowStanding = new Shadow(x,y,1f,1f);
+        shadowStanding = new Shadow(x,y,1f,1f,directory);
 
         justDied = false;
         respawning = false;

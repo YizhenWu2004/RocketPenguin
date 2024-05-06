@@ -87,7 +87,7 @@ public class Customer extends BoxObstacle {
 
     float height;
     float width;
-    private Shadow shadow = new Shadow(0, 0, 1f, 1f);
+    private Shadow shadow;
     ;
     private String customerType;
     public String[] types = new String[]{"goat", "cat", "otter", "ferret", "bear"};
@@ -123,6 +123,7 @@ public class Customer extends BoxObstacle {
                     GameCanvas canvas, int ordernum,
                     int showUpTime, Array<String> inputOrder, AssetDirectory directory) {
         super(x, y, width, height);
+        shadow = new Shadow(0, 0, 1f, 1f, directory);
 
 
         one = directory.getEntry("o_one", Texture.class);
@@ -188,7 +189,7 @@ public class Customer extends BoxObstacle {
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = red[r];
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
             else if(inputOrder.get(i).equals("yellow")){
@@ -196,7 +197,7 @@ public class Customer extends BoxObstacle {
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = yellow[r];
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
             else if(inputOrder.get(i).equals("orange")){
@@ -204,7 +205,7 @@ public class Customer extends BoxObstacle {
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = orange[r];
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
             else if(inputOrder.get(i).equals("green")){
@@ -212,13 +213,13 @@ public class Customer extends BoxObstacle {
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = green[r];
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
             else{
                 orderSize++;
                 String ingName = inputOrder.get(i);
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
         }
@@ -251,11 +252,11 @@ public class Customer extends BoxObstacle {
 
         setCustomerType();
 
-        question = new Expression("customerQuestion", x, y);
+        question = new Expression("customerQuestion", x, y,directory);
 
-        thumbsUp = new Expression("customerThumbsUp", x, y);
+        thumbsUp = new Expression("customerThumbsUp", x, y, directory);
 
-        thumbsDown = new Expression("customerThumbsDown", x, y);
+        thumbsDown = new Expression("customerThumbsDown", x, y, directory);
     }
 
     public void initializeAIController(Array<TableObstacle> tables){

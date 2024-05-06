@@ -2,6 +2,7 @@ package com.raccoon.mygame.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Shadow {
@@ -14,10 +15,10 @@ public class Shadow {
     private float y;
     private Texture texture;
 
-    public Shadow(float x, float y, float xScale, float yScale) {
+    public Shadow(float x, float y, float xScale, float yScale, AssetDirectory directory) {
         this.x = x;
         this.y = y;
-        this.texture = new Texture("720/"+ "shadow" + ".png");
+        this.texture = directory.getEntry("shadow",Texture.class);
         texture_sx = xScale;
         texture_sy = yScale;
     }
