@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.utils.Timer;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.view.GameCanvas;
 
@@ -31,21 +32,21 @@ public class PatienceMeter extends ApplicationAdapter{
     private Texture neutralHollow;
     private Texture madHollow;
 
-    public PatienceMeter(int count, GameCanvas canvas, Customer cus){
+    public PatienceMeter(int count, GameCanvas canvas, Customer cus, AssetDirectory directory){
         countdownSeconds = count;
         max_countdown = count;
         gameCanvas = canvas;
         customer = cus;
         timerPaused = false;
 
-        pmGrey = new Texture("pmGrey.png");
-        pmGreen = new Texture("pmGreen.png");
-        pmYellow = new Texture("pmYellow.png");
-        pmRed = new Texture("pmRed.png");
+        pmGrey = directory.getEntry("pmGrey",Texture.class);
+        pmGreen = directory.getEntry("pmGreen",Texture.class);
+        pmYellow = directory.getEntry("pmYellow",Texture.class);
+        pmRed =directory.getEntry("pmRed",Texture.class);
 
-        goodHollow = new Texture("goodHollow.png");
-        neutralHollow = new Texture("neutralHollow.png");
-        madHollow = new Texture("madHollow.png");
+        goodHollow = directory.getEntry("goodHollow",Texture.class);
+        neutralHollow = directory.getEntry("neutralHollow",Texture.class);
+        madHollow =directory.getEntry("madHollow",Texture.class);
     }
 
     public void create() {

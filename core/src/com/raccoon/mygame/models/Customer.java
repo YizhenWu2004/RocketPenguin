@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.controllers.CustomerAIController;
 import com.raccoon.mygame.controllers.GuardAIController;
 import com.raccoon.mygame.controllers.PatienceMeter;
@@ -86,7 +87,7 @@ public class Customer extends BoxObstacle {
 
     float height;
     float width;
-    private Shadow shadow = new Shadow(0, 0, 1f, 1f);
+    private Shadow shadow;
     ;
     private String customerType;
     public String[] types = new String[]{"goat", "cat", "otter", "ferret", "bear"};
@@ -94,14 +95,15 @@ public class Customer extends BoxObstacle {
     private float offsetX = 0;
     private float offsetY = 0;
     public Dish servedDish;
+    private AssetDirectory directory;
 
     public int orderSize;
-    private Texture one = new Texture("order/one.png");
-    private Texture two = new Texture("order/two.png");
-    private Texture three = new Texture("order/three.png");
-    private Texture wok = new Texture("order/wok.png");
-    private Texture pot = new Texture("order/pot.png");
-    private Texture cutting_board = new Texture("order/cutting_board.png");
+    private Texture one;
+    private Texture two;
+    private Texture three ;
+    private Texture wok;
+    private Texture pot ;
+    private Texture cutting_board;
 
     private Expression question;
 
@@ -119,8 +121,18 @@ public class Customer extends BoxObstacle {
 
     public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world,
                     GameCanvas canvas, int ordernum,
-                    int showUpTime, Array<String> inputOrder) {
+                    int showUpTime, Array<String> inputOrder, AssetDirectory directory) {
         super(x, y, width, height);
+        shadow = new Shadow(0, 0, 1f, 1f, directory);
+
+
+        one = directory.getEntry("o_one", Texture.class);
+        two = directory.getEntry("o_two", Texture.class);
+        three = directory.getEntry("o_three", Texture.class);
+        wok = directory.getEntry("o_wok", Texture.class);
+        pot = directory.getEntry("o_pot", Texture.class);
+        cutting_board = directory.getEntry("o_cutting_board", Texture.class);
+
 //        this.texture = texture;
 //        setTexture(new TextureRegion(texture));
         this.sprite = defaultCustomerSprite;
@@ -138,6 +150,7 @@ public class Customer extends BoxObstacle {
         setDrawScale(scaleX, scaleY);
         this.getBody().setUserData(this);
         order = new Ingredient[3];
+        this.directory = directory;
 
 //        Array<Ingredient> menu = new Array<Ingredient>();
 //        menu.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
@@ -176,7 +189,7 @@ public class Customer extends BoxObstacle {
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = red[r];
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
             else if(inputOrder.get(i).equals("yellow")){
@@ -184,7 +197,7 @@ public class Customer extends BoxObstacle {
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = yellow[r];
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
             else if(inputOrder.get(i).equals("orange")){
@@ -192,7 +205,7 @@ public class Customer extends BoxObstacle {
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = orange[r];
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
             else if(inputOrder.get(i).equals("green")){
@@ -200,13 +213,13 @@ public class Customer extends BoxObstacle {
                 int r = random.nextInt(3);
                 orderSize++;
                 String ingName = green[r];
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
             else{
                 orderSize++;
                 String ingName = inputOrder.get(i);
-                Ingredient ing = new Ingredient(ingName, 200, 200, new Texture("720/"+ingName+".png"), -1);
+                Ingredient ing = new Ingredient(ingName, 200, 200, directory.getEntry(ingName,Texture.class), -1, directory);
                 order[i-1] = ing;
             }
         }
@@ -239,16 +252,16 @@ public class Customer extends BoxObstacle {
 
         setCustomerType();
 
-        question = new Expression("customerQuestion", x, y);
+        question = new Expression("customerQuestion", x, y,directory);
 
-        thumbsUp = new Expression("customerThumbsUp", x, y);
+        thumbsUp = new Expression("customerThumbsUp", x, y, directory);
 
-        thumbsDown = new Expression("customerThumbsDown", x, y);
+        thumbsDown = new Expression("customerThumbsDown", x, y, directory);
     }
 
     public void initializeAIController(Array<TableObstacle> tables){
         controller = new CustomerAIController(tables, this, shadow,
-                new float[]{scaleX, scaleY, this.height});
+                new float[]{scaleX, scaleY, this.height}, directory);
     }
 
     public Ingredient[] getOrder() {

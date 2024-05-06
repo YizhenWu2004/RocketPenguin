@@ -2,6 +2,7 @@ package com.raccoon.mygame.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class QuestionExpression extends Expression{
@@ -13,12 +14,27 @@ public class QuestionExpression extends Expression{
     float currentProgress;
     float totalProgress;
 
-    public QuestionExpression(String name, float x, float y, float currentProgress, float totalProgress) {
-        super(name, x, y);
-        this.backgroundTexture = new Texture("720/"+ "circleBackground" + ".png");
-        this.hollowTexture = new Texture("720/"+ "hollow" + ".png");
+    public Texture color1;
+    public Texture color2;
+    public Texture color3;
+    public Texture color4;
+    public Texture color5;
+    public Texture color6;
 
-        this.fillTexture = new Texture("fillColor/"+ "color1" + ".png");
+    public QuestionExpression(String name, float x, float y, float currentProgress, float totalProgress, AssetDirectory directory) {
+        super(name, x, y, directory);
+
+        color1=directory.getEntry("color1",Texture.class);
+        color2=directory.getEntry("color2",Texture.class);
+        color3=directory.getEntry("color3",Texture.class);
+        color4=directory.getEntry("color4",Texture.class);
+        color5=directory.getEntry("color5",Texture.class);
+        color6=directory.getEntry("color6",Texture.class);
+
+        this.backgroundTexture = directory.getEntry("circlebackground",Texture.class);
+        this.hollowTexture = directory.getEntry("hollow",Texture.class);
+
+        this.fillTexture = color1;
 
         this.currentProgress = currentProgress;
         this.totalProgress = totalProgress;
@@ -28,22 +44,22 @@ public class QuestionExpression extends Expression{
         currentProgress = newVal;
 
         if(currentProgress/totalProgress <= 0.1f){
-            fillTexture = new Texture("fillColor/"+ "color1" + ".png");
+            fillTexture = color1;
         }
         else if(currentProgress/totalProgress <= 0.3f){
-            fillTexture = new Texture("fillColor/"+ "color2" + ".png");
+            fillTexture = color2;
         }
         else if(currentProgress/totalProgress <= 0.5f){
-            fillTexture = new Texture("fillColor/"+ "color3" + ".png");
+            fillTexture = color3;
         }
         else if(currentProgress/totalProgress <= 0.7f){
-            fillTexture = new Texture("fillColor/"+ "color4" + ".png");
+            fillTexture = color4;
         }
         else if(currentProgress/totalProgress <= 0.9f){
-            fillTexture = new Texture("fillColor/"+ "color5" + ".png");
+            fillTexture = color5;
         }
         else{
-            fillTexture = new Texture("fillColor/"+ "color6" + ".png");
+            fillTexture = color6;
         }
     }
 

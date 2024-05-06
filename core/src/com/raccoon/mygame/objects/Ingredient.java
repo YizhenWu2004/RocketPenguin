@@ -3,16 +3,18 @@ package com.raccoon.mygame.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Ingredient implements GameObject, Comparable<Ingredient> {
 
     //Initially 0.2, changed to 1
+    private AssetDirectory directory;
     private float defaultSX = 1f;
     private float defaultSY = 1f;
     private float TEXTURE_SX = 1f;
     private float TEXTURE_SY = 1f;
-    private Texture jalapeno = new Texture("order/jalapeno.png");
+    private Texture jalapeno;
 
     public int name;
     public String type;
@@ -27,7 +29,9 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
     //position in pot, -1 means not in pot
     private int posInPot;
 
-    public Ingredient(String name, float x, float y, Texture texture, int posInInventory) {
+    public Ingredient(String name, float x, float y, Texture texture, int posInInventory, AssetDirectory directory) {
+        jalapeno = directory.getEntry("o_jalapeno", Texture.class);
+        this.directory = directory;
         this.type = name;
         this.x = x;
         this.y = y;
@@ -141,7 +145,7 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
     }
 
     public Ingredient clone(){
-        return new Ingredient(this.type,x,y,new Texture("720/" + this.type + ".png"), posInInventory);
+        return new Ingredient(this.type,x,y,this.texture, posInInventory, directory);
     }
 }
 

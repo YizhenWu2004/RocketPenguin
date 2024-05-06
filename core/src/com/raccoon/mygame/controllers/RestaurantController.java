@@ -139,6 +139,8 @@ public class RestaurantController extends WorldController implements ContactList
 
     private int[] star_req;
 
+    private AssetDirectory directory;
+
 
     private void createTextures(AssetDirectory directory) {
         light = directory.getEntry("light", Texture.class);
@@ -189,6 +191,7 @@ public class RestaurantController extends WorldController implements ContactList
 
         playerIdle = directory.getEntry("rockoidle.strip", FilmStrip.class);
         goatIdle = directory.getEntry("goatwalk.strip", FilmStrip.class);
+        this.directory = directory;
     }
 
     private void addTable(float x, float y, boolean flip) {
@@ -280,7 +283,7 @@ public class RestaurantController extends WorldController implements ContactList
         decorationTextures.put("trashcan", trashcan);
 
         //Setting the default filmstrip for the player
-        player = new Player(3f, 6.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world, sounds);
+        player = new Player(3f, 6.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world, sounds, directory);
 
         drawableObjects.add(player);
 
@@ -445,7 +448,7 @@ public class RestaurantController extends WorldController implements ContactList
             }
 
             //arr.removeIndex(0);
-            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied);
+            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied, directory);
             customersToAdd.add(customer1);
         }
 
@@ -630,7 +633,7 @@ public class RestaurantController extends WorldController implements ContactList
                         sounds.chopPlay();
                         time = 1;
                     }
-                    c.timer = new Worldtimer(time, canvas, BaseTimer);
+                    c.timer = new Worldtimer(time, canvas, BaseTimer, directory);
                     c.timer.create();
                     c.setMaxTime();
                 } else if ((c.pot.size != 0 && !c.interacting) || input.getDown()){
@@ -1074,7 +1077,7 @@ public class RestaurantController extends WorldController implements ContactList
 
     public void startVentTimer(VentObstacle o, Player p){
         p.playerIsVenting = true;
-        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer);
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer,directory);
         o.ventTimer.create();
     }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.view.GameCanvas;
 
@@ -19,33 +20,34 @@ import java.awt.*;
 public class LevelSelectController extends WorldController{
     //the background background
     private SoundController sounds;
-    private final Texture modalbackground = new Texture("menu/modalbackground.png");
-    private final Texture background = new Texture("menu/levelselectbackground.png");
-    private final Texture backgroundBlank = new Texture("menu/levelselectbackgroundblank.png");
-    private final Texture napkinbox = new Texture("menu/napkinbox.png");
-    private final Texture week = new Texture("menu/week.png");
-    private final Texture upunhovered = new Texture("menu/upunhovered.png");
-    private final Texture downunhovered = new Texture("menu/downunhovered.png");
-    private final Texture titlebackunhovered = new Texture("menu/titlebackunhovered.png");
-    private final Texture titlebackhovered = new Texture("menu/titlebackhovered.png");
-    private final Texture downhovered = new Texture("menu/downhovered.png");
-    private final Texture uphovered = new Texture("menu/uphovered.png");
-    private final Texture booklet = new Texture("menu/booklet.png");
-    private final Texture back = new Texture("menu/back.png");
-    private final Texture start = new Texture("menu/start.png");
-    private final Texture filledstar = new Texture("menu/filledstar.png");
-    private final Texture unfilledstar= new Texture("menu/unfilledstar.png");
-    private final Texture levelbooklet = new Texture("menu/levelbooklet.png");
-    private final Texture zero = new Texture("menu/0.png");
-    private final Texture one = new Texture("menu/1.png");
-    private final Texture two = new Texture("menu/2.png");
-    private final Texture three = new Texture("menu/3.png");
-    private final Texture four = new Texture("menu/4.png");
-    private final Texture five = new Texture("menu/5.png");
-    private final Texture six = new Texture("menu/6.png");
-    private final Texture seven = new Texture("menu/7.png");
-    private final Texture eight = new Texture("menu/8.png");
-    private final Texture nine = new Texture("menu/9.png");
+    private Texture modalbackground ;
+    private Texture background ;
+    private Texture backgroundBlank;
+    private Texture napkinbox;
+    private Texture week ;
+    private Texture upunhovered ;
+    private Texture downunhovered ;
+    private Texture titlebackunhovered;
+    private  Texture titlebackhovered ;
+    private  Texture downhovered ;
+    private  Texture uphovered ;
+    private  Texture booklet ;
+    private  Texture back ;
+    private  Texture start ;
+    private  Texture filledstar;
+    private  Texture unfilledstar ;
+    private  Texture levelbooklet;
+    private  Texture zero ;
+    private  Texture one ;
+    private  Texture two ;
+    private  Texture three;
+    private  Texture four ;
+    private  Texture five;
+    private  Texture six ;
+    private  Texture seven;
+    private  Texture eight ;
+    private  Texture nine;
+
     private Array<Texture> numbers = new Array<Texture>();
     //canvas to draw onto
     private GameCanvas canvas;
@@ -94,11 +96,39 @@ public class LevelSelectController extends WorldController{
      * @param canvas Canvas to draw with
      * @param input InputController to use
      * */
-    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController, SoundController s){
+    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController, SoundController s, AssetDirectory directory){
         this.canvas = canvas;
         sounds = s;
         this.input = input;
         this.saveController = saveController;
+
+        modalbackground = directory.getEntry("m_modalbackground",Texture.class);
+        background = directory.getEntry("m_leveselectbackground",Texture.class);
+        backgroundBlank = directory.getEntry("m_levelselectbackgroundblank",Texture.class);
+         napkinbox =directory.getEntry("m_napkinbox",Texture.class);
+        week = directory.getEntry("m_week",Texture.class);
+        upunhovered = directory.getEntry("m_upunhovered",Texture.class);
+        downunhovered = directory.getEntry("m_downunhovered",Texture.class);
+        titlebackunhovered =directory.getEntry("m_titlebackunhovered",Texture.class);
+        titlebackhovered = directory.getEntry("m_titlebackhovered",Texture.class);
+        downhovered = directory.getEntry("m_downhovered",Texture.class);
+        uphovered = directory.getEntry("m_uphovered",Texture.class);
+        booklet = directory.getEntry("m_booklet",Texture.class);
+       back = directory.getEntry("m_back",Texture.class);
+        start = directory.getEntry("m_start",Texture.class);
+        filledstar = directory.getEntry("m_filledstar",Texture.class);
+        unfilledstar= directory.getEntry("m_unfilledstar",Texture.class);
+        levelbooklet = directory.getEntry("m_levelbooklet",Texture.class);
+        zero = directory.getEntry("m_0",Texture.class);
+        one = directory.getEntry("m_1",Texture.class);
+        two = directory.getEntry("m_2",Texture.class);
+        three = directory.getEntry("m_3",Texture.class);
+         four = directory.getEntry("m_4",Texture.class);
+        five = directory.getEntry("m_5",Texture.class);
+        six = directory.getEntry("m_6",Texture.class);
+         seven =directory.getEntry("m_7",Texture.class);
+        eight = directory.getEntry("m_8",Texture.class);
+         nine = directory.getEntry("m_9",Texture.class);
 
         numbers.add(zero);
         numbers.add(one);
@@ -119,7 +149,7 @@ public class LevelSelectController extends WorldController{
 
         UIButton down = new UIButton(downunhovered,"down", 1100,20,1,1,canvas,canvas.getCamera(),true);
         down.setDefaultScale(0.5f,0.5f);
-        addButton(down, ()->{sounds.clickPlay();downCameraShiftI();}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(new Texture("menu/downhovered.png"));}, down::resetStyleProperties);
+        addButton(down, ()->{sounds.clickPlay();downCameraShiftI();}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(downhovered);}, down::resetStyleProperties);
 
         UIButton backtotitle = new UIButton(titlebackunhovered, "titleback", 10,10,1,1,canvas,canvas.getCamera(),true);
         backtotitle.setDefaultScale(0.6f, 0.6f);
@@ -471,8 +501,30 @@ public class LevelSelectController extends WorldController{
     //for modal
     private UIButton createNumberElement(int num, int x, int y, float sx, float sy){
         String is = Integer.toString(num);
+        Texture t;
+        if(num == 0){
+            t = zero;
+        } else if (num == 1){
+            t = one;
+        }else if (num == 2){
+            t = two;
+        }else if (num == 3){
+            t = three;
+        }else if (num == 4){
+            t = four;
+        }else if (num == 5){
+            t = five;
+        }else if (num == 6){
+            t = six;
+        }else if (num == 7){
+            t = seven;
+        }else if (num == 8){
+            t = eight;
+        }else {
+            t = nine;
+        }
         //270, 415, 0.5f, 0.5f
-        UIButton number = new UIButton(new Texture("menu/" + is + ".png"),is + "num", x, y, sx,sy,canvas);
+        UIButton number = new UIButton(t,is + "num", x, y, sx,sy,canvas);
         return number;
     }
 

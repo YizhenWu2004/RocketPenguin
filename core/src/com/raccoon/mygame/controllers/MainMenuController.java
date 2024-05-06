@@ -3,18 +3,19 @@ package com.raccoon.mygame.controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class MainMenuController extends WorldController{
     private SoundController sounds;
-    private Texture background = new Texture("menu/fullmenubackground.png");
-    private Texture audio_background = new Texture("menu_option/audio.png");
-    private Texture settings_background = new Texture("menu_option/settings.png");
-    private Texture control_background = new Texture("menu_option/controls.png");
-    private Texture cont_hover = new Texture("menu_option/control_button_underline.png");
-    private Texture audio_hover = new Texture("menu_option/audio_button_underline.png");
-    private Texture back_hover = new Texture("menu_option/back_underline.png");
+    private Texture background;
+    private Texture audio_background ;
+    private Texture settings_background ;
+    private Texture control_background;
+    private Texture cont_hover ;
+    private Texture audio_hover;
+    private Texture back_hover;
 
     private GameCanvas canvas;
     private InputController input;
@@ -39,14 +40,58 @@ public class MainMenuController extends WorldController{
     private SaveController saveController;
     private LevelSelectController levelSelectController;
 
-    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s){
+    public Texture play_b;
+    public Texture option;
+    public Texture exit_b;
+    public Texture control_b_normal;
+    public Texture audio_b_normal;
+    public Texture back_setting;
+    public Texture back;
+    public Texture save_b;
+    public Texture modalbackground;
+    public Texture deleteconfirmation;
+    public Texture confirmtext;
+    public Texture yes;
+    public Texture yeshover;
+    public Texture no;
+    public Texture nohover;
+    public Texture deletesave;
+
+    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s, AssetDirectory directory){
+        background = directory.getEntry("m_fullbackground", Texture.class);
+        audio_background = directory.getEntry("mo_audio", Texture.class);
+        settings_background = directory.getEntry("mo_settings", Texture.class);
+        control_background = directory.getEntry("mo_controls", Texture.class);
+        cont_hover = directory.getEntry("mo_control_b_underline", Texture.class);
+        audio_hover = directory.getEntry("mo_audio_b_underline", Texture.class);
+        back_hover = directory.getEntry("mo_back_underline", Texture.class);
+        play_b = directory.getEntry("m_play", Texture.class);
+        option = directory.getEntry("m_options", Texture.class);
+        exit_b = directory.getEntry("m_exit", Texture.class);
+        control_b_normal = directory.getEntry("mo_control_b_normal", Texture.class);
+        audio_b_normal = directory.getEntry("mo_audio_b_normal", Texture.class);
+        back_setting = directory.getEntry("mo_back_setting", Texture.class);
+        back = directory.getEntry("mo_back", Texture.class);
+        save_b= directory.getEntry("mo_save", Texture.class);
+        modalbackground= directory.getEntry("m_modalbackground", Texture.class);
+        deleteconfirmation= directory.getEntry("m_deleteconfirmation", Texture.class);
+        confirmtext = directory.getEntry("m_confirmtext", Texture.class);
+        yes= directory.getEntry("m_yes", Texture.class);
+        yeshover= directory.getEntry("m_yeshovered", Texture.class);
+        no= directory.getEntry("m_no", Texture.class);
+        nohover= directory.getEntry("m_nohovered", Texture.class);
+        deletesave = directory.getEntry("m_deletesave", Texture.class);
+
+
+
+
         this.canvas = canvas;
         this.input = input;
         this.saveController = saveController;
         this.levelSelectController = levelSelect;
         sounds = s;
 
-        UIButton play = new UIButton(new Texture("menu/play.png"),"play",20,330, 0.5f,0.5f,canvas);
+        UIButton play = new UIButton(play_b,"play",20,330, 0.5f,0.5f,canvas);
         addButton(play, ()-> {
             sounds.clickPlay();
             this.goToLevelSelect = true;
@@ -55,7 +100,7 @@ public class MainMenuController extends WorldController{
             play.setSY(0.6f);
         }, play::resetStyleProperties,buttons);
 
-        UIButton options = new UIButton(new Texture("menu/options.png"),"options", 20,230,0.5f,0.5f,canvas);
+        UIButton options = new UIButton(option,"options", 20,230,0.5f,0.5f,canvas);
         addButton(options, ()-> {
             sounds.clickPlay();
             this.goToOptionsSelect = true;
@@ -67,7 +112,7 @@ public class MainMenuController extends WorldController{
         },options::resetStyleProperties,buttons);
 
 
-        UIButton exit = new UIButton(new Texture("menu/exit.png"),"exit",20,130,0.5f,0.5f,canvas);
+        UIButton exit = new UIButton(exit_b,"exit",20,130,0.5f,0.5f,canvas);
         addButton(exit, ()-> {
             sounds.clickPlay();
             this.exit = true;
@@ -76,7 +121,7 @@ public class MainMenuController extends WorldController{
             exit.setSY(0.6f);
             },exit::resetStyleProperties,buttons);
 
-        UIButton cont = new UIButton(new Texture("menu_option/control_button_normal.png"),"exit",230,430,canvas);
+        UIButton cont = new UIButton(control_b_normal,"exit",230,430,canvas);
         addButton(cont, ()-> {
             sounds.clickPlay();
             this.on_control = true;
@@ -87,7 +132,7 @@ public class MainMenuController extends WorldController{
             cont.setTexture(cont_hover);
         },cont::resetStyleProperties,setting_buttons);
 
-        UIButton aud = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",270,310,canvas);
+        UIButton aud = new UIButton(audio_b_normal,"exit",270,310,canvas);
         addButton(aud, ()-> {
             sounds.clickPlay();
             this.on_audio = true;
@@ -98,7 +143,7 @@ public class MainMenuController extends WorldController{
             aud.setTexture(audio_hover);
         },aud::resetStyleProperties, setting_buttons);
 
-        UIButton incmusic = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",510,480,canvas);
+        UIButton incmusic = new UIButton(audio_b_normal,"exit",510,480,canvas);
         addButton(incmusic, ()-> {
             sounds.incmusic();
             sounds.clickPlay();
@@ -111,7 +156,7 @@ public class MainMenuController extends WorldController{
             incmusic.setTexture(audio_hover);
         },incmusic::resetStyleProperties, audio_buttons);
 
-        UIButton decmusic = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",100,480,canvas);
+        UIButton decmusic = new UIButton(audio_b_normal,"exit",100,480,canvas);
         addButton(decmusic, ()-> {
             sounds.decmusic();
             sounds.clickPlay();
@@ -124,7 +169,7 @@ public class MainMenuController extends WorldController{
             decmusic.setTexture(audio_hover);
         },decmusic::resetStyleProperties, audio_buttons);
 
-        UIButton incsfx = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",510,310,canvas);
+        UIButton incsfx = new UIButton(audio_b_normal,"exit",510,310,canvas);
         addButton(incsfx, ()-> {
             sounds.clickPlay();
             sounds.incsfx();
@@ -137,7 +182,7 @@ public class MainMenuController extends WorldController{
             incsfx.setTexture(audio_hover);
         },incsfx::resetStyleProperties, audio_buttons);
 
-        UIButton decsfx = new UIButton(new Texture("menu_option/audio_button_normal.png"),"exit",100,310,canvas);
+        UIButton decsfx = new UIButton(audio_b_normal,"exit",100,310,canvas);
         addButton(decsfx, ()-> {
             sounds.clickPlay();
             sounds.decsfx();
@@ -150,7 +195,7 @@ public class MainMenuController extends WorldController{
             decsfx.setTexture(audio_hover);
         }, decsfx::resetStyleProperties, audio_buttons);
 
-        UIButton back1 = new UIButton(new Texture("menu_option/back_setting.png"),"exit",290,180,canvas);
+        UIButton back1 = new UIButton(back_setting,"exit",290,180,canvas);
         addButton(back1, ()-> {
             sounds.clickPlay();
             this.on_main = true;
@@ -161,7 +206,7 @@ public class MainMenuController extends WorldController{
             back1.setTexture(back_hover);
         },back1::resetStyleProperties,setting_buttons);
 
-        UIButton back2 = new UIButton(new Texture("menu_option/back.png"),"exit",150,150,canvas);
+        UIButton back2 = new UIButton(back,"exit",150,150,canvas);
         addButton(back2, ()-> {
             sounds.clickPlay();
             this.on_control = false;
@@ -173,7 +218,7 @@ public class MainMenuController extends WorldController{
         },back2::resetStyleProperties,control_buttons);
         back2.setDefaultScale(0.7f,0.7f);
 
-        UIButton back3 = new UIButton(new Texture("menu_option/back.png"),"exit",160,150,canvas);
+        UIButton back3 = new UIButton(back,"exit",160,150,canvas);
         addButton(back3, ()-> {
             sounds.clickPlay();
             this.on_audio = false;
@@ -184,7 +229,7 @@ public class MainMenuController extends WorldController{
             //back1.setTexture(cont_hover);
         },back3::resetStyleProperties,audio_buttons);
 
-        UIButton save = new UIButton(new Texture("menu_option/save.png"),"exit",440,160,canvas);
+        UIButton save = new UIButton(save_b,"exit",440,160,canvas);
         addButton(save, ()-> {
             sounds.clickPlay();
             this.on_audio = false;
@@ -195,27 +240,28 @@ public class MainMenuController extends WorldController{
             //back1.setTexture(cont_hover);
         },save::resetStyleProperties,audio_buttons);
 
-        Modal deletesure = new Modal("deletesure", 0,0, new Texture("menu/modalbackground.png"));
-        UIButton deletetext = new UIButton(new Texture("menu/deleteconfirmation.png"),"deleteconfirm",0,0,canvas);
+        Modal deletesure = new Modal("deletesure", 0,0, modalbackground);
+        UIButton deletetext = new UIButton(deleteconfirmation,"deleteconfirm",0,0,canvas);
         deletetext.setSX(0.65f);
         deletetext.setSY(0.65f);
 
-        UIButton confirmtext = new UIButton(new Texture("menu/confirmtext.png"),"confirm",380,320,canvas);
+        UIButton confirmtext = new UIButton(this.confirmtext,"confirm",380,320,canvas);
         confirmtext.setSX(0.6f);
         confirmtext.setSY(0.6f);
 
-        UIButton yes = new UIButton(new Texture("menu/yes.png"),"yes",450,210,canvas);
+        UIButton yes = new UIButton(this.yes,"yes",450,210,canvas);
         yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();});
-        yes.setOnHoverAction(()->{yes.setTexture(new Texture("menu/yeshovered.png"));});
+        yes.setOnHoverAction(()->{yes.setTexture(yeshover);});
         yes.setOnUnhoverAction(()->{yes.resetStyleProperties();        yes.setSX(0.6f);
             yes.setSY(0.6f);});
         yes.setSX(0.6f);
         yes.setSY(0.6f);
 
-        UIButton no = new UIButton(new Texture("menu/no.png"),"no",740,207,canvas);
+        UIButton no = new UIButton(this.no,"no",740,207,canvas);
         no.setOnClickAction(()->{sounds.clickPlay();deletesure.setActive(false);});
-        no.setOnHoverAction(()->{no.setTexture(new Texture("menu/nohovered.png"));});
-        no.setOnUnhoverAction(()->{no.resetStyleProperties();        no.setSX(0.6f);
+        no.setOnHoverAction(()->{no.setTexture(nohover);});
+        no.setOnUnhoverAction(()->{no.resetStyleProperties();
+            no.setSX(0.6f);
             no.setSY(0.6f);});
         no.setSX(0.6f);
         no.setSY(0.6f);
@@ -226,7 +272,7 @@ public class MainMenuController extends WorldController{
         deletesure.addElement(no);
         modals.add(deletesure);
 
-        UIButton deletesave = new UIButton(new Texture("menu/deletesave.png"),"deletesave",1020,10,canvas);
+        UIButton deletesave = new UIButton(this.deletesave,"deletesave",1020,10,canvas);
         addButton(deletesave, ()-> {
             sounds.clickPlay();
             deletesure.setActive(true);

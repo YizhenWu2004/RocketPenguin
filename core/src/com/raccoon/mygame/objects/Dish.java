@@ -3,6 +3,7 @@ package com.raccoon.mygame.objects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Dish implements GameObject {
@@ -15,16 +16,16 @@ public class Dish implements GameObject {
     //position in inventory, -1 means not in inventory (and thus discarded)
     private int posInInventory;
     public int dishSize;
-    private Texture one = new Texture("order/one.png");
-    private Texture two = new Texture("order/two.png");
-    private Texture three = new Texture("order/three.png");
-    private Texture wok =new Texture("order/wok.png");
-    private Texture pot = new Texture("order/pot.png");
-    private Texture cutting_board = new Texture("order/cutting_board.png");
+    private Texture one;
+    private Texture two ;
+    private Texture three;
+    private Texture wok;
+    private Texture pot ;
+    private Texture cutting_board ;
     public int station_type;
 
 
-    public Dish(Ingredient[] type, Texture texture, int posInInventory, int station_type) {
+    public Dish(Ingredient[] type, Texture texture, int posInInventory, int station_type, AssetDirectory directory) {
         this.type = type;
         //size = type.length;
         this.texture = texture;
@@ -38,6 +39,13 @@ public class Dish implements GameObject {
                 dishSize += 1;
             }
         }
+
+        one = directory.getEntry("o_one",Texture.class);
+       two = directory.getEntry("o_two",Texture.class);
+        three = directory.getEntry("o_three",Texture.class);
+        wok =directory.getEntry("o_wok",Texture.class);
+        pot = directory.getEntry("o_pot",Texture.class);
+        cutting_board = directory.getEntry("o_cutting_board",Texture.class);
     }
 
     @Override

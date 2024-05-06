@@ -96,7 +96,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     private HashMap<String, Texture> ingredientTextures;
     public Worldtimer t;
-
+    AssetDirectory directory;
     private void createTextures(AssetDirectory directory) {
         playerIdle = directory.getEntry("rockoidle.strip", FilmStrip.class);
         vent = directory.getEntry("vent.strip", FilmStrip.class);
@@ -115,7 +115,8 @@ public class StoreController extends WorldController implements ContactListener 
 //    private void addShelfHorizontal(float x, float y) {
 //        //0.95
 //        NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 0.95f, 1f, 0f, -30f,
-//                new Texture("720/groceryshelfhorizontal.png"), world, canvas);
+//
+//        new Texture("720/groceryshelfhorizontal.png"), world, canvas);
 //        obstacles.add(obstacle);
 //        drawableObjects.add(obstacle);
 //    }
@@ -175,6 +176,7 @@ public class StoreController extends WorldController implements ContactListener 
 
     public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, Array<Customer> notepadOrders, SoundController s, AssetDirectory directory) {
         createTextures(directory);
+        this.directory = directory;
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
         this.background = texture;
@@ -198,7 +200,7 @@ public class StoreController extends WorldController implements ContactListener 
 
         buttons.add(orders);
 
-        player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world, sounds);
+        player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world, sounds, directory);
         drawableObjects.add(player);
         this.input = input;
 
@@ -232,7 +234,7 @@ public class StoreController extends WorldController implements ContactListener 
         player.deactivatePhysics(world);
         vent1.deactivatePhysics(world);
         world = level.getStoreWorld();
-        player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world, sounds);
+        player = new Player(0, 0, 1.5f, 0.7f,  playerIdle, sharedInv, canvas, world, sounds,directory);
         vent1 = new VentObstacle(1.5f,1f, 1.5f,1.5f, 1, 1, 27f, 27f, vent, world, canvas);
         obstacles = level.getStoreObjects();
         guards = level.getGuards();
@@ -696,7 +698,7 @@ public class StoreController extends WorldController implements ContactListener 
     public void startVentTimer(VentObstacle o, Player p){
         duringventing = true;
         p.playerIsVenting = true;
-        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer);
+        o.ventTimer = new Worldtimer((int) o.maxTime, canvas, BaseTimer,directory);
         o.ventTimer.create();
     }
 

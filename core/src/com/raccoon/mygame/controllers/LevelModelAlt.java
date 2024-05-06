@@ -31,11 +31,11 @@ public class LevelModelAlt {
 //        storeObjects.add(obstacle);
 //    }
 
-    private void addFruitCrate(float x, float y, Ingredient ingredient) {
-        NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 0.4f, 0.4f, 0f, 0f,
-                new Texture(ingredient.type + ".png"), storeWorld, canvas, ingredient);
-        storeObjects.add(obstacle);
-    }
+//    private void addFruitCrate(float x, float y, Ingredient ingredient) {
+//        NormalObstacle obstacle = new NormalObstacle(x, y, 2f, 1f, 0.4f, 0.4f, 0f, 0f,
+//                new Texture(ingredient.type + ".png"), storeWorld, canvas, ingredient);
+//        storeObjects.add(obstacle);
+//    }
 
     /*private void addGuard(float x, float y, enums patrolType,
             guards.add(new Guard(28, 13.3f, 1.67f, 0.83f,guardIdle, world, canvas, enums.PatrolDirection.SLEEP_WAKE, collisionLayer,new Vector2[0]));

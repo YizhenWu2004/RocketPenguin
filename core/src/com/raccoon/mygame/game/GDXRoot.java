@@ -126,7 +126,7 @@ public class GDXRoot extends Game implements ScreenListener {
         directory.finishLoading();
         //180
         //w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
-        w = new Worldtimer(180, canvas, directory.getEntry( "basetimer", Texture.class ));
+        w = new Worldtimer(180, canvas, directory.getEntry( "basetimer", Texture.class ), directory);
         w.create();
         input = new InputController(sounds);
 
@@ -146,10 +146,10 @@ public class GDXRoot extends Game implements ScreenListener {
 
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
 
-        pause = new MenuController(canvas, directory.getEntry("p_paused", Texture.class),input, sounds);
-        result = new ResultController(canvas, directory.getEntry("r_result", Texture.class),input);
-        levelselect = new LevelSelectController(canvas, input, loader, saveController, sounds);
-        mainmenu = new MainMenuController(canvas,input, saveController, levelselect, sounds);
+        pause = new MenuController(canvas, directory.getEntry("p_paused", Texture.class),input, sounds, directory);
+        result = new ResultController(canvas, directory.getEntry("r_result", Texture.class),input, directory);
+        levelselect = new LevelSelectController(canvas, input, loader, saveController, sounds, directory);
+        mainmenu = new MainMenuController(canvas,input, saveController, levelselect, sounds, directory);
         mainmenu.on_main = true;
 
         /*
@@ -171,7 +171,7 @@ public class GDXRoot extends Game implements ScreenListener {
 //        sounds.storeStop();
 //        sounds.cafeStop();
         store.setA(1);
-        w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class));
+        w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class),directory);
         w.create();
 
 

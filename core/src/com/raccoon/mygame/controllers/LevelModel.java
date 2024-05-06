@@ -74,7 +74,7 @@ public class LevelModel {
     }
 
     private void addIngredient(float x, float y, String name) {
-        ingredients.add(new Ingredient(name, x, y, directory.getEntry("ui" + name, Texture.class), -1));
+        ingredients.add(new Ingredient(name, x, y, directory.getEntry("ui" + name, Texture.class), -1, directory));
     }
 
     private void addGuard(float x, float y, boolean sleep, int rotate, String orientation, Array<Vector2> nodes) {
@@ -93,7 +93,7 @@ public class LevelModel {
 //        System.out.println("Rotation: " + rotate + ", Sleep: " + sleep);
         guards.add(new Guard(x, y, 1.67f, 0.83f, guardIdle, storeWorld, canvas,
                 direction,collisionLayer, (sleep || (rotate != 0) ? new Array<>() : nodes),
-                GuardAIController.GuardOrientation.LEFT, sounds));
+                GuardAIController.GuardOrientation.LEFT, sounds, directory));
     }
 
     public LevelModel(String tmxFile, GameCanvas canvas, SoundController s, AssetDirectory directory) {
