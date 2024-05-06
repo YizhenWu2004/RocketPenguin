@@ -100,18 +100,18 @@
   <object id="162" name="Bin" gid="583" x="39.6504" y="452.051" width="230" height="230"/>
  </objectgroup>
  <objectgroup id="6" name="Ingredients">
-  <object id="36" name="orange" gid="612" x="868.238" y="351.761" width="67" height="67"/>
+  <object id="36" name="redpepper" gid="612" x="868.238" y="351.761" width="67" height="67"/>
   <object id="37" name="banana" gid="608" x="259.397" y="107.749" width="67" height="67"/>
-  <object id="38" name="apple" gid="602" x="768.681" y="592.709" width="67" height="67"/>
+  <object id="38" name="persimmon" gid="602" x="768.681" y="592.709" width="67" height="67"/>
   <object id="74" name="greenpepper" gid="607" x="128.242" y="409.149" width="67" height="67"/>
   <object id="75" name="cabbage" gid="606" x="364.796" y="722.331" width="67" height="67"/>
-  <object id="76" name="carrot" gid="611" x="868.734" y="174.121" width="67" height="67"/>
+  <object id="76" name="tomato" gid="611" x="868.734" y="174.121" width="67" height="67"/>
   <object id="77" name="corn" gid="609" x="53.2352" y="239.536" width="67" height="67"/>
   <object id="78" name="lemon" gid="610" x="404.426" y="174.547" width="67" height="67"/>
   <object id="79" name="pear" gid="614" x="364.649" y="610.662" width="67" height="67"/>
-  <object id="81" name="redpepper" gid="603" x="1068.67" y="592.035" width="67" height="67"/>
-  <object id="82" name="tomato" gid="604" x="642.401" y="591.467" width="67" height="67"/>
-  <object id="161" name="persimmon" gid="613" x="1012.32" y="108.956" width="67" height="67"/>
+  <object id="81" name="orange" gid="603" x="1068.67" y="592.035" width="67" height="67"/>
+  <object id="82" name="carrot" gid="604" x="642.401" y="591.467" width="67" height="67"/>
+  <object id="161" name="apple" gid="613" x="1012.32" y="108.956" width="67" height="67"/>
  </objectgroup>
  <objectgroup id="3" name="Guards">
   <object id="149" name="Guard" gid="577" x="684.781" y="206.844" width="102" height="131">
