@@ -108,8 +108,10 @@ public class CookingStationObject extends NormalObstacle{
 //                    0.0f, 1f, 1f);
             chop.draw(canvas,state == 2);
         }
-        if(timer != null){
-            timer.drawNoFormat(this.getX()*this.drawScale.x, this.getY()*this.drawScale.y);
+        if(timer != null) {
+            if (station_type != 2) {
+                timer.drawNoFormat(this.getX() * this.drawScale.x, this.getY() * this.drawScale.y, station_type);
+            }
         }
     }
 
