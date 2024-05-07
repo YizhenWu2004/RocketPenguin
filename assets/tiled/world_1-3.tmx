@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="11" nextobjectid="151">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="11" nextobjectid="154">
  <properties>
   <property name="Guard Speed" value="10"/>
   <property name="Patience Time" value="120"/>
@@ -99,7 +99,7 @@
   <object id="82" name="tomato" gid="604" x="1159.41" y="176.325" width="67" height="67"/>
  </objectgroup>
  <objectgroup id="3" name="Guards">
-  <object id="1" name="Guard" gid="577" x="613.942" y="270.673" width="102" height="131">
+  <object id="1" name="Guard" gid="577" x="604.471" y="480.618" width="102" height="131">
    <properties>
     <property name="GuardNum" value="1"/>
     <property name="Orientation" value="Left"/>
@@ -107,27 +107,49 @@
     <property name="Sleep" value="No"/>
    </properties>
   </object>
-  <object id="142" name="Guard" gid="577" x="756.061" y="668.367" width="102" height="131">
+  <object id="142" name="Guard" gid="577" x="1142.8" y="310.04" width="102" height="131">
    <properties>
     <property name="GuardNum" value="2"/>
-    <property name="Orientation" value="Right"/>
+    <property name="Orientation" value="Left"/>
     <property name="Rotate" value="No"/>
     <property name="Sleep" value="Yes"/>
    </properties>
   </object>
+  <object id="153" name="Guard" gid="577" x="757.208" y="670.096" width="102" height="131">
+   <properties>
+    <property name="GuardNum" value="3"/>
+    <property name="Orientation" value="Left"/>
+    <property name="Rotate" value="CW"/>
+    <property name="Sleep" value="No"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="GuardNodes">
-  <object id="67" x="302.313" y="245.576">
+  <object id="67" x="100.261" y="461.835">
    <properties>
     <property name="GuardNum" value="1"/>
     <property name="NodeNum" value="1"/>
    </properties>
    <point/>
   </object>
-  <object id="141" x="1014.15" y="246.812">
+  <object id="141" x="98.6015" y="278.383">
    <properties>
     <property name="GuardNum" value="1"/>
     <property name="NodeNum" value="2"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="151" x="1098.66" y="280.979">
+   <properties>
+    <property name="GuardNum" value="1"/>
+    <property name="NodeNum" value="3"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="152" x="1101.82" y="460.931">
+   <properties>
+    <property name="GuardNum" value="1"/>
+    <property name="NodeNum" value="4"/>
    </properties>
    <point/>
   </object>
@@ -135,55 +157,55 @@
  <objectgroup id="10" name="Customers">
   <object id="84" gid="577" x="94.2997" y="950.463" width="102" height="131">
    <properties>
-    <property name="Order" value="2 green"/>
+    <property name="Order" value="2 green green"/>
     <property name="Time" value="178"/>
    </properties>
   </object>
   <object id="143" gid="577" x="213.605" y="948.246" width="102" height="131">
    <properties>
-    <property name="Order" value="2 apple"/>
+    <property name="Order" value="0 redpepper redpepper"/>
     <property name="Time" value="176"/>
    </properties>
   </object>
   <object id="144" gid="577" x="335.598" y="949.964" width="102" height="131">
    <properties>
-    <property name="Order" value="2 yellow"/>
-    <property name="Time" value="150"/>
+    <property name="Order" value="2 green"/>
+    <property name="Time" value="174"/>
    </properties>
   </object>
   <object id="145" gid="577" x="935.254" y="946.527" width="102" height="131">
    <properties>
-    <property name="Order" value="1 apple"/>
+    <property name="Order" value="2 redpepper"/>
     <property name="Time" value="88"/>
    </properties>
   </object>
   <object id="146" gid="577" x="454.64" y="950.213" width="102" height="131">
    <properties>
-    <property name="Order" value="0 apple"/>
-    <property name="Time" value="148"/>
+    <property name="Order" value="2 greenpepper"/>
+    <property name="Time" value="130"/>
    </properties>
   </object>
   <object id="147" gid="577" x="575.663" y="947.996" width="102" height="131">
    <properties>
-    <property name="Order" value="2 green yellow"/>
-    <property name="Time" value="120"/>
+    <property name="Order" value="2 redpepper"/>
+    <property name="Time" value="128"/>
    </properties>
   </object>
   <object id="148" gid="577" x="697.656" y="947.996" width="102" height="131">
    <properties>
-    <property name="Order" value="1 apple"/>
-    <property name="Time" value="118"/>
+    <property name="Order" value="1 greenpepper"/>
+    <property name="Time" value="126"/>
    </properties>
   </object>
   <object id="149" gid="577" x="814.494" y="947.996" width="102" height="131">
    <properties>
-    <property name="Order" value="0 orange"/>
+    <property name="Order" value="1 redpepper"/>
     <property name="Time" value="90"/>
    </properties>
   </object>
   <object id="150" gid="577" x="1050.37" y="946.527" width="102" height="131">
    <properties>
-    <property name="Order" value="2 yellow"/>
+    <property name="Order" value="3 redpepper"/>
     <property name="Time" value="86"/>
    </properties>
   </object>
