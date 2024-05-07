@@ -53,6 +53,8 @@ public class Guard extends WheelObstacle {
 
     private Shadow shadow;
 
+    public boolean stopExclam = false;
+
     public Guard(float x, float y, float width, float height,
                  FilmStrip defaultAnimation, World world, GameCanvas canvas,
                  PatrolDirection patrolDirection, boolean[][] collisionLayer,
@@ -101,7 +103,14 @@ public class Guard extends WheelObstacle {
         return aiController;
     }
 
+    /**
+     *
+     * @param delta
+     * @param info
+     * @param stopUpdating is the same as gettingCaught()
+     */
     public void update(float delta, Array<Float> info, boolean stopUpdating) {
+        System.out.println("stopExclam" + stopExclam);
         if(!stopUpdating){
             if (aiController != null) {
                 this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));
@@ -184,7 +193,7 @@ public class Guard extends WheelObstacle {
             sight.render();
         }
 
-        if (aiController.isChase()) {
+        if (aiController.isChase() && !stopExclam) {
             exclam.draw(canvas);
         }
         else if(aiController.isSleep()){

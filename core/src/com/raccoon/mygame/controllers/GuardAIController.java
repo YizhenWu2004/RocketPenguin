@@ -371,14 +371,16 @@ public class GuardAIController extends ScreenAdapter {
         Vector2 lowerLeft = new Vector2(info.get(4), info.get(5));
         Vector2 lowerRight = new Vector2(info.get(6), info.get(7));
         Vector2 middle = new Vector2(info.get(8), info.get(9));
-        Vector2 outlier = new Vector2(info.get(4), info.get(5)-1f);
+        Vector2 outlierNegY = new Vector2(info.get(4), info.get(5)-1f);
+        Vector2 outlierNegX = new Vector2(info.get(0)-1f, info.get(1));
 
         Array<Vector2> pathUpperLeft = findPath(start, upperLeft,1);
         Array<Vector2> pathUpperRight = findPath(start, upperRight,1);
         Array<Vector2> pathLowerLeft = findPath(start, lowerLeft,-1);
         Array<Vector2> pathLowerRight = findPath(start, lowerRight,1);
         Array<Vector2> pathMiddle = findPath(start, middle,1);
-        Array<Vector2> pathOutlier = findPath(start, outlier,1);
+        Array<Vector2> pathOutlierNegY = findPath(start, outlierNegY,1);
+        Array<Vector2> pathOutlierNegX = findPath(start, outlierNegX,1);
 
         if (pathUpperRight.size != 0) {
             return pathUpperRight;
@@ -390,11 +392,17 @@ public class GuardAIController extends ScreenAdapter {
             return pathLowerRight;
         } else if (pathMiddle.size != 0) {
             return pathMiddle;
-        } else if(pathOutlier.size != 0){
-            Vector2 lastPoint = pathOutlier.peek();
+        } else if(pathOutlierNegY.size != 0){
+            Vector2 lastPoint = pathOutlierNegY.peek();
             lastPoint.y += 1f;
-            pathOutlier.set(pathOutlier.size - 1, lastPoint);
-            return pathOutlier;
+            pathOutlierNegY.set(pathOutlierNegY.size - 1, lastPoint);
+            return pathOutlierNegY;
+        }
+        else if(pathOutlierNegX.size != 0){
+            Vector2 lastPoint = pathOutlierNegX.peek();
+            lastPoint.x += 1f;
+            pathOutlierNegX.set(pathOutlierNegX.size - 1, lastPoint);
+            return pathOutlierNegX;
         }
         else {
 //            System.out.println("OOPS");
