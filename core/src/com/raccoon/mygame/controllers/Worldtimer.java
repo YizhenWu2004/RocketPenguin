@@ -126,15 +126,24 @@ public class Worldtimer extends ApplicationAdapter {
         }
     }
 
-    public void drawNoFormat(float x, float y){
-        int time= Math.max(countdownSeconds, 0);
-        float ratio = (float)time/maxTime;
-        gameCanvas.draw(cooking_timer, Color.WHITE, 10, 10,
-                x- 30, y- 10, 0.0f, 1, 1);
-        gameCanvas.draw(green2, Color.WHITE, 10, 10,
-                x-35, y, 0.0f, ratio, 1);
+    public void drawNoFormat(float x, float y, int type) {
+        if (type == 1) {
+            int time = Math.max(countdownSeconds, 0);
+            float ratio = 1 - (float) time / maxTime;
+            gameCanvas.draw(cooking_timer, Color.WHITE, 10, 10,
+                    x - 35, y - 25, 0.0f, 1, 1);
+            gameCanvas.draw(green2, Color.WHITE, 0, 0,
+                    x - 40, y - 25, 0.0f, ratio, 1);
 //        gameCanvas.drawText(Integer.toString(time),
 //                font, x, y, 2, 2, layout);
+        } else {
+            int time = Math.max(countdownSeconds, 0);
+            float ratio = 1 - (float) time / maxTime;
+            gameCanvas.draw(cooking_timer, Color.WHITE, 10, 10,
+                    x - 45, y - 50, 0.0f, 1, 1);
+            gameCanvas.draw(green2, Color.WHITE, 0, 0,
+                    x - 50, y - 50, 0.0f, ratio, 1);
+        }
     }
 
     public int getTime(){
