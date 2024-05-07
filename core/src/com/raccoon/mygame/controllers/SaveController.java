@@ -54,10 +54,10 @@ public class SaveController {
                 writeToFile();
             }
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("No save file found.");
             createDefaultKeyValuePairs();
             writeToFile();
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
