@@ -21,7 +21,8 @@ public class LevelLoader {
 
     public LevelLoader(GameCanvas canvas, SoundController s, AssetDirectory d) {
         sounds = s;
-        levelsData = new String[]{"world_0-1", "world_0-2", "world_0-3", "world_1-1", "world_1-1", "world_1-1", "world_2-1"};
+        levelsData = new String[]{"world_0-1", "world_0-2", "world_0-3", "world_1-1", "world_1-2", "world_1-3",
+                "world_2-1", "world_2-2", "world_2-3"};
         loadLevels(canvas, d);
     }
 
@@ -32,6 +33,7 @@ public class LevelLoader {
 
     private void loadLevels(GameCanvas canvas, AssetDirectory d) {
         for (int i = 0; i < levelsData.length; i++) {
+            System.out.println("starting");
             levels.add(new LevelModel(levelsData[i], canvas, sounds, d));
         }
     }
