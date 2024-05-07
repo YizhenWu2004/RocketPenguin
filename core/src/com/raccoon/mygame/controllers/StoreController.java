@@ -290,7 +290,6 @@ public class StoreController extends WorldController implements ContactListener 
     }
 
     public void update() {
-
         float delta = Gdx.graphics.getDeltaTime();
         player.current = this.current;
         if (playerGuardCollide) {
@@ -327,7 +326,13 @@ public class StoreController extends WorldController implements ContactListener 
             animator.handleAnimation(vent1, player, delta, ventingOut());
         }
         for (Guard guard : guards) {
+            //todo fix the flash of exclamation mark
+//            if(gettingCaught() && playerJustCaughtTimer <10){
+//                guard.getBody().setLinearVelocity(0,0);
+//                player.getBody().setLinearVelocity(0,0);
+//            }
             if(gettingCaught()){
+//                guard.update(delta, generatePlayerInfo(), gettingCaught());
                 guard.getBody().setLinearVelocity(0,0);
                 player.getBody().setLinearVelocity(0,0);
             }
@@ -600,9 +605,11 @@ public class StoreController extends WorldController implements ContactListener 
                 playerGuardCollide = true;
                 if(body2.getUserData() instanceof Guard){
                     guardInAction = (Guard) body2.getUserData();
+                    ((Guard) body2.getUserData()).stopExclam = true;
                 }
                 else{
                     guardInAction = (Guard) body1.getUserData();
+                    ((Guard) body1.getUserData()).stopExclam = true;
                 }
             }
         }
@@ -692,6 +699,7 @@ public class StoreController extends WorldController implements ContactListener 
             guards.get(i).setPosition(guardX.get(i),guardY.get(i));
             guards.get(i).switchToDefaultMode();
             guards.get(i).resetSusMeter();
+            guards.get(i).stopExclam = false;
         }
     }
 
