@@ -110,7 +110,6 @@ public class Guard extends WheelObstacle {
      * @param stopUpdating is the same as gettingCaught()
      */
     public void update(float delta, Array<Float> info, boolean stopUpdating) {
-        System.out.println("stopExclam" + stopExclam);
         if(!stopUpdating){
             if (aiController != null) {
                 this.setLinearVelocity(new Vector2(aiController.getSpeed(this.getPosition(), delta, info)));

@@ -179,7 +179,7 @@
   </object>
   <object id="148" gid="577" x="697.656" y="947.996" width="102" height="131">
    <properties>
-    <property name="Order" value="1 tomato tomato"/>
+    <property name="Order" value="0 tomato tomato"/>
     <property name="Time" value="118"/>
    </properties>
   </object>
