@@ -162,7 +162,7 @@
   </object>
   <object id="146" gid="577" x="454.64" y="950.213" width="102" height="131">
    <properties>
-    <property name="Order" value="1 apple"/>
+    <property name="Order" value="0 apple"/>
     <property name="Time" value="148"/>
    </properties>
   </object>

@@ -145,7 +145,7 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
     }
 
     public Ingredient clone(){
-        return new Ingredient(this.type,x,y,this.texture, posInInventory, directory);
+        return new Ingredient(this.type,x,y,directory.getEntry(this.type, Texture.class), posInInventory, directory);
     }
 }
 

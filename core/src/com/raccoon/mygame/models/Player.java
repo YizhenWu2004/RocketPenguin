@@ -140,12 +140,14 @@ public class Player extends CapsuleObstacle {
         }
         else{
             if(direction == -1){
-                float shadowX = getX()-getWidth();
+//                float shadowX = getX()-getWidth();
+                float shadowX = getX()-getWidth()/2;
                 float shadowY = getY() - getHeight() / 2;
                 shadow.setPosition(shadowX*40, shadowY*40);
             }
             else{
-                float shadowX = getX()-getWidth()*1.8f;
+//                float shadowX = getX()-getWidth()*1.8f;
+                float shadowX = getX()-getWidth();
                 float shadowY = getY() - getHeight() / 2;
                 shadow.setPosition(shadowX*40, shadowY*40);
             }

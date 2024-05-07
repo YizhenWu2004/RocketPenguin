@@ -115,6 +115,7 @@ public class GDXRoot extends Game implements ScreenListener {
     int current; // 0 = restaurant, 1 = store, 2 = result
     public boolean isPaused;
     public int[] star_req;
+    public int customerLeaveTimer = 0;
 
     public void create() {
         //world = new World(new Vector2(0, 0), false);
@@ -310,11 +311,18 @@ public class GDXRoot extends Game implements ScreenListener {
         }
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
-        else if(w.getTime() <= 0 ){
+        //todo make customerLeaveTimer better
+        else if(w.getTime() <= 0 || customerLeaveTimer >100){
             current = 2;
 //            restaurant.setActive(false);
 //            store.setActive(false);
 //            sounds.storeStop();
+        }
+        if((restaurant.allCustomersLeave() && current == 0)){
+            customerLeaveTimer ++;
+        }
+        else if(current != 0){
+            customerLeaveTimer=0;
         }
         if (current == 2){
             sounds.cafeeactualstop();
