@@ -199,7 +199,7 @@
   </object>
   <object id="182" gid="577" x="602.854" y="955.054" width="102" height="131">
    <properties>
-    <property name="Order" value="1 orange_color"/>
+    <property name="Order" value="1 orange"/>
     <property name="Time" value="120"/>
    </properties>
   </object>
