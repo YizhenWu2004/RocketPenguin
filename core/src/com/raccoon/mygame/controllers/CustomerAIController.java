@@ -7,6 +7,7 @@ import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.Customer;
 import com.raccoon.mygame.objects.Shadow;
 import com.raccoon.mygame.objects.TableObstacle;
+import java.util.Random;
 
 public class CustomerAIController implements AIController {
     private AssetDirectory directory;
@@ -29,6 +30,7 @@ public class CustomerAIController implements AIController {
 
     private Shadow shadow;
 
+    private Random r;
     /** element:description as follows
      *  0:scaleX
      *  1:scaleY
@@ -49,6 +51,8 @@ public class CustomerAIController implements AIController {
         this.customerInfo = customerInfo;
         this.shadow = shadow;
         this.directory = directory;
+        r = new Random();
+        System.out.println("customer created");
     }
 
 
@@ -126,6 +130,26 @@ public class CustomerAIController implements AIController {
     public void setGoal() {
         switch (state) {
             case SPAWN:
+                for(int i=0; i < 10; i++){
+                    int idx = r.nextInt(tables.size);
+                    TableObstacle t = tables.get(idx);
+                    if (!t.isOccupied(1)) {
+                        goal = t.occupy(1);
+                        customer.onRight = true;
+                        customer.table = t;
+                        customer.seatIndex = 1;
+                        break;
+                    } else if (!t.isOccupied(0)) {
+                        System.out.println(idx);
+                        goal = t.occupy(0);
+                        customer.table = t;
+                        customer.seatIndex = 0;
+                        break;
+                    }
+                }
+                if (goal != null){
+                    break;
+                }
                 for (TableObstacle t : tables) {
                     if (!t.isOccupied(1)) {
                         goal = t.occupy(1);
