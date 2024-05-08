@@ -79,6 +79,7 @@ public class Player extends CapsuleObstacle {
     public void setIgnoreInput(boolean ignoreInput) {
         this.ignoreInput = ignoreInput;
     }
+    public boolean venting_out = false;
 
     public boolean stopDrawing = false;
 //    b = new BoxObstacle(1,1);
@@ -234,7 +235,7 @@ public class Player extends CapsuleObstacle {
 //        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
         //inventory draw moved to Store and Restaurant
 //        this.inventory.draw(canvas);
-        if(dishInventory.leftFilled()){
+        if(dishInventory.leftFilled() && !playerIsCooking && !playerIsVenting && !venting_out){
             if(direction == -1){
                 dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0, true);
             }
@@ -242,7 +243,7 @@ public class Player extends CapsuleObstacle {
                 dishInventory.get(0).draw(canvas, (this.getX()-2.3f) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0,true);
             }
         }
-        if(dishInventory.rightFilled()){
+        if(dishInventory.rightFilled() && !playerIsCooking && !playerIsVenting && !venting_out){
             dishInventory.get(1).draw(canvas, (this.getX()+0.5f) * 40, (this.getY()+1) * 40,1,1, 0,0, false);
         }
     }
