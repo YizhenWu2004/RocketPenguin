@@ -130,9 +130,13 @@ public class CustomerAIController implements AIController {
                     if (!t.isOccupied(1)) {
                         goal = t.occupy(1);
                         customer.onRight = true;
+                        customer.table = t;
+                        customer.seatIndex = 1;
                         break;
                     } else if (!t.isOccupied(0)) {
                         goal = t.occupy(0);
+                        customer.table = t;
+                        customer.seatIndex = 0;
                         break;
                     }
                 }

@@ -22,6 +22,10 @@ public class TableObstacle extends NormalObstacle {
         return occupation[index];
     }
 
+    public void deOccupy(int index){
+        occupation[index]= false;
+    }
+
     public boolean isFullyOccupied() {
         return isOccupied(0) && isOccupied(1);
     }
