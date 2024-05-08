@@ -39,6 +39,7 @@ public class MainMenuController extends WorldController{
     private boolean aModalIsActive = false;
     private SaveController saveController;
     private LevelSelectController levelSelectController;
+    private LevelLoader loader;
 
     public Texture play_b;
     public Texture option;
@@ -57,7 +58,7 @@ public class MainMenuController extends WorldController{
     public Texture nohover;
     public Texture deletesave;
 
-    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s, AssetDirectory directory){
+    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s, AssetDirectory directory, LevelLoader levelLoader){
         background = directory.getEntry("m_fullbackground", Texture.class);
         audio_background = directory.getEntry("mo_audio", Texture.class);
         settings_background = directory.getEntry("mo_settings", Texture.class);
@@ -89,6 +90,8 @@ public class MainMenuController extends WorldController{
         this.input = input;
         this.saveController = saveController;
         this.levelSelectController = levelSelect;
+        this.loader = levelLoader;
+
         sounds = s;
 
         UIButton play = new UIButton(play_b,"play",20,330, 0.5f,0.5f,canvas);
@@ -250,7 +253,7 @@ public class MainMenuController extends WorldController{
         confirmtext.setSY(0.6f);
 
         UIButton yes = new UIButton(this.yes,"yes",450,210,canvas);
-        yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();});
+        yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();levelSelectController.generateLevelSelectors(loader.getLevels().size);});
         yes.setOnHoverAction(()->{yes.setTexture(yeshover);});
         yes.setOnUnhoverAction(()->{yes.resetStyleProperties();        yes.setSX(0.6f);
             yes.setSY(0.6f);});
