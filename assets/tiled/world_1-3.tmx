@@ -205,7 +205,7 @@
   </object>
   <object id="150" gid="577" x="1050.37" y="946.527" width="102" height="131">
    <properties>
-    <property name="Order" value="3 redpepper"/>
+    <property name="Order" value="2 redpepper"/>
     <property name="Time" value="86"/>
    </properties>
   </object>
