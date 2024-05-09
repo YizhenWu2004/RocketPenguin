@@ -36,18 +36,23 @@ public class AnimationController {
 
     private final FilmStrip goatWalk;
     private final FilmStrip goatIdle;
+    private final FilmStrip goatEat;
 
     private final FilmStrip ferretWalk;
     private final FilmStrip ferretIdle;
+    private final FilmStrip ferretEat;
 
     private final FilmStrip catWalk;
     private final FilmStrip catIdle;
+    private final FilmStrip catEat;
 
     private final FilmStrip bearWalk;
     private final FilmStrip bearIdle;
+    private final FilmStrip bearEat;
 
     private final FilmStrip otterWalk;
     private final FilmStrip otterIdle;
+    private final FilmStrip otterEat;
 
     private final FilmStrip gooseWalk;
     private final FilmStrip gooseWalkBack;
@@ -100,18 +105,24 @@ public class AnimationController {
 
         goatWalk = directory.getEntry("goatwalk.strip", FilmStrip.class);
         goatIdle = directory.getEntry("goatsit.strip", FilmStrip.class);
+        goatEat = directory.getEntry("goateat.strip", FilmStrip.class);
 
         ferretWalk = directory.getEntry("ferretwalk.strip", FilmStrip.class);
         ferretIdle = directory.getEntry("ferretsit.strip", FilmStrip.class);
+        ferretEat = directory.getEntry("ferreteat.strip", FilmStrip.class);
 
         catIdle = directory.getEntry("catsit.strip", FilmStrip.class);
         catWalk = directory.getEntry("catwalk.strip", FilmStrip.class);
+        catEat = directory.getEntry("cateat.strip", FilmStrip.class);
 
         bearIdle = directory.getEntry("bearsit.strip", FilmStrip.class);
         bearWalk = directory.getEntry("bearwalk.strip", FilmStrip.class);
+        bearEat = directory.getEntry("beareat.strip", FilmStrip.class);
 
         otterIdle = directory.getEntry("ottersit.strip", FilmStrip.class);
         otterWalk = directory.getEntry("otterwalk.strip", FilmStrip.class);
+        //todo change after ryan does otter eat
+        otterEat = directory.getEntry("ottersit.strip", FilmStrip.class);
 
         gooseWalk = directory.getEntry("goosewalk.strip", FilmStrip.class);
         gooseWalkBack = directory.getEntry("goosewalkback.strip", FilmStrip.class);
@@ -308,6 +319,19 @@ public class AnimationController {
             c.setFilmStrip(goatWalk);
     }
 
+    private void setCustomerEatDependingOnType(Customer c) {
+        if (Objects.equals(c.getCustomerType(), "bear"))
+            c.setFilmStrip(bearEat);
+        if (Objects.equals(c.getCustomerType(), "otter"))
+            c.setFilmStrip(otterEat);
+        if (Objects.equals(c.getCustomerType(), "ferret"))
+            c.setFilmStrip(ferretEat);
+        if (Objects.equals(c.getCustomerType(), "cat"))
+            c.setFilmStrip(catEat);
+        if (Objects.equals(c.getCustomerType(), "goat"))
+            c.setFilmStrip(goatEat);
+    }
+
     /**
      * Sets the offset for a given customer type
      *
@@ -411,12 +435,19 @@ public class AnimationController {
      */
     public void handleAnimation(Customer o, float delta) {
         if (o.getVX() > 0 || o.getVX() < 0 || o.getVY() > 0 || o.getVY() < 0) {
-//            o.setFilmStrip(goatWalk);
             setCustomerWalkDependingOnType(o);
             resetOffset(o);
-        } else {
+        }
+        else if(o.controller.state == CustomerAIController.FSMState.EAT){
+            setCustomerEatDependingOnType(o);
+            o.setScaleX(-1);
+            setOffsetForType("goat", o, 0, -10);
+            setOffsetForType("cat", o, 0, 10);
+            setOffsetForType("ferret", o, 10, 5);
+            setOffsetForType("bear", o, 0, -8);
+            setOffsetForType("otter", o, 10, 18);
+        }else {
             //sitting
-//            o.setFilmStrip(goatIdle);
             setCustomerIdleDependingOnType(o);
             setOffsetForType("goat", o, 0, -10);
             setOffsetForType("cat", o, 0, 10);

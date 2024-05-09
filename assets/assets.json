@@ -337,6 +337,42 @@
 				}
 			}
 		},
+		"goateat":  {
+			"file" : "720/goateat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 13
+				}
+			}
+		},
+		"ferreteat":  {
+			"file" : "720/ferreteat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 3
+				}
+			}
+		},
+		"cateat":  {
+			"file" : "720/cateat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 3
+				}
+			}
+		},
+		"beareat":  {
+			"file" : "720/beareat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 13
+				}
+			}
+		},
 
 		"shadow": "720/shadow.png",
 		"vent": {
