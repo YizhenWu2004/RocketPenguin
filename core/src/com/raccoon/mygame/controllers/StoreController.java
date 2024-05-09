@@ -700,6 +700,7 @@ public class StoreController extends WorldController implements ContactListener 
             guards.get(i).switchToDefaultMode();
             guards.get(i).resetSusMeter();
             guards.get(i).stopExclam = false;
+            guards.get(i).getAIController().currentNodeIndex = 0;
         }
     }
 
