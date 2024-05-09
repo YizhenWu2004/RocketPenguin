@@ -113,8 +113,7 @@ public class CollisionController {
                             c.setShow(false);
 //                        System.out.println(c.getShow());
                         }
-                    }
-                    if (p.dishInventory.rightFilled()) {
+                    }else if (p.dishInventory.rightFilled()) {
                         if (c.serve(p.dishInventory.get(1))) {
                             p.dishInventory.clear(1);
                             c.setShow(false);

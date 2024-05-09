@@ -90,6 +90,8 @@ public class Customer extends BoxObstacle {
     private Shadow shadow;
     ;
     private String customerType;
+    public TableObstacle table;
+    public int seatIndex;
     public String[] types = new String[]{"goat", "cat", "otter", "ferret", "bear"};
 
     private float offsetX = 0;
@@ -303,16 +305,16 @@ public class Customer extends BoxObstacle {
     public boolean serve(Dish d) {
         if (!(controller.state == CustomerAIController.FSMState.WAIT)) {
             return false;
-        }
-        for (Ingredient i : this.order) {
-            if (i != null) {
-//                System.out.println(i.type);
-            }
-        }
-        for (Ingredient i : d.type) {
-            if (i != null) {
-//                System.out.println(i.type);
-            }
+//        }
+//        for (Ingredient i : this.order) {
+//            if (i != null) {
+////                System.out.println(i.type);
+//            }
+//        }
+//        for (Ingredient i : d.type) {
+//            if (i != null) {
+////                System.out.println(i.type);
+//            }
         }
         if (d == null) {
             return false;
@@ -339,17 +341,17 @@ public class Customer extends BoxObstacle {
         }
         //System.out.println("HERE");
         Collections.sort(temp1);
-        for (Ingredient i : temp1) {
-            if (i != null) {
-//                System.out.println(i.type);
-            }
-        }
+//        for (Ingredient i : temp1) {
+//            if (i != null) {
+////                System.out.println(i.type);
+//            }
+//        }
         Collections.sort(temp2);
-        for (Ingredient i : temp2) {
-            if (i != null) {
-//                System.out.println(i.type);
-            }
-        }
+//        for (Ingredient i : temp2) {
+//            if (i != null) {
+////                System.out.println(i.type);
+//            }
+//        }
 
         for (int i = 0; i < temp1.size(); i++) {
             if (!(temp1.get(i).type).equals(temp2.get(i).type)) {
@@ -360,6 +362,7 @@ public class Customer extends BoxObstacle {
         satisfied = SATISFIED.HAPPY;
         justSatisfied = true;
         servedDish = d;
+        this.table.deOccupy(this.seatIndex);
         return true;
     }
 
