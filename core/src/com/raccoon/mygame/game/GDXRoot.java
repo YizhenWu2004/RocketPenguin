@@ -311,7 +311,7 @@ public class GDXRoot extends Game implements ScreenListener {
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
         //todo make customerLeaveTimer better
-        if(w.getTime() <= 0 || customerLeaveTimer >100){
+        if((w.getTime() <= 0 || customerLeaveTimer >100) && (current == 1 || current == 0)){
             current = 2;
 //            restaurant.setActive(false);
 //            store.setActive(false);
