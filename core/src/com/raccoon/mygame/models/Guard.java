@@ -164,7 +164,7 @@ public class Guard extends WheelObstacle {
                 }
             }
 
-            if (aiController.isChase() || aiController.isSleep()){
+            if (aiController.isChase() || aiController.isSleep() || (aiController.isWake() && aiController.sleepWakeTimer > 4.3f)){
                 sight.deactivateSight();
             }
             else{

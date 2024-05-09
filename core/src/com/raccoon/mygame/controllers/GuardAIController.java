@@ -68,7 +68,7 @@ public class GuardAIController extends ScreenAdapter {
     private static final float AWAKE_DURATION = 5.0f;
     private static final float SLEEP_DURATION = 3.0f;
     private static final float ROTATE_DURATION = 3.0f;
-    private float sleepWakeTimer = AWAKE_DURATION;
+    public float sleepWakeTimer = AWAKE_DURATION;
     private float rotateTimer = ROTATE_DURATION;
     private int count3 = 0;
     private SoundController sounds;
@@ -156,6 +156,10 @@ public class GuardAIController extends ScreenAdapter {
 
     public boolean isSleep() {
         return currentState == AIState.SLEEP;
+    }
+
+    public boolean isWake() {
+        return currentState == AIState.WAKE;
     }
 
     public boolean isSus() {
