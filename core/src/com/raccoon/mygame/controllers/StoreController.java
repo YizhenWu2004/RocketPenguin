@@ -374,7 +374,9 @@ public class StoreController extends WorldController implements ContactListener 
                 duringventing = false;
             }
         }
-
+        if(input.getDown()){
+            player.removeItem();
+        }
         if(gettingCaught()){
             player.stopDrawing = true;
         }
