@@ -24,6 +24,12 @@ public class MenuController extends WorldController{
     private Texture opt_background;
     private Texture cont_background ;
     private Texture aud_background;
+    private Texture add;
+    private Texture add_hover;
+    private Texture minus;
+    private Texture minus_hover;
+    private Texture bar;
+    private Texture barfill;
     private GameCanvas canvas;
     private InputController input;
     //below r buttons for main pause
@@ -58,6 +64,9 @@ public class MenuController extends WorldController{
     private Texture audio_opt;
     private Texture back;
 
+    private int musicbar;
+    private int sfxbar;
+
     public MenuController(GameCanvas canvas, Texture background, InputController input, SoundController s, AssetDirectory directory){
 
         resume_hover = directory.getEntry("p_resume_hover",Texture.class);
@@ -77,10 +86,18 @@ public class MenuController extends WorldController{
         control_opt =  directory.getEntry("op_control_b",Texture.class);
         audio_opt =  directory.getEntry("op_audio_b",Texture.class);
         back = directory.getEntry("op_back_b",Texture.class);
-
+        add = directory.getEntry("add2",Texture.class);
+        add_hover = directory.getEntry("addhover2",Texture.class);
+        minus = directory.getEntry("minus2",Texture.class);
+        minus_hover = directory.getEntry("minushover2",Texture.class);
+        barfill = directory.getEntry("fill2",Texture.class);
         this.pause_background = background;
         this.canvas = canvas;
         this.input = input;
+        System.out.println(s.getmusic());
+        System.out.println(s.getsfx());
+        musicbar = (int)(s.getmusic() * 5);
+        sfxbar = (int)(s.getsfx() * 5);
 
         sounds = s;
         UIButton resume = new UIButton(resume_pause,"resume",485,475,canvas);
@@ -154,55 +171,54 @@ public class MenuController extends WorldController{
             aud.setTexture(aud_button_hover);
         },aud::resetStyleProperties,opt_buttons);
 
-        UIButton incmusic = new UIButton(audio_opt,"restart",600,545,canvas);
+        UIButton incmusic = new UIButton(add,"restart",730,400,canvas);
         addButton(incmusic, ()-> {
             sounds.clickPlay();
             sounds.incmusic();
+            musicbar = Integer.min(8, musicbar + 1);
             this.audio = true;
             this.on_audio = true;
             this.on_options=false;
         },()->{
-            incmusic.setSX(1.1f);
-            incmusic.setSY(1.1f);
-            incmusic.setTexture(aud_button_hover);
+            incmusic.setTexture(add_hover);
         },incmusic::resetStyleProperties,aud_buttons);
 
-        UIButton decmusic = new UIButton(audio_opt,"restart",300,545,canvas);
+        UIButton decmusic = new UIButton(minus,"restart",400,400,canvas);
         addButton(decmusic, ()-> {
             sounds.clickPlay();
             sounds.decmusic();
+            musicbar = Integer.max(0, musicbar - 1);
             this.audio = true;
             this.on_audio = true;
             this.on_options=false;
         },()->{
-            decmusic.setSX(1.1f);
-            decmusic.setSY(1.1f);
-            decmusic.setTexture(aud_button_hover);
+            decmusic.setTexture(minus_hover);
         },decmusic::resetStyleProperties,aud_buttons);
 
-        UIButton incsfx = new UIButton(audio_opt,"restart",600,445,canvas);
+        UIButton incsfx = new UIButton(add,"restart",730,260,canvas);
         addButton(incsfx, ()-> {
             sounds.clickPlay();
             sounds.incsfx();
+            sfxbar = Integer.min(8, sfxbar + 1);
             this.audio = true;
             this.on_audio = true;
             this.on_options=false;
         },()->{
-            incsfx.setSX(1.1f);
-            incsfx.setSY(1.1f);
-            incsfx.setTexture(aud_button_hover);
+//            incsfx.setSX(1.1f);
+//            incsfx.setSY(1.1f);
+            incsfx.setTexture(add_hover);
         },incsfx::resetStyleProperties,aud_buttons);
 
-        UIButton decsfx = new UIButton(audio_opt,"restart",300,445,canvas);
+        UIButton decsfx = new UIButton(minus,"restart",410,260,canvas);
         addButton(decsfx, ()-> {
             sounds.clickPlay();
             sounds.decsfx();
+            sfxbar = Integer.max(0, sfxbar - 1);
             this.audio = true;
             this.on_audio = true;
             this.on_options=false;
         },()->{
-            decsfx.setSX(1.1f);
-            decsfx.setTexture(aud_button_hover);
+            decsfx.setTexture(minus_hover);
         },decsfx::resetStyleProperties,aud_buttons);
 
         UIButton back_ = new UIButton(back,"restart",500,245,canvas);
@@ -273,7 +289,7 @@ public class MenuController extends WorldController{
                 button.draw(canvas);
             }
         }else if (on_options){
-            System.out.println("draw options");
+//            System.out.println("draw options");
             canvas.draw(opt_background, Color.WHITE, 0, 0,
                     0, 0, 0.0f, 1f, 1f);
             for(UIButton button : opt_buttons) {
@@ -287,11 +303,17 @@ public class MenuController extends WorldController{
                 button.draw(canvas);
             }
         } else if (on_audio){
-            System.out.println("on audio");
+//            System.out.println("on audio");
             canvas.draw(aud_background, Color.WHITE, 0, 0,
-                    0, 0, 0.0f, 1f, 1f);
+                    -10, -10, 0.0f, 0.7f, 0.7f);
             for(UIButton button : aud_buttons) {
                 button.draw(canvas);
+            }
+            for(int i = 0; i < musicbar; i++){
+                canvas.draw(barfill, Color.WHITE, 0, 0, 475 + i * 30, 400, 0.0f, 0.9f,0.9f);
+            }
+            for(int i = 0; i < sfxbar; i++){
+                canvas.draw(barfill, Color.WHITE, 0, 0, 482 + i * 30, 260, 0.0f, 0.9f,0.9f);
             }
         }
     }
