@@ -222,10 +222,6 @@ public class StoreController extends WorldController implements ContactListener 
 
         animator = new AnimationController(input, directory);
         duringventing = false;
-
-        addInvisibleWall(0,-1,80,1,1,1,0,0);
-        addInvisibleWall(-1,0,1,40,1,1,0,0);
-        addInvisibleWall(33,0,1,40,1,1,0,0);
     }
 
     public void setLevel(LevelModel level, Inventory sharedInv) {
@@ -266,6 +262,9 @@ public class StoreController extends WorldController implements ContactListener 
         playerJustDied = false;
         duringventing = false;
 
+        addInvisibleWall(0,-1,80,1,1,1,0,0);
+        addInvisibleWall(-1,0,1,40,1,1,0,0);
+        addInvisibleWall(32f,0f,1,40,1,1,0,0);
     }
 
     public void setActive(boolean b) {
