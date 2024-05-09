@@ -457,7 +457,7 @@ public class LevelSelectController extends WorldController{
     }
 
 
-    private void generateLevelSelectors(int numberOfLevels){
+    public void generateLevelSelectors(int numberOfLevels){
         int yOffset = 140;
         int xOffset = 0;
         for(int i = 0; i < numberOfLevels; i++){

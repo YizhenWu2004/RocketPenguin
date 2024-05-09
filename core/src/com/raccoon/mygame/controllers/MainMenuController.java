@@ -16,7 +16,12 @@ public class MainMenuController extends WorldController{
     private Texture cont_hover ;
     private Texture audio_hover;
     private Texture back_hover;
-
+    private Texture add;
+    private Texture add_hover;
+    private Texture minus;
+    private Texture minus_hover;
+    private Texture bar;
+    private Texture barfill;
     private GameCanvas canvas;
     private InputController input;
 
@@ -39,6 +44,7 @@ public class MainMenuController extends WorldController{
     private boolean aModalIsActive = false;
     private SaveController saveController;
     private LevelSelectController levelSelectController;
+    private LevelLoader loader;
 
     public Texture play_b;
     public Texture option;
@@ -57,7 +63,10 @@ public class MainMenuController extends WorldController{
     public Texture nohover;
     public Texture deletesave;
 
-    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s, AssetDirectory directory){
+    private int musicbars;
+    private int sfxbars;
+  
+    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s, AssetDirectory directory, LevelLoader levelLoader){
         background = directory.getEntry("m_fullbackground", Texture.class);
         audio_background = directory.getEntry("mo_audio", Texture.class);
         settings_background = directory.getEntry("mo_settings", Texture.class);
@@ -81,15 +90,21 @@ public class MainMenuController extends WorldController{
         no= directory.getEntry("m_no", Texture.class);
         nohover= directory.getEntry("m_nohovered", Texture.class);
         deletesave = directory.getEntry("m_deletesave", Texture.class);
-
-
-
-
+        add = directory.getEntry("add", Texture.class);
+        minus = directory.getEntry("minus", Texture.class);
+        add_hover = directory.getEntry("addhover", Texture.class);
+        minus_hover = directory.getEntry("minushover", Texture.class);
+        barfill = directory.getEntry("fill", Texture.class);
         this.canvas = canvas;
         this.input = input;
         this.saveController = saveController;
         this.levelSelectController = levelSelect;
+        this.loader = levelLoader;
+
         sounds = s;
+
+        musicbars = (int)(s.getmusic() * 5);
+        sfxbars = (int)(s.getsfx() * 5);
 
         UIButton play = new UIButton(play_b,"play",20,330, 0.5f,0.5f,canvas);
         addButton(play, ()-> {
@@ -143,56 +158,65 @@ public class MainMenuController extends WorldController{
             aud.setTexture(audio_hover);
         },aud::resetStyleProperties, setting_buttons);
 
-        UIButton incmusic = new UIButton(audio_b_normal,"exit",510,480,canvas);
+        UIButton incmusic = new UIButton(add,"exit",570,420,canvas);
+        incmusic.setSX(0.1f);
+        incmusic.setSY(0.1f);
+        incmusic.setSY(0.1f);
         addButton(incmusic, ()-> {
             sounds.incmusic();
             sounds.clickPlay();
+            musicbars = Integer.min(8, musicbars+1);
             this.on_audio = true;
             this.on_settings = false;
         },()->{
 //            System.out.println("inc hovered");
 //            inc.setSX(1.1f);
 //            inc.setSY(1.1f);
-            incmusic.setTexture(audio_hover);
+            incmusic.setTexture(add_hover);
         },incmusic::resetStyleProperties, audio_buttons);
 
-        UIButton decmusic = new UIButton(audio_b_normal,"exit",100,480,canvas);
+        UIButton decmusic = new UIButton(minus,"exit",140,426, canvas);
+        decmusic.setSX(0.1f);
+        decmusic.setSY(0.1f);
         addButton(decmusic, ()-> {
             sounds.decmusic();
             sounds.clickPlay();
+            musicbars = Integer.max(0, musicbars-1);
             this.on_audio = true;
             this.on_settings = false;
         },()->{
 //            System.out.println("inc hovered");
 //            inc.setSX(1.1f);
 //            inc.setSY(1.1f);
-            decmusic.setTexture(audio_hover);
+            decmusic.setTexture(minus_hover);
         },decmusic::resetStyleProperties, audio_buttons);
 
-        UIButton incsfx = new UIButton(audio_b_normal,"exit",510,310,canvas);
+        UIButton incsfx = new UIButton(add,"exit",570,270,canvas);
         addButton(incsfx, ()-> {
             sounds.clickPlay();
             sounds.incsfx();
+            sfxbars = Integer.min(8, sfxbars +1);
             this.on_audio = true;
             this.on_settings = false;
         },()->{
 //            System.out.println("inc hovered");
 //            inc.setSX(1.1f);
 //            inc.setSY(1.1f);
-            incsfx.setTexture(audio_hover);
+            incsfx.setTexture(add_hover);
         },incsfx::resetStyleProperties, audio_buttons);
 
-        UIButton decsfx = new UIButton(audio_b_normal,"exit",100,310,canvas);
+        UIButton decsfx = new UIButton(minus,"exit",140,280,canvas);
         addButton(decsfx, ()-> {
             sounds.clickPlay();
             sounds.decsfx();
+            sfxbars = Integer.max(0, sfxbars -1);
             this.on_audio = true;
             this.on_settings = false;
         },()->{
 //            System.out.println("inc hovered");
 //            inc.setSX(1.1f);
 //            inc.setSY(1.1f);
-            decsfx.setTexture(audio_hover);
+            decsfx.setTexture(minus_hover);
         }, decsfx::resetStyleProperties, audio_buttons);
 
         UIButton back1 = new UIButton(back_setting,"exit",290,180,canvas);
@@ -250,7 +274,7 @@ public class MainMenuController extends WorldController{
         confirmtext.setSY(0.6f);
 
         UIButton yes = new UIButton(this.yes,"yes",450,210,canvas);
-        yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();});
+        yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();levelSelectController.generateLevelSelectors(loader.getLevels().size);});
         yes.setOnHoverAction(()->{yes.setTexture(yeshover);});
         yes.setOnUnhoverAction(()->{yes.resetStyleProperties();        yes.setSX(0.6f);
             yes.setSY(0.6f);});
@@ -337,10 +361,16 @@ public class MainMenuController extends WorldController{
             canvas.draw(background, Color.WHITE, 0, 0,
                     0, 0, 0.0f, 0.7f, 0.7f);
             canvas.draw(audio_background, Color.WHITE, 0, 0,
-                    -250, 0, 0.0f, 1f, 1f);
+                    -255, -5, 0.0f, 0.675f, 0.675f);
             for(UIButton button : audio_buttons){
 //                System.out.println("audio buttons");
                 button.draw(canvas);
+            }
+            for(int i = 0; i < musicbars; i++){
+                canvas.draw(barfill, Color.WHITE, 0, 0, 250 + i * 35 + i * 3, 426, 0.0f, 0.9f,0.9f);
+            }
+            for(int i = 0; i < sfxbars; i++){
+                canvas.draw(barfill, Color.WHITE, 0, 0, 250 + i * 35 + i * 3, 275, 0.0f, 0.9f,0.9f);
             }
         } else if (on_control){
             canvas.draw(background, Color.WHITE, 0, 0,

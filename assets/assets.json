@@ -26,6 +26,17 @@
 		"uiredpepper": "720/uiredpepper.png",
 		"uitomato": "720/uitomato.png",
 
+		"add": "720/plus.png",
+		"addhover": "720/plushovered.png",
+		"minus": "720/minus.png",
+		"minushover": "720/minushovered.png",
+		"audiobar": "720/audiobar.png",
+		"fill": "720/filledmeter.png",
+		"add2": "720/plusblack.png",
+		"addhover2": "720/plusblackhovered.png",
+		"minus2": "720/minusblack.png",
+		"minushover2": "720/minusblackhovered.png",
+		"fill2": "720/fillblack.png",
 		"rockodishidle": {
 			"file" : "720/rockodishidle.png",
 			"sprites" : {
@@ -481,7 +492,7 @@
 		"m_deleteconfirmation": "menu/deleteconfirmation.png",
 		"m_deletesave": "menu/deletesave.png",
 
-		"mo_audio" : "menu_option/audio.png",
+		"mo_audio" : "720/audioboard.png",
 		"mo_audio_b_normal": "menu_option/audio_button_normal.png",
 		"mo_audio_b_underline": "menu_option/audio_button_underline.png",
 		"mo_back": "menu_option/back.png",
@@ -493,7 +504,7 @@
 		"mo_save": "menu_option/save.png",
 		"mo_settings": "menu_option/settings.png",
 
-		"op_audio": "options_pause/audio.png",
+		"op_audio": "720/pausedaudio.png",
 		"op_audio_b": "options_pause/audio_button.png",
 		"op_audio_hover_b": "options_pause/audio_hover_button.png",
 		"op_back_b": "options_pause/back_button.png",

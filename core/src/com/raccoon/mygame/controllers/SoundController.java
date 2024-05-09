@@ -48,8 +48,8 @@ public class SoundController {
         otterSound = Gdx.audio.newSound(Gdx.files.internal("sounds/otter.ogg"));
         menu = Gdx.audio.newMusic(Gdx.files.internal("sounds/racoon_menu.mp3"));
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
-        musicVol = 0.8f;
-        sfxvol = 1.4f;
+        musicVol = 1.6f;
+        sfxvol = 1.6f;
         cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/cafetrackv2.ogg"));
     }
     public void cookplay(){
@@ -118,17 +118,16 @@ public class SoundController {
 //    }
 
     public void incmusic(){
-        if(musicVol < 1.0f){
-            System.out.println("increasing music");
-            musicVol = musicVol + 0.1f;
+        if(musicVol < 1.6f){
+            musicVol += 0.2f;
         } else {
-            musicVol = 2.0f;
+            musicVol = 1.6f;
         }
     }
     public void decmusic(){
         if(musicVol > 0.0f){
-            if(musicVol - 0.1f > 0) {
-                musicVol = musicVol - 0.1f;
+            if(musicVol - 0.2f > 0) {
+                musicVol = musicVol - 0.2f;
             } else {
                 musicVol = 0.0f;
             }
@@ -137,25 +136,21 @@ public class SoundController {
         }
     }
 
-    public float getmusic(){
-        return musicVol;
-    }
-    public float getsfx(){
-        return sfxvol;
-    }
     public void incsfx(){
-        if(sfxvol < 2.0f){
-            System.out.println("increasing sfx");
-            sfxvol = sfxvol + 0.2f;
+        if(sfxvol < 1.6f){
+            sfxvol += 0.2f;
         } else {
-            sfxvol = 2.0f;
+            sfxvol = 1.6f;
         }
     }
 
     public void decsfx(){
         if(sfxvol > 0.0f){
-            System.out.println("decreasing sfx");
-            sfxvol = sfxvol - 0.2f;
+            if(sfxvol - 0.2f > 0) {
+               sfxvol = sfxvol - 0.2f;
+            } else {
+                sfxvol = 0.0f;
+            }
         } else {
             sfxvol = 0.0f;
         }
@@ -221,6 +216,13 @@ public class SoundController {
             return 0.85f;
         }
         return 0.8f;
+    }
+
+    public float getmusic(){
+        return musicVol;
+    }
+    public float getsfx(){
+        return sfxvol;
     }
 }
 
