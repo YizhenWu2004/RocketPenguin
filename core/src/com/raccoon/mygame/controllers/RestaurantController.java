@@ -780,6 +780,7 @@ public class RestaurantController extends WorldController implements ContactList
         drawOutline();
         drawReq();
         drawScore();
+        player.drawDishInv();
         player.inventory.draw(canvas);
     }
 

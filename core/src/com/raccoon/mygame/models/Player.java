@@ -232,9 +232,25 @@ public class Player extends CapsuleObstacle {
             }
         }
 
+        if(dishInventory.leftFilled() && !playerIsCooking && !playerIsVenting && !venting_out){
+            if(direction == -1){
+                dishInventory.get(0).drawServingPlate(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0, true);
+            }
+            else{
+                dishInventory.get(0).drawServingPlate(canvas, (this.getX()-2.3f) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0,true);
+            }
+        }
+        if(dishInventory.rightFilled() && !playerIsCooking && !playerIsVenting && !venting_out){
+            dishInventory.get(1).drawServingPlate(canvas, (this.getX()+0.5f) * 40, (this.getY()+1) * 40,1,1, 0,0, false);
+        }
+
 //        canvas.draw(this.playerSprite,Color.WHITE,0,-200,this.getX(),this.getY(),0,scaleX,scaleY);
         //inventory draw moved to Store and Restaurant
 //        this.inventory.draw(canvas);
+
+    }
+
+    public void drawDishInv(){
         if(dishInventory.leftFilled() && !playerIsCooking && !playerIsVenting && !venting_out){
             if(direction == -1){
                 dishInventory.get(0).draw(canvas, (this.getX()-2) * 40 , (this.getY()+1) * 40, 1,1, 0f, 0, true);
