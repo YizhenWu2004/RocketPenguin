@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
@@ -81,6 +82,7 @@ public class RestaurantController extends WorldController implements ContactList
     //The animation controller in question.
     private AnimationController animator;
     private SoundController sounds;
+    private boolean canplay = true;
 
     private float respawnTimer;
 
@@ -140,6 +142,12 @@ public class RestaurantController extends WorldController implements ContactList
     private int[] star_req;
 
     private AssetDirectory directory;
+
+    boolean isEndless;
+
+    float infTimer = 0;
+
+    public int unsatisfiedCustomers = 0;
 
 
     private void createTextures(AssetDirectory directory) {
@@ -263,7 +271,9 @@ public class RestaurantController extends WorldController implements ContactList
 
     public World getWorld() { return world; }
 
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s, AssetDirectory directory) {
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s, AssetDirectory directory, boolean isEndless) {
+        this.isEndless = isEndless;
+
         createTextures(directory);
         sounds = s;
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
@@ -328,12 +338,12 @@ public class RestaurantController extends WorldController implements ContactList
         score = 0;
 
         tables = new Array();
-        addTable(17.5f, 12f, false);
-        addTable(17.5f, 4f, true);
-        addTable(10.25f, 12f, true);
-        addTable(10.25f, 4f, false);
+        addTable(17f, 12f, false);
+        addTable(18f, 4f, true);
+        addTable(10f, 12f, true);
+        addTable(11f, 4f, false);
         //addTable(3f, 12f, false);
-        addTable(3f, 4f, true);
+        addTable(4f, 4f, true);
 
 
         //System.out.println(tables.size);
@@ -374,33 +384,7 @@ public class RestaurantController extends WorldController implements ContactList
         //We just wrote shitty code that requires textures off-rip.
         //goatIdle = new FilmStrip(goat, 1,4,4);
 
-
-        //todo start hard code customers
-//        customersToAdd = new Array<>();
-//        Array<String> customer1Order = new Array<String>();
-//        customer1Order.add("0");
-//        customer1Order.add("red");
-//        customer1Order.add("yellow");
-//        customer1Order.add("green");
-//        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 178,customer1Order);
-//        Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 175,customer1Order);
-//        Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 173,customer1Order);
-//        customersToAdd.add(customer1);
-//        customersToAdd.add(customer2);
-//        customersToAdd.add(customer3);
-        //todo end hard code customers
-
-//        for(Customer c : customersToAdd){
-//            c.initializeAIController(tables);
-//        }
-
         customersToAdd = new Array<>();
-
-        //todo CUSTOMER
-//        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
-      
-//        customers.add(customer1);
-//        drawableObjects.add(customer1);
 
         Filter f = new Filter();
         f.categoryBits = 0x0002;
@@ -439,34 +423,55 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
     public void setCustomers(Array<Array<String>> customerData){
-        for(Array<String> arr : customerData){
-            int time = Integer.parseInt(arr.get(0));
-            Array<String> copied = new Array<String>();
-            for(int i = 1; i<arr.size; i++){
-                copied.add(arr.get(i));
+        if(!isEndless){
+            for(Array<String> arr : customerData){
+                int time = Integer.parseInt(arr.get(0));
+                Array<String> copied = new Array<String>();
+                for(int i = 1; i<arr.size; i++){
+                    copied.add(arr.get(i));
+                }
+
+                Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied, directory);
+                customersToAdd.add(customer1);
             }
-
-            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied, directory);
-            customersToAdd.add(customer1);
         }
+        else{
+            System.out.println("ENDLESS");
+            Array<Array<String>> customerOrders = new Array<>();
 
-//        Array<Array<String>> customerOrders = new Array<>();
-//
-//        customerOrders.add(new Array<>(new String[]{"178", "2", "greenpepper"}));
-////        customerOrders.add(new Array<>(new String[]{"160", "2", "greenpepper", "greenpepper"}));
-////        customerOrders.add(new Array<>(new String[]{"145", "2", "lemon"}));
-////        customerOrders.add(new Array<>(new String[]{"143", "2", "corn", "lemon"}));
-////        customerOrders.add(new Array<>(new String[]{"115", "2", "greenpepper", "lemon"}));
-////        customerOrders.add(new Array<>(new String[]{"113", "2", "greenpepper", "corn"}));
-////
-//        for(Array<String> arr : customerOrders){
-//            System.out.println(arr);
-//            int time = Integer.parseInt(arr.get(0));
-//            arr.removeIndex(0);
-//            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr,directory);
-//            customersToAdd.add(customer1);
-//        }
+            customerOrders.add(new Array<>(new String[]{"2", "2", "greenpepper"}));
+            customerOrders.add(new Array<>(new String[]{"12", "0", "green", "green"}));
+            customerOrders.add(new Array<>(new String[]{"14", "2", "green"}));
+            customerOrders.add(new Array<>(new String[]{"60", "1", "green"}));
+            customerOrders.add(new Array<>(new String[]{"62", "0", "green"}));
+            customerOrders.add(new Array<>(new String[]{"64", "2", "yellow", "yellow"}));
+            customerOrders.add(new Array<>(new String[]{"120", "0", "corn", "banana", "lemon"}));
+            customerOrders.add(new Array<>(new String[]{"132", "2", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"134", "1", "yellow", "yellow"}));
+            customerOrders.add(new Array<>(new String[]{"180", "1", "greenpepper", "greenpepper"}));
+            customerOrders.add(new Array<>(new String[]{"182", "0", "greenpepper", "redpepper"}));
+            customerOrders.add(new Array<>(new String[]{"184", "2", "apple", "greenpepper"}));
+            customerOrders.add(new Array<>(new String[]{"240", "2", "persimmon", "orange", "carrot"}));
+            customerOrders.add(new Array<>(new String[]{"252", "1", "greenpepper"}));
+            customerOrders.add(new Array<>(new String[]{"254", "2", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"300", "0", "green", "yellow", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"302", "2", "green", "yellow", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"304", "0", "green", "yellow", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"360", "2", "tomato", "redpepper", "apple"}));
+            customerOrders.add(new Array<>(new String[]{"372", "2", "red"}));
+            customerOrders.add(new Array<>(new String[]{"374", "2", "red"}));
+            customerOrders.add(new Array<>(new String[]{"420", "1", "red"}));
+            customerOrders.add(new Array<>(new String[]{"422", "1", "red"}));
+            customerOrders.add(new Array<>(new String[]{"424", "1", "red"}));
 
+            for(Array<String> arr : customerOrders){
+                System.out.println(arr);
+                int time = Integer.parseInt(arr.get(0));
+                arr.removeIndex(0);
+                Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr,directory);
+                customersToAdd.add(customer1);
+            }
+        }
 
         for(Customer c : customersToAdd){
             c.initializeAIController(tables);
@@ -493,6 +498,8 @@ public class RestaurantController extends WorldController implements ContactList
     public void update() {
         tick += 1;
 
+        infTimer+= 0.0166666;
+
 //        System.out.println("customersToAdd"+customersToAdd);
 //        System.out.println("customers"+customers);
 //        System.out.println("allCustomersLeave"+allCustomersLeave());
@@ -501,17 +508,36 @@ public class RestaurantController extends WorldController implements ContactList
         player.update(delta);
         player.current = this.current;
 
-        for(Customer c: customersToAdd){
+        if(isEndless){
+            System.out.println(infTimer);
+            System.out.println(customersToAdd.size);
+            for(Customer c: customersToAdd){
 //            System.out.println(c.showUpTime);
-            if(c.showUpTime >= t.getTime() && !t.action_round && paused == false){
-//                System.out.println("Customer incoming");
-                customers.add(c);
-                sounds.doorPlay();
-                drawableObjects.add(c);
-                t.action_round=true;
-                customersToAdd.removeValue(c,true);
+                if(c.showUpTime <= infTimer && paused == false){
+                    System.out.println("c.showUpTime" + c.showUpTime + "infTimer" + infTimer);
+                    customers.add(c);
+                    sounds.doorPlay();
+                    drawableObjects.add(c);
+                    t.action_round=true;
+                    customersToAdd.removeValue(c,true);
+                }
             }
         }
+        else{
+            for(Customer c: customersToAdd){
+//            System.out.println(c.showUpTime);
+                if(c.showUpTime >= t.getTime() && !t.action_round && paused == false){
+//                System.out.println("Customer incoming");
+                    customers.add(c);
+                    sounds.doorPlay();
+                    drawableObjects.add(c);
+                    t.action_round=true;
+                    customersToAdd.removeValue(c,true);
+                }
+            }
+        }
+
+
 
         if (active && !respawning()) {
             player.venting_out = ventingOut();
@@ -576,6 +602,7 @@ public class RestaurantController extends WorldController implements ContactList
                 c.move();
             }
             if(c.time() <= 0){
+                unsatisfiedCustomers++;
                 c.timeOut();
                 c.satisfied = Customer.SATISFIED.NO;
             }
@@ -621,8 +648,10 @@ public class RestaurantController extends WorldController implements ContactList
                     if(c.getStationType() == 1){
                         sounds.potStop();
                         potplay = false;
+                        sounds.potplaying = false;
                     } else if (c.getStationType() == 0){
                         sounds.panStopp();
+                        sounds.panplaying = false;
                         panplay = false;
                     }
 //                    sounds.potStop();
@@ -729,6 +758,14 @@ public class RestaurantController extends WorldController implements ContactList
         return false;
     }
 
+    public void create () {
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                canplay = true;
+            }
+        }, 3);
+    }
     public void draw() {
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
@@ -771,11 +808,11 @@ public class RestaurantController extends WorldController implements ContactList
         canvas.draw(light,Color.WHITE, 0, 0,
                 0, 5f*40, 0.0f, 1f, 1f);
 
-        if(trash.interactingTrash){
-            float midpoint = (float)canvas.getWidth()/2- (float)singleInv.getWidth()/2;
-            canvas.draw(singleInv, Color.WHITE, 10, 10,
-                    midpoint, 90, 0.0f, 1, 1);
-        }
+//        if(trash.interactingTrash){
+//            float midpoint = (float)canvas.getWidth()/2- (float)singleInv.getWidth()/2;
+//            canvas.draw(singleInv, Color.WHITE, 10, 10,
+//                    midpoint, 90, 0.0f, 1, 1);
+//        }
         t.draw(20, 700);
         drawOutline();
         drawReq();
@@ -926,8 +963,12 @@ public class RestaurantController extends WorldController implements ContactList
             startVentTimer(vent1, player);
             sounds.panStopp();
             sounds.potStop();
+            if(canplay) {
                 sounds.ventPlay();
-                System.out.println("vent playing");
+                canplay = false;
+                create();
+            }
+//                System.out.println("vent playing");
 
 //            setVentCollision(true);
         }

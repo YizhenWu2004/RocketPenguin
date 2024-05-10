@@ -56,10 +56,15 @@ public class MainMenuController extends WorldController{
     public Texture save_b;
     public Texture modalbackground;
     public Texture deleteconfirmation;
+    public Texture deleteconfirmation2;
+    public Texture exitconfirmation;
+    public Texture exitconfirmtextreal;
     public Texture confirmtext;
     public Texture yes;
     public Texture yeshover;
     public Texture no;
+    public Texture ok;
+    public Texture okhover;
     public Texture nohover;
     public Texture deletesave;
 
@@ -83,12 +88,17 @@ public class MainMenuController extends WorldController{
         back = directory.getEntry("mo_back", Texture.class);
         save_b= directory.getEntry("mo_save", Texture.class);
         modalbackground= directory.getEntry("m_modalbackground", Texture.class);
-        deleteconfirmation= directory.getEntry("m_deleteconfirmation", Texture.class);
+        deleteconfirmation= directory.getEntry("m_deletesaveconfirmation", Texture.class);
+        deleteconfirmation2 = directory.getEntry("m_deletesaveconfirmation2", Texture.class);
+        exitconfirmation = directory.getEntry("m_exitconfirmation", Texture.class);
+        exitconfirmtextreal = directory.getEntry("m_exitconfirmtextreal", Texture.class);
         confirmtext = directory.getEntry("m_confirmtext", Texture.class);
         yes= directory.getEntry("m_yes", Texture.class);
         yeshover= directory.getEntry("m_yeshovered", Texture.class);
         no= directory.getEntry("m_no", Texture.class);
         nohover= directory.getEntry("m_nohovered", Texture.class);
+        ok = directory.getEntry("m_ok", Texture.class);
+        okhover = directory.getEntry("m_okhovered", Texture.class);
         deletesave = directory.getEntry("m_deletesave", Texture.class);
         add = directory.getEntry("add", Texture.class);
         minus = directory.getEntry("minus", Texture.class);
@@ -127,14 +137,37 @@ public class MainMenuController extends WorldController{
         },options::resetStyleProperties,buttons);
 
 
+        Modal exitconfirm = new Modal("exitconfirm",0,0,modalbackground);
+        UIButton exitconfirmtext = new UIButton(exitconfirmation,"exitconfirmtext",0,0,canvas);
+        UIButton exitconfirmtextrealbutton = new UIButton(exitconfirmtextreal, "exitconfirmtextreal",380,320,0.65f,0.65f,canvas);
+
+        exitconfirmtext.setSX(0.65f);
+        exitconfirmtext.setSY(0.65f);
+        exitconfirm.addElement(exitconfirmtext);
+
         UIButton exit = new UIButton(exit_b,"exit",20,130,0.5f,0.5f,canvas);
         addButton(exit, ()-> {
             sounds.clickPlay();
-            this.exit = true;
+            exitconfirm.setActive(true);
         },()->{
             exit.setSX(0.6f);
             exit.setSY(0.6f);
             },exit::resetStyleProperties,buttons);
+
+        UIButton exityes = new UIButton(yes, "exityes", 450, 210,0.6f,0.6f,canvas);
+        exityes.setOnClickAction(()->{this.exit=true;sounds.clickPlay();});
+        exityes.setOnHoverAction(()->{exityes.setTexture(yeshover);});
+        exityes.setOnUnhoverAction(()->{exityes.setTexture(yes);});
+        exitconfirm.addElement(exityes);
+
+        UIButton exitno = new UIButton(yes, "exitno", 740, 207,0.6f,0.6f,canvas);
+        exitno.setOnClickAction(()->{exitconfirm.setActive(false);sounds.clickPlay();});
+        exitno.setOnHoverAction(()->{exitno.setTexture(nohover);});
+        exitno.setOnUnhoverAction(()->{exitno.setTexture(no);});
+        exitconfirm.addElement(exitno);
+        exitconfirm.addElement(exitconfirmtextrealbutton);
+
+        modals.add(exitconfirm);
 
         UIButton cont = new UIButton(control_b_normal,"exit",230,430,canvas);
         addButton(cont, ()-> {
@@ -269,12 +302,24 @@ public class MainMenuController extends WorldController{
         deletetext.setSX(0.65f);
         deletetext.setSY(0.65f);
 
-        UIButton confirmtext = new UIButton(this.confirmtext,"confirm",380,320,canvas);
-        confirmtext.setSX(0.6f);
-        confirmtext.setSY(0.6f);
+        Modal deleteconfirm  = new Modal("deleteconfirm", 0,0, modalbackground);
+        UIButton deleteconfirmtext = new UIButton(deleteconfirmation2,"deleteconfirm",0,0,canvas);
+        UIButton okbutton = new UIButton(ok, "ok", 585,210,0.6f,0.6f,canvas);
+        okbutton.setOnHoverAction(()->{okbutton.setTexture(this.okhover);});
+        okbutton.setOnUnhoverAction(()->{okbutton.resetStyleProperties();});
+        okbutton.setOnClickAction(()->{deleteconfirm.setActive(false);});
+        deleteconfirmtext.setSX(0.65f);
+        deleteconfirmtext.setSY(0.65f);
+        deleteconfirm.addElement(deleteconfirmtext);
+        deleteconfirm.addElement(okbutton);
+        modals.add(deleteconfirm);
+
+//        UIButton confirmtext = new UIButton(this.confirmtext,"confirm",380,320,canvas);
+//        confirmtext.setSX(0.6f);
+//        confirmtext.setSY(0.6f);
 
         UIButton yes = new UIButton(this.yes,"yes",450,210,canvas);
-        yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();levelSelectController.generateLevelSelectors(loader.getLevels().size);});
+        yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();deletesure.setActive(false);deleteconfirm.setActive(true);});
         yes.setOnHoverAction(()->{yes.setTexture(yeshover);});
         yes.setOnUnhoverAction(()->{yes.resetStyleProperties();        yes.setSX(0.6f);
             yes.setSY(0.6f);});
@@ -291,7 +336,7 @@ public class MainMenuController extends WorldController{
         no.setSY(0.6f);
 
         deletesure.addElement(deletetext);
-        deletesure.addElement(confirmtext);
+//        deletesure.addElement(confirmtext);
         deletesure.addElement(yes);
         deletesure.addElement(no);
         modals.add(deletesure);

@@ -116,6 +116,7 @@ public class GDXRoot extends Game implements ScreenListener {
     public boolean isPaused;
     public int[] star_req;
     public int customerLeaveTimer = 0;
+    public int unsatisfiedCustomerTimer = 0;
 
     public void create() {
         //world = new World(new Vector2(0, 0), false);
@@ -137,7 +138,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
-        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory);
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory, false);
         notepadOrders = new Array<>();
         store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, notepadOrders, sounds, directory);
         loader = new LevelLoader(canvas, sounds, directory);
@@ -170,13 +171,18 @@ public class GDXRoot extends Game implements ScreenListener {
         //180
 //        sounds.storeStop();
 //        sounds.cafeStop();
+        sounds.potStop();
+        sounds.panStopp();
+        sounds.potplaying = false;
+        sounds.panplaying = false;
         store.setA(1);
         w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class),directory);
         w.create();
+        result.ticks = 0;
 
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
-        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory);
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory, loader.getLevels().get(levelToGoTo).isEndless());
         notepadOrders = new Array<>();
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
@@ -186,7 +192,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
         //pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
         //result = new ResultController(canvas, new Texture("result/result_final.png"),input);
-        //levelselect = new LevelSelectController(canvas, input, loader, saveController);
+        levelselect = new LevelSelectController(canvas, input, loader, saveController,sounds,directory);
         //mainmenu = new MainMenuController(canvas,input);
         mainmenu.on_main = true;
         current = 0;
@@ -278,10 +284,18 @@ public class GDXRoot extends Game implements ScreenListener {
             restaurant.setActive(false);
             restaurant.setPaused(true);
             store.setActive(false);
+            sounds.potStop();
+            sounds.panStopp();
+            sounds.potplaying = false;
+            sounds.panplaying = false;
             sounds.storeStop();
             sounds.cafeStop();
             if(mainmenu.checkForGoToLevelSelect()){
                 current = -1;
+                levelselect.setCameraToLastCameraY();
+                levelselect.resetLevelSelectors();
+                levelselect.setSaveController(saveController);
+                levelselect.generateLevelSelectors(loader.getLevels().size);
                 mainmenu.setForGoToLevelSelect(false);
             }
             if(mainmenu.checkForExit()){
@@ -290,6 +304,10 @@ public class GDXRoot extends Game implements ScreenListener {
         }
         else if(current == -1) {
             levelselect.update();
+            sounds.potStop();
+            sounds.panStopp();
+            sounds.potplaying = false;
+            sounds.panplaying = false;
             w.pauseTimer();
             sounds.storeStop();
             sounds.cafeeactualstop();
@@ -297,11 +315,13 @@ public class GDXRoot extends Game implements ScreenListener {
             store.setActive(false);
             if(levelselect.checkForGoToMainMenu()){
                 this.current = -2;
+                levelselect.setLastCameraY();
                 levelselect.setForGoToMainMenu(false);
                 canvas.getCamera().position.y = 360;
                 canvas.getCamera().update();
             }
             if(levelselect.checkForGoToLevel()){
+                levelselect.setLastCameraY();
                 this.levelToGoTo = levelselect.getLevelToGoTo();
                 restart();
                 //store.setLevel(loader.getLevels().get(levelToGoTo),this.inv);
@@ -311,23 +331,39 @@ public class GDXRoot extends Game implements ScreenListener {
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
         //todo make customerLeaveTimer better
-        if((w.getTime() <= 0 || customerLeaveTimer >100) && (current == 1 || current == 0)){
+        if((w.getTime() <= 0 && (!loader.getLevels().get(levelToGoTo).isEndless())) || ((customerLeaveTimer >100) && (current == 1 || current == 0))
+        || (loader.getLevels().get(levelToGoTo).isEndless() && unsatisfiedCustomerTimer > 100)){
             current = 2;
 //            restaurant.setActive(false);
 //            store.setActive(false);
 //            sounds.storeStop();
         }
+
+        if((restaurant.unsatisfiedCustomers>=3 && current == 0)){
+            unsatisfiedCustomerTimer ++;
+        }
+        else if(current != 0){
+            unsatisfiedCustomerTimer =0;
+        }
+
         if((restaurant.allCustomersLeave() && current == 0)){
             customerLeaveTimer ++;
         }
         else if(current != 0){
             customerLeaveTimer=0;
         }
+
         if (current == 2){
             sounds.cafeeactualstop();
             sounds.storeStop();
+            sounds.panStopp();
+            sounds.potplaying = false;
+            sounds.panplaying = false;
+            sounds.potStop();
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
             saveController.editKeyValuePair(levelToGoTo, result.score);
+            levelselect.setSaveController(saveController);
+            levelselect.resetLevelSelectors();
             result.update();
             if (result.retry){
                 sounds.cafeeactualstop();
@@ -336,15 +372,18 @@ public class GDXRoot extends Game implements ScreenListener {
                 result.retry = false;
             } else if (result.next){
                 current = -1;
-                levelselect = new LevelSelectController(canvas,input,loader,saveController,sounds,directory);
-                levelselect.setNext();
+//                levelselect = new LevelSelectController(canvas,input,loader,saveController,sounds,directory);
+                levelselect.generateLevelSelectors(loader.getLevels().size);
+                levelselect.setNext(this.levelToGoTo);
                 result.next = false;
 
             }else if (result.select){
                 current = -1;
                 //this just resets the scores according to whats new
                 //System.out.println("pressed,current is" + current);
-                levelselect = new LevelSelectController(canvas,input,loader,saveController,sounds,directory);
+//                levelselect = new LevelSelectController(canvas,input,loader,saveController,sounds,directory);
+                levelselect.generateLevelSelectors(loader.getLevels().size);
+                levelselect.setCameraToLastCameraY();
                 result.select = false;
             }
             return;
@@ -355,6 +394,8 @@ public class GDXRoot extends Game implements ScreenListener {
           w.pauseTimer();
           sounds.storeStop();
           sounds.cafeStop();
+          sounds.potStop();
+          sounds.panStopp();
           restaurant.pauseTimer();
           pause.on_pause = true;
       }
@@ -364,6 +405,12 @@ public class GDXRoot extends Game implements ScreenListener {
           if(pause.resume){
               isPaused = false;
               pause.resumed();
+              if(sounds.potplaying){
+                  sounds.potPlay();
+              }
+              if(sounds.panplaying){
+                  sounds.panPlay();
+              }
               pause.on_pause = false;
               if(current == 1){
                   sounds.storePlay();

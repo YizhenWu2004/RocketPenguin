@@ -121,8 +121,7 @@ public class AnimationController {
 
         otterIdle = directory.getEntry("ottersit.strip", FilmStrip.class);
         otterWalk = directory.getEntry("otterwalk.strip", FilmStrip.class);
-        //todo change after ryan does otter eat
-        otterEat = directory.getEntry("ottersit.strip", FilmStrip.class);
+        otterEat = directory.getEntry("ottereat.strip", FilmStrip.class);
 
         gooseWalk = directory.getEntry("goosewalk.strip", FilmStrip.class);
         gooseWalkBack = directory.getEntry("goosewalkback.strip", FilmStrip.class);
@@ -390,14 +389,41 @@ public class AnimationController {
         //wok = 0
         //pot = 1
         //chop = 2
-        if (o.interacting && o.getSX() == o.getDefaultSX()) {
-            o.setSX(o.getSX() + 0.1f);
-            o.setSY(o.getSY() + 0.1f);
-        } else if (!o.interacting && o.getSX() > o.getDefaultSX()) {
-            o.resetScales();
+//        if (o.interacting && o.getSX() == o.getDefaultSX()) {
+//            o.setSX(o.getSX() + 0.1f);
+//            o.setSY(o.getSY() + 0.1f);
+//        } else if (!o.interacting && o.getSX() > o.getDefaultSX()) {
+//            o.resetScales();
+//        }
+        if(o.getStationType() == 0 && o.interacting){
+            o.wok.sx = 1.2f;
+            o.wok.sy = 1.2f;
+        }
+        else if(o.getStationType() == 0 && !o.interacting){
+            o.wok.sx = 1f;
+            o.wok.sy = 1f;
+        }
+
+        if(o.getStationType() == 1 && o.interacting){
+            o.pott.sx = 1.2f;
+            o.pott.sy = 1.2f;
+        }
+        else if(o.getStationType() == 1 && !o.interacting){
+            o.pott.sx = 1f;
+            o.pott.sy = 1f;
+        }
+
+        if(o.getStationType() == 2 && o.interacting){
+            o.chop.sx = 1.2f;
+            o.chop.sy = 1.2f;
+        }
+        else if(o.getStationType() == 2 && !o.interacting){
+            o.chop.sx = 1f;
+            o.chop.sy = 1f;
         }
 
         if (o.getStationType() == 0 && o.timer != null) {
+
             if (o.timer.getTime() <= 0) {
                 o.wok.sx = 1;
                 o.wok.x = 40;
@@ -440,7 +466,15 @@ public class AnimationController {
         }
         else if(o.controller.state == CustomerAIController.FSMState.EAT){
             setCustomerEatDependingOnType(o);
-            o.setScaleX(-1);
+            if (!Objects.equals(o.getCustomerType(), "otter")){
+                if(o.onRight){
+                    o.setScaleX(-1);
+                }
+                else{
+                    o.setScaleX(1);
+                }
+
+            }
             setOffsetForType("goat", o, 0, -10);
             setOffsetForType("cat", o, 0, 10);
             setOffsetForType("ferret", o, 10, 5);

@@ -22,6 +22,9 @@ public class UIButton {
     private float width, height;
     private Texture texture;
     private Texture default_texture;
+    private boolean active = true;
+
+    private boolean priorityButton = false;
 
     private boolean isClicked = false;
     private boolean isHovered = false;
@@ -31,6 +34,8 @@ public class UIButton {
 
     private float defaultX;
     private float defaultY;
+    private float xEffectedByScale;
+    private float yEffectedByScale;
     private float defaultOX = 0;
     private float defaultOY = 0;
     private float defaultSX = 1;
@@ -83,6 +88,8 @@ public class UIButton {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.xEffectedByScale = x;
+        this.yEffectedByScale = y;
         this.defaultX = x;
         this.defaultY = y;
         this.texture = texture;
@@ -108,6 +115,8 @@ public class UIButton {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.xEffectedByScale = x;
+        this.yEffectedByScale = y;
         this.defaultX = x;
         this.defaultY = y;
         this.texture = texture;
@@ -131,6 +140,8 @@ public class UIButton {
         this.id = id;
         this.x = x;
         this.y = y;
+        this.xEffectedByScale = x;
+        this.yEffectedByScale = y;
         this.defaultX = x;
         this.defaultY = y;
         this.texture = texture;
@@ -237,10 +248,16 @@ public class UIButton {
     public void setSX(float SX) {
         this.SX = SX;
         this.width = defaultWidth * SX;
+        //distance effected by scaling
+//        calculateXEffectedByScale();
+//        this.x = xEffectedByScale;
     }
     public void setSY(float SY) {
         this.SY = SY;
         this.height = defaultHeight * SY;
+
+//        calculateYEffectedByScale();
+//        this.y = yEffectedByScale;
     }
     public void setTexture(Texture texture){this.texture = texture;}
     public void setOX(float OX) {this.OX = OX;}
@@ -260,6 +277,9 @@ public class UIButton {
         this.width = defaultWidth * defaultSX;
         this.height = defaultHeight * defaultSY;
         this.texture = default_texture;
+
+//        this.x = defaultX;
+//        this.y = defaultY;
     }
     /**
      * Executes the provided lambda method on click.
@@ -350,5 +370,32 @@ public class UIButton {
 
     public void resetChildren(){
         children.clear();
+    }
+
+    private void calculateXEffectedByScale(){
+        if(xEffectedByScale != this.defaultX){
+            return;
+        }
+        this.xEffectedByScale = this.x - ((defaultWidth - this.width)/8);
+    }
+    private void calculateYEffectedByScale(){
+        if(yEffectedByScale != this.defaultY){
+            return;
+        }
+        this.yEffectedByScale = this.y - ((defaultHeight - this.height)/8);
+    }
+
+    public void setActive(boolean active){
+        this.active = active;
+    }
+    public boolean getActive(){
+        return this.active;
+    }
+
+    public void setPriority(boolean priority){
+        this.priorityButton = priority;
+    }
+    public boolean getPriority(){
+        return this.priorityButton;
     }
 }

@@ -198,7 +198,7 @@ public class Guard extends WheelObstacle {
         else if(aiController.isSleep()){
             zzz.draw(canvas);
         }
-        else if(aiController.isSus()){
+        else if(aiController.isSus() && !stopExclam){
             question.draw(canvas);
         }
     }

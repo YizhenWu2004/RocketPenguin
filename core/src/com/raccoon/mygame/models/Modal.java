@@ -46,6 +46,9 @@ public class Modal {
 
         canvas.draw(background, drawX, drawY);
         for(UIButton element : elements){
+            if(!element.getActive()){
+                continue;
+            }
             // Draw each element relative to the modal's position
             element.draw(canvas, drawX + element.getX(), drawY + element.getY());
         }
