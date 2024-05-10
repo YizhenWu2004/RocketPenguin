@@ -111,9 +111,11 @@ public class CollisionController {
 //                        System.out.println("served");
                             p.dishInventory.clear(0);
                             c.setShow(false);
+                            return;
 //                        System.out.println(c.getShow());
                         }
-                    }else if (p.dishInventory.rightFilled()) {
+                    }
+                    if (p.dishInventory.rightFilled()) {
                         if (c.serve(p.dishInventory.get(1))) {
                             p.dishInventory.clear(1);
                             c.setShow(false);
