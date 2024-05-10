@@ -52,6 +52,7 @@ public class LevelModel {
     private float guardSpeed;
     private int patienceTime;
     private boolean isEndless;
+    private String isTutorial;
 
     private void addShelfHorizontal(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 1f, 1f, 0f, -40f,
@@ -112,7 +113,8 @@ public class LevelModel {
         customersLayer = tiledMap.getLayers().get("Customers");
         guardIdle = directory.getEntry("gooseidle.strip", FilmStrip.class);
         guardSpeed = Float.parseFloat((String)tiledMap.getProperties().get("Guard Speed"));
-        patienceTime = Integer.parseInt((String)tiledMap.getProperties().get("Guard Speed"));
+        patienceTime = Integer.parseInt((String)tiledMap.getProperties().get("Patience Time"));
+        isTutorial = (String)tiledMap.getProperties().get("Tutorial");
         isEndless = endless;
         processObjects();
         processIngredients();
@@ -127,6 +129,7 @@ public class LevelModel {
     public float getGuardSpeed() { return guardSpeed; }
     public float getPatienceTime() { return patienceTime; }
     public boolean isEndless() { return isEndless; }
+    public boolean isTutorial() { return isTutorial.equals("Yes"); }
 
     public Array<NormalObstacle> getStoreObjects() { return storeObjects; }
     public Array<Object> getStoreObjectsAndDecor() { return storeObjectsAndDecor; }
