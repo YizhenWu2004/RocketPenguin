@@ -211,7 +211,7 @@
   </object>
   <object id="184" gid="577" x="841.685" y="955.054" width="102" height="131">
    <properties>
-    <property name="Order" value="2 orange_color"/>
+    <property name="Order" value="2 orange"/>
     <property name="Time" value="132"/>
    </properties>
   </object>
@@ -220,6 +220,24 @@
     <property name="Order" value="1 yellow yellow"/>
     <property name="Time" value="134"/>
    </properties>
+  </object>
+  <object id="186" gid="577" x="1077.56" y="953.585" width="102" height="131">
+     <properties>
+      <property name="Order" value="1 greenpepper greenpepper"/>
+      <property name="Time" value="180"/>
+     </properties>
+  </object>
+  <object id="187" gid="577" x="1077.56" y="953.585" width="102" height="131">
+       <properties>
+        <property name="Order" value="0 greenpepper redpepper"/>
+        <property name="Time" value="182"/>
+       </properties>
+  </object>
+  <object id="188" gid="577" x="1077.56" y="953.585" width="102" height="131">
+         <properties>
+          <property name="Order" value="2 apple greenpepper"/>
+          <property name="Time" value="184"/>
+         </properties>
   </object>
  </objectgroup>
 </map>
