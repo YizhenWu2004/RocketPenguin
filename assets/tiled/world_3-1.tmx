@@ -239,5 +239,77 @@
           <property name="Time" value="184"/>
          </properties>
   </object>
+  <object id="189" gid="577" x="1077.56" y="953.585" width="102" height="131">
+           <properties>
+            <property name="Order" value="2 persimmon orange carrot"/>
+            <property name="Time" value="240"/>
+           </properties>
+  </object>
+  <object id="190" gid="577" x="1077.56" y="953.585" width="102" height="131">
+           <properties>
+            <property name="Order" value="1 greenpepper"/>
+            <property name="Time" value="252"/>
+           </properties>
+  </object>
+  <object id="191" gid="577" x="1077.56" y="953.585" width="102" height="131">
+             <properties>
+              <property name="Order" value="2 orange"/>
+              <property name="Time" value="254"/>
+             </properties>
+  </object>
+  <object id="192" gid="577" x="1077.56" y="953.585" width="102" height="131">
+             <properties>
+              <property name="Order" value="0 green yellow orange"/>
+              <property name="Time" value="300"/>
+             </properties>
+  </object>
+  <object id="193" gid="577" x="1077.56" y="953.585" width="102" height="131">
+             <properties>
+              <property name="Order" value="2 green yellow orange"/>
+              <property name="Time" value="302"/>
+             </properties>
+  </object>
+  <object id="194" gid="577" x="1077.56" y="953.585" width="102" height="131">
+             <properties>
+              <property name="Order" value="0 green yellow orange"/>
+              <property name="Time" value="304"/>
+             </properties>
+  </object>
+  <object id="195" gid="577" x="1077.56" y="953.585" width="102" height="131">
+               <properties>
+                <property name="Order" value="2 tomato redpepper apple"/>
+                <property name="Time" value="360"/>
+               </properties>
+  </object>
+   <object id="196" gid="577" x="1077.56" y="953.585" width="102" height="131">
+               <properties>
+                <property name="Order" value="2 red"/>
+                <property name="Time" value="372"/>
+               </properties>
+   </object>
+   <object id="197" gid="577" x="1077.56" y="953.585" width="102" height="131">
+                <properties>
+                  <property name="Order" value="2 red"/>
+                  <property name="Time" value="374"/>
+                </properties>
+   </object>
+   <object id="198" gid="577" x="1077.56" y="953.585" width="102" height="131">
+                <properties>
+                  <property name="Order" value="1 red"/>
+                  <property name="Time" value="420"/>
+                </properties>
+    </object>
+    <object id="199" gid="577" x="1077.56" y="953.585" width="102" height="131">
+              <properties>
+                <property name="Order" value="1 red"/>
+                <property name="Time" value="422"/>
+              </properties>
+     </object>
+     <object id="200" gid="577" x="1077.56" y="953.585" width="102" height="131">
+             <properties>
+              <property name="Order" value="1 red"/>
+              <property name="Time" value="424"/>
+             </properties>
+     </object>
  </objectgroup>
 </map>
