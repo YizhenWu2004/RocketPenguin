@@ -110,4 +110,8 @@ public class Pot implements GameObject {
     public float getY(){
         return y;
     }
+
+    public void setSX(){
+
+    }
 }

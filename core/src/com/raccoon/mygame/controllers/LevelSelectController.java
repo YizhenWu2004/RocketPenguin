@@ -11,6 +11,7 @@ import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.view.GameCanvas;
 
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * Level select menu.
@@ -65,6 +66,8 @@ public class LevelSelectController extends WorldController{
      * */
     private Array<UIButton> buttons = new Array<>();
 
+    private Array<UIButton> priorityButtons = new Array();
+
 
     /**
      * All of the modals within this level select menu.
@@ -87,6 +90,12 @@ public class LevelSelectController extends WorldController{
     private boolean shouldIScroll = false;
     private float  targetCameraY;
     private float scrollAmount = 0;
+
+    private float lastCameraY = 360;
+
+    UIButton up;
+    UIButton down;
+    UIButton backtotitle;
 
     private boolean goToMainMenu = false;
 
@@ -143,20 +152,30 @@ public class LevelSelectController extends WorldController{
 
         generateLevelSelectors(loader.getLevels().size);
 
-        UIButton up = new UIButton(upunhovered,"up", 1100,600,1,1,canvas,canvas.getCamera(),true);
+        up = new UIButton(upunhovered,"up", 1100,600,1,1,canvas,canvas.getCamera(),true);
         up.setDefaultScale(0.5f,0.5f);
-        addButton(up, ()->{sounds.clickPlay();upCameraShiftI();}, ()->{up.setSX(0.6f);up.setSY(0.6f);up.setTexture(uphovered);}, up::resetStyleProperties);
+        addButton(up, ()->{sounds.clickPlay();upCameraShiftI();}, ()->{up.setSX(0.6f);up.setSY(0.6f);up.setTexture(uphovered);up.setPriority(true);}, ()->{up.resetStyleProperties();up.setPriority(false);});
+        priorityButtons.add(up);
 
-        UIButton down = new UIButton(downunhovered,"down", 1100,20,1,1,canvas,canvas.getCamera(),true);
+        down = new UIButton(downunhovered,"down", 1100,20,1,1,canvas,canvas.getCamera(),true);
         down.setDefaultScale(0.5f,0.5f);
-        addButton(down, ()->{sounds.clickPlay();downCameraShiftI();}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(downhovered);}, down::resetStyleProperties);
+        addButton(down, ()->{sounds.clickPlay();downCameraShiftI();}, ()->{down.setSX(0.6f);down.setSY(0.6f);down.setTexture(downhovered);down.setPriority(true);}, ()->{down.resetStyleProperties();down.setPriority(false);});
+        priorityButtons.add(down);
 
-        UIButton backtotitle = new UIButton(titlebackunhovered, "titleback", 10,10,1,1,canvas,canvas.getCamera(),true);
+        backtotitle = new UIButton(titlebackunhovered, "titleback", 10,10,1,1,canvas,canvas.getCamera(),true);
         backtotitle.setDefaultScale(0.6f, 0.6f);
-        addButton(backtotitle, ()->{sounds.clickPlay();this.goToMainMenu = true;},()->{backtotitle.setTexture(titlebackhovered);},()->{backtotitle.resetStyleProperties();});
+        addButton(backtotitle, ()->{sounds.clickPlay();this.goToMainMenu = true;},()->{backtotitle.setTexture(titlebackhovered);backtotitle.setPriority(true);},()->{backtotitle.resetStyleProperties();backtotitle.setPriority(false);});
+        priorityButtons.add(backtotitle);
 
         this.shiftingYs = makeBackgroundPoints(loader.getLevels().size);
         this.targetCameraY = canvas.getCamera().position.y;
+
+//        sortButtonsByPriority();
+
+        for(UIButton button: buttons){
+            System.out.println("button " + button.getID());
+        }
+        System.out.println("\n");
     }
 
     public void dispose() {
@@ -204,6 +223,7 @@ public class LevelSelectController extends WorldController{
     }
 
     public void draw(){
+//        sortButtonsByPriority();
 
         //draw the background background. Might have to change this later.
         for(int i = 0; i < shiftingYs.size; i++) {
@@ -237,8 +257,28 @@ public class LevelSelectController extends WorldController{
         //for every button in this scene (excluding those within a modal)
         //draw them
         for(UIButton button : buttons){
+
+            if(!button.getActive()){
+                continue;
+            }
+            if(priorityButtons.contains(button, true)){
+                continue;
+            }
             button.draw(canvas);
         }
+        for(UIButton button : priorityButtons){
+            if(!button.getActive()){
+                continue;
+            }
+            button.draw(canvas);
+        }
+//        for(int i = buttons.size-1; i > 0; i--){
+//            UIButton button = buttons.get(i);
+//            if(!button.getActive()){
+//                continue;
+//            }
+//            button.draw(canvas);
+//        }
 
         //for all active modals in this scene
         //draw them
@@ -257,7 +297,7 @@ public class LevelSelectController extends WorldController{
         int spacing = 0;
         int amountOfBackgroundsToDraw = (int)(amountOfLevels/3);
         Array<Integer> ypoints = new Array<>();
-        for(int i = 0; i <= amountOfBackgroundsToDraw+2; i++){
+        for(int i = 0; i <= amountOfBackgroundsToDraw; i++){
             ypoints.add(spacing);
             spacing -= 757;
         }
@@ -329,9 +369,13 @@ public class LevelSelectController extends WorldController{
      * Call events that should happen in those circumstances.
      * */
     private void checkButtons(){
+//        sortButtonsByPriority();
         //If no modals are active, check state for normal buttons.
         if(!aModalIsActive) {
             for (UIButton button : buttons) {
+                if(!button.getActive()){
+                    continue;
+                }
                 float minX = button.getX();
                 float maxX = button.getX() + button.getWidth();
                 float minY = button.getY();
@@ -355,6 +399,10 @@ public class LevelSelectController extends WorldController{
                     button.onClickEvent();
                     button.setIsClicked(false);
                 }
+
+                if(button.getPriority()){
+                    return;
+                }
             }
         }
         // Current camera position
@@ -366,6 +414,9 @@ public class LevelSelectController extends WorldController{
         for(Modal modal : modals){
             if(modal.getActive()){
                 for(UIButton button : modal.getElements()){
+                    if(!button.getActive()){
+                        continue;
+                    }
                     float minX = button.getX();
                     float maxX = button.getX() + button.getWidth();
                     float minY = modalY + button.getY();
@@ -394,7 +445,7 @@ public class LevelSelectController extends WorldController{
             }
         }
     }
-    public void constructBooklet(String id){
+    public void constructBooklet(String id, int actualDay, int weekNum){
         int num = Integer.parseInt(id);
         //this is the modal for when you click on an individual level entry
         //mostly just for testing now
@@ -416,8 +467,11 @@ public class LevelSelectController extends WorldController{
         start.setOnHoverAction(()->{start.setSX(0.6f);start.setSY(0.6f);});
         start.setOnUnhoverAction(()->{start.resetStyleProperties();});
 
-        UIButton dayNumber = createNumberElement(num,270, 415, 0.5f, 0.5f);
+        UIButton dayNumber = createNumberElement(actualDay,320, 415, 0.5f, 0.5f);
         dayNumber.setCOLOR(Color.BLACK);
+
+        UIButton weekNumber = createNumberElement(weekNum,270, 415, 0.5f, 0.5f);
+        weekNumber.setCOLOR(Color.BLACK);
 
         Array<UIButton> multipleNums = createMultipleNumbers((saveController.getKeyvaluepairs().get(num)),655,  285,0.5f,0.5f);
         Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(num)),540,  200,0.7f,0.7f);
@@ -428,6 +482,7 @@ public class LevelSelectController extends WorldController{
         selectModal.addElement(back);
         selectModal.addElement(start);
         selectModal.addElement(dayNumber);
+        selectModal.addElement(weekNumber);
         for (UIButton butt:
                 multipleNums) {
             selectModal.addElement(butt);
@@ -460,26 +515,31 @@ public class LevelSelectController extends WorldController{
     public void generateLevelSelectors(int numberOfLevels){
         int yOffset = 140;
         int xOffset = 0;
+        int actualDay = 0;
+        int actualWeek = 0;
         for(int i = 0; i < numberOfLevels; i++){
+            actualDay+=1;
             xOffset += 1;
             if(i % 3 == 0){
                 xOffset = 0;
             }
             if(i%3 == 0 && i != 0){
-                yOffset -= 720;
+                yOffset -= 760;
             }
             String is = Integer.toString(i);
 
             //level one button
-            UIButton levelButton = new UIButton(levelbooklet,is,90 + (xOffset*400),yOffset,0.7f,0.7f,canvas);
-            UIButton dayNumber = createNumberElement(i, 270,260,1,1);
+            UIButton levelButton = new UIButton(levelbooklet,is + "levelbutton",90 + (xOffset*400),yOffset,0.7f,0.7f,canvas);
+            UIButton dayNumber = createNumberElement(actualDay, 270,260,1,1);
             Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(i)),118,  170,1f,1f);
+
 
             levelButton.addChild(dayNumber);
             for(UIButton star: stars){
                 levelButton.addChild(star);
             }
             //The addbutton method has many overloads. Please see them below.
+            //on un-hover
             //on un-hover
             addButton(levelButton,
                     ()-> {
@@ -494,7 +554,14 @@ public class LevelSelectController extends WorldController{
                     }, levelButton::resetStyleProperties
             );
 
-            constructBooklet(is);
+            constructBooklet(is, actualDay, actualWeek);
+
+            if(actualDay == 3){
+                actualWeek++;
+            }
+            if(actualDay == 3){
+                actualDay = 0;
+            }
         }
     }
 
@@ -625,11 +692,22 @@ public class LevelSelectController extends WorldController{
     }
 
     private void clampCameraPosition(){
-        if (canvas.getCamera().position.y < shiftingYs.peek() + canvas.getCamera().viewportHeight / 2) {
+        if (canvas.getCamera().position.y <= shiftingYs.peek() + canvas.getCamera().viewportHeight / 2) {
             canvas.getCamera().position.y = shiftingYs.peek() + canvas.getCamera().viewportHeight / 2;
+            up.setActive(true);
+            down.setActive(false);
         }
-        if (canvas.getCamera().position.y > shiftingYs.first() + canvas.getCamera().viewportHeight / 2) {
+        else{
+            down.setActive(true);
+        }
+
+        if (canvas.getCamera().position.y >= shiftingYs.first() + canvas.getCamera().viewportHeight / 2) {
             canvas.getCamera().position.y = shiftingYs.first() + canvas.getCamera().viewportHeight / 2;
+            up.setActive(false);
+            down.setActive(true);
+        }
+        else{
+            up.setActive(true);
         }
 
     }
@@ -646,5 +724,47 @@ public class LevelSelectController extends WorldController{
             }
         }
         return this.numbers.get(0);
+    }
+
+    private void sortButtonsByPriority(){
+        int n = buttons.size;
+        int low = 0;
+        int high = n - 1;
+        while (low <= high) {
+            if (buttons.get(low).getPriority()) {
+                low++;
+            } else {
+                UIButton temp = buttons.get(low);
+                buttons.set(low, buttons.get(high));
+                buttons.set(high, temp);
+                high--;
+            }
+        }
+    }
+    public void setLastCameraY(){
+        this.lastCameraY = this.canvas.getCamera().position.y;
+    }
+
+    public void setCameraToLastCameraY(){
+        this.canvas.getCamera().position.y = this.lastCameraY;
+    }
+
+    public void setSaveController(SaveController save){
+        this.saveController = save;
+    }
+
+    public void resetLevelSelectors(){
+        for(int i = 0; i < buttons.size; i++){
+            UIButton currentButton = buttons.get(i);
+            if(currentButton.getID().contains("levelbutton")){
+                buttons.removeIndex(i);
+                i--;
+            }
+        }
+        System.out.println("Just removed buttons");
+        for(UIButton button: buttons){
+            System.out.println("button " + button.getID());
+        }
+        System.out.println("\n");
     }
 }
