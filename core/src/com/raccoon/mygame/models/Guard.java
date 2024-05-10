@@ -164,7 +164,7 @@ public class Guard extends WheelObstacle {
                 }
             }
 
-            if (aiController.isChase() || aiController.isSleep()){
+            if (aiController.isChase() || aiController.isSleep() || (aiController.isWake() && aiController.sleepWakeTimer > 4.3f)){
                 sight.deactivateSight();
             }
             else{
@@ -198,7 +198,7 @@ public class Guard extends WheelObstacle {
         else if(aiController.isSleep()){
             zzz.draw(canvas);
         }
-        else if(aiController.isSus()){
+        else if(aiController.isSus() && !stopExclam){
             question.draw(canvas);
         }
     }

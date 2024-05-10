@@ -87,8 +87,10 @@ public class CollisionController {
     public void processCustomers(Player p, Array<Customer> customers) {
         for (Customer c : customers) {
             if (p.getPosition().dst(c.getPosition()) <= 4) {
-                c.setScaleX(1.1f);
-                c.setScaleY(1.1f);
+                if(c.getVX() == 0 && c.getVY() == 0) {
+                    c.setScaleX(1.1f);
+                    c.setScaleY(1.1f);
+                }
                 if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
                     if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
                         addOrder(c);
@@ -116,6 +118,7 @@ public class CollisionController {
                         }
                     }
                     if (p.dishInventory.rightFilled()) {
+
                         if (c.serve(p.dishInventory.get(1))) {
                             p.dishInventory.clear(1);
                             c.setShow(false);
@@ -182,10 +185,16 @@ public class CollisionController {
     void handleCollision(Player p, Guard g) {
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
             if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
-                if(g.getAIController().getCurrentState() == GuardAIController.AIState.WANDER){
+                if(g.getAIController().getCurrentState() == GuardAIController.AIState.WANDER ||
+                        g.getAIController().getCurrentState() == GuardAIController.AIState.ROTATE){
                     g.getAIController().setAIStateSus();
                 }
-                g.getAIController().incrementSusMeter(5);
+                if(!g.getAIController().isSleep()){
+                    g.getAIController().incrementSusMeter(5);
+                }
+                if(g.getAIController().isSleep()){
+                    g.getAIController().incrementSusMeter(2);
+                }
             }
         }
     }

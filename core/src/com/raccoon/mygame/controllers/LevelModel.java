@@ -51,6 +51,7 @@ public class LevelModel {
     private boolean[][] collisionLayer = new boolean[GRID_WIDTH][GRID_HEIGHT];
     private float guardSpeed;
     private int patienceTime;
+    private boolean isEndless;
 
     private void addShelfHorizontal(float x, float y) {
         NormalObstacle obstacle = new NormalObstacle(x, y, 5.25f, 1f, 1f, 1f, 0f, -40f,
@@ -96,7 +97,7 @@ public class LevelModel {
                 GuardAIController.GuardOrientation.LEFT, sounds, directory));
     }
 
-    public LevelModel(String tmxFile, GameCanvas canvas, SoundController s, AssetDirectory directory) {
+    public LevelModel(String tmxFile, GameCanvas canvas, SoundController s, AssetDirectory directory, boolean endless) {
         sounds = s;
         storeWorld = new World(new Vector2(0, 0), false);
         this.directory = directory;
@@ -112,6 +113,7 @@ public class LevelModel {
         guardIdle = directory.getEntry("gooseidle.strip", FilmStrip.class);
         guardSpeed = Float.parseFloat((String)tiledMap.getProperties().get("Guard Speed"));
         patienceTime = Integer.parseInt((String)tiledMap.getProperties().get("Guard Speed"));
+        isEndless = endless;
         processObjects();
         processIngredients();
         initializeCollisionLayer();
@@ -124,6 +126,7 @@ public class LevelModel {
     public Array<Array<String>> getCustomerData() { return customerData; }
     public float getGuardSpeed() { return guardSpeed; }
     public float getPatienceTime() { return patienceTime; }
+    public boolean isEndless() { return isEndless; }
 
     public Array<NormalObstacle> getStoreObjects() { return storeObjects; }
     public Array<Object> getStoreObjectsAndDecor() { return storeObjectsAndDecor; }

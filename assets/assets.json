@@ -26,6 +26,17 @@
 		"uiredpepper": "720/uiredpepper.png",
 		"uitomato": "720/uitomato.png",
 
+		"add": "720/plus.png",
+		"addhover": "720/plushovered.png",
+		"minus": "720/minus.png",
+		"minushover": "720/minushovered.png",
+		"audiobar": "720/audiobar.png",
+		"fill": "720/filledmeter.png",
+		"add2": "720/plusblack.png",
+		"addhover2": "720/plusblackhovered.png",
+		"minus2": "720/minusblack.png",
+		"minushover2": "720/minusblackhovered.png",
+		"fill2": "720/fillblack.png",
 		"rockodishidle": {
 			"file" : "720/rockodishidle.png",
 			"sprites" : {
@@ -326,6 +337,51 @@
 				}
 			}
 		},
+		"ottereat":  {
+			"file" : "720/ottereat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 3,
+					"cols": 4
+				}
+			}
+		},
+		"goateat":  {
+			"file" : "720/goateat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 13
+				}
+			}
+		},
+		"ferreteat":  {
+			"file" : "720/ferreteat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 3
+				}
+			}
+		},
+		"cateat":  {
+			"file" : "720/cateat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 3
+				}
+			}
+		},
+		"beareat":  {
+			"file" : "720/beareat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 13
+				}
+			}
+		},
 
 		"shadow": "720/shadow.png",
 		"vent": {
@@ -477,11 +533,16 @@
 		"m_week": "menu/week.png",
 		"m_yes": "menu/yes.png",
 		"m_yeshovered": "menu/yeshovered.png",
+		"m_ok": "menu/ok.png",
+		"m_okhovered": "menu/okhovered.png",
 		"m_confirmtext": "menu/confirmtext.png",
-		"m_deleteconfirmation": "menu/deleteconfirmation.png",
+		"m_deletesaveconfirmation": "menu/deletesavescreen.png",
+		"m_deletesaveconfirmation2": "menu/deletesaveconfirm.png",
+		"m_exitconfirmation":"menu/exitconfirm.png",
+		"m_exitconfirmtextreal":"menu/exitconfirmtextreal.png",
 		"m_deletesave": "menu/deletesave.png",
 
-		"mo_audio" : "menu_option/audio.png",
+		"mo_audio" : "720/audioboard.png",
 		"mo_audio_b_normal": "menu_option/audio_button_normal.png",
 		"mo_audio_b_underline": "menu_option/audio_button_underline.png",
 		"mo_back": "menu_option/back.png",
@@ -493,7 +554,7 @@
 		"mo_save": "menu_option/save.png",
 		"mo_settings": "menu_option/settings.png",
 
-		"op_audio": "options_pause/audio.png",
+		"op_audio": "720/pausedaudio.png",
 		"op_audio_b": "options_pause/audio_button.png",
 		"op_audio_hover_b": "options_pause/audio_hover_button.png",
 		"op_back_b": "options_pause/back_button.png",
@@ -594,6 +655,17 @@
 		"s_three": "score/three.png",
 		"s_zero": "score/zero.png",
 
+		"t2zero": "720/timertwozeroes.png",
+		"tone": "720/tone.png",
+		"ttwo": "720/ttwo.png",
+		"tthree": "720/tthree.png",
+		"tfour": "720/tfour.png",
+		"tfive": "720/tfive.png",
+		"tsix": "720/tsix.png",
+		"tseven": "720/tseven.png",
+		"teight": "720/teight.png",
+		"tnine": "720/tnine.png",
+		"tzero": "720/tzero.png",
 		"cutting_board":  {
 			"file" : "cutting_board.png",
 			"sprites" : {

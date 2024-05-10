@@ -15,6 +15,7 @@ public class CustomerAIController implements AIController {
         SPAWN,
         SEAT,
         WAIT,
+        EAT,
         LEAVE
     }
 
@@ -39,6 +40,8 @@ public class CustomerAIController implements AIController {
      */
 
     private float[] customerInfo;
+
+    private int eatingCounter = 0;
 
     public CustomerAIController(Array<TableObstacle> tables, Customer customer,Shadow shadow,float[] customerInfo, AssetDirectory directory) {
         this.tables = tables;
@@ -115,11 +118,18 @@ public class CustomerAIController implements AIController {
                     customer.flipScale = 1;
                 }
                 if (customer.isSatisfied()) {
-                    state = FSMState.LEAVE;
-                    customer.setBodyType(BodyType.KinematicBody);
+                    state = FSMState.EAT;
+                    eatingCounter++;
+
                 }
                 createPatienceMeter();
                 break;
+            case EAT:
+                eatingCounter++;
+                if (eatingCounter > 60){
+                    state = FSMState.LEAVE;
+                    customer.setBodyType(BodyType.KinematicBody);
+                }
             case LEAVE:
                 customer.flipScale = 1;
                 destroyPatienceMeter();

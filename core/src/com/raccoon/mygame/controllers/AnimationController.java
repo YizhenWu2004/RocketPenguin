@@ -16,7 +16,9 @@ import java.util.Map;
 import java.util.Objects;
 
 public class AnimationController {
-    /** How fast we change frames (one frame per 4 calls to update) */
+    /**
+     * How fast we change frames (one frame per 4 calls to update)
+     */
     private static final float ANIMATION_SPEED = 0.10f;
     // sus
 
@@ -34,18 +36,23 @@ public class AnimationController {
 
     private final FilmStrip goatWalk;
     private final FilmStrip goatIdle;
+    private final FilmStrip goatEat;
 
     private final FilmStrip ferretWalk;
     private final FilmStrip ferretIdle;
+    private final FilmStrip ferretEat;
 
     private final FilmStrip catWalk;
     private final FilmStrip catIdle;
+    private final FilmStrip catEat;
 
     private final FilmStrip bearWalk;
     private final FilmStrip bearIdle;
+    private final FilmStrip bearEat;
 
     private final FilmStrip otterWalk;
     private final FilmStrip otterIdle;
+    private final FilmStrip otterEat;
 
     private final FilmStrip gooseWalk;
     private final FilmStrip gooseWalkBack;
@@ -75,13 +82,14 @@ public class AnimationController {
     private FilmStrip getCaught;
 
     private InputController input;
+
     /**
      * Creates an animation controller
      * Make a new animation controller wherever you wish to have them play
      *
      * @param input The input controller used for determining animation state
-     * */
-    AnimationController(InputController input, AssetDirectory directory){
+     */
+    AnimationController(InputController input, AssetDirectory directory) {
         this.input = input;
 
         playerWalk = directory.getEntry("rockorun.strip", FilmStrip.class);
@@ -97,18 +105,23 @@ public class AnimationController {
 
         goatWalk = directory.getEntry("goatwalk.strip", FilmStrip.class);
         goatIdle = directory.getEntry("goatsit.strip", FilmStrip.class);
+        goatEat = directory.getEntry("goateat.strip", FilmStrip.class);
 
         ferretWalk = directory.getEntry("ferretwalk.strip", FilmStrip.class);
         ferretIdle = directory.getEntry("ferretsit.strip", FilmStrip.class);
+        ferretEat = directory.getEntry("ferreteat.strip", FilmStrip.class);
 
         catIdle = directory.getEntry("catsit.strip", FilmStrip.class);
         catWalk = directory.getEntry("catwalk.strip", FilmStrip.class);
+        catEat = directory.getEntry("cateat.strip", FilmStrip.class);
 
         bearIdle = directory.getEntry("bearsit.strip", FilmStrip.class);
         bearWalk = directory.getEntry("bearwalk.strip", FilmStrip.class);
+        bearEat = directory.getEntry("beareat.strip", FilmStrip.class);
 
         otterIdle = directory.getEntry("ottersit.strip", FilmStrip.class);
         otterWalk = directory.getEntry("otterwalk.strip", FilmStrip.class);
+        otterEat = directory.getEntry("ottereat.strip", FilmStrip.class);
 
         gooseWalk = directory.getEntry("goosewalk.strip", FilmStrip.class);
         gooseWalkBack = directory.getEntry("goosewalkback.strip", FilmStrip.class);
@@ -145,33 +158,33 @@ public class AnimationController {
     /**
      * Handles the animation for the player
      *
-     * @param o Player to animate
+     * @param o     Player to animate
      * @param delta Deltatime to update the animation frame
-     * */
-    public void handleAnimation(Player o, float delta, boolean respawning){
-        if(respawning){
+     */
+    public void handleAnimation(Player o, float delta, boolean respawning) {
+        if (respawning) {
             o.setFilmStrip(kickedOutReturn);
             o.setIgnoreInput(true);
             o.justDied = false;
             o.updateAnimation(delta);
             return;
         }
-        if(o.getSwiping()){
+        if (o.getSwiping()) {
             o.setFilmStrip(playerSwipe);
             o.updateAnimation(delta);
-            if(o.getFrame() == o.getFilmStrip().getSize()-1){
+            if (o.getFrame() == o.getFilmStrip().getSize() - 1) {
                 o.setSwiping(false);
             }
             return;
         }
 
         //This is pretty self-explanatory.
-        if(o.playerIsCooking && o.potCookingIn == 2){
+        if (o.playerIsCooking && o.potCookingIn == 2) {
             o.setFilmStrip(playerChop);
             o.updateAnimation(delta);
             return;
         }
-        if(o.playerIsCooking){
+        if (o.playerIsCooking) {
             o.setFilmStrip(playerCook);
             //if you are planning on returning, you must make sure you advance the animation beforehand
             o.updateAnimation(delta);
@@ -180,26 +193,23 @@ public class AnimationController {
             return;
         }
         //you can understand the rest.
-        if((o.dishInventory.leftFilled() && (o.getVX() !=0 || o.getVY()!=0)) || (o.dishInventory.rightFilled() && (o.getVX()!=0 || o.getVY()!=0))){
+        if ((o.dishInventory.leftFilled() && (o.getVX() != 0 || o.getVY() != 0)) || (o.dishInventory.rightFilled() && (o.getVX() != 0 || o.getVY() != 0))) {
             o.setFilmStrip(playerServe);
             o.updateAnimation(delta);
             return;
-        } else if((o.dishInventory.leftFilled() && o.getVX() ==0 && o.getVY()==0) || (o.dishInventory.rightFilled() && o.getVX()==0 && o.getVY()==0)){
+        } else if ((o.dishInventory.leftFilled() && o.getVX() == 0 && o.getVY() == 0) || (o.dishInventory.rightFilled() && o.getVX() == 0 && o.getVY() == 0)) {
             o.setFilmStrip(playerServeIdle);
             o.updateAnimation(delta);
             return;
         }
 
-        if((input.getYMovement()!=0 || input.getXMovement()!=0) && o.current == 1){
+        if ((input.getYMovement() != 0 || input.getXMovement() != 0) && o.current == 1) {
             o.setFilmStrip(playerSneak);
-        }
-        else if(o.current == 1){
+        } else if (o.current == 1) {
             o.setFilmStrip(playerSneakIdle);
-        }
-        else if(input.getYMovement()!=0 || input.getXMovement()!=0){
+        } else if (input.getYMovement() != 0 || input.getXMovement() != 0) {
             o.setFilmStrip(playerWalk);
-        }
-        else{
+        } else {
             o.setFilmStrip(playerIdle);
         }
         o.updateAnimation(delta);
@@ -209,60 +219,58 @@ public class AnimationController {
      * Handles the animation for a guard
      * Functions similarly to every other handleAnimation method
      *
-     * @param o The guard to animate
+     * @param o     The guard to animate
      * @param delta The deltatime to update animation frames with
-     * */
-    public void handleAnimation(Guard o, float delta, boolean inAction){
-        if(inAction){
+     */
+    public void handleAnimation(Guard o, float delta, boolean inAction) {
+        if (inAction) {
             o.setFilmStrip(getCaught);
             o.updateAnimation(delta);
             return;
         }
-        if(o.getAIController().sleeping()){
+        if (o.getAIController().sleeping()) {
             o.setFilmStrip(gooseSleep);
             o.updateAnimation(delta);
             return;
         }
-        if(o.getAIController().waking()){
+        if (o.getAIController().waking()) {
             o.setFilmStrip(gooseWake);
             o.updateAnimation(delta);
             return;
-        }
-        else if(o.getAIController().getCurrentState() == GuardAIController.AIState.SLEEP){
+        } else if (o.getAIController().getCurrentState() == GuardAIController.AIState.SLEEP) {
             o.setFilmStrip(gooseSleepIdle);
             o.updateAnimation(delta);
             return;
         }
-        if(o.getAIController().getCurrentState() == GuardAIController.AIState.CHASE){
+        if (o.getAIController().getCurrentState() == GuardAIController.AIState.CHASE) {
             o.setFilmStrip(gooseChase);
             o.updateAnimation(delta);
             return;
         }
-        if(o.getAIController().getCurrentState() == GuardAIController.AIState.ROTATE){
-            if(o.getAIController().getOrien() == GuardAIController.GuardOrientation.UP){
+        if (o.getAIController().getCurrentState() == GuardAIController.AIState.ROTATE) {
+            if (o.getAIController().getOrien() == GuardAIController.GuardOrientation.UP) {
                 o.setFilmStrip(gooseIdleUp);
                 o.updateAnimation(delta);
                 return;
-            }
-            else if(o.getAIController().getOrien() == GuardAIController.GuardOrientation.DOWN){
+            } else if (o.getAIController().getOrien() == GuardAIController.GuardOrientation.DOWN) {
                 o.setFilmStrip(gooseIdleDown);
                 o.updateAnimation(delta);
                 return;
             }
         }
-        if(o.getVX()>1 || o.getVX() < -1){
+        if (o.getVX() > 1 || o.getVX() < -1) {
             //horizontal
             o.setFilmStrip(gooseWalk);
             o.updateAnimation(delta);
             return;
         }
-        if(o.getVY() > 0){
+        if (o.getVY() > 0) {
             //up
             o.setFilmStrip(gooseWalkBack);
             o.updateAnimation(delta);
             return;
         }
-        if(o.getVY() < 0){
+        if (o.getVY() < 0) {
             //down
             o.setFilmStrip(gooseWalkUp);
             o.updateAnimation(delta);
@@ -272,48 +280,67 @@ public class AnimationController {
         o.setFilmStrip(gooseIdle);
         o.updateAnimation(delta);
     }
+
     /**
      * Sets the idle customer animation depending on the type of customer
      * Not sure of a better way to do this.
+     *
      * @param c Customer to set filmstrip for
-     * */
-    private void setCustomerIdleDependingOnType(Customer c){
-        if(Objects.equals(c.getCustomerType(), "bear"))
+     */
+    private void setCustomerIdleDependingOnType(Customer c) {
+        if (Objects.equals(c.getCustomerType(), "bear"))
             c.setFilmStrip(bearIdle);
-        if(Objects.equals(c.getCustomerType(), "otter"))
+        if (Objects.equals(c.getCustomerType(), "otter"))
             c.setFilmStrip(otterIdle);
-        if(Objects.equals(c.getCustomerType(), "ferret"))
+        if (Objects.equals(c.getCustomerType(), "ferret"))
             c.setFilmStrip(ferretIdle);
-        if(Objects.equals(c.getCustomerType(), "cat"))
+        if (Objects.equals(c.getCustomerType(), "cat"))
             c.setFilmStrip(catIdle);
-        if(Objects.equals(c.getCustomerType(), "goat"))
+        if (Objects.equals(c.getCustomerType(), "goat"))
             c.setFilmStrip(goatIdle);
     }
+
     /**
      * Sets customer walk animation depending on customer type
+     *
      * @param c Customer to set walk filmstrip for
-     * */
-    private void setCustomerWalkDependingOnType(Customer c){
-        if(Objects.equals(c.getCustomerType(), "bear"))
+     */
+    private void setCustomerWalkDependingOnType(Customer c) {
+        if (Objects.equals(c.getCustomerType(), "bear"))
             c.setFilmStrip(bearWalk);
-        if(Objects.equals(c.getCustomerType(), "otter"))
+        if (Objects.equals(c.getCustomerType(), "otter"))
             c.setFilmStrip(otterWalk);
-        if(Objects.equals(c.getCustomerType(), "ferret"))
+        if (Objects.equals(c.getCustomerType(), "ferret"))
             c.setFilmStrip(ferretWalk);
-        if(Objects.equals(c.getCustomerType(), "cat"))
+        if (Objects.equals(c.getCustomerType(), "cat"))
             c.setFilmStrip(catWalk);
-        if(Objects.equals(c.getCustomerType(), "goat"))
+        if (Objects.equals(c.getCustomerType(), "goat"))
             c.setFilmStrip(goatWalk);
     }
+
+    private void setCustomerEatDependingOnType(Customer c) {
+        if (Objects.equals(c.getCustomerType(), "bear"))
+            c.setFilmStrip(bearEat);
+        if (Objects.equals(c.getCustomerType(), "otter"))
+            c.setFilmStrip(otterEat);
+        if (Objects.equals(c.getCustomerType(), "ferret"))
+            c.setFilmStrip(ferretEat);
+        if (Objects.equals(c.getCustomerType(), "cat"))
+            c.setFilmStrip(catEat);
+        if (Objects.equals(c.getCustomerType(), "goat"))
+            c.setFilmStrip(goatEat);
+    }
+
     /**
      * Sets the offset for a given customer type
-     * @param type The type of customer. Can be "bear", "otter", "ferret", "cat", "goat"
-     * @param c The customer to set offset for
+     *
+     * @param type    The type of customer. Can be "bear", "otter", "ferret", "cat", "goat"
+     * @param c       The customer to set offset for
      * @param offsetY The y offset to adjust by
      * @param offsetX The x offset to adjust by
-     * */
-    private void setOffsetForType(String type, Customer c, float offsetX, float offsetY){
-        if(c.getCustomerType().equals(type)){
+     */
+    private void setOffsetForType(String type, Customer c, float offsetX, float offsetY) {
+        if (c.getCustomerType().equals(type)) {
             c.setOffsetX(offsetX);
             c.setOffsetY(offsetY);
         }
@@ -321,62 +348,97 @@ public class AnimationController {
 
     /**
      * Resets the offsets (X and Y) for a given customer
+     *
      * @param c Customer to reset offsets for
-     * */
-    private void resetOffset(Customer c){
+     */
+    private void resetOffset(Customer c) {
         c.setOffsetX(0);
         c.setOffsetY(0);
     }
+
     /**
-    * Given an array of guards, this handles the animations for every one.
+     * Given an array of guards, this handles the animations for every one.
+     *
      * @param guards Array of guards to animate
-     * @param delta The Deltatime to update filmstrip frames by
-    * */
-    public void processGuards(Array<Guard> guards, float delta, Guard inAction, boolean action){
-        for(Guard g: guards){
-            if(g == inAction){
+     * @param delta  The Deltatime to update filmstrip frames by
+     */
+    public void processGuards(Array<Guard> guards, float delta, Guard inAction, boolean action) {
+        for (Guard g : guards) {
+            if (g == inAction) {
 //                System.out.println("GUARD");
                 handleAnimation(g, delta, action);
-            }
-            else{
+            } else {
                 handleAnimation(g, delta, false);
             }
         }
     }
+
     /**
      * Given an array of customers, this handles the animations for each one.
+     *
      * @param customers Array of customers to animate
-     * @param delta The Deltatime to update filmstrip frames by
-     * */
-    public void processCustomers(Array<Customer> customers, float delta){
-        for (Customer c: customers) {
+     * @param delta     The Deltatime to update filmstrip frames by
+     */
+    public void processCustomers(Array<Customer> customers, float delta) {
+        for (Customer c : customers) {
             handleAnimation(c, delta);
         }
     }
-    public void handleAnimation(CookingStationObject o,float delta){
+
+    public void handleAnimation(CookingStationObject o, float delta) {
         //wok = 0
         //pot = 1
         //chop = 2
-        if(o.interacting && o.getSX() == o.getDefaultSX()){
-            o.setSX(o.getSX()+0.1f);
-            o.setSY(o.getSY()+0.1f);
+//        if (o.interacting && o.getSX() == o.getDefaultSX()) {
+//            o.setSX(o.getSX() + 0.1f);
+//            o.setSY(o.getSY() + 0.1f);
+//        } else if (!o.interacting && o.getSX() > o.getDefaultSX()) {
+//            o.resetScales();
+//        }
+        if(o.getStationType() == 0 && o.interacting){
+            o.wok.sx = 1.2f;
+            o.wok.sy = 1.2f;
         }
-        else if(!o.interacting && o.getSX() > o.getDefaultSX()){
-            o.resetScales();
+        else if(o.getStationType() == 0 && !o.interacting){
+            o.wok.sx = 1f;
+            o.wok.sy = 1f;
         }
 
-        if(o.getStationType() == 0 && o.timer != null){
-            if(o.timer.getTime() <= 0){
+        if(o.getStationType() == 1 && o.interacting){
+            o.pott.sx = 1.2f;
+            o.pott.sy = 1.2f;
+        }
+        else if(o.getStationType() == 1 && !o.interacting){
+            o.pott.sx = 1f;
+            o.pott.sy = 1f;
+        }
+
+        if(o.getStationType() == 2 && o.interacting){
+            o.chop.sx = 1.2f;
+            o.chop.sy = 1.2f;
+        }
+        else if(o.getStationType() == 2 && !o.interacting){
+            o.chop.sx = 1f;
+            o.chop.sy = 1f;
+        }
+
+        if (o.getStationType() == 0 && o.timer != null) {
+
+            if (o.timer.getTime() <= 0) {
+                o.wok.sx = 1;
+                o.wok.x = 40;
                 o.wok.setFilmStrip(wokIdle);
+            } else {
+                o.wok.sx = -1;
+                o.wok.x = 70;
+                o.wok.setFilmStrip(wokSizzle);
             }
-            else{o.wok.setFilmStrip(wokSizzle);}
         }
 
-        if(o.getStationType() == 1 && o.timer != null){
-            if(o.timer.getTime() <= 0){
+        if (o.getStationType() == 1 && o.timer != null) {
+            if (o.timer.getTime() <= 0) {
                 o.pott.setFilmStrip(potIdle);
-            }
-            else{
+            } else {
                 o.pott.setFilmStrip(potSizzle);
             }
         }
@@ -384,25 +446,42 @@ public class AnimationController {
         o.pott.updateAnimation();
         o.wok.updateAnimation();
     }
-    public void processCookingStations(Array<CookingStationObject> stations, float delta){
-        for(CookingStationObject o: stations){
+
+    public void processCookingStations(Array<CookingStationObject> stations, float delta) {
+        for (CookingStationObject o : stations) {
             handleAnimation(o, delta);
         }
     }
+
     /**
      * Handles the animation for a customer
-     * @param o Customer to animate
+     *
+     * @param o     Customer to animate
      * @param delta Deltatime to update filmstrip frames by
-     * */
-    public void handleAnimation(Customer o, float delta){
-        if(o.getVX() > 0 || o.getVX() < 0 || o.getVY() > 0 || o.getVY() < 0){
-//            o.setFilmStrip(goatWalk);
+     */
+    public void handleAnimation(Customer o, float delta) {
+        if (o.getVX() > 0 || o.getVX() < 0 || o.getVY() > 0 || o.getVY() < 0) {
             setCustomerWalkDependingOnType(o);
             resetOffset(o);
         }
-        else{
+        else if(o.controller.state == CustomerAIController.FSMState.EAT){
+            setCustomerEatDependingOnType(o);
+            if (!Objects.equals(o.getCustomerType(), "otter")){
+                if(o.onRight){
+                    o.setScaleX(-1);
+                }
+                else{
+                    o.setScaleX(1);
+                }
+
+            }
+            setOffsetForType("goat", o, 0, -10);
+            setOffsetForType("cat", o, 0, 10);
+            setOffsetForType("ferret", o, 10, 5);
+            setOffsetForType("bear", o, 0, -8);
+            setOffsetForType("otter", o, 10, 18);
+        }else {
             //sitting
-//            o.setFilmStrip(goatIdle);
             setCustomerIdleDependingOnType(o);
             setOffsetForType("goat", o, 0, -10);
             setOffsetForType("cat", o, 0, 10);
@@ -413,34 +492,36 @@ public class AnimationController {
 
         o.updateAnimation(delta);
     }
+
     /**
      * Handles the vent animations.
-     * @param o Vent to animate
-     * @param p Player for handling vent animation state
+     *
+     * @param o     Vent to animate
+     * @param p     Player for handling vent animation state
      * @param delta Deltatime to update filmstrip frames with
-     * */
-    public void handleAnimation(VentObstacle o, Player p, float delta,boolean ventingOut){
-        if(p.playerIsVenting){
+     */
+    public void handleAnimation(VentObstacle o, Player p, float delta, boolean ventingOut) {
+        if (p.playerIsVenting) {
             o.setFilmStrip(ventIn);
             o.setOX(85f);
-            if(p.getX() < o.getX()) {
+            if (p.getX() < o.getX()) {
                 o.setSX(1);
             }
-            if(p.getX() > o.getX()){
+            if (p.getX() > o.getX()) {
                 o.setSX(-1);
             }
             p.stopDrawing = true;
             o.updateAnimation(delta);
             return;
         }
-        if(ventingOut){
+        if (ventingOut) {
 //            System.out.println("Venting out");
             o.setFilmStrip(ventOut);
             o.setOX(170f);
-            if(p.getX() < o.getX()) {
+            if (p.getX() < o.getX()) {
                 o.setSX(1);
             }
-            if(p.getX() > o.getX()){
+            if (p.getX() > o.getX()) {
                 o.setSX(-1);
             }
             p.stopDrawing = true;

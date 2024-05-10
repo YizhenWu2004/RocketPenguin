@@ -16,7 +16,12 @@ public class MainMenuController extends WorldController{
     private Texture cont_hover ;
     private Texture audio_hover;
     private Texture back_hover;
-
+    private Texture add;
+    private Texture add_hover;
+    private Texture minus;
+    private Texture minus_hover;
+    private Texture bar;
+    private Texture barfill;
     private GameCanvas canvas;
     private InputController input;
 
@@ -39,6 +44,7 @@ public class MainMenuController extends WorldController{
     private boolean aModalIsActive = false;
     private SaveController saveController;
     private LevelSelectController levelSelectController;
+    private LevelLoader loader;
 
     public Texture play_b;
     public Texture option;
@@ -50,14 +56,22 @@ public class MainMenuController extends WorldController{
     public Texture save_b;
     public Texture modalbackground;
     public Texture deleteconfirmation;
+    public Texture deleteconfirmation2;
+    public Texture exitconfirmation;
+    public Texture exitconfirmtextreal;
     public Texture confirmtext;
     public Texture yes;
     public Texture yeshover;
     public Texture no;
+    public Texture ok;
+    public Texture okhover;
     public Texture nohover;
     public Texture deletesave;
 
-    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s, AssetDirectory directory){
+    private int musicbars;
+    private int sfxbars;
+  
+    public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s, AssetDirectory directory, LevelLoader levelLoader){
         background = directory.getEntry("m_fullbackground", Texture.class);
         audio_background = directory.getEntry("mo_audio", Texture.class);
         settings_background = directory.getEntry("mo_settings", Texture.class);
@@ -74,22 +88,33 @@ public class MainMenuController extends WorldController{
         back = directory.getEntry("mo_back", Texture.class);
         save_b= directory.getEntry("mo_save", Texture.class);
         modalbackground= directory.getEntry("m_modalbackground", Texture.class);
-        deleteconfirmation= directory.getEntry("m_deleteconfirmation", Texture.class);
+        deleteconfirmation= directory.getEntry("m_deletesaveconfirmation", Texture.class);
+        deleteconfirmation2 = directory.getEntry("m_deletesaveconfirmation2", Texture.class);
+        exitconfirmation = directory.getEntry("m_exitconfirmation", Texture.class);
+        exitconfirmtextreal = directory.getEntry("m_exitconfirmtextreal", Texture.class);
         confirmtext = directory.getEntry("m_confirmtext", Texture.class);
         yes= directory.getEntry("m_yes", Texture.class);
         yeshover= directory.getEntry("m_yeshovered", Texture.class);
         no= directory.getEntry("m_no", Texture.class);
         nohover= directory.getEntry("m_nohovered", Texture.class);
+        ok = directory.getEntry("m_ok", Texture.class);
+        okhover = directory.getEntry("m_okhovered", Texture.class);
         deletesave = directory.getEntry("m_deletesave", Texture.class);
-
-
-
-
+        add = directory.getEntry("add", Texture.class);
+        minus = directory.getEntry("minus", Texture.class);
+        add_hover = directory.getEntry("addhover", Texture.class);
+        minus_hover = directory.getEntry("minushover", Texture.class);
+        barfill = directory.getEntry("fill", Texture.class);
         this.canvas = canvas;
         this.input = input;
         this.saveController = saveController;
         this.levelSelectController = levelSelect;
+        this.loader = levelLoader;
+
         sounds = s;
+
+        musicbars = (int)(s.getmusic() * 5);
+        sfxbars = (int)(s.getsfx() * 5);
 
         UIButton play = new UIButton(play_b,"play",20,330, 0.5f,0.5f,canvas);
         addButton(play, ()-> {
@@ -112,14 +137,37 @@ public class MainMenuController extends WorldController{
         },options::resetStyleProperties,buttons);
 
 
+        Modal exitconfirm = new Modal("exitconfirm",0,0,modalbackground);
+        UIButton exitconfirmtext = new UIButton(exitconfirmation,"exitconfirmtext",0,0,canvas);
+        UIButton exitconfirmtextrealbutton = new UIButton(exitconfirmtextreal, "exitconfirmtextreal",380,320,0.65f,0.65f,canvas);
+
+        exitconfirmtext.setSX(0.65f);
+        exitconfirmtext.setSY(0.65f);
+        exitconfirm.addElement(exitconfirmtext);
+
         UIButton exit = new UIButton(exit_b,"exit",20,130,0.5f,0.5f,canvas);
         addButton(exit, ()-> {
             sounds.clickPlay();
-            this.exit = true;
+            exitconfirm.setActive(true);
         },()->{
             exit.setSX(0.6f);
             exit.setSY(0.6f);
             },exit::resetStyleProperties,buttons);
+
+        UIButton exityes = new UIButton(yes, "exityes", 450, 210,0.6f,0.6f,canvas);
+        exityes.setOnClickAction(()->{this.exit=true;sounds.clickPlay();});
+        exityes.setOnHoverAction(()->{exityes.setTexture(yeshover);});
+        exityes.setOnUnhoverAction(()->{exityes.setTexture(yes);});
+        exitconfirm.addElement(exityes);
+
+        UIButton exitno = new UIButton(yes, "exitno", 740, 207,0.6f,0.6f,canvas);
+        exitno.setOnClickAction(()->{exitconfirm.setActive(false);sounds.clickPlay();});
+        exitno.setOnHoverAction(()->{exitno.setTexture(nohover);});
+        exitno.setOnUnhoverAction(()->{exitno.setTexture(no);});
+        exitconfirm.addElement(exitno);
+        exitconfirm.addElement(exitconfirmtextrealbutton);
+
+        modals.add(exitconfirm);
 
         UIButton cont = new UIButton(control_b_normal,"exit",230,430,canvas);
         addButton(cont, ()-> {
@@ -143,56 +191,65 @@ public class MainMenuController extends WorldController{
             aud.setTexture(audio_hover);
         },aud::resetStyleProperties, setting_buttons);
 
-        UIButton incmusic = new UIButton(audio_b_normal,"exit",510,480,canvas);
+        UIButton incmusic = new UIButton(add,"exit",570,420,canvas);
+        incmusic.setSX(0.1f);
+        incmusic.setSY(0.1f);
+        incmusic.setSY(0.1f);
         addButton(incmusic, ()-> {
             sounds.incmusic();
             sounds.clickPlay();
+            musicbars = Integer.min(8, musicbars+1);
             this.on_audio = true;
             this.on_settings = false;
         },()->{
 //            System.out.println("inc hovered");
 //            inc.setSX(1.1f);
 //            inc.setSY(1.1f);
-            incmusic.setTexture(audio_hover);
+            incmusic.setTexture(add_hover);
         },incmusic::resetStyleProperties, audio_buttons);
 
-        UIButton decmusic = new UIButton(audio_b_normal,"exit",100,480,canvas);
+        UIButton decmusic = new UIButton(minus,"exit",140,426, canvas);
+        decmusic.setSX(0.1f);
+        decmusic.setSY(0.1f);
         addButton(decmusic, ()-> {
             sounds.decmusic();
             sounds.clickPlay();
+            musicbars = Integer.max(0, musicbars-1);
             this.on_audio = true;
             this.on_settings = false;
         },()->{
 //            System.out.println("inc hovered");
 //            inc.setSX(1.1f);
 //            inc.setSY(1.1f);
-            decmusic.setTexture(audio_hover);
+            decmusic.setTexture(minus_hover);
         },decmusic::resetStyleProperties, audio_buttons);
 
-        UIButton incsfx = new UIButton(audio_b_normal,"exit",510,310,canvas);
+        UIButton incsfx = new UIButton(add,"exit",570,270,canvas);
         addButton(incsfx, ()-> {
             sounds.clickPlay();
             sounds.incsfx();
+            sfxbars = Integer.min(8, sfxbars +1);
             this.on_audio = true;
             this.on_settings = false;
         },()->{
 //            System.out.println("inc hovered");
 //            inc.setSX(1.1f);
 //            inc.setSY(1.1f);
-            incsfx.setTexture(audio_hover);
+            incsfx.setTexture(add_hover);
         },incsfx::resetStyleProperties, audio_buttons);
 
-        UIButton decsfx = new UIButton(audio_b_normal,"exit",100,310,canvas);
+        UIButton decsfx = new UIButton(minus,"exit",140,280,canvas);
         addButton(decsfx, ()-> {
             sounds.clickPlay();
             sounds.decsfx();
+            sfxbars = Integer.max(0, sfxbars -1);
             this.on_audio = true;
             this.on_settings = false;
         },()->{
 //            System.out.println("inc hovered");
 //            inc.setSX(1.1f);
 //            inc.setSY(1.1f);
-            decsfx.setTexture(audio_hover);
+            decsfx.setTexture(minus_hover);
         }, decsfx::resetStyleProperties, audio_buttons);
 
         UIButton back1 = new UIButton(back_setting,"exit",290,180,canvas);
@@ -245,12 +302,24 @@ public class MainMenuController extends WorldController{
         deletetext.setSX(0.65f);
         deletetext.setSY(0.65f);
 
-        UIButton confirmtext = new UIButton(this.confirmtext,"confirm",380,320,canvas);
-        confirmtext.setSX(0.6f);
-        confirmtext.setSY(0.6f);
+        Modal deleteconfirm  = new Modal("deleteconfirm", 0,0, modalbackground);
+        UIButton deleteconfirmtext = new UIButton(deleteconfirmation2,"deleteconfirm",0,0,canvas);
+        UIButton okbutton = new UIButton(ok, "ok", 585,210,0.6f,0.6f,canvas);
+        okbutton.setOnHoverAction(()->{okbutton.setTexture(this.okhover);});
+        okbutton.setOnUnhoverAction(()->{okbutton.resetStyleProperties();});
+        okbutton.setOnClickAction(()->{deleteconfirm.setActive(false);});
+        deleteconfirmtext.setSX(0.65f);
+        deleteconfirmtext.setSY(0.65f);
+        deleteconfirm.addElement(deleteconfirmtext);
+        deleteconfirm.addElement(okbutton);
+        modals.add(deleteconfirm);
+
+//        UIButton confirmtext = new UIButton(this.confirmtext,"confirm",380,320,canvas);
+//        confirmtext.setSX(0.6f);
+//        confirmtext.setSY(0.6f);
 
         UIButton yes = new UIButton(this.yes,"yes",450,210,canvas);
-        yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();});
+        yes.setOnClickAction(()->{sounds.clickPlay();this.saveController.deleteSaveFile();deletesure.setActive(false);deleteconfirm.setActive(true);});
         yes.setOnHoverAction(()->{yes.setTexture(yeshover);});
         yes.setOnUnhoverAction(()->{yes.resetStyleProperties();        yes.setSX(0.6f);
             yes.setSY(0.6f);});
@@ -267,7 +336,7 @@ public class MainMenuController extends WorldController{
         no.setSY(0.6f);
 
         deletesure.addElement(deletetext);
-        deletesure.addElement(confirmtext);
+//        deletesure.addElement(confirmtext);
         deletesure.addElement(yes);
         deletesure.addElement(no);
         modals.add(deletesure);
@@ -337,10 +406,16 @@ public class MainMenuController extends WorldController{
             canvas.draw(background, Color.WHITE, 0, 0,
                     0, 0, 0.0f, 0.7f, 0.7f);
             canvas.draw(audio_background, Color.WHITE, 0, 0,
-                    -250, 0, 0.0f, 1f, 1f);
+                    -255, -5, 0.0f, 0.675f, 0.675f);
             for(UIButton button : audio_buttons){
 //                System.out.println("audio buttons");
                 button.draw(canvas);
+            }
+            for(int i = 0; i < musicbars; i++){
+                canvas.draw(barfill, Color.WHITE, 0, 0, 250 + i * 35 + i * 3, 426, 0.0f, 0.9f,0.9f);
+            }
+            for(int i = 0; i < sfxbars; i++){
+                canvas.draw(barfill, Color.WHITE, 0, 0, 250 + i * 35 + i * 3, 275, 0.0f, 0.9f,0.9f);
             }
         } else if (on_control){
             canvas.draw(background, Color.WHITE, 0, 0,

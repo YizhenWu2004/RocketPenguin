@@ -137,7 +137,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
-        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory);
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory, false);
         notepadOrders = new Array<>();
         store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, notepadOrders, sounds, directory);
         loader = new LevelLoader(canvas, sounds, directory);
@@ -146,11 +146,10 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
-
-        pause = new MenuController(canvas, directory.getEntry("p_paused", Texture.class),input, sounds, directory);
         result = new ResultController(canvas, directory.getEntry("r_result", Texture.class),input, directory);
         levelselect = new LevelSelectController(canvas, input, loader, saveController, sounds, directory);
-        mainmenu = new MainMenuController(canvas,input, saveController, levelselect, sounds, directory);
+        mainmenu = new MainMenuController(canvas, input, saveController, levelselect, sounds, directory, loader);
+        pause = new MenuController(canvas, directory.getEntry("p_paused", Texture.class),input, sounds, directory);
         mainmenu.on_main = true;
 
         /*
@@ -178,7 +177,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
-        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory);
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory, loader.getLevels().get(levelToGoTo).isEndless());
         notepadOrders = new Array<>();
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
@@ -188,7 +187,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
         //pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
         //result = new ResultController(canvas, new Texture("result/result_final.png"),input);
-        //levelselect = new LevelSelectController(canvas, input, loader, saveController);
+        levelselect = new LevelSelectController(canvas, input, loader, saveController,sounds,directory);
         //mainmenu = new MainMenuController(canvas,input);
         mainmenu.on_main = true;
         current = 0;
@@ -284,6 +283,10 @@ public class GDXRoot extends Game implements ScreenListener {
             sounds.cafeStop();
             if(mainmenu.checkForGoToLevelSelect()){
                 current = -1;
+                levelselect.setCameraToLastCameraY();
+                levelselect.resetLevelSelectors();
+                levelselect.setSaveController(saveController);
+                levelselect.generateLevelSelectors(loader.getLevels().size);
                 mainmenu.setForGoToLevelSelect(false);
             }
             if(mainmenu.checkForExit()){
@@ -299,11 +302,13 @@ public class GDXRoot extends Game implements ScreenListener {
             store.setActive(false);
             if(levelselect.checkForGoToMainMenu()){
                 this.current = -2;
+                levelselect.setLastCameraY();
                 levelselect.setForGoToMainMenu(false);
                 canvas.getCamera().position.y = 360;
                 canvas.getCamera().update();
             }
             if(levelselect.checkForGoToLevel()){
+                levelselect.setLastCameraY();
                 this.levelToGoTo = levelselect.getLevelToGoTo();
                 restart();
                 //store.setLevel(loader.getLevels().get(levelToGoTo),this.inv);
@@ -313,7 +318,7 @@ public class GDXRoot extends Game implements ScreenListener {
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
         //todo make customerLeaveTimer better
-        else if(w.getTime() <= 0 || customerLeaveTimer >100){
+        if(((w.getTime() <= 0 && (!loader.getLevels().get(levelToGoTo).isEndless())) || customerLeaveTimer >100) && (current == 1 || current == 0)){
             current = 2;
 //            restaurant.setActive(false);
 //            store.setActive(false);
@@ -330,6 +335,8 @@ public class GDXRoot extends Game implements ScreenListener {
             sounds.storeStop();
             result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
             saveController.editKeyValuePair(levelToGoTo, result.score);
+            levelselect.setSaveController(saveController);
+            levelselect.resetLevelSelectors();
             result.update();
             if (result.retry){
                 sounds.cafeeactualstop();
@@ -338,6 +345,8 @@ public class GDXRoot extends Game implements ScreenListener {
                 result.retry = false;
             } else if (result.next){
                 current = -1;
+//                levelselect = new LevelSelectController(canvas,input,loader,saveController,sounds,directory);
+                levelselect.generateLevelSelectors(loader.getLevels().size);
                 levelselect.setNext();
                 result.next = false;
 
@@ -345,7 +354,9 @@ public class GDXRoot extends Game implements ScreenListener {
                 current = -1;
                 //this just resets the scores according to whats new
                 //System.out.println("pressed,current is" + current);
-                //levelselect = new LevelSelectController(canvas,input,loader,saveController);
+//                levelselect = new LevelSelectController(canvas,input,loader,saveController,sounds,directory);
+                levelselect.generateLevelSelectors(loader.getLevels().size);
+                levelselect.setCameraToLastCameraY();
                 result.select = false;
             }
             return;
