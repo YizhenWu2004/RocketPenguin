@@ -186,13 +186,6 @@
    </properties>
    <point/>
   </object>
-  <object id="189" x="924.397" y="327.462">
-   <properties>
-    <property name="GuardNum" value="2"/>
-    <property name="NodeNum" value="10"/>
-   </properties>
-   <point/>
-  </object>
  </objectgroup>
  <objectgroup id="10" name="Customers">
   <object id="177" gid="577" x="121.49" y="957.521" width="102" height="131">
