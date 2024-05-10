@@ -622,8 +622,10 @@ public class RestaurantController extends WorldController implements ContactList
                     if(c.getStationType() == 1){
                         sounds.potStop();
                         potplay = false;
+                        sounds.potplaying = false;
                     } else if (c.getStationType() == 0){
                         sounds.panStopp();
+                        sounds.panplaying = false;
                         panplay = false;
                     }
 //                    sounds.potStop();
