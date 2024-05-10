@@ -32,10 +32,10 @@ public class LevelLoader {
     }
 
     private void loadLevels(GameCanvas canvas, AssetDirectory d) {
-        for (int i = 0; i < levelsData.length; i++) {
-            System.out.println("starting");
-            levels.add(new LevelModel(levelsData[i], canvas, sounds, d));
+        for (int i = 0; i < levelsData.length - 1; i++) {
+            levels.add(new LevelModel(levelsData[i], canvas, sounds, d, false));
         }
+        levels.add(new LevelModel(levelsData[levelsData.length - 1], canvas, sounds, d, true));
     }
 
     public Array<LevelModel> getLevels() { return levels; }
