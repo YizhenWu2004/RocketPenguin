@@ -71,11 +71,16 @@ public class ResultController extends WorldController {
     public Texture next_b;
     public Texture levelselect;
 
+    private boolean initial;
+    public int ticks;
+
 
     public ResultController(GameCanvas canvas, Texture background, InputController input, AssetDirectory directory){
         this.background = background;
         this.canvas = canvas;
         this.input = input;
+        this.initial = true;
+        this.ticks = 0;
 
         retry_hover = directory.getEntry("r_retry_hover",Texture.class);
         next_hover = directory.getEntry("r_next_hover",Texture.class);
@@ -178,7 +183,11 @@ public class ResultController extends WorldController {
         }
         drawTotal(canvas);
         drawComplete(canvas);
-        drawScore();
+        if(ticks <= 300){
+            initialDraw();
+        }else{
+            drawScore();
+        }
 
     }
 
@@ -277,6 +286,137 @@ public class ResultController extends WorldController {
         return c_0;
     }
 
+    public void initialDraw(){
+
+        int one_one = star_req[0]%10;
+        int one_ten = (star_req[0]/10)%10;
+        int one_hundred = star_req[0]/100;
+        int two_one = star_req[1]%10;
+        int two_ten = (star_req[1]/10)%10;
+        int two_hundred = star_req[1]/100;
+        int three_one = star_req[2]%10;
+        int three_ten = (star_req[2]/10)%10;
+        int three_hundred = star_req[2]/100;
+
+
+        drawAt(one_one, one_ten, one_hundred,370,310,star_req[0]);
+        drawAt(two_one, two_ten, two_hundred,475,325,star_req[1]);
+        drawAt(three_one, three_ten, three_hundred,580,340,star_req[2]);
+
+        canvas.draw(zero_star, Color.WHITE, 0, 0,
+                325, 225, 0.0f, 1f, 1f);
+        if(score>=star_req[0]) {
+            if (ticks < 10) {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        352, 255, 0.0f, 0.5f, 0.5f);
+            } else if (ticks < 20) {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        349, 251, 0.0f, 0.6f, 0.6f);
+            } else if (ticks < 30) {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        346, 248, 0.0f, 0.7f, 0.7f);
+            } else if (ticks < 40) {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        343, 245, 0.0f, 0.8f, 0.8f);
+            } else if (ticks < 50) {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        340, 242, 0.0f, 0.9f, 0.9f);
+            } else if (ticks < 60) {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        337, 239, 0.0f, 1f, 1f);
+            } else if (ticks < 70) {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        334, 236, 0.0f, 1.2f, 1.2f);
+            } else if (ticks < 80) {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        331, 233, 0.0f, 1.4f, 1.4f);
+            } else if (ticks < 90) {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        334, 236, 0.0f, 1.2f, 1.2f);
+            } else {
+                canvas.draw(one_star, Color.WHITE, 0, 0,
+                        337, 239, 0.0f, 1f, 1f);
+            }
+        }
+
+        if(score >= star_req[1]) {
+            if (ticks > 100) {
+                if (ticks < 110) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            460, 268, 0.0f, 0.5f, 0.5f);
+                } else if (ticks < 120) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            457, 265, 0.0f, 0.6f, 0.6f);
+                } else if (ticks < 130) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            454, 262, 0.0f, 0.7f, 0.7f);
+                } else if (ticks < 140) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            451, 259, 0.0f, 0.8f, 0.8f);
+                } else if (ticks < 150) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            448, 256, 0.0f, 0.9f, 0.9f);
+                } else if (ticks < 160) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            445, 253, 0.0f, 1f, 1f);
+                } else if (ticks < 170) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            442, 250, 0.0f, 1.2f, 1.2f);
+                } else if (ticks < 180) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            439, 247, 0.0f, 1.4f, 1.4f);
+                } else if (ticks < 190) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            442, 250, 0.0f, 1.2f, 1.2f);
+                } else {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            445, 253, 0.0f, 1f, 1f);
+                }
+            }
+
+        }
+
+        if(score >= star_req[2]) {
+            if (ticks > 200) {
+                if (ticks < 210) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            568, 282, 0.0f, 0.5f, 0.5f);
+                } else if (ticks < 220) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            565, 279, 0.0f, 0.6f, 0.6f);
+                } else if (ticks < 230) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            562, 276, 0.0f, 0.7f, 0.7f);
+                } else if (ticks < 240) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            559, 273, 0.0f, 0.8f, 0.8f);
+                } else if (ticks < 250) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            556, 270, 0.0f, 0.9f, 0.9f);
+                } else if (ticks < 260) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            553, 267, 0.0f, 1f, 1f);
+                } else if (ticks < 270) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            550, 264, 0.0f, 1.2f, 1.2f);
+                } else if (ticks < 280) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            547, 261, 0.0f, 1.4f, 1.4f);
+                } else if (ticks < 290) {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            550, 264, 0.0f, 1.2f, 1.2f);
+                } else {
+                    canvas.draw(one_star, Color.WHITE, 0, 0,
+                            553, 267, 0.0f, 1f, 1f);
+                }
+            }
+
+        }
+        ticks += 3;
+
+
+    }
+
     public void drawAt(int one, int ten, int hundred, int x, int y, int total){
         if(total < 10){
             canvas.draw(get(1,one), Color.WHITE, 0, 0,
@@ -315,20 +455,28 @@ public class ResultController extends WorldController {
 
 
 
-
-
-
-
         if(score >= star_req[2]){
-            canvas.draw(three_stars, Color.WHITE, 0, 0,
+            canvas.draw(zero_star, Color.WHITE, 0, 0,
                     325, 225, 0.0f, 1f, 1f);
+            canvas.draw(one_star,Color.WHITE, 0, 0,
+                    337, 239, 0.0f, 1f, 1f);
+            canvas.draw(one_star,Color.WHITE, 0, 0,
+                    445, 253, 0.0f, 1f, 1f);
+            canvas.draw(one_star,Color.WHITE, 0, 0,
+                    553, 267, 0.0f, 1f, 1f);
         } else if (score >= star_req[1]){
-            canvas.draw(two_stars, Color.WHITE, 0, 0,
+            canvas.draw(zero_star, Color.WHITE, 0, 0,
                     325, 225, 0.0f, 1f, 1f);
+            canvas.draw(one_star,Color.WHITE, 0, 0,
+                    337, 239, 0.0f, 1f, 1f);
+            canvas.draw(one_star,Color.WHITE, 0, 0,
+                    445, 253, 0.0f, 1f, 1f);
 
         } else if (score >= star_req[0]){
-            canvas.draw(one_star, Color.WHITE, 0, 0,
+            canvas.draw(zero_star, Color.WHITE, 0, 0,
                     325, 225, 0.0f, 1f, 1f);
+            canvas.draw(one_star,Color.WHITE, 0, 0,
+                    337, 239, 0.0f, 1f, 1f);
         }else{
             canvas.draw(zero_star, Color.WHITE, 0, 0,
                     325, 225, 0.0f, 1f, 1f);

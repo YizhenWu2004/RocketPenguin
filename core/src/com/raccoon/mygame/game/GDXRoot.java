@@ -173,6 +173,7 @@ public class GDXRoot extends Game implements ScreenListener {
         store.setA(1);
         w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class),directory);
         w.create();
+        result.ticks = 0;
 
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
