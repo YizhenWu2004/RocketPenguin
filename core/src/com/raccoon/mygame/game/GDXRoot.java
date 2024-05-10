@@ -171,7 +171,7 @@ public class GDXRoot extends Game implements ScreenListener {
 //        sounds.storeStop();
 //        sounds.cafeStop();
         store.setA(1);
-        w = new Worldtimer(3, canvas, directory.getEntry("basetimer", Texture.class),directory);
+        w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class),directory);
         w.create();
         result.ticks = 0;
 
