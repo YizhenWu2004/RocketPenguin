@@ -87,8 +87,10 @@ public class CollisionController {
     public void processCustomers(Player p, Array<Customer> customers) {
         for (Customer c : customers) {
             if (p.getPosition().dst(c.getPosition()) <= 4) {
-                c.setScaleX(1.1f);
-                c.setScaleY(1.1f);
+                if(c.getVX() == 0 && c.getVY() == 0) {
+                    c.setScaleX(1.1f);
+                    c.setScaleY(1.1f);
+                }
                 if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
                     if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
                         addOrder(c);
