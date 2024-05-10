@@ -32,7 +32,7 @@ public class Customer extends BoxObstacle {
     private final int WORLD_HEIGHT = 18;
     private float defaultScaleX;
     private float defaultScaleY;
-    private float scaleX;
+    public float scaleX;
     private float scaleY;
     private float nonBox2DScaleX = 1;
     private float nonBox2DScaleY = 1;

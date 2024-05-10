@@ -141,6 +141,10 @@ public class RestaurantController extends WorldController implements ContactList
 
     private AssetDirectory directory;
 
+    boolean isEndless;
+
+    float infTimer = 0;
+
 
     private void createTextures(AssetDirectory directory) {
         light = directory.getEntry("light", Texture.class);
@@ -263,7 +267,9 @@ public class RestaurantController extends WorldController implements ContactList
 
     public World getWorld() { return world; }
 
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s, AssetDirectory directory) {
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s, AssetDirectory directory, boolean isEndless) {
+        this.isEndless = isEndless;
+
         createTextures(directory);
         sounds = s;
         collision = new CollisionController(canvas.getWidth(), canvas.getHeight(), sounds);
@@ -374,33 +380,7 @@ public class RestaurantController extends WorldController implements ContactList
         //We just wrote shitty code that requires textures off-rip.
         //goatIdle = new FilmStrip(goat, 1,4,4);
 
-
-        //todo start hard code customers
-//        customersToAdd = new Array<>();
-//        Array<String> customer1Order = new Array<String>();
-//        customer1Order.add("0");
-//        customer1Order.add("red");
-//        customer1Order.add("yellow");
-//        customer1Order.add("green");
-//        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 178,customer1Order);
-//        Customer customer2 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 175,customer1Order);
-//        Customer customer3 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, 173,customer1Order);
-//        customersToAdd.add(customer1);
-//        customersToAdd.add(customer2);
-//        customersToAdd.add(customer3);
-        //todo end hard code customers
-
-//        for(Customer c : customersToAdd){
-//            c.initializeAIController(tables);
-//        }
-
         customersToAdd = new Array<>();
-
-        //todo CUSTOMER
-//        Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, tables, 1);
-      
-//        customers.add(customer1);
-//        drawableObjects.add(customer1);
 
         Filter f = new Filter();
         f.categoryBits = 0x0002;
@@ -493,6 +473,8 @@ public class RestaurantController extends WorldController implements ContactList
     public void update() {
         tick += 1;
 
+        infTimer+= 0.0166666;
+
 //        System.out.println("customersToAdd"+customersToAdd);
 //        System.out.println("customers"+customers);
 //        System.out.println("allCustomersLeave"+allCustomersLeave());
@@ -501,17 +483,34 @@ public class RestaurantController extends WorldController implements ContactList
         player.update(delta);
         player.current = this.current;
 
-        for(Customer c: customersToAdd){
+        if(isEndless){
+            for(Customer c: customersToAdd){
 //            System.out.println(c.showUpTime);
-            if(c.showUpTime >= t.getTime() && !t.action_round && paused == false){
-//                System.out.println("Customer incoming");
-                customers.add(c);
-                sounds.doorPlay();
-                drawableObjects.add(c);
-                t.action_round=true;
-                customersToAdd.removeValue(c,true);
+                if(c.showUpTime <= infTimer && !t.action_round && paused == false){
+                    System.out.println("c.showUpTime" + c.showUpTime + "infTimer" + infTimer);
+                    customers.add(c);
+                    sounds.doorPlay();
+                    drawableObjects.add(c);
+                    t.action_round=true;
+                    customersToAdd.removeValue(c,true);
+                }
             }
         }
+        else{
+            for(Customer c: customersToAdd){
+//            System.out.println(c.showUpTime);
+                if(c.showUpTime >= t.getTime() && !t.action_round && paused == false){
+//                System.out.println("Customer incoming");
+                    customers.add(c);
+                    sounds.doorPlay();
+                    drawableObjects.add(c);
+                    t.action_round=true;
+                    customersToAdd.removeValue(c,true);
+                }
+            }
+        }
+
+
 
         if (active && !respawning()) {
             player.venting_out = ventingOut();

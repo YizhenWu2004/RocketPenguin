@@ -337,6 +337,15 @@
 				}
 			}
 		},
+		"ottereat":  {
+			"file" : "720/ottereat.png",
+			"sprites" : {
+				"strip": {
+					"rows": 3,
+					"cols": 4
+				}
+			}
+		},
 		"goateat":  {
 			"file" : "720/goateat.png",
 			"sprites" : {

@@ -121,8 +121,7 @@ public class AnimationController {
 
         otterIdle = directory.getEntry("ottersit.strip", FilmStrip.class);
         otterWalk = directory.getEntry("otterwalk.strip", FilmStrip.class);
-        //todo change after ryan does otter eat
-        otterEat = directory.getEntry("ottersit.strip", FilmStrip.class);
+        otterEat = directory.getEntry("ottereat.strip", FilmStrip.class);
 
         gooseWalk = directory.getEntry("goosewalk.strip", FilmStrip.class);
         gooseWalkBack = directory.getEntry("goosewalkback.strip", FilmStrip.class);
@@ -440,7 +439,15 @@ public class AnimationController {
         }
         else if(o.controller.state == CustomerAIController.FSMState.EAT){
             setCustomerEatDependingOnType(o);
-            o.setScaleX(-1);
+            if (!Objects.equals(o.getCustomerType(), "otter")){
+                if(o.onRight){
+                    o.setScaleX(-1);
+                }
+                else{
+                    o.setScaleX(1);
+                }
+
+            }
             setOffsetForType("goat", o, 0, -10);
             setOffsetForType("cat", o, 0, 10);
             setOffsetForType("ferret", o, 10, 5);
