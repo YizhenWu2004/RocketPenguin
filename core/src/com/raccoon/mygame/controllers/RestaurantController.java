@@ -147,6 +147,8 @@ public class RestaurantController extends WorldController implements ContactList
 
     float infTimer = 0;
 
+    public int unsatisfiedCustomers = 0;
+
 
     private void createTextures(AssetDirectory directory) {
         light = directory.getEntry("light", Texture.class);
@@ -421,34 +423,55 @@ public class RestaurantController extends WorldController implements ContactList
     }
 
     public void setCustomers(Array<Array<String>> customerData){
-        for(Array<String> arr : customerData){
-            int time = Integer.parseInt(arr.get(0));
-            Array<String> copied = new Array<String>();
-            for(int i = 1; i<arr.size; i++){
-                copied.add(arr.get(i));
+        if(!isEndless){
+            for(Array<String> arr : customerData){
+                int time = Integer.parseInt(arr.get(0));
+                Array<String> copied = new Array<String>();
+                for(int i = 1; i<arr.size; i++){
+                    copied.add(arr.get(i));
+                }
+
+                Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied, directory);
+                customersToAdd.add(customer1);
             }
-
-            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,copied, directory);
-            customersToAdd.add(customer1);
         }
+        else{
+            System.out.println("ENDLESS");
+            Array<Array<String>> customerOrders = new Array<>();
 
-//        Array<Array<String>> customerOrders = new Array<>();
-//
-//        customerOrders.add(new Array<>(new String[]{"178", "2", "greenpepper"}));
-////        customerOrders.add(new Array<>(new String[]{"160", "2", "greenpepper", "greenpepper"}));
-////        customerOrders.add(new Array<>(new String[]{"145", "2", "lemon"}));
-////        customerOrders.add(new Array<>(new String[]{"143", "2", "corn", "lemon"}));
-////        customerOrders.add(new Array<>(new String[]{"115", "2", "greenpepper", "lemon"}));
-////        customerOrders.add(new Array<>(new String[]{"113", "2", "greenpepper", "corn"}));
-////
-//        for(Array<String> arr : customerOrders){
-//            System.out.println(arr);
-//            int time = Integer.parseInt(arr.get(0));
-//            arr.removeIndex(0);
-//            Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr,directory);
-//            customersToAdd.add(customer1);
-//        }
+            customerOrders.add(new Array<>(new String[]{"2", "2", "greenpepper"}));
+            customerOrders.add(new Array<>(new String[]{"12", "0", "green", "green"}));
+            customerOrders.add(new Array<>(new String[]{"14", "2", "green"}));
+            customerOrders.add(new Array<>(new String[]{"60", "1", "green"}));
+            customerOrders.add(new Array<>(new String[]{"62", "0", "green"}));
+            customerOrders.add(new Array<>(new String[]{"64", "2", "yellow", "yellow"}));
+            customerOrders.add(new Array<>(new String[]{"120", "0", "corn", "banana", "lemon"}));
+            customerOrders.add(new Array<>(new String[]{"132", "2", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"134", "1", "yellow", "yellow"}));
+            customerOrders.add(new Array<>(new String[]{"180", "1", "greenpepper", "greenpepper"}));
+            customerOrders.add(new Array<>(new String[]{"182", "0", "greenpepper", "redpepper"}));
+            customerOrders.add(new Array<>(new String[]{"184", "2", "apple", "greenpepper"}));
+            customerOrders.add(new Array<>(new String[]{"240", "2", "persimmon", "orange", "carrot"}));
+            customerOrders.add(new Array<>(new String[]{"252", "1", "greenpepper"}));
+            customerOrders.add(new Array<>(new String[]{"254", "2", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"300", "0", "green", "yellow", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"302", "2", "green", "yellow", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"304", "0", "green", "yellow", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"360", "2", "tomato", "redpepper", "apple"}));
+            customerOrders.add(new Array<>(new String[]{"372", "2", "red"}));
+            customerOrders.add(new Array<>(new String[]{"374", "2", "red"}));
+            customerOrders.add(new Array<>(new String[]{"420", "1", "red"}));
+            customerOrders.add(new Array<>(new String[]{"422", "1", "red"}));
+            customerOrders.add(new Array<>(new String[]{"424", "1", "red"}));
 
+            for(Array<String> arr : customerOrders){
+                System.out.println(arr);
+                int time = Integer.parseInt(arr.get(0));
+                arr.removeIndex(0);
+                Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr,directory);
+                customersToAdd.add(customer1);
+            }
+        }
 
         for(Customer c : customersToAdd){
             c.initializeAIController(tables);
@@ -486,9 +509,11 @@ public class RestaurantController extends WorldController implements ContactList
         player.current = this.current;
 
         if(isEndless){
+            System.out.println(infTimer);
+            System.out.println(customersToAdd.size);
             for(Customer c: customersToAdd){
 //            System.out.println(c.showUpTime);
-                if(c.showUpTime <= infTimer && !t.action_round && paused == false){
+                if(c.showUpTime <= infTimer && paused == false){
                     System.out.println("c.showUpTime" + c.showUpTime + "infTimer" + infTimer);
                     customers.add(c);
                     sounds.doorPlay();
@@ -577,6 +602,7 @@ public class RestaurantController extends WorldController implements ContactList
                 c.move();
             }
             if(c.time() <= 0){
+                unsatisfiedCustomers++;
                 c.timeOut();
                 c.satisfied = Customer.SATISFIED.NO;
             }
