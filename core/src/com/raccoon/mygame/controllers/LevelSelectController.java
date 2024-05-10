@@ -172,10 +172,10 @@ public class LevelSelectController extends WorldController{
 
 //        sortButtonsByPriority();
 
-        for(UIButton button: buttons){
-            System.out.println("button " + button.getID());
-        }
-        System.out.println("\n");
+//        for(UIButton button: buttons){
+//            System.out.println("button " + button.getID());
+//        }
+//        System.out.println("\n");
     }
 
     public void dispose() {
@@ -761,10 +761,10 @@ public class LevelSelectController extends WorldController{
                 i--;
             }
         }
-        System.out.println("Just removed buttons");
-        for(UIButton button: buttons){
-            System.out.println("button " + button.getID());
-        }
-        System.out.println("\n");
+//        System.out.println("Just removed buttons");
+//        for(UIButton button: buttons){
+//            System.out.println("button " + button.getID());
+//        }
+//        System.out.println("\n");
     }
 }
