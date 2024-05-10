@@ -8,6 +8,8 @@ public class SoundController {
     private Sound cookingSound;
     private Sound bellSound;
     private Sound doorSound;
+    public boolean potplaying = false;
+    public boolean panplaying = false;
     private Sound chopSound;
     private Sound honkSound;
     private Sound ventSound;
@@ -95,9 +97,11 @@ public class SoundController {
     }
     public void panPlay(){
         pan.play(sfxvol);
+        panplaying = true;
     }
     public void potPlay(){
         pot.play(sfxvol);
+        potplaying = true;
     }
     public void doorPlay(){
         doorSound.play(sfxvol);
@@ -123,6 +127,7 @@ public class SoundController {
         } else {
             musicVol = 1.6f;
         }
+        System.out.println("music volume: " + musicVol);
     }
     public void decmusic(){
         if(musicVol > 0.0f){
@@ -134,6 +139,7 @@ public class SoundController {
         } else {
             musicVol = 0.0f;
         }
+        System.out.println("music volume: " + musicVol);
     }
 
     public void incsfx(){
@@ -142,6 +148,7 @@ public class SoundController {
         } else {
             sfxvol = 1.6f;
         }
+        System.out.println("sfx volume: " + sfxvol);
     }
 
     public void decsfx(){
@@ -154,6 +161,7 @@ public class SoundController {
         } else {
             sfxvol = 0.0f;
         }
+        System.out.println("sfx volume: " + sfxvol);
     }
     public void cafeeactualstop(){
         cafeSong.stop();

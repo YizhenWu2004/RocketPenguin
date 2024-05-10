@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.*;
 import com.raccoon.mygame.objects.*;
@@ -40,6 +41,7 @@ public class StoreController extends WorldController implements ContactListener 
     private SoundController sounds;
     private Array<Float> guardX;
 
+    private boolean canplay = true;
     private Array<Float> guardY;
 
     public VentObstacle vent1;
@@ -618,8 +620,12 @@ public class StoreController extends WorldController implements ContactListener 
 //            setVentCollision(true);
             startVentTimer(vent1, player);
             if(a > 1) {
-                sounds.ventPlay();
-                System.out.println("vent playing");
+                if (canplay) {
+                    sounds.ventPlay();
+                    canplay = false;
+                    create();
+//                    System.out.println("vent playing");
+                }
             }
             a++;
         }
@@ -705,6 +711,14 @@ public class StoreController extends WorldController implements ContactListener 
         }
     }
 
+    public void create () {
+        Timer.schedule(new Timer.Task(){
+            @Override
+            public void run() {
+                canplay = true;
+            }
+        }, 3);
+    }
     public void startVentTimer(VentObstacle o, Player p){
         duringventing = true;
         p.playerIsVenting = true;
