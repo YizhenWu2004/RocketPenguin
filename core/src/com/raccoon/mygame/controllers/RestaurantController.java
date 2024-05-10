@@ -334,12 +334,12 @@ public class RestaurantController extends WorldController implements ContactList
         score = 0;
 
         tables = new Array();
-        addTable(17.5f, 12f, false);
-        addTable(17.5f, 4f, true);
-        addTable(10.25f, 12f, true);
-        addTable(10.25f, 4f, false);
+        addTable(17f, 12f, false);
+        addTable(18f, 4f, true);
+        addTable(10f, 12f, true);
+        addTable(11f, 4f, false);
         //addTable(3f, 12f, false);
-        addTable(3f, 4f, true);
+        addTable(4f, 4f, true);
 
 
         //System.out.println(tables.size);
@@ -770,11 +770,11 @@ public class RestaurantController extends WorldController implements ContactList
         canvas.draw(light,Color.WHITE, 0, 0,
                 0, 5f*40, 0.0f, 1f, 1f);
 
-        if(trash.interactingTrash){
-            float midpoint = (float)canvas.getWidth()/2- (float)singleInv.getWidth()/2;
-            canvas.draw(singleInv, Color.WHITE, 10, 10,
-                    midpoint, 90, 0.0f, 1, 1);
-        }
+//        if(trash.interactingTrash){
+//            float midpoint = (float)canvas.getWidth()/2- (float)singleInv.getWidth()/2;
+//            canvas.draw(singleInv, Color.WHITE, 10, 10,
+//                    midpoint, 90, 0.0f, 1, 1);
+//        }
         t.draw(20, 700);
         drawOutline();
         drawReq();

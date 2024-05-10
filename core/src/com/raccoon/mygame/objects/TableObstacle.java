@@ -35,10 +35,10 @@ public class TableObstacle extends NormalObstacle {
         // to the "chair" position which the animal will move towards to sit down
         if (index == 1) {
             occupation[1] = true;
-            return new Vector2((float) (this.getX() + 1.85), (float) (this.getY() - 0.8));
+            return new Vector2((float) (this.getX() + 2.4), (float) (this.getY() - 0.6));
         } else if (index == 0) {
             occupation[0] = true;
-            return new Vector2((float) (this.getX() - 1.85), (float) (this.getY() - 0.8));
+            return new Vector2((float) (this.getX() - 2.4), (float) (this.getY() - 0.6));
         }
         return this.getPosition();
     }
