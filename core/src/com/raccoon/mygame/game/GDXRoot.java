@@ -171,7 +171,7 @@ public class GDXRoot extends Game implements ScreenListener {
 //        sounds.storeStop();
 //        sounds.cafeStop();
         store.setA(1);
-        w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class),directory);
+        w = new Worldtimer(3, canvas, directory.getEntry("basetimer", Texture.class),directory);
         w.create();
         result.ticks = 0;
 
@@ -347,7 +347,7 @@ public class GDXRoot extends Game implements ScreenListener {
                 current = -1;
 //                levelselect = new LevelSelectController(canvas,input,loader,saveController,sounds,directory);
                 levelselect.generateLevelSelectors(loader.getLevels().size);
-                levelselect.setNext();
+                levelselect.setNext(this.levelToGoTo);
                 result.next = false;
 
             }else if (result.select){

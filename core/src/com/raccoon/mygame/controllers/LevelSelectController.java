@@ -507,8 +507,8 @@ public class LevelSelectController extends WorldController{
         return new Modal("-1", 0,0,filledstar);
     }
 
-    public void setNext(){
-        findModalOfID(Integer.toString(getLevelToGoTo()+1)).setActive(true);
+    public void setNext(int index){
+        findModalOfID(Integer.toString(index+1)).setActive(true);
     }
 
 
