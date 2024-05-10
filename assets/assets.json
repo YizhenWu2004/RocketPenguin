@@ -641,6 +641,17 @@
 		"s_three": "score/three.png",
 		"s_zero": "score/zero.png",
 
+		"t2zero": "720/timertwozeroes.png",
+		"tone": "720/tone.png",
+		"ttwo": "720/ttwo.png",
+		"tthree": "720/tthree.png",
+		"tfour": "720/tfour.png",
+		"tfive": "720/tfive.png",
+		"tsix": "720/tsix.png",
+		"tseven": "720/tseven.png",
+		"teight": "720/teight.png",
+		"tnine": "720/tnine.png",
+		"tzero": "720/tzero.png",
 		"cutting_board":  {
 			"file" : "cutting_board.png",
 			"sprites" : {
