@@ -22,7 +22,7 @@ public class LevelLoader {
     public LevelLoader(GameCanvas canvas, SoundController s, AssetDirectory d) {
         sounds = s;
         levelsData = new String[]{"world_0-1", "world_0-2", "world_0-3", "world_1-1", "world_1-2", "world_1-3",
-                "world_2-1", "world_2-2", "world_2-3"};
+                "world_2-1", "world_2-2", "world_2-3","world_3-1"};
         loadLevels(canvas, d);
     }
 

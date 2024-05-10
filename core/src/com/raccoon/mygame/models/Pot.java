@@ -32,12 +32,12 @@ public class Pot implements GameObject {
     private FilmStrip sprite;
     private FilmStrip spriteCooked;
     private Texture texture;
-    private float x;
+    public float x;
     private float y;
     private float ox;
     private float oy;
-    private float sx;
-    private float sy;
+    public float sx;
+    public float sy;
 
     public Pot(int type, FilmStrip sprite, float x, float y, float ox, float oy, float sx, float sy,FilmStrip spriteCooked){
         this.type = type;

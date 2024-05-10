@@ -514,6 +514,7 @@ public class RestaurantController extends WorldController implements ContactList
         }
 
         if (active && !respawning()) {
+            player.venting_out = ventingOut();
             if(!ventingOut()&& !player.playerIsVenting && !player.playerIsCooking){
                 float x = 7f * input.getXMovement();
                 float y = 7f * input.getYMovement();
@@ -779,6 +780,7 @@ public class RestaurantController extends WorldController implements ContactList
         drawOutline();
         drawReq();
         drawScore();
+        player.drawDishInv();
         player.inventory.draw(canvas);
     }
 

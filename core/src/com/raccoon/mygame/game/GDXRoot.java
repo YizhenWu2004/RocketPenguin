@@ -146,11 +146,10 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
-
-        pause = new MenuController(canvas, directory.getEntry("p_paused", Texture.class),input, sounds, directory);
         result = new ResultController(canvas, directory.getEntry("r_result", Texture.class),input, directory);
         levelselect = new LevelSelectController(canvas, input, loader, saveController, sounds, directory);
-        mainmenu = new MainMenuController(canvas,input, saveController, levelselect, sounds, directory);
+        mainmenu = new MainMenuController(canvas, input, saveController, levelselect, sounds, directory, loader);
+        pause = new MenuController(canvas, directory.getEntry("p_paused", Texture.class),input, sounds, directory);
         mainmenu.on_main = true;
 
         /*
@@ -312,7 +311,7 @@ public class GDXRoot extends Game implements ScreenListener {
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
         //todo make customerLeaveTimer better
-        else if(w.getTime() <= 0 || customerLeaveTimer >100){
+        if((w.getTime() <= 0 || customerLeaveTimer >100) && (current == 1 || current == 0)){
             current = 2;
 //            restaurant.setActive(false);
 //            store.setActive(false);
@@ -337,6 +336,7 @@ public class GDXRoot extends Game implements ScreenListener {
                 result.retry = false;
             } else if (result.next){
                 current = -1;
+                levelselect = new LevelSelectController(canvas,input,loader,saveController,sounds,directory);
                 levelselect.setNext();
                 result.next = false;
 
@@ -344,7 +344,7 @@ public class GDXRoot extends Game implements ScreenListener {
                 current = -1;
                 //this just resets the scores according to whats new
                 //System.out.println("pressed,current is" + current);
-                //levelselect = new LevelSelectController(canvas,input,loader,saveController);
+                levelselect = new LevelSelectController(canvas,input,loader,saveController,sounds,directory);
                 result.select = false;
             }
             return;

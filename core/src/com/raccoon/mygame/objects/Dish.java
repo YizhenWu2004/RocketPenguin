@@ -103,7 +103,7 @@ public class Dish implements GameObject {
                 drawCooking(canvas, x, y, 220, -53);
                 drawOrder(canvas, x, y, 40, -55);
             }
-            canvas.draw(texture, Color.WHITE, ox, oy, x, y, 0, sclx, scly);
+//            canvas.draw(texture, Color.WHITE, ox, oy, x, y, 0, sclx, scly);
         } else {
             if (dishSize == 1) {
                 canvas.draw(one, Color.WHITE, ox + 180, oy - 50, x, y, 0, -0.7f, 0.7f);
@@ -118,8 +118,11 @@ public class Dish implements GameObject {
                 drawCooking(canvas, x, y, -60, -53);
                 drawOrder(canvas, x, y, -230, -55);
             }
-            canvas.draw(texture, Color.WHITE, ox, oy, x, y, 0, sclx, scly);
         }
+    }
+
+    public void drawServingPlate(GameCanvas canvas, float x, float y, float sclx, float scly, float ox, float oy, boolean isLeft){
+        canvas.draw(texture, Color.WHITE, ox, oy, x, y, 0, sclx, scly);
     }
 
     public void drawOrder(GameCanvas canvas, float x, float y, int ox, int oy){

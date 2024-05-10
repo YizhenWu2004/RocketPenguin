@@ -222,10 +222,6 @@ public class StoreController extends WorldController implements ContactListener 
 
         animator = new AnimationController(input, directory);
         duringventing = false;
-
-        addInvisibleWall(0,-1,80,1,1,1,0,0);
-        addInvisibleWall(-1,0,1,40,1,1,0,0);
-        addInvisibleWall(33,0,1,40,1,1,0,0);
     }
 
     public void setLevel(LevelModel level, Inventory sharedInv) {
@@ -266,6 +262,9 @@ public class StoreController extends WorldController implements ContactListener 
         playerJustDied = false;
         duringventing = false;
 
+        addInvisibleWall(0,-1,80,1,1,1,0,0);
+        addInvisibleWall(-1,0,1,40,1,1,0,0);
+        addInvisibleWall(32f,0f,1,40,1,1,0,0);
     }
 
     public void setActive(boolean b) {
@@ -290,7 +289,6 @@ public class StoreController extends WorldController implements ContactListener 
     }
 
     public void update() {
-
         float delta = Gdx.graphics.getDeltaTime();
         player.current = this.current;
         if (playerGuardCollide) {
@@ -327,7 +325,13 @@ public class StoreController extends WorldController implements ContactListener 
             animator.handleAnimation(vent1, player, delta, ventingOut());
         }
         for (Guard guard : guards) {
+            //todo fix the flash of exclamation mark
+//            if(gettingCaught() && playerJustCaughtTimer <10){
+//                guard.getBody().setLinearVelocity(0,0);
+//                player.getBody().setLinearVelocity(0,0);
+//            }
             if(gettingCaught()){
+//                guard.update(delta, generatePlayerInfo(), gettingCaught());
                 guard.getBody().setLinearVelocity(0,0);
                 player.getBody().setLinearVelocity(0,0);
             }
@@ -369,7 +373,9 @@ public class StoreController extends WorldController implements ContactListener 
                 duringventing = false;
             }
         }
-
+        if(input.getDown() && current == 1){
+            player.removeItem();
+        }
         if(gettingCaught()){
             player.stopDrawing = true;
         }
@@ -600,9 +606,11 @@ public class StoreController extends WorldController implements ContactListener 
                 playerGuardCollide = true;
                 if(body2.getUserData() instanceof Guard){
                     guardInAction = (Guard) body2.getUserData();
+                    ((Guard) body2.getUserData()).stopExclam = true;
                 }
                 else{
                     guardInAction = (Guard) body1.getUserData();
+                    ((Guard) body1.getUserData()).stopExclam = true;
                 }
             }
         }
@@ -692,6 +700,8 @@ public class StoreController extends WorldController implements ContactListener 
             guards.get(i).setPosition(guardX.get(i),guardY.get(i));
             guards.get(i).switchToDefaultMode();
             guards.get(i).resetSusMeter();
+            guards.get(i).stopExclam = false;
+            guards.get(i).getAIController().currentNodeIndex = 0;
         }
     }
 

@@ -174,7 +174,7 @@ public class InputController {
         } else {
             up = false;
         }
-        if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+        if (Gdx.input.isKeyJustPressed(Keys.DOWN)) {
             down = true;
         } else {
             down = false;

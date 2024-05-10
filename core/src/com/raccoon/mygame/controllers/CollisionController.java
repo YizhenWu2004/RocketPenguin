@@ -111,10 +111,10 @@ public class CollisionController {
 //                        System.out.println("served");
                             p.dishInventory.clear(0);
                             c.setShow(false);
+                            return;
 //                        System.out.println(c.getShow());
                         }
-                    }
-                    if (p.dishInventory.rightFilled()) {
+                    }if (p.dishInventory.rightFilled()) {
                         if (c.serve(p.dishInventory.get(1))) {
                             p.dishInventory.clear(1);
                             c.setShow(false);
@@ -181,10 +181,16 @@ public class CollisionController {
     void handleCollision(Player p, Guard g) {
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
             if (p.getPosition().y > g.getY() - GUARD_RADIUS && p.getPosition().y < g.getY() + GUARD_RADIUS) {
-                if(g.getAIController().getCurrentState() == GuardAIController.AIState.WANDER){
+                if(g.getAIController().getCurrentState() == GuardAIController.AIState.WANDER ||
+                        g.getAIController().getCurrentState() == GuardAIController.AIState.ROTATE){
                     g.getAIController().setAIStateSus();
                 }
-                g.getAIController().incrementSusMeter(5);
+                if(!g.getAIController().isSleep()){
+                    g.getAIController().incrementSusMeter(5);
+                }
+                if(g.getAIController().isSleep()){
+                    g.getAIController().incrementSusMeter(2);
+                }
             }
         }
     }
