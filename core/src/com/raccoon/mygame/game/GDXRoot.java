@@ -419,6 +419,9 @@ public class GDXRoot extends Game implements ScreenListener {
           }
           if(pause.quit){
               pause.quit = false;
+              levelselect.resetLevelSelectors();
+              levelselect.setSaveController(saveController);
+              levelselect.generateLevelSelectors(loader.getLevels().size);
               current = -1;
           }
           if(pause.restart){
