@@ -22,6 +22,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -118,6 +119,8 @@ public class GDXRoot extends Game implements ScreenListener {
     public int customerLeaveTimer = 0;
     public int unsatisfiedCustomerTimer = 0;
 
+    public int timeoutTimer = 0;
+
     public void create() {
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
@@ -179,7 +182,6 @@ public class GDXRoot extends Game implements ScreenListener {
         w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class),directory);
         w.create();
         result.ticks = 0;
-
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
         restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory, loader.getLevels().get(levelToGoTo).isEndless());
@@ -331,12 +333,16 @@ public class GDXRoot extends Game implements ScreenListener {
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
         //todo make customerLeaveTimer better
-        if((w.getTime() <= 0 && (!loader.getLevels().get(levelToGoTo).isEndless())) || ((customerLeaveTimer >100) && (current == 1 || current == 0))
+        if((timeoutTimer>100 && (!loader.getLevels().get(levelToGoTo).isEndless())) || ((customerLeaveTimer >100) && (current == 1 || current == 0))
         || (loader.getLevels().get(levelToGoTo).isEndless() && unsatisfiedCustomerTimer > 100)){
             current = 2;
 //            restaurant.setActive(false);
 //            store.setActive(false);
 //            sounds.storeStop();
+        }
+
+        if(w.getTime() <= 0){
+            timeoutTimer++;
         }
 
         if((restaurant.unsatisfiedCustomers>=3 && current == 0)){
@@ -511,8 +517,21 @@ public class GDXRoot extends Game implements ScreenListener {
         else if (current == 0) {
             sounds.menuStop();
             restaurant.draw();
+            //todo banner
+            if(unsatisfiedCustomerTimer > 0 && loader.getLevels().get(levelToGoTo).isEndless()){
+                canvas.drawTextCentered("Too many broken hearts",new BitmapFont(),0);
+            }
+            else if(customerLeaveTimer > 0){
+                canvas.drawTextCentered("No more customers",new BitmapFont(),0);
+            }
+            else if(timeoutTimer > 0){
+                canvas.drawTextCentered("The day is over",new BitmapFont(),0);
+            }
         } else if (current == 1) {
             store.draw();
+            if(timeoutTimer > 0){
+                canvas.drawTextCentered("The day is over",new BitmapFont(),0);
+            }
         } else if (current == 2){
 //            result.setStarReq(this.star_req);
             result.draw();
@@ -525,6 +544,10 @@ public class GDXRoot extends Game implements ScreenListener {
 //
 //
         //calls draw method to draw overlay(background) and all the other stuff)
+    }
+
+    public void drawBanner(){
+
     }
 
     public void drawDebug() {
