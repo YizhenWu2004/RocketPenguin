@@ -12,7 +12,7 @@ public class CollisionController {
     /**
      * Maximum distance a player must be from an ingredient to pick it up
      */
-    protected static final float PICKUP_RADIUS = 2.5f;
+    protected static final float PICKUP_RADIUS = 2.2f;
 
     protected static final float TRASH_RADIUS = 1.0f;
 
