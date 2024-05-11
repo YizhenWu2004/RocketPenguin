@@ -293,7 +293,7 @@ public class RestaurantController extends WorldController implements ContactList
         decorationTextures.put("trashcan", trashcan);
 
         //Setting the default filmstrip for the player
-        player = new Player(3f, 6.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world, sounds, directory);
+        player = new Player(25f, 7.5f, 2, 0.7f, playerIdle, sharedInv, canvas, world, sounds, directory);
 
         drawableObjects.add(player);
 
