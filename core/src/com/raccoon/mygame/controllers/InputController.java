@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.*;
 import java.util.*;
 
 import com.badlogic.gdx.controllers.Controller;
+import com.raccoon.mygame.models.Player;
 
 public class InputController {
     /**
@@ -29,6 +30,7 @@ public class InputController {
     private boolean up;
     private boolean down;
     private boolean pause;
+    private Player p;
     private boolean oppositePause;
 
     private boolean shiftHeld;
@@ -128,10 +130,10 @@ public class InputController {
 
         if (Gdx.input.isKeyJustPressed(Keys.LEFT)) {
             scroll = -1;
-            sounds.switchPlay();
+//            sounds.switchPlay();
         } else if (Gdx.input.isKeyJustPressed(Keys.RIGHT)) {
             scroll = 1;
-            sounds.switchPlay();
+//            sounds.switchPlay();
         } else {
             scroll = 0;
         }

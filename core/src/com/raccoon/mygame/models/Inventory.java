@@ -37,12 +37,15 @@ public class Inventory {
 //        if(i != 0){
 //            System.out.println("changed selecteg");
 //        }
-        if (selected == 0 && i == -1) {
-            selected = 4;
-        } else if (selected == 4 && i == 1) {
-            selected = 0;
-        } else if (0 <= selected + i && selected + i < 5) {
-            selected = selected + i;
+        if(i != 0) {
+            sounds.switchPlay();
+            if (selected == 0 && i == -1) {
+                selected = 4;
+            } else if (selected == 4 && i == 1) {
+                selected = 0;
+            } else if (0 <= selected + i && selected + i < 5) {
+                selected = selected + i;
+            }
         }
     }
 
