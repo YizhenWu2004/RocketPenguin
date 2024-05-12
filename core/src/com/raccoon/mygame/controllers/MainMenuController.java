@@ -116,16 +116,25 @@ public class MainMenuController extends WorldController{
         musicbars = (int)(s.getmusic() * 5);
         sfxbars = (int)(s.getsfx() * 5);
 
-        UIButton play = new UIButton(play_b,"play",20,330, 0.5f,0.5f,canvas);
-        addButton(play, ()-> {
+        UIButton play = new UIButton(play_b, "play", 20, 330, 0.5f, 0.5f, canvas);
+        final boolean[] soundPlayed = {false};
+        addButton(play, () -> {
             sounds.clickPlay();
             this.goToLevelSelect = true;
-        }, ()->{
+        }, () -> {
             play.setSX(0.6f);
             play.setSY(0.6f);
-        }, play::resetStyleProperties,buttons);
+            if (!soundPlayed[0]) {
+                s.switchPlay();
+                soundPlayed[0] = true;
+            }
+        }, () -> {
+            soundPlayed[0] = false;
+            play.resetStyleProperties();
+        }, buttons);
 
         UIButton options = new UIButton(option,"options", 20,230,0.5f,0.5f,canvas);
+        final boolean[] soundPlayed2 = {false};
         addButton(options, ()-> {
             sounds.clickPlay();
             this.goToOptionsSelect = true;
@@ -134,7 +143,14 @@ public class MainMenuController extends WorldController{
         }, ()->{
             options.setSX(0.6f);
             options.setSY(0.6f);
-        },options::resetStyleProperties,buttons);
+            if (!soundPlayed2[0]) {
+                s.switchPlay();
+                soundPlayed2[0] = true;
+            }
+        }, () -> {
+            soundPlayed2[0] = false;
+            options.resetStyleProperties();
+        }, buttons);
 
 
         Modal exitconfirm = new Modal("exitconfirm",0,0,modalbackground);
@@ -146,13 +162,21 @@ public class MainMenuController extends WorldController{
         exitconfirm.addElement(exitconfirmtext);
 
         UIButton exit = new UIButton(exit_b,"exit",20,130,0.5f,0.5f,canvas);
+        final boolean[] soundPlayed3 = {false};
         addButton(exit, ()-> {
             sounds.clickPlay();
             exitconfirm.setActive(true);
         },()->{
             exit.setSX(0.6f);
             exit.setSY(0.6f);
-            },exit::resetStyleProperties,buttons);
+            if (!soundPlayed3[0]) {
+                s.switchPlay();
+                soundPlayed3[0] = true;
+            }
+            }, () -> {
+            soundPlayed3[0] = false;
+            exit.resetStyleProperties();
+        }, buttons);
 
         UIButton exityes = new UIButton(yes, "exityes", 450, 210,0.6f,0.6f,canvas);
         exityes.setOnClickAction(()->{this.exit=true;sounds.clickPlay();});
@@ -170,6 +194,7 @@ public class MainMenuController extends WorldController{
         modals.add(exitconfirm);
 
         UIButton cont = new UIButton(control_b_normal,"exit",230,430,canvas);
+        final boolean[] soundPlayed4 = {false};
         addButton(cont, ()-> {
             sounds.clickPlay();
             this.on_control = true;
@@ -178,9 +203,17 @@ public class MainMenuController extends WorldController{
             //cont.setSX(1.1f);
             //cont.setSY(1.1f);
             cont.setTexture(cont_hover);
-        },cont::resetStyleProperties,setting_buttons);
+            if (!soundPlayed4[0]) {
+                s.switchPlay();
+                soundPlayed4[0] = true;
+            }
+        }, () -> {
+            soundPlayed4[0] = false;
+            cont.resetStyleProperties();
+        },setting_buttons);
 
         UIButton aud = new UIButton(audio_b_normal,"exit",270,310,canvas);
+        final boolean[] soundPlayed5 = {false};
         addButton(aud, ()-> {
             sounds.clickPlay();
             this.on_audio = true;
@@ -189,7 +222,14 @@ public class MainMenuController extends WorldController{
 //            aud.setSX(1.1f);
 //            aud.setSY(1.1f);
             aud.setTexture(audio_hover);
-        },aud::resetStyleProperties, setting_buttons);
+            if (!soundPlayed5[0]) {
+                s.switchPlay();
+                soundPlayed5[0] = true;
+            }
+        },() -> {
+            soundPlayed5[0] = false;
+            aud.resetStyleProperties();
+        }, setting_buttons);
 
         UIButton incmusic = new UIButton(add,"exit",570,420,canvas);
         incmusic.setSX(0.1f);
@@ -253,6 +293,7 @@ public class MainMenuController extends WorldController{
         }, decsfx::resetStyleProperties, audio_buttons);
 
         UIButton back1 = new UIButton(back_setting,"exit",290,180,canvas);
+        final boolean [] soundPlayed6 = {false};
         addButton(back1, ()-> {
             sounds.clickPlay();
             this.on_main = true;
@@ -261,9 +302,17 @@ public class MainMenuController extends WorldController{
 //            back1.setSX(1.1f);
 //            back1.setSY(1.1f);
             back1.setTexture(back_hover);
-        },back1::resetStyleProperties,setting_buttons);
+            if(soundPlayed6[0] == false){
+                s.switchPlay();
+                soundPlayed6[0] = true;
+            }
+        },() -> {
+            soundPlayed6[0] = false;
+            back1.resetStyleProperties();
+        },setting_buttons);
 
         UIButton back2 = new UIButton(back,"exit",150,150,canvas);
+        final boolean [] soundPlayed7 = {false};
         addButton(back2, ()-> {
             sounds.clickPlay();
             this.on_control = false;
@@ -271,11 +320,20 @@ public class MainMenuController extends WorldController{
         },()->{
             back2.setSX(0.8f);
             back2.setSY(0.8f);
+            if(soundPlayed7[0] == false){
+                s.switchPlay();
+                soundPlayed7[0] = true;
+            }
             //back1.setTexture(cont_hover);
-        },back2::resetStyleProperties,control_buttons);
+        },() -> {
+            soundPlayed7[0] = false;
+            back2.resetStyleProperties();
+        },control_buttons);
+
         back2.setDefaultScale(0.7f,0.7f);
 
         UIButton back3 = new UIButton(back,"exit",160,150,canvas);
+        final boolean[] soundPlayed8 = {false};
         addButton(back3, ()-> {
             sounds.clickPlay();
             this.on_audio = false;
@@ -283,10 +341,18 @@ public class MainMenuController extends WorldController{
         },()->{
             back3.setSX(1.1f);
             back3.setSY(1.1f);
+            if(!soundPlayed8[0]){
+                s.switchPlay();
+                soundPlayed8[0] = true;
+            }
             //back1.setTexture(cont_hover);
-        },back3::resetStyleProperties,audio_buttons);
+        },() -> {
+            soundPlayed8[0] = false;
+            back3.resetStyleProperties();
+        },audio_buttons);
 
         UIButton save = new UIButton(save_b,"exit",440,160,canvas);
+        final boolean[] soundPlayed9 = {false};
         addButton(save, ()-> {
             sounds.clickPlay();
             this.on_audio = false;
@@ -294,8 +360,15 @@ public class MainMenuController extends WorldController{
         },()->{
             save.setSX(1.1f);
             save.setSY(1.1f);
+            if(!soundPlayed9[0]){
+                s.switchPlay();
+                soundPlayed9[0] = true;
+            }
             //back1.setTexture(cont_hover);
-        },save::resetStyleProperties,audio_buttons);
+        },() -> {
+            soundPlayed9[0] = false;
+            save.resetStyleProperties();
+        },audio_buttons);
 
         Modal deletesure = new Modal("deletesure", 0,0, modalbackground);
         UIButton deletetext = new UIButton(deleteconfirmation,"deleteconfirm",0,0,canvas);

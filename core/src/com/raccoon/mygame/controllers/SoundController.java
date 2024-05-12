@@ -183,7 +183,8 @@ public class SoundController {
         storeSound.stop();
     }
     public void switchPlay(){
-        switchSound.play(sfxvol);
+        long id = switchSound.play(sfxvol);
+       switchSound.setPitch(id, pitching2());
     }
 
     public void clickPlay(){

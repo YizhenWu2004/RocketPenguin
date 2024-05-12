@@ -163,8 +163,16 @@ public class LevelSelectController extends WorldController{
         priorityButtons.add(down);
 
         backtotitle = new UIButton(titlebackunhovered, "titleback", 10,10,1,1,canvas,canvas.getCamera(),true);
+        final boolean[] sound4 = {false};
         backtotitle.setDefaultScale(0.6f, 0.6f);
-        addButton(backtotitle, ()->{sounds.clickPlay();this.goToMainMenu = true;},()->{backtotitle.setTexture(titlebackhovered);backtotitle.setPriority(true);},()->{backtotitle.resetStyleProperties();backtotitle.setPriority(false);});
+        addButton(backtotitle, ()->{sounds.clickPlay();this.goToMainMenu = true;},()->{backtotitle.setTexture(titlebackhovered);backtotitle.setPriority(true);
+            if(!sound4[0]){
+                s.switchPlay();
+                sound4[0] = true;
+            }
+            },()->{
+            sound4[0] = false;
+            backtotitle.resetStyleProperties();backtotitle.setPriority(false);});
         priorityButtons.add(backtotitle);
 
         this.shiftingYs = makeBackgroundPoints(loader.getLevels().size);
@@ -457,15 +465,30 @@ public class LevelSelectController extends WorldController{
 
         //texture might need a rename
         UIButton back = new UIButton(this.back, "back", 190, 75, 0.5f, 0.5f,canvas);
+        final boolean[] sound = {false};
         back.setOnClickAction(()->{sounds.clickPlay();selectModal.setActive(false);});
-        back.setOnHoverAction(()->{back.setSX(0.6f);back.setSY(0.6f);});
-        back.setOnUnhoverAction(()->{back.resetStyleProperties();});
+        back.setOnHoverAction(()->{back.setSX(0.6f);back.setSY(0.6f);
+        if(!sound[0]){
+            sounds.switchPlay();
+            sound[0] = true;
+        }
+        });
+        back.setOnUnhoverAction(()->{
+            sound[0] = false;
+            back.resetStyleProperties();});
 
         //texture might need a rename
         UIButton start = new UIButton(this.start, "start", 650, 75, 0.5f, 0.5f,canvas);
+        final boolean[] sound2 = {false};
         start.setOnClickAction(()->{sounds.clickPlay();selectModal.setActive(false);this.goToLevel=true;this.setLevelToGoTo(num);});
-        start.setOnHoverAction(()->{start.setSX(0.6f);start.setSY(0.6f);});
-        start.setOnUnhoverAction(()->{start.resetStyleProperties();});
+        start.setOnHoverAction(()->{start.setSX(0.6f);start.setSY(0.6f);
+        if(!sound2[0]){
+            sounds.switchPlay();
+            sound2[0] = true;
+        }
+        });
+        start.setOnUnhoverAction(()->{
+            sound2[0] = false;start.resetStyleProperties();});
 
         UIButton dayNumber = createNumberElement(actualDay,320, 415, 0.5f, 0.5f);
         dayNumber.setCOLOR(Color.BLACK);
@@ -541,6 +564,7 @@ public class LevelSelectController extends WorldController{
             //The addbutton method has many overloads. Please see them below.
             //on un-hover
             //on un-hover
+            final boolean[] sound3 = {false};
             addButton(levelButton,
                     ()-> {
                         sounds.clickPlay();
@@ -551,8 +575,15 @@ public class LevelSelectController extends WorldController{
                         //on hover
                         levelButton.setSX(0.75f);
                         levelButton.setSY(0.75f);
-                    }, levelButton::resetStyleProperties
-            );
+                        if(!sound3[0]){
+                            sounds.switchPlay();
+                            sound3[0] = true;
+                        }
+
+                    },() -> {
+                        sound3[0] = false;
+                        levelButton.resetStyleProperties();
+                    });
 
             constructBooklet(is, actualDay, actualWeek);
 
