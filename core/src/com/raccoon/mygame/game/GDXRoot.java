@@ -524,10 +524,10 @@ public class GDXRoot extends Game implements ScreenListener {
             if(unsatisfiedCustomerTimer > 0 && loader.getLevels().get(levelToGoTo).isEndless()){
                 canvas.drawTextCentered("Too many broken hearts",new BitmapFont(),0);
             }
-            else if(customerLeaveTimer > 0){
+            else if(customerLeaveTimer > 0 ){
                 canvas.drawTextCentered("No more customers",new BitmapFont(),0);
             }
-            else if(timeoutTimer > 0){
+            else if(timeoutTimer > 0 && !loader.getLevels().get(levelToGoTo).isEndless()){
                 canvas.drawTextCentered("The day is over",new BitmapFont(),0);
             }
         } else if (current == 1) {
