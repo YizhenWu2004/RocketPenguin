@@ -436,7 +436,7 @@ public class RestaurantController extends WorldController implements ContactList
             }
         }
         else{
-            System.out.println("ENDLESS");
+//            System.out.println("ENDLESS");
             Array<Array<String>> customerOrders = new Array<>();
 
             customerOrders.add(new Array<>(new String[]{"2", "2", "greenpepper"}));
@@ -463,6 +463,9 @@ public class RestaurantController extends WorldController implements ContactList
             customerOrders.add(new Array<>(new String[]{"420", "1", "red"}));
             customerOrders.add(new Array<>(new String[]{"422", "1", "red"}));
             customerOrders.add(new Array<>(new String[]{"424", "1", "red"}));
+            customerOrders.add(new Array<>(new String[]{"440", "1", "red", "yellow", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"444", "1", "red", "yellow", "orange"}));
+            customerOrders.add(new Array<>(new String[]{"448", "1", "red", "yellow", "orange"}));
 
             for(Array<String> arr : customerOrders){
                 System.out.println(arr);
