@@ -697,6 +697,15 @@
 				}
 			}
 		},
+		"chop_cooked":  {
+			"file" : "chop_cooked.png",
+			"sprites" : {
+				"strip": {
+					"rows": 1,
+					"cols": 1
+				}
+			}
+		},
 		"serve": "serve.png",
 		"cutting_station": "temp_cutting_station.png",
 		"trashInv": "trashInv.png",

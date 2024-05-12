@@ -34,6 +34,8 @@ public class CookingStationObject extends NormalObstacle{
 
     private FilmStrip wok_pic_cooked;
     private FilmStrip pot_pic_cooked;
+
+    private FilmStrip chop_pic_cooked;
     public float drawox=0;
     public float drawoy=0;
     public float x;
@@ -52,6 +54,7 @@ public class CookingStationObject extends NormalObstacle{
         chop_pic = directory.getEntry("cutting_board.strip", FilmStrip.class);
         wok_pic_cooked = directory.getEntry("wok_cooked.strip", FilmStrip.class);
         pot_pic_cooked = directory.getEntry("pot_cooked.strip", FilmStrip.class);
+        chop_pic_cooked = directory.getEntry("chop_cooked.strip", FilmStrip.class);
         this.directory = directory;
     }
 
@@ -78,7 +81,7 @@ public class CookingStationObject extends NormalObstacle{
         pott = new Pot(1, pot_pic,50, 5,
                 this.x*this.drawScale.x,this.y*this.drawScale.y, 1f, 1f,pot_pic_cooked);
         chop = new Pot(2,chop_pic, 35, 50,
-                this.x * this.drawScale.x, this.y * this.drawScale.y, 1f, 1f,chop_pic);
+                this.x * this.drawScale.x, this.y * this.drawScale.y, 1f, 1f,chop_pic_cooked);
 //        spaceIcon = new Expression("space",x,y);
 
     }
