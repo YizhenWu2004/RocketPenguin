@@ -174,6 +174,7 @@ public class GDXRoot extends Game implements ScreenListener {
         //180
 //        sounds.storeStop();
 //        sounds.cafeStop();
+        System.out.println("restarted");
         sounds.potStop();
         sounds.panStopp();
         sounds.potplaying = false;
@@ -265,6 +266,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
+        System.out.println("CURRENT"+current);
         store.current = this.current;
         restaurant.current = this.current;
         input.readInput();
@@ -337,12 +339,13 @@ public class GDXRoot extends Game implements ScreenListener {
         if((timeoutTimer>100 && (!loader.getLevels().get(levelToGoTo).isEndless())) || ((customerLeaveTimer >100) && (current == 1 || current == 0))
         || (loader.getLevels().get(levelToGoTo).isEndless() && unsatisfiedCustomerTimer > 100)){
             current = 2;
+            timeoutTimer = 0;
 //            restaurant.setActive(false);
 //            store.setActive(false);
 //            sounds.storeStop();
         }
 
-        if(w.getTime() <= 0){
+        if(w.getTime() <= 0 && (current == 0 || current == 1)){
             timeoutTimer++;
         }
 
@@ -373,6 +376,7 @@ public class GDXRoot extends Game implements ScreenListener {
             levelselect.resetLevelSelectors();
             result.update();
             if (result.retry){
+                System.out.println("clicked retry");
                 sounds.cafeeactualstop();
                 sounds.storeStop();
                 restart();
