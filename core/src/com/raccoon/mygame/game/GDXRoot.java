@@ -200,6 +200,9 @@ public class GDXRoot extends Game implements ScreenListener {
         mainmenu.on_main = true;
         current = 0;
         isPaused = false;
+        customerLeaveTimer = 0;
+        timeoutTimer = 0;
+        unsatisfiedCustomerTimer = 0;
         //star_req = new int[]{50,75,100};
     }
 
