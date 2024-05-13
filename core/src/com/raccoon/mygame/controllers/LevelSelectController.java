@@ -86,7 +86,7 @@ public class LevelSelectController extends WorldController{
     private LevelLoader loader;
 
     private Array<Integer> shiftingYs = new Array<>();
-    private int cameraShiftI = 0;
+    private int cameraShiftI = -1;
     private boolean shouldIScroll = false;
     private float  targetCameraY;
     private float scrollAmount = 0;

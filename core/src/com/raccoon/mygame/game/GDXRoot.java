@@ -141,7 +141,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
-        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory, false);
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory, false,false);
         notepadOrders = new Array<>();
         store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, notepadOrders, sounds, directory);
         loader = new LevelLoader(canvas, sounds, directory);
@@ -184,7 +184,7 @@ public class GDXRoot extends Game implements ScreenListener {
         result.ticks = 0;
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
-        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory, loader.getLevels().get(levelToGoTo).isEndless());
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory, loader.getLevels().get(levelToGoTo).isEndless(), loader.getLevels().get(levelToGoTo).isTutorial());
         notepadOrders = new Array<>();
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
@@ -325,6 +325,7 @@ public class GDXRoot extends Game implements ScreenListener {
             if(levelselect.checkForGoToLevel()){
                 levelselect.setLastCameraY();
                 this.levelToGoTo = levelselect.getLevelToGoTo();
+
                 restart();
                 //store.setLevel(loader.getLevels().get(levelToGoTo),this.inv);
             }

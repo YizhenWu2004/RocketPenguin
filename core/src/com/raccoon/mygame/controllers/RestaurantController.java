@@ -44,6 +44,7 @@ public class RestaurantController extends WorldController implements ContactList
     private Player player;
     private InputController input;
     private boolean active;
+    private boolean isTutorial;
 
     private VentObstacle vent1;
     private boolean ventCollision;
@@ -271,8 +272,9 @@ public class RestaurantController extends WorldController implements ContactList
 
     public World getWorld() { return world; }
 
-    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s, AssetDirectory directory, boolean isEndless) {
+    public RestaurantController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer sharedtimer,int[] star_req, SoundController s, AssetDirectory directory, boolean isEndless,boolean isTutorial) {
         this.isEndless = isEndless;
+        this.isTutorial = isTutorial;
 
         createTextures(directory);
         sounds = s;
@@ -589,14 +591,30 @@ public class RestaurantController extends WorldController implements ContactList
         }
         for (Customer c : customers) {
             if (c.justSatisfied){
+                float satisfaction = c.pat.multiplier();
                 if (c.time() > 0){
-                    score += c.servedDish.getScore() * c.pat.multiplier();
-                    if (c.pat.multiplier() == 1){
-                        happy += 1;
-                    } else if (c.pat.multiplier() == 0.7){
-                        neutral += 1;
-                    } else {
-                        angry += 1;
+                    if(isTutorial){
+                        if(happy + neutral + angry == 0){
+                            score += 50;
+                        } else {
+                            score += 25;
+                        }
+                        if (satisfaction == 1) {
+                            happy += 1;
+                        } else if (satisfaction < 1 && satisfaction > 0.3) {
+                            neutral += 1;
+                        } else{
+                            angry += 1;
+                        }
+                    }else {
+                        score += c.servedDish.getScore() * c.pat.multiplier();
+                        if (satisfaction == 1) {
+                            happy += 1;
+                        } else if (satisfaction < 1 && satisfaction > 0.3) {
+                            neutral += 1;
+                        } else{
+                            angry += 1;
+                        }
                     }
                 }
                 c.justSatisfied = false;
