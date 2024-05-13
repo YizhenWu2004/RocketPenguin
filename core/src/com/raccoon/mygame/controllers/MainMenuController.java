@@ -112,9 +112,9 @@ public class MainMenuController extends WorldController{
         this.loader = levelLoader;
 
         sounds = s;
-
-        musicbars = (int)(s.getmusic() * 5);
-        sfxbars = (int)(s.getsfx() * 5);
+//
+//        musicbars = (int)(s.getmusic() * 5);
+//        sfxbars = (int)(s.getsfx() * 5);
 
         UIButton play = new UIButton(play_b, "play", 20, 330, 0.5f, 0.5f, canvas);
         final boolean[] soundPlayed = {false};
@@ -445,6 +445,10 @@ public class MainMenuController extends WorldController{
         } else if (on_settings){
             checkButtons(setting_buttons);
         } else if (on_audio){
+
+        musicbars = (int)(sounds.getmusic() * 5);
+        System.out.println("music: " + sounds.getmusic());
+        sfxbars = (int)(sounds.getsfx() * 5);
 //            System.out.println("on audio");
             checkButtons(audio_buttons);
         } else if (on_control){

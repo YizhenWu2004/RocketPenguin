@@ -96,8 +96,8 @@ public class MenuController extends WorldController{
         this.input = input;
         System.out.println(s.getmusic());
         System.out.println(s.getsfx());
-        musicbar = (int)(s.getmusic() * 5);
-        sfxbar = (int)(s.getsfx() * 5);
+//        musicbar = (int)(s.getmusic() * 5);
+//        sfxbar = (int)(s.getsfx() * 5);
 
         sounds = s;
         UIButton resume = new UIButton(resume_pause,"resume",485,475,canvas);
@@ -277,6 +277,8 @@ public class MenuController extends WorldController{
         } else if (on_control){
             checkButtons(cont_buttons);
         } else if (on_audio){
+        musicbar = (int)(sounds.getmusic() * 5);
+        sfxbar = (int)(sounds.getsfx() * 5);
             checkButtons(aud_buttons);
         }
     }
