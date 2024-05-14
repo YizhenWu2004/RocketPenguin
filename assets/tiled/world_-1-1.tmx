@@ -105,22 +105,6 @@
    <object id="79" name="pear" gid="614" x="364.649" y="610.662" width="67" height="67"/>
   </objectgroup>
  <objectgroup id="3" name="Guards">
-  <object id="162" name="Guard" gid="577" x="1058.76" y="216.512" width="102" height="131">
-   <properties>
-    <property name="GuardNum" value="1"/>
-    <property name="Orientation" value="Left"/>
-    <property name="Rotate" value="No"/>
-    <property name="Sleep" value="Yes"/>
-   </properties>
-  </object>
-  <object id="163" name="Guard" gid="577" x="488.634" y="483.28" width="102" height="131">
-   <properties>
-    <property name="GuardNum" value="2"/>
-    <property name="Orientation" value="Left"/>
-    <property name="Rotate" value="CW"/>
-    <property name="Sleep" value="No"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup id="10" name="Customers">
   <object id="171" gid="577" x="116.71" y="906.821" width="102" height="131">
