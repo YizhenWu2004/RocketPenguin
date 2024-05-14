@@ -162,13 +162,15 @@ public class CollisionController {
         return new Vector2(canvasCoords.x * WORLD_WIDTH / width, canvasCoords.y * WORLD_HEIGHT / height);
     }
 
+    private static final float DROP_RADIUS = 2.5f;
+
     private void handleCollision(Player p, Ingredient i) {
         Vector2 iPosCanvas = new Vector2(i.getXPosition() + i.getTextureWidth() / 2f,
                 i.getYPosition() + i.getTextureHeight() / 2f);
-//        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
         Vector2 iPosWorld = canvasToWorld(iPosCanvas);
-        if (p.getPosition().dst(iPosWorld) < PICKUP_RADIUS) {
-            //set the scale to let the player know they can pick it up
+        float distance = p.getPosition().dst(iPosWorld);
+
+        if (distance < PICKUP_RADIUS) {
             i.setSX(1.4f);
             i.setSY(1.4f);
             if (p.getSpace()) {
@@ -176,11 +178,30 @@ public class CollisionController {
                 p.pickUpItem(i.clone());
                 p.setSpace(false);
             }
-        }
-        else{
+        } else if (distance > DROP_RADIUS) {
             i.resetScales();
         }
     }
+
+//    private void handleCollision(Player p, Ingredient i) {
+//        Vector2 iPosCanvas = new Vector2(i.getXPosition() + i.getTextureWidth() / 2f,
+//                i.getYPosition() + i.getTextureHeight() / 2f);
+////        System.out.println(iPosCanvas.x + " " + iPosCanvas.y);
+//        Vector2 iPosWorld = canvasToWorld(iPosCanvas);
+//        if (p.getPosition().dst(iPosWorld) < PICKUP_RADIUS) {
+//            //set the scale to let the player know they can pick it up
+//            i.setSX(1.4f);
+//            i.setSY(1.4f);
+//            if (p.getSpace()) {
+//                p.setSwiping(true);
+//                p.pickUpItem(i.clone());
+//                p.setSpace(false);
+//            }
+//        }
+//        else{
+//            i.resetScales();
+//        }
+//    }
 
     void handleCollision(Player p, Guard g) {
         if (p.getPosition().x > g.getX() - GUARD_RADIUS && p.getPosition().x < g.getX() + GUARD_RADIUS) {
