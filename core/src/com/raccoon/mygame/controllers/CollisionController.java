@@ -200,7 +200,7 @@ public class CollisionController {
             if (i.isScaling()) {
                 long currentTime = System.currentTimeMillis();
                 long startTime = i.getScalingStartTime();
-                float elapsedTime = (currentTime - startTime) / 200f;
+                float elapsedTime = (currentTime - startTime) / 100f;
 
                 float newScale = Math.min(1.0f + 0.4f * elapsedTime, 1.4f);
                 i.setSX(newScale);
@@ -223,7 +223,7 @@ public class CollisionController {
             }
             long currentTime = System.currentTimeMillis();
             long startTime = i.getScalingStartTime();
-            float elapsedTime = (currentTime - startTime) / 200f;
+            float elapsedTime = (currentTime - startTime) / 100f;
 
             float newScale = Math.max(1.4f - 0.4f * elapsedTime, 1.0f);
             i.setSX(newScale);

@@ -39,6 +39,9 @@ public class Pot implements GameObject {
     public float sx;
     public float sy;
 
+    private boolean scaling;
+    private long scalingStartTime;
+
     public Pot(int type, FilmStrip sprite, float x, float y, float ox, float oy, float sx, float sy,FilmStrip spriteCooked){
         this.type = type;
         this.sprite = sprite;
@@ -50,6 +53,8 @@ public class Pot implements GameObject {
         this.sy = sy;
         this.texture = sprite.getTexture();
         this.spriteCooked = spriteCooked;
+        this.scaling = false;
+        this.scalingStartTime = 0;
     }
 
     @Override
@@ -111,7 +116,48 @@ public class Pot implements GameObject {
         return y;
     }
 
-    public void setSX(){
+    public void setSX(float sx) {
+        this.sx = sx;
+    }
 
+    public void setSY(float sy) {
+        this.sy = sy;
+    }
+
+    public void resetScales() {
+        sx = 1;
+        sy = 1;
+    }
+
+    public void startScaling(long startTime) {
+        this.scaling = true;
+        this.scalingStartTime = startTime;
+    }
+
+    public boolean isScaling() {
+        return scaling;
+    }
+
+    public long getScalingStartTime() {
+        return scalingStartTime;
+    }
+
+    public void completeScaling() {
+        this.scaling = false;
+    }
+
+    public void stopScaling() {
+        this.scaling = false;
+        resetScales();
+    }
+
+    private boolean atMaxScale;
+
+    public boolean isAtMaxScale() {
+        return atMaxScale;
+    }
+
+    public void setAtMaxScale(boolean atMax) {
+        this.atMaxScale = atMax;
     }
 }

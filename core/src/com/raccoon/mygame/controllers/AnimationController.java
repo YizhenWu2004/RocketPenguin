@@ -396,30 +396,126 @@ public class AnimationController {
 //            o.resetScales();
 //        }
         if(o.getStationType() == 0 && o.interacting){
-            o.wok.sx = 1.2f;
-            o.wok.sy = 1.2f;
+            if (!o.wok.isScaling() && !o.wok.isAtMaxScale()) {
+                o.wok.startScaling(System.currentTimeMillis());
+            }
+            if (o.wok.isScaling()) {
+                long currentTime = System.currentTimeMillis();
+                long startTime = o.wok.getScalingStartTime();
+                float elapsedTime = (currentTime - startTime) / 200f; // Consider adjusting this factor
+
+                float newScale = Math.min(1.0f + 0.4f * elapsedTime, 1.2f);
+                o.wok.setSX(newScale);
+                o.wok.setSY(newScale);
+
+                if (newScale >= 1.2f) {
+                    o.wok.completeScaling();
+                    o.wok.setAtMaxScale(true);
+                }
+            }
+//            o.wok.sx = 1.2f;
+//            o.wok.sy = 1.2f;
         }
-        else if(o.getStationType() == 0 && !o.interacting){
-            o.wok.sx = 1f;
-            o.wok.sy = 1f;
+        else if(o.getStationType() == 0 && !o.interacting && (o.wok.isAtMaxScale()|| o.wok.sx >1)){
+            if (!o.wok.isScaling()) {
+                o.wok.startScaling(System.currentTimeMillis());
+            }
+            long currentTime = System.currentTimeMillis();
+            long startTime = o.wok.getScalingStartTime();
+            float elapsedTime = (currentTime - startTime) / 100f;
+
+            float newScale = Math.max(1.2f - 0.4f * elapsedTime, 1.0f);
+            o.wok.setSX(newScale);
+            o.wok.setSY(newScale);
+
+            if (newScale <= 1.0f) {
+                o.wok.completeScaling();
+                o.wok.setAtMaxScale(false);
+            }
+//            o.wok.sx = 1f;
+//            o.wok.sy = 1f;
         }
 
         if(o.getStationType() == 1 && o.interacting){
-            o.pott.sx = 1.2f;
-            o.pott.sy = 1.2f;
+            if (!o.pott.isScaling() && !o.pott.isAtMaxScale()) {
+                o.pott.startScaling(System.currentTimeMillis());
+            }
+            if (o.pott.isScaling()) {
+                long currentTime = System.currentTimeMillis();
+                long startTime = o.pott.getScalingStartTime();
+                float elapsedTime = (currentTime - startTime) / 200f; // Consider adjusting this factor
+
+                float newScale = Math.min(1.0f + 0.4f * elapsedTime, 1.2f);
+                o.pott.setSX(newScale);
+                o.pott.setSY(newScale);
+
+                if (newScale >= 1.2f) {
+                    o.pott.completeScaling();
+                    o.pott.setAtMaxScale(true);
+                }
+            }
+//            o.pott.sx = 1.2f;
+//            o.pott.sy = 1.2f;
         }
-        else if(o.getStationType() == 1 && !o.interacting){
-            o.pott.sx = 1f;
-            o.pott.sy = 1f;
+        else if(o.getStationType() == 1 && !o.interacting && (o.pott.isAtMaxScale()|| o.pott.sx >1)){
+            if (!o.pott.isScaling()) {
+                o.pott.startScaling(System.currentTimeMillis());
+            }
+            long currentTime = System.currentTimeMillis();
+            long startTime = o.pott.getScalingStartTime();
+            float elapsedTime = (currentTime - startTime) / 100f;
+
+            float newScale = Math.max(1.2f - 0.4f * elapsedTime, 1.0f);
+            o.pott.setSX(newScale);
+            o.pott.setSY(newScale);
+
+            if (newScale <= 1.0f) {
+                o.pott.completeScaling();
+                o.pott.setAtMaxScale(false);
+            }
+//            o.pott.sx = 1f;
+//            o.pott.sy = 1f;
         }
 
         if(o.getStationType() == 2 && o.interacting){
-            o.chop.sx = 1.2f;
-            o.chop.sy = 1.2f;
+            if (!o.chop.isScaling() && !o.chop.isAtMaxScale()) {
+                o.chop.startScaling(System.currentTimeMillis());
+            }
+            if (o.chop.isScaling()) {
+                long currentTime = System.currentTimeMillis();
+                long startTime = o.chop.getScalingStartTime();
+                float elapsedTime = (currentTime - startTime) / 200f; // Consider adjusting this factor
+
+                float newScale = Math.min(1.0f + 0.4f * elapsedTime, 1.2f);
+                o.chop.setSX(newScale);
+                o.chop.setSY(newScale);
+
+                if (newScale >= 1.2f) {
+                    o.chop.completeScaling();
+                    o.chop.setAtMaxScale(true);
+                }
+            }
+//            o.chop.sx = 1.2f;
+//            o.chop.sy = 1.2f;
         }
-        else if(o.getStationType() == 2 && !o.interacting){
-            o.chop.sx = 1f;
-            o.chop.sy = 1f;
+        else if(o.getStationType() == 2 && !o.interacting && (o.chop.isAtMaxScale()|| o.chop.sx >1)){
+            if (!o.chop.isScaling()) {
+                o.chop.startScaling(System.currentTimeMillis());
+            }
+            long currentTime = System.currentTimeMillis();
+            long startTime = o.chop.getScalingStartTime();
+            float elapsedTime = (currentTime - startTime) / 100f;
+
+            float newScale = Math.max(1.2f - 0.4f * elapsedTime, 1.0f);
+            o.chop.setSX(newScale);
+            o.chop.setSY(newScale);
+
+            if (newScale <= 1.0f) {
+                o.chop.completeScaling();
+                o.chop.setAtMaxScale(false);
+            }
+//            o.chop.sx = 1f;
+//            o.chop.sy = 1f;
         }
 
         if (o.getStationType() == 0 && o.timer != null) {
