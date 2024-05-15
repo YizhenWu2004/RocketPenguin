@@ -93,14 +93,14 @@ public class SoundController {
         orderSound.play(sfxvol);
     }
     public void bellPlay(){
-        bellSound.play(sfxvol);
+        bellSound.play((float) (sfxvol * 4.0));
     }
     public void panPlay(){
-        pan.play(sfxvol);
+        pan.play((float) (sfxvol/4.0));
         panplaying = true;
     }
     public void potPlay(){
-        pot.play(sfxvol);
+        pot.play((float) (sfxvol/4.0));
         potplaying = true;
     }
     public void doorPlay(){
