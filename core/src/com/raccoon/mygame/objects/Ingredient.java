@@ -1,4 +1,3 @@
-
 package com.raccoon.mygame.objects;
 
 import com.badlogic.gdx.graphics.Color;
@@ -8,12 +7,11 @@ import com.raccoon.mygame.view.GameCanvas;
 
 public class Ingredient implements GameObject, Comparable<Ingredient> {
 
-    //Initially 0.2, changed to 1
     private AssetDirectory directory;
     private float defaultSX = 1f;
     private float defaultSY = 1f;
-    private float TEXTURE_SX = 1f;
-    private float TEXTURE_SY = 1f;
+    public float TEXTURE_SX = 1f;
+    public float TEXTURE_SY = 1f;
     private Texture jalapeno;
 
     public int name;
@@ -23,11 +21,12 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
     private Texture texture;
     private boolean isActive;
 
-    //position in inventory, -1 means not in inventory (and thus discarded)
     private int posInInventory;
-
-    //position in pot, -1 means not in pot
     private int posInPot;
+
+    // Scaling attributes
+    private boolean scaling;
+    private long scalingStartTime;
 
     public Ingredient(String name, float x, float y, Texture texture, int posInInventory, AssetDirectory directory) {
         jalapeno = directory.getEntry("o_jalapeno", Texture.class);
@@ -40,27 +39,50 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
         this.posInInventory = posInInventory;
         this.posInPot = -1;
         this.name = 0;
+        this.scaling = false;
+        this.scalingStartTime = 0;
     }
 
-    public Ingredient(String name, Texture texture, int posInInventory){
+    public Ingredient(String name, Texture texture, int posInInventory) {
         this.type = name;
         this.texture = texture;
         this.isActive = true;
         this.posInInventory = posInInventory;
         this.posInPot = -1;
         this.name = 0;
+        this.scaling = false;
+        this.scalingStartTime = 0;
     }
 
+    public void startScaling(long startTime) {
+        this.scaling = true;
+        this.scalingStartTime = startTime;
+    }
+
+    public boolean isScaling() {
+        return scaling;
+    }
+
+    public long getScalingStartTime() {
+        return scalingStartTime;
+    }
+
+    public void completeScaling() {
+        this.scaling = false;
+    }
+
+    public void stopScaling() {
+        this.scaling = false;
+        resetScales();
+    }
 
     public float getXPosition() {
         return x;
     }
 
-
     public float getYPosition() {
         return y;
     }
-
 
     public void setPosition(float x, float y) {
         this.x = x;
@@ -95,10 +117,10 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
     public int posInPot() {
         return posInPot;
     }
+
     public void setPosInPot(int index) {
         posInPot = index;
     }
-
 
     public float getTextureWidth() {
         return texture.getWidth() * TEXTURE_SX;
@@ -108,20 +130,22 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
         return texture.getHeight() * TEXTURE_SY;
     }
 
-    public void setSX(float sx){
+    public void setSX(float sx) {
         this.TEXTURE_SX = sx;
     }
-    public void setSY(float sy){
+
+    public void setSY(float sy) {
         this.TEXTURE_SY = sy;
     }
-    public void resetScales(){
+
+    public void resetScales() {
         this.TEXTURE_SX = defaultSX;
         this.TEXTURE_SY = defaultSY;
     }
 
     @Override
     public void draw(GameCanvas canvas) {
-        if(posInInventory == 100){
+        if (posInInventory == 100) {
             return;
         }
         if (posInInventory < 0) {
@@ -132,8 +156,8 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
 
     public void drawTextBubble(GameCanvas canvas, float x, float y, float ox, float oy) {
         Texture texture = this.texture;
-        if(this.type == "greenpepper") {
-          texture = jalapeno;
+        if (this.type == "greenpepper") {
+            texture = jalapeno;
         }
         canvas.draw(texture, Color.WHITE, ox, oy,
                 x, y, 0.0f, 0.7f, 0.7f);
@@ -147,7 +171,16 @@ public class Ingredient implements GameObject, Comparable<Ingredient> {
     public Ingredient clone(){
         return new Ingredient(this.type,x,y,directory.getEntry(this.type, Texture.class), posInInventory, directory);
     }
-}
 
+    private boolean atMaxScale;
+
+    public boolean isAtMaxScale() {
+        return atMaxScale;
+    }
+
+    public void setAtMaxScale(boolean atMax) {
+        this.atMaxScale = atMax;
+    }
+}
 
 

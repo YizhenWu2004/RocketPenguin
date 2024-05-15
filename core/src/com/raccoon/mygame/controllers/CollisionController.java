@@ -162,7 +162,30 @@ public class CollisionController {
         return new Vector2(canvasCoords.x * WORLD_WIDTH / width, canvasCoords.y * WORLD_HEIGHT / height);
     }
 
-    private static final float DROP_RADIUS = 2.5f;
+    private static final float DROP_RADIUS = 2.3f;
+//    private long lastScaleChangeTime = 0;
+//    private static final long SCALE_CHANGE_COOLDOWN = 1000;
+
+    //todo this is the smooth increase
+//    private void handleCollision(Player p, Ingredient i) {
+//        Vector2 iPosCanvas = new Vector2(i.getXPosition() + i.getTextureWidth() / 2f,
+//                i.getYPosition() + i.getTextureHeight() / 2f);
+//        Vector2 iPosWorld = canvasToWorld(iPosCanvas);
+//        float distance = p.getPosition().dst(iPosWorld);
+//
+//        float scale = 1.0f;
+//        if (distance < PICKUP_RADIUS) {
+//            float factor = (PICKUP_RADIUS - distance) / PICKUP_RADIUS;
+//            scale = 1.0f + 0.4f * factor;
+//            if (p.getSpace()) {
+//                    p.setSwiping(true);
+//                    p.pickUpItem(i.clone());
+//                    p.setSpace(false);
+//                }
+//        }
+//        i.setSX(scale);
+//        i.setSY(scale);
+//    }
 
     private void handleCollision(Player p, Ingredient i) {
         Vector2 iPosCanvas = new Vector2(i.getXPosition() + i.getTextureWidth() / 2f,
@@ -171,17 +194,69 @@ public class CollisionController {
         float distance = p.getPosition().dst(iPosWorld);
 
         if (distance < PICKUP_RADIUS) {
-            i.setSX(1.4f);
-            i.setSY(1.4f);
+            if (!i.isScaling() && !i.isAtMaxScale()) {
+                i.startScaling(System.currentTimeMillis());
+            }
+            if (i.isScaling()) {
+                long currentTime = System.currentTimeMillis();
+                long startTime = i.getScalingStartTime();
+                float elapsedTime = (currentTime - startTime) / 200f;
+
+                float newScale = Math.min(1.0f + 0.4f * elapsedTime, 1.4f);
+                i.setSX(newScale);
+                i.setSY(newScale);
+
+                if (newScale >= 1.4f) {
+                    i.completeScaling();
+                    i.setAtMaxScale(true);
+                }
+            }
+
             if (p.getSpace()) {
                 p.setSwiping(true);
                 p.pickUpItem(i.clone());
                 p.setSpace(false);
             }
-        } else if (distance > DROP_RADIUS) {
-            i.resetScales();
+        } else if ((distance > DROP_RADIUS && i.isAtMaxScale()) || (distance > DROP_RADIUS && i.TEXTURE_SX > 1)) {
+            if (!i.isScaling()) {
+                i.startScaling(System.currentTimeMillis());
+            }
+            long currentTime = System.currentTimeMillis();
+            long startTime = i.getScalingStartTime();
+            float elapsedTime = (currentTime - startTime) / 200f;
+
+            float newScale = Math.max(1.4f - 0.4f * elapsedTime, 1.0f);
+            i.setSX(newScale);
+            i.setSY(newScale);
+
+            if (newScale <= 1.0f) {
+                i.completeScaling();
+                i.setAtMaxScale(false);
+            }
         }
     }
+
+
+
+//    private void handleCollision(Player p, Ingredient i) {
+//            Vector2 iPosCanvas = new Vector2(i.getXPosition() + i.getTextureWidth() / 2f,
+//                    i.getYPosition() + i.getTextureHeight() / 2f);
+//            Vector2 iPosWorld = canvasToWorld(iPosCanvas);
+//            float distance = p.getPosition().dst(iPosWorld);
+//
+//            if (distance < PICKUP_RADIUS) {
+//                i.setSX(1.4f);
+//                i.setSY(1.4f);
+//                if (p.getSpace()) {
+//                    p.setSwiping(true);
+//                    p.pickUpItem(i.clone());
+//                    p.setSpace(false);
+//                }
+//            } else if (distance > DROP_RADIUS) {
+//                i.resetScales();
+//            }
+//
+//    }
 
 //    private void handleCollision(Player p, Ingredient i) {
 //        Vector2 iPosCanvas = new Vector2(i.getXPosition() + i.getTextureWidth() / 2f,
