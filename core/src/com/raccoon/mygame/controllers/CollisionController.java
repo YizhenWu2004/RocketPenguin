@@ -88,8 +88,8 @@ public class CollisionController {
         for (Customer c : customers) {
             if (p.getPosition().dst(c.getPosition()) <= 4) {
                 if(c.getVX() == 0 && c.getVY() == 0) {
-                    c.setScaleX(1.1f);
-                    c.setScaleY(1.1f);
+//                    c.setScaleX(1.1f);
+//                    c.setScaleY(1.1f);
                 }
                 if (p.space && p.getPosition().dst(c.getPosition()) <= 4) {
                     if (c.canShow() && !c.getShow() && !c.isSatisfied()) {
@@ -133,7 +133,55 @@ public class CollisionController {
             else{
                 c.resetScales();
             }
+
+            if (p.getPosition().dst(c.getPosition()) <= 4 && (c.getVX() == 0 && c.getVY() == 0)) {
+                if (!c.isScaling() && !c.isAtMaxScale()) {
+                    c.startScaling(System.currentTimeMillis());
+                }
+                if (c.isScaling()) {
+                    long currentTime = System.currentTimeMillis();
+                    long startTime = c.getScalingStartTime();
+                    float elapsedTime = (currentTime - startTime) / 500;
+
+                    float newScale = Math.min(1.0f + 0.4f * elapsedTime, 1.1f);
+                    c.setScaleX(newScale);
+                    c.setScaleY(newScale);
+
+                    if (newScale >= 1.1f) {
+                        c.completeScaling();
+                        c.setAtMaxScale(true);
+                    }
+                }
+
+//                    c.setScaleX(1.1f);
+//                    c.setScaleY(1.1f);
+            }
+            else if(p.getPosition().dst(c.getPosition()) > 4 && (c.getVX() == 0 && c.getVY() == 0)){
+//                if ((c.isAtMaxScale() || c.scaleX > 1)){
+//                    if (!c.isScaling()) {
+//                        c.startScaling(System.currentTimeMillis());
+//                    }
+//                    long currentTime = System.currentTimeMillis();
+//                    long startTime = c.getScalingStartTime();
+//                    float elapsedTime = (currentTime - startTime) / 100f;
+//
+//                    float newScale = Math.max(1.4f - 0.4f * elapsedTime, 1.0f);
+//                    c.setScaleX(newScale);
+//                    c.setScaleY(newScale);
+//
+//                    if (newScale <= 1.0f) {
+//                        c.completeScaling();
+//                        c.setAtMaxScale(false);
+//                    }
+//                }
+
+                c.completeScaling();
+                c.setAtMaxScale(false);
+                c.resetScales();
+            }
         }
+
+
     }
 
 //    public void processGuards(Player p, Array<Guard> guards) {

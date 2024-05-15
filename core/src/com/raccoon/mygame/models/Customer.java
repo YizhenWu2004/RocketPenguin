@@ -120,6 +120,9 @@ public class Customer extends BoxObstacle {
     private String[] orange = {"carrot","orange","persimmon"};
     private String[] green = {"greenpepper","pear","cabbage"};
 
+    private boolean scaling;
+    private long scalingStartTime;
+
 
     public Customer(float x, float y, float width, float height, FilmStrip defaultCustomerSprite, World world,
                     GameCanvas canvas, int ordernum,
@@ -153,6 +156,9 @@ public class Customer extends BoxObstacle {
         this.getBody().setUserData(this);
         order = new Ingredient[3];
         this.directory = directory;
+
+        this.scaling = false;
+        this.scalingStartTime = 0;
 
 //        Array<Ingredient> menu = new Array<Ingredient>();
 //        menu.add(new Ingredient("apple", 200, 200, new Texture("720/apple.png"), -1));
@@ -610,5 +616,37 @@ public class Customer extends BoxObstacle {
     public void resetScales(){
         this.nonBox2DScaleX = defaultScaleX;
         this.nonBox2DScaleY = defaultScaleY;
+    }
+
+    public void startScaling(long startTime) {
+        this.scaling = true;
+        this.scalingStartTime = startTime;
+    }
+
+    public boolean isScaling() {
+        return scaling;
+    }
+
+    public long getScalingStartTime() {
+        return scalingStartTime;
+    }
+
+    public void completeScaling() {
+        this.scaling = false;
+    }
+
+    public void stopScaling() {
+        this.scaling = false;
+        resetScales();
+    }
+
+    private boolean atMaxScale;
+
+    public boolean isAtMaxScale() {
+        return atMaxScale;
+    }
+
+    public void setAtMaxScale(boolean atMax) {
+        this.atMaxScale = atMax;
     }
 }
