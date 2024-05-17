@@ -595,6 +595,7 @@ public class RestaurantController extends WorldController implements ContactList
         }
         for (Customer c : customers) {
             if (c.justSatisfied){
+                sounds.nomPlay();
                 float satisfaction = c.pat.multiplier();
                 if (c.time() > 0){
                     if(isTutorial){

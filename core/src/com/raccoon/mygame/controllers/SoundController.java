@@ -30,6 +30,7 @@ public class SoundController {
 
     private Sound pot;
     private Sound pan;
+    private Sound eat;
     private float musicVol;
     private Music menu;
     private float sfxvol;
@@ -54,6 +55,7 @@ public class SoundController {
         menu = Gdx.audio.newMusic(Gdx.files.internal("sounds/racoon_menu.mp3"));
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
         trashSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.ogg"));
+        eat = Gdx.audio.newSound(Gdx.files.internal("sounds/nom.ogg"));
         musicVol = 1.6f;
         sfxvol = 1.6f;
         cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/cafetrackv2.ogg"));
@@ -79,6 +81,9 @@ public class SoundController {
     }
     public void chopPlay(){
         chopSound.play(sfxvol);
+    }
+    public void nomPlay(){
+        eat.play(sfxvol * 2);
     }
 
     public void trashPlay(){
