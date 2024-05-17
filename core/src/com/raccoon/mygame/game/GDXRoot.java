@@ -85,6 +85,8 @@ public class GDXRoot extends Game implements ScreenListener {
     private int levelToGoTo = 0;
 
     private FilmStrip levelEndTimeOut;
+
+    private FilmStrip levelEndAllServed;
     private float animationTimerTimeOut = 0;
 
 
@@ -125,6 +127,8 @@ public class GDXRoot extends Game implements ScreenListener {
 
     public int timeoutTimer = 0;
 
+
+    private Texture levelEndBackground;
 
 
     public void create() {
@@ -174,6 +178,8 @@ public class GDXRoot extends Game implements ScreenListener {
         isPaused = false;
 
         levelEndTimeOut = directory.getEntry("levelendtimeout.strip", FilmStrip.class);
+        levelEndAllServed= directory.getEntry("levelendallserved.strip", FilmStrip.class);
+        levelEndBackground = directory.getEntry("levelendbackground", Texture.class);
     }
 
     public void restart(){
@@ -211,7 +217,12 @@ public class GDXRoot extends Game implements ScreenListener {
         timeoutTimer = 0;
         unsatisfiedCustomerTimer = 0;
 
+        //todo levelendallserved
         levelEndTimeOut = directory.getEntry("levelendtimeout.strip", FilmStrip.class);
+        levelEndAllServed= directory.getEntry("levelendallserved.strip", FilmStrip.class);
+        levelEndBackground = directory.getEntry("levelendbackground", Texture.class);
+        levelEndTimeOut.setFrame(0);
+        levelEndAllServed.setFrame(0);
         //star_req = new int[]{50,75,100};
     }
 
@@ -279,11 +290,12 @@ public class GDXRoot extends Game implements ScreenListener {
 
     public void update() {
 
-        if(timeoutTimer >0){
+        if(timeoutTimer >0 || customerLeaveTimer>0 || unsatisfiedCustomerTimer >0){
             animationTimerTimeOut += Gdx.graphics.getDeltaTime();
             if (animationTimerTimeOut >= 0.1f) {
                 int newFrame = (levelEndTimeOut.getFrame() + 1) % levelEndTimeOut.getSize();
                 levelEndTimeOut.setFrame(newFrame);
+                levelEndAllServed.setFrame(newFrame);
                 animationTimerTimeOut = 0;
             }
         }
@@ -357,8 +369,8 @@ public class GDXRoot extends Game implements ScreenListener {
         //System.out.println("PSST" +canvas.getWidth());
         //store is supposed to be 1, if this is different we change current
         //todo make customerLeaveTimer better
-        if((timeoutTimer>100 && (!loader.getLevels().get(levelToGoTo).isEndless())) || ((customerLeaveTimer >100) && (current == 1 || current == 0))
-        || (loader.getLevels().get(levelToGoTo).isEndless() && unsatisfiedCustomerTimer > 100)){
+        if((timeoutTimer>160 && (!loader.getLevels().get(levelToGoTo).isEndless())) || ((customerLeaveTimer >160) && (current == 1 || current == 0))
+        || (loader.getLevels().get(levelToGoTo).isEndless() && unsatisfiedCustomerTimer > 160)){
             current = 2;
             timeoutTimer = 0;
 //            restaurant.setActive(false);
@@ -548,18 +560,33 @@ public class GDXRoot extends Game implements ScreenListener {
         else if (current == 0) {
             sounds.menuStop();
             restaurant.draw();
-            //todo banner
             if(unsatisfiedCustomerTimer > 0 && loader.getLevels().get(levelToGoTo).isEndless()){
-                canvas.drawTextCentered("Too many broken hearts",new BitmapFont(),0);
+                float posX = (canvas.getWidth() - levelEndTimeOut.fwidth) / 2f;
+                float posY = (canvas.getHeight() - levelEndTimeOut.fheight) / 2f;
+                canvas.draw(levelEndBackground, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
+                canvas.draw(levelEndTimeOut, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
             }
             else if(customerLeaveTimer > 0 ){
-                canvas.drawTextCentered("No more customers",new BitmapFont(),0);
+                float posX = (canvas.getWidth() - levelEndTimeOut.fwidth) / 2f;
+                float posY = (canvas.getHeight() - levelEndTimeOut.fheight) / 2f;
+                canvas.draw(levelEndBackground, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
+                if(restaurant.totalCustomer == restaurant.customerServed){
+                    canvas.draw(levelEndAllServed, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
+                }
+                else{
+                    canvas.draw(levelEndTimeOut, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
+                }
             }
             else if(timeoutTimer > 0 && !loader.getLevels().get(levelToGoTo).isEndless()){
                 float posX = (canvas.getWidth() - levelEndTimeOut.fwidth) / 2f;
                 float posY = (canvas.getHeight() - levelEndTimeOut.fheight) / 2f;
-
-                canvas.draw(levelEndTimeOut, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
+                canvas.draw(levelEndBackground, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
+                if(restaurant.totalCustomer == restaurant.customerServed){
+                    canvas.draw(levelEndAllServed, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
+                }
+                else{
+                    canvas.draw(levelEndTimeOut, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
+                }
             }
 
         } else if (current == 1) {
