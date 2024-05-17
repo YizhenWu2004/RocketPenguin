@@ -129,6 +129,7 @@ public class Customer extends BoxObstacle {
                     int showUpTime, Array<String> inputOrder, AssetDirectory directory) {
         super(x, y, width, height);
         shadow = new Shadow(0, 0, 1f, 1f, directory);
+        this.setSensor(true);
 
 
         one = directory.getEntry("o_one", Texture.class);

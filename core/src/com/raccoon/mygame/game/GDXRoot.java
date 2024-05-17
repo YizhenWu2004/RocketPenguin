@@ -269,7 +269,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
-        System.out.println("CURRENT"+current);
+        //System.out.println("CURRENT"+current);
         store.current = this.current;
         restaurant.current = this.current;
         input.readInput();
@@ -507,9 +507,9 @@ public class GDXRoot extends Game implements ScreenListener {
           notepadOrders = restaurant.getTakenCustomers();
           store.setNotepadOrders(notepadOrders);
 
-          if (input.getReset()) {
-              create();
-          }
+//          if (input.getReset()) {
+//              create();
+//          }
       }
     }
 
