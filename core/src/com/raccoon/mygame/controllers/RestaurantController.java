@@ -140,7 +140,7 @@ public class RestaurantController extends WorldController implements ContactList
 
     private HashMap<String, Texture> obstacleTextures = new HashMap<>();
 
-    private int[] star_req;
+    public int[] star_req;
 
     private AssetDirectory directory;
 

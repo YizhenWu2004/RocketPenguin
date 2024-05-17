@@ -48,7 +48,22 @@ public class LevelSelectController extends WorldController{
     private  Texture seven;
     private  Texture eight ;
     private  Texture nine;
-    private int[] star_req;
+
+    private Texture w01;
+    private Texture w02;
+    private Texture w03;
+    private Texture w11;
+    private Texture w12;
+    private Texture w13;
+    private Texture w21;
+    private Texture w22;
+    private Texture w23;
+    private Texture w31;
+    private Texture w32;
+    private Texture w33;
+    private Texture wendless;
+
+    private int[][] star_req;
 
     private Array<Texture> numbers = new Array<Texture>();
     //canvas to draw onto
@@ -106,7 +121,7 @@ public class LevelSelectController extends WorldController{
      * @param canvas Canvas to draw with
      * @param input InputController to use
      * */
-    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController, SoundController s, AssetDirectory directory, int[] star_req){
+    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController, SoundController s, AssetDirectory directory, int[][] star_req){
         this.canvas = canvas;
         sounds = s;
         this.input = input;
@@ -140,6 +155,19 @@ public class LevelSelectController extends WorldController{
          seven =directory.getEntry("m_7",Texture.class);
         eight = directory.getEntry("m_8",Texture.class);
          nine = directory.getEntry("m_9",Texture.class);
+        w01 = directory.getEntry("m_w01", Texture.class);
+        w02 = directory.getEntry("m_w02", Texture.class);
+        w03 = directory.getEntry("m_w03", Texture.class);
+        w11 = directory.getEntry("m_w11", Texture.class);
+        w12 = directory.getEntry("m_w12", Texture.class);
+        w13 = directory.getEntry("m_w13", Texture.class);
+        w21 = directory.getEntry("m_w21", Texture.class);
+        w22 = directory.getEntry("m_w22", Texture.class);
+        w23 = directory.getEntry("m_w23", Texture.class);
+        w31 = directory.getEntry("m_w31", Texture.class);
+        w32 = directory.getEntry("m_w32", Texture.class);
+        w33 = directory.getEntry("m_w33", Texture.class);
+        wendless = directory.getEntry("m_wendless", Texture.class);
 
         numbers.add(zero);
         numbers.add(one);
@@ -456,6 +484,7 @@ public class LevelSelectController extends WorldController{
         }
     }
     public void constructBooklet(String id, int actualDay, int weekNum){
+        Texture t = wendless;
         int num = Integer.parseInt(id);
         //this is the modal for when you click on an individual level entry
         //mostly just for testing now
@@ -494,7 +523,6 @@ public class LevelSelectController extends WorldController{
 
         UIButton dayNumber = createNumberElement(actualDay,320, 415, 0.5f, 0.5f);
         dayNumber.setCOLOR(Color.BLACK);
-
         UIButton weekNumber = createNumberElement(weekNum,270, 415, 0.5f, 0.5f);
         weekNumber.setCOLOR(Color.BLACK);
 
@@ -506,8 +534,46 @@ public class LevelSelectController extends WorldController{
         UIButton second2 = createNumberElement(0,715, 375, 0.5f, 0.5f);
         second2.setCOLOR(Color.BLACK);
 
+        int[] req = star_req[actualDay*3 + weekNum];
+
         Array<UIButton> multipleNums = createMultipleNumbers((saveController.getKeyvaluepairs().get(num)),655,  285,0.5f,0.5f);
-        Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(num)),540,  200,0.7f,0.7f);
+        Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(num)),540,  200,0.7f,0.7f,req);
+
+        if(weekNum == 0){
+            if(actualDay == 1){
+                t = w01;
+            } else if(actualDay == 2){
+                t = w02;
+            } else if (actualDay == 3){
+                t = w03;
+            }
+        } else if (weekNum == 1){
+            if(actualDay == 1){
+                t = w11;
+            } else if(actualDay == 2){
+                t = w12;
+            } else if (actualDay == 3){
+                t = w13;
+            }
+        } else if (weekNum == 2){
+            if(actualDay == 1){
+                t = w21;
+            } else if(actualDay == 2){
+                t = w22;
+            } else if (actualDay == 3){
+                t = w23;
+            }
+        } else if(weekNum == 3){
+            if(actualDay == 1){
+                t = w31;
+            } else if(actualDay == 2){
+                t = w32;
+            } else if (actualDay == 3){
+                t = w33;
+            }
+        }
+
+        UIButton description = new UIButton(t, "description", 200, 180, 0.5f, 0.5f,canvas);
 
 
         //add the buttons to the modal thingy to the modal
@@ -519,6 +585,7 @@ public class LevelSelectController extends WorldController{
         selectModal.addElement(minute);
         selectModal.addElement(second1);
         selectModal.addElement(second2);
+        selectModal.addElement(description);
         for (UIButton butt:
                 multipleNums) {
             selectModal.addElement(butt);
@@ -529,6 +596,7 @@ public class LevelSelectController extends WorldController{
         }
         //add modal to the list of modals.
         modals.add(selectModal);
+
 
     }
     public boolean checkForGoToLevel(){return this.goToLevel;}
@@ -567,7 +635,7 @@ public class LevelSelectController extends WorldController{
             //level one button
             UIButton levelButton = new UIButton(levelbooklet,is + "levelbutton",90 + (xOffset*400),yOffset,0.7f,0.7f,canvas);
             UIButton dayNumber = createNumberElement(actualDay, 270,260,1,1);
-            Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(i)),118,  170,1f,1f);
+            Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(i)),118,  170,1f,1f,star_req[actualWeek*3+actualDay]);
 
 
             levelButton.addChild(dayNumber);
@@ -657,7 +725,7 @@ public class LevelSelectController extends WorldController{
         }
         return elements;
     }
-    private Array<UIButton> generateStars(int score, int x, int y, float sx, float sy){
+    private Array<UIButton> generateStars(int score, int x, int y, float sx, float sy, int[]star_req){
         Array<UIButton> elements = new Array<>();
         Texture starFilled = filledstar;
         Texture starEmpty = unfilledstar;

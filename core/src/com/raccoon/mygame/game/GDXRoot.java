@@ -121,16 +121,17 @@ public class GDXRoot extends Game implements ScreenListener {
 
     int current; // 0 = restaurant, 1 = store, 2 = result
     public boolean isPaused;
-    public int[] star_req;
+    public int[][] star_req = new int[][]{{50,75,100},{50,75,100},{50,75,100},{50,75,100},{40,60,80},{40,60,80},{60,90,120},{50,80,105},{85,125,170},{55,85,110},{95,145,190},{95,145,190},{95,145,190},{50,75,100}};
     public int customerLeaveTimer = 0;
     public int unsatisfiedCustomerTimer = 0;
 
     public int timeoutTimer = 0;
 
+
     private Texture levelEndBackground;
 
+
     public void create() {
-        star_req = new int[]{50,75,100};
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
 
@@ -150,7 +151,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
-        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req, sounds, directory, false,false);
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req[0], sounds, directory, false,false);
         notepadOrders = new Array<>();
         store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, notepadOrders, sounds, directory);
         loader = new LevelLoader(canvas, sounds, directory);
@@ -197,7 +198,7 @@ public class GDXRoot extends Game implements ScreenListener {
         result.ticks = 0;
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
-        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req, sounds, directory, loader.getLevels().get(levelToGoTo).isEndless(), loader.getLevels().get(levelToGoTo).isTutorial());
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req[0], sounds, directory, loader.getLevels().get(levelToGoTo).isEndless(), loader.getLevels().get(levelToGoTo).isTutorial());
         notepadOrders = new Array<>();
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);
@@ -359,8 +360,8 @@ public class GDXRoot extends Game implements ScreenListener {
             if(levelselect.checkForGoToLevel()){
                 levelselect.setLastCameraY();
                 this.levelToGoTo = levelselect.getLevelToGoTo();
-
                 restart();
+                restaurant.star_req = star_req[levelToGoTo+1];
                 //store.setLevel(loader.getLevels().get(levelToGoTo),this.inv);
             }
             levelselect.setGoToLevel(false);
@@ -402,7 +403,7 @@ public class GDXRoot extends Game implements ScreenListener {
             sounds.potplaying = false;
             sounds.panplaying = false;
             sounds.potStop();
-            result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, star_req);
+            result.setStatus(restaurant.happy, restaurant.neutral, restaurant.angry, restaurant.happy+restaurant.neutral+restaurant.angry, restaurant.score, restaurant.star_req);
             saveController.editKeyValuePair(levelToGoTo, result.score);
             levelselect.setSaveController(saveController);
             levelselect.resetLevelSelectors();

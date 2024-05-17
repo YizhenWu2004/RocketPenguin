@@ -574,6 +574,19 @@
 		"m_exitconfirmation":"menu/exitconfirm.png",
 		"m_exitconfirmtextreal":"menu/exitconfirmtextreal.png",
 		"m_deletesave": "menu/deletesave.png",
+		"m_w01": "menu/w01.png",
+		"m_w02": "menu/w02.png",
+		"m_w03": "menu/w03.png",
+		"m_w11": "menu/w11.png",
+		"m_w12": "menu/w12.png",
+		"m_w13": "menu/w13.png",
+		"m_w21": "menu/w21.png",
+		"m_w22": "menu/w22.png",
+		"m_w23": "menu/w23.png",
+		"m_w31": "menu/w31.png",
+		"m_w32": "menu/w32.png",
+		"m_w33": "menu/w33.png",
+		"m_wendless": "menu/wendless.png",
 
 		"mo_audio" : "720/audioboard.png",
 		"mo_audio_b_normal": "menu_option/audio_button_normal.png",
@@ -747,6 +760,8 @@
 		"notepadneutral": "720/notepadneutral.png",
 		"notepadangry": "720/notepadangry.png",
 		"notepadtoggled": "720/notepadtoggled.png",
-		"notepaduntoggled": "720/notepaduntoggled.png"
+		"notepaduntoggled": "720/notepaduntoggled.png",
+
+
 	}
 }
