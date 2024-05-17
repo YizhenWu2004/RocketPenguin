@@ -22,6 +22,8 @@ public class SoundController {
     private Sound catSound;
     private Sound bearSound;
     private Sound trashSound;
+    private Sound happy;
+    private Sound sad;
     private Sound ferretSound;
     private Sound otterSound;
     private Sound goatSound;
@@ -60,6 +62,8 @@ public class SoundController {
         eat = Gdx.audio.newSound(Gdx.files.internal("sounds/nom.ogg"));
         kickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/kick.ogg"));
         squeak = Gdx.audio.newSound(Gdx.files.internal("sounds/squeak.mp3"));
+        happy = Gdx.audio.newSound(Gdx.files.internal("sounds/happy.ogg"));
+        sad = Gdx.audio.newSound(Gdx.files.internal("sounds/angry.ogg"));
 
         musicVol = 1.6f;
         sfxvol = 1.6f;
@@ -91,9 +95,18 @@ public class SoundController {
         eat.play(sfxvol * 2);
     }
     public void kickPlay(){
-        kickSound.play(sfxvol);
+        kickSound.play(5000 * sfxvol);
     }
 
+    public void happyPlay(){
+        long id = happy.play(sfxvol);
+        happy.setPitch(id, 0.8f);
+    }
+
+    public void sadPlay(){
+        long id = sad.play(5000 * sfxvol);
+        sad.setPitch(id, 0.8f);
+    }
     public void squeakPlay(){
         squeak.play(sfxvol);
     }
