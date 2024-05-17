@@ -634,7 +634,7 @@ public class RestaurantController extends WorldController implements ContactList
                 unsatisfiedCustomers++;
                 c.timeOut();
                 c.satisfied = Customer.SATISFIED.NO;
-                sounds.sadPlay();
+//                sounds.sadPlay();
             }
         }
         for (CookingStationObject c : stations){
