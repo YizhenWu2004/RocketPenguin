@@ -34,6 +34,7 @@ import com.raccoon.mygame.controllers.*;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.GameObject;
 import com.raccoon.mygame.objects.NormalCollisionObject;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.util.ScreenListener;
 import com.raccoon.mygame.view.GameCanvas;
 import com.raccoon.mygame.models.*;
@@ -82,6 +83,9 @@ public class GDXRoot extends Game implements ScreenListener {
     private Vector2 velCache;
 
     private int levelToGoTo = 0;
+
+    private FilmStrip levelEndTimeOut;
+    private float animationTimerTimeOut = 0;
 
 
     /**
@@ -167,11 +171,12 @@ public class GDXRoot extends Game implements ScreenListener {
         current = -3;
         isPaused = false;
         star_req = new int[]{50,75,100};
+
+        levelEndTimeOut = directory.getEntry("levelendtimeout.strip", FilmStrip.class);
     }
 
     public void restart(){
         //canvas = new GameCanvas();
-        //180
 //        sounds.storeStop();
 //        sounds.cafeStop();
         System.out.println("restarted");
@@ -180,6 +185,7 @@ public class GDXRoot extends Game implements ScreenListener {
         sounds.potplaying = false;
         sounds.panplaying = false;
         store.setA(1);
+        //180
         w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class),directory);
         w.create();
         result.ticks = 0;
@@ -203,6 +209,8 @@ public class GDXRoot extends Game implements ScreenListener {
         customerLeaveTimer = 0;
         timeoutTimer = 0;
         unsatisfiedCustomerTimer = 0;
+
+        levelEndTimeOut = directory.getEntry("levelendtimeout.strip", FilmStrip.class);
         //star_req = new int[]{50,75,100};
     }
 
@@ -269,6 +277,15 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
+        if(timeoutTimer >0){
+            animationTimerTimeOut += Gdx.graphics.getDeltaTime();
+            if (animationTimerTimeOut >= 0.1f) {
+                int newFrame = (levelEndTimeOut.getFrame() + 1) % levelEndTimeOut.getSize();
+                levelEndTimeOut.setFrame(newFrame);
+                animationTimerTimeOut = 0;
+            }
+        }
+
         System.out.println("CURRENT"+current);
         store.current = this.current;
         restaurant.current = this.current;
@@ -538,8 +555,12 @@ public class GDXRoot extends Game implements ScreenListener {
                 canvas.drawTextCentered("No more customers",new BitmapFont(),0);
             }
             else if(timeoutTimer > 0 && !loader.getLevels().get(levelToGoTo).isEndless()){
-                canvas.drawTextCentered("The day is over",new BitmapFont(),0);
+                float posX = (canvas.getWidth() - levelEndTimeOut.fwidth) / 2f;
+                float posY = (canvas.getHeight() - levelEndTimeOut.fheight) / 2f;
+
+                canvas.draw(levelEndTimeOut, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
             }
+
         } else if (current == 1) {
             store.draw();
             if(timeoutTimer > 0){

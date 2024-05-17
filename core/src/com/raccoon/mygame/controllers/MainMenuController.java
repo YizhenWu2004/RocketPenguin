@@ -73,8 +73,8 @@ public class MainMenuController extends WorldController{
     private int musicbars;
     private int sfxbars;
 
-    private FilmStrip fullBackgroundAnimated; // New attribute for animated background
-    private float animationTimer = 0; // Timer to control frame update rate
+    private FilmStrip fullBackgroundAnimated;
+    private float animationTimer = 0;
   
     public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s, AssetDirectory directory, LevelLoader levelLoader){
         background = directory.getEntry("m_fullbackground", Texture.class);
