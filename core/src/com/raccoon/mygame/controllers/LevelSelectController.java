@@ -48,6 +48,7 @@ public class LevelSelectController extends WorldController{
     private  Texture seven;
     private  Texture eight ;
     private  Texture nine;
+    private int[] star_req;
 
     private Array<Texture> numbers = new Array<Texture>();
     //canvas to draw onto
@@ -105,11 +106,12 @@ public class LevelSelectController extends WorldController{
      * @param canvas Canvas to draw with
      * @param input InputController to use
      * */
-    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController, SoundController s, AssetDirectory directory){
+    public LevelSelectController(GameCanvas canvas, InputController input, LevelLoader loader, SaveController saveController, SoundController s, AssetDirectory directory, int[] star_req){
         this.canvas = canvas;
         sounds = s;
         this.input = input;
         this.saveController = saveController;
+        this.star_req = star_req;
 
         modalbackground = directory.getEntry("m_modalbackground",Texture.class);
         background = directory.getEntry("m_leveselectbackground",Texture.class);
@@ -496,6 +498,14 @@ public class LevelSelectController extends WorldController{
         UIButton weekNumber = createNumberElement(weekNum,270, 415, 0.5f, 0.5f);
         weekNumber.setCOLOR(Color.BLACK);
 
+        UIButton minute = createNumberElement(3,655, 375, 0.5f, 0.5f);
+        minute.setCOLOR(Color.BLACK);
+
+        UIButton second1 = createNumberElement(0,693, 375, 0.5f, 0.5f);
+        second1.setCOLOR(Color.BLACK);
+        UIButton second2 = createNumberElement(0,715, 375, 0.5f, 0.5f);
+        second2.setCOLOR(Color.BLACK);
+
         Array<UIButton> multipleNums = createMultipleNumbers((saveController.getKeyvaluepairs().get(num)),655,  285,0.5f,0.5f);
         Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(num)),540,  200,0.7f,0.7f);
 
@@ -506,6 +516,9 @@ public class LevelSelectController extends WorldController{
         selectModal.addElement(start);
         selectModal.addElement(dayNumber);
         selectModal.addElement(weekNumber);
+        selectModal.addElement(minute);
+        selectModal.addElement(second1);
+        selectModal.addElement(second2);
         for (UIButton butt:
                 multipleNums) {
             selectModal.addElement(butt);
@@ -648,7 +661,6 @@ public class LevelSelectController extends WorldController{
         Array<UIButton> elements = new Array<>();
         Texture starFilled = filledstar;
         Texture starEmpty = unfilledstar;
-        int[] star_req = new int[]{50,75,100};
         if(score < star_req[0]){
             for(int i = 0; i < 3; i++){
                 UIButton star = new UIButton(starEmpty,"unstar",x + (i*70),y,sx,sy, canvas);
