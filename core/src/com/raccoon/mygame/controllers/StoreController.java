@@ -300,6 +300,7 @@ public class StoreController extends WorldController implements ContactListener 
             //PLAYER JUST DIED
             playerJustCaughtTimer = 1.1666f;
             playerJustDied = true;
+            sounds.squeakPlay();
             canplay = false;
             create();
             playerGuardCollide = false;
