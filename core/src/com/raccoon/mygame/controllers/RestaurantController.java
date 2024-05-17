@@ -422,6 +422,7 @@ public class RestaurantController extends WorldController implements ContactList
         //score = 78;
 
         respawnTimer = -1;
+        s.isStore = false;
     }
 
     public void setCustomers(Array<Array<String>> customerData){

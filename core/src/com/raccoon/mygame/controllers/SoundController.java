@@ -25,6 +25,8 @@ public class SoundController {
     private Sound goatSound;
     private Music cafeSong;
 
+    public boolean isStore;
+
     private Sound pot;
     private Sound pan;
     private float musicVol;
@@ -53,6 +55,7 @@ public class SoundController {
         musicVol = 1.6f;
         sfxvol = 1.6f;
         cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/cafetrackv2.ogg"));
+        isStore = false;
     }
     public void cookplay(){
         cookingSound.play(sfxvol);
@@ -104,7 +107,11 @@ public class SoundController {
         potplaying = true;
     }
     public void doorPlay(){
+        if(isStore == false){
         doorSound.play(sfxvol);
+        } else{
+            doorSound.play(sfxvol/20);
+        };
     }
     public void honkPlay(){
         long id = honkSound.play(sfxvol);

@@ -224,6 +224,7 @@ public class StoreController extends WorldController implements ContactListener 
 
         animator = new AnimationController(input, directory);
         duringventing = false;
+        s.isStore = true;
     }
 
     public void setLevel(LevelModel level, Inventory sharedInv) {
