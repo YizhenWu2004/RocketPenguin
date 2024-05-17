@@ -12,6 +12,7 @@ public class SoundController {
     public boolean panplaying = false;
     private Sound chopSound;
     private Sound honkSound;
+    private Sound kickSound;
     private Sound ventSound;
     private Sound clickSound;
     private Sound swipeSound;
@@ -31,6 +32,7 @@ public class SoundController {
     private Sound pot;
     private Sound pan;
     private Sound eat;
+    private Sound squeak;
     private float musicVol;
     private Music menu;
     private float sfxvol;
@@ -56,6 +58,9 @@ public class SoundController {
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
         trashSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.ogg"));
         eat = Gdx.audio.newSound(Gdx.files.internal("sounds/nom.ogg"));
+        kickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/kick.ogg"));
+        squeak = Gdx.audio.newSound(Gdx.files.internal("sounds/squeak.mp3"));
+
         musicVol = 1.6f;
         sfxvol = 1.6f;
         cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/cafetrackv2.ogg"));
@@ -84,6 +89,13 @@ public class SoundController {
     }
     public void nomPlay(){
         eat.play(sfxvol * 2);
+    }
+    public void kickPlay(){
+        kickSound.play(sfxvol);
+    }
+
+    public void squeakPlay(){
+        squeak.play(sfxvol);
     }
 
     public void trashPlay(){
