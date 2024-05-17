@@ -20,6 +20,7 @@ public class Inventory {
     //boolean array to keep track of which indices in items are filled
     private boolean[] filled;
     private SoundController sounds;
+    public boolean dropPlayed = false;
     public Inventory(Texture t, Texture h, SoundController s) {
         items = new Ingredient[5];
         filled = new boolean[5];
@@ -97,10 +98,10 @@ public class Inventory {
 
     //drops the object in the current selected slot if there is an object
     public void drop() {
-        if (filled[selected] = false) {
-//            System.out.println("cannot drop item at this slot");
+        if(filled[selected] == true){
+            filled[selected] = false;
+            sounds.switchPlay();
         }
-        filled[selected] = false;
     }
 
     public boolean isCurrFilled(){

@@ -577,6 +577,9 @@ public class RestaurantController extends WorldController implements ContactList
                         player.dishInventory.clear(1);
                     }
                     if(input.getDown()){
+                        if(player.inventory.isCurrFilled()) {
+                            sounds.trashPlay();
+                        }
                         player.removeItem();
                     }
                 } else if(!colliding && obstacle.getTrashcan()){
