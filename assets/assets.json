@@ -169,7 +169,17 @@
 			"file" : "levelendtimeout.png",
 			"sprites" : {
 				"strip": {
-					"rows": 3,
+					"rows": 6,
+					"cols": 5
+				}
+			}
+		},
+
+		"levelendallserved":  {
+			"file" : "levelendallserved.png",
+			"sprites" : {
+				"strip": {
+					"rows": 6,
 					"cols": 5
 				}
 			}
@@ -404,6 +414,9 @@
 		},
 
 		"shadow": "720/shadow.png",
+
+		"levelendbackground": "levelendbackground.png",
+
 		"vent": {
 			"file" : "720/vent.png",
 			"sprites" : {

@@ -150,6 +150,10 @@ public class RestaurantController extends WorldController implements ContactList
 
     public int unsatisfiedCustomers = 0;
 
+    public int totalCustomer;
+
+    public int customerServed = 0;
+
 
     private void createTextures(AssetDirectory directory) {
         light = directory.getEntry("light", Texture.class);
@@ -479,6 +483,8 @@ public class RestaurantController extends WorldController implements ContactList
             }
         }
 
+        totalCustomer = customersToAdd.size;
+
         for(Customer c : customersToAdd){
             c.initializeAIController(tables);
         }
@@ -595,6 +601,7 @@ public class RestaurantController extends WorldController implements ContactList
         }
         for (Customer c : customers) {
             if (c.justSatisfied){
+                customerServed++;
                 sounds.nomPlay();
                 float satisfaction = c.pat.multiplier();
                 if (c.time() > 0){
