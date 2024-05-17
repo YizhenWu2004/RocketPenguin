@@ -1,10 +1,12 @@
 package com.raccoon.mygame.controllers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.models.*;
+import com.raccoon.mygame.util.FilmStrip;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class MainMenuController extends WorldController{
@@ -70,6 +72,9 @@ public class MainMenuController extends WorldController{
 
     private int musicbars;
     private int sfxbars;
+
+    private FilmStrip fullBackgroundAnimated; // New attribute for animated background
+    private float animationTimer = 0; // Timer to control frame update rate
   
     public MainMenuController(GameCanvas canvas, InputController input, SaveController saveController, LevelSelectController levelSelect, SoundController s, AssetDirectory directory, LevelLoader levelLoader){
         background = directory.getEntry("m_fullbackground", Texture.class);
@@ -110,6 +115,8 @@ public class MainMenuController extends WorldController{
         this.saveController = saveController;
         this.levelSelectController = levelSelect;
         this.loader = levelLoader;
+
+        fullBackgroundAnimated = directory.getEntry("fullbackgroundanimated.strip", FilmStrip.class);
 
         sounds = s;
 //
@@ -455,12 +462,23 @@ public class MainMenuController extends WorldController{
             checkButtons(control_buttons);
         }
 
+        animationTimer += Gdx.graphics.getDeltaTime();
+        if (animationTimer >= 0.1f) {
+            int newFrame = (fullBackgroundAnimated.getFrame() + 1) % fullBackgroundAnimated.getSize();
+            fullBackgroundAnimated.setFrame(newFrame);
+            animationTimer = 0;
+        }
+
     }
 
     public void draw(){
         if (on_main){
-            canvas.draw(background, Color.WHITE, 0, 0,
-                    0, 0, 0.0f, 0.7f, 0.7f);
+//            canvas.draw(background, Color.WHITE, 0, 0,
+//                    0, 0, 0.0f, 0.7f, 0.7f);
+
+            canvas.draw(fullBackgroundAnimated, Color.WHITE, 0, 0,
+                    0, 0, 0.0f, 2.2f, 2.2f);
+
 //        canvas.draw(debug, Color.WHITE, 0, 0,
 //                500, 400, 0.0f, 1f, 1f);
 
@@ -472,16 +490,16 @@ public class MainMenuController extends WorldController{
                     modal.draw(canvas);
             }
         } else if (on_settings){
-            canvas.draw(background, Color.WHITE, 0, 0,
-                    0, 0, 0.0f, 0.7f, 0.7f);
+            canvas.draw(fullBackgroundAnimated, Color.WHITE, 0, 0,
+                    0, 0, 0.0f, 2.2f, 2.2f);
             canvas.draw(settings_background, Color.WHITE, 0, 0,
                     -250, 0, 0.0f, 1f, 1f);
             for(UIButton button : setting_buttons){
                 button.draw(canvas);
             }
         } else if (on_audio){
-            canvas.draw(background, Color.WHITE, 0, 0,
-                    0, 0, 0.0f, 0.7f, 0.7f);
+            canvas.draw(fullBackgroundAnimated, Color.WHITE, 0, 0,
+                    0, 0, 0.0f, 2.2f, 2.2f);
             canvas.draw(audio_background, Color.WHITE, 0, 0,
                     -255, -5, 0.0f, 0.675f, 0.675f);
             for(UIButton button : audio_buttons){
@@ -495,8 +513,8 @@ public class MainMenuController extends WorldController{
                 canvas.draw(barfill, Color.WHITE, 0, 0, 250 + i * 35 + i * 3, 275, 0.0f, 0.9f,0.9f);
             }
         } else if (on_control){
-            canvas.draw(background, Color.WHITE, 0, 0,
-                    0, 0, 0.0f, 0.7f, 0.7f);
+            canvas.draw(fullBackgroundAnimated, Color.WHITE, 0, 0,
+                    0, 0, 0.0f, 2.2f, 2.2f);
             canvas.draw(control_background, Color.WHITE, 0, 0,
                     -250, 0, 0.0f, 1f, 1f);
             for(UIButton button : control_buttons){

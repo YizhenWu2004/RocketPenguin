@@ -155,6 +155,16 @@
 			}
 		},
 
+		"fullbackgroundanimated":  {
+			"file" : "fullbackgroundanimated.png",
+			"sprites" : {
+				"strip": {
+					"rows": 15,
+					"cols": 5
+				}
+			}
+		},
+
 		"gooseidle": {
 			"file" : "720/gooseidle.png",
 			"sprites" : {

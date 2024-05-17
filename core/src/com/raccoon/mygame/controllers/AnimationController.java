@@ -81,6 +81,8 @@ public class AnimationController {
 
     private FilmStrip getCaught;
 
+    private FilmStrip fullBackgroundAnimated;
+
     private InputController input;
 
     /**
@@ -150,10 +152,14 @@ public class AnimationController {
         potIdle = directory.getEntry("pot.strip", FilmStrip.class);
 
         getCaught = directory.getEntry("rockocaught.strip", FilmStrip.class);
+
+        fullBackgroundAnimated = directory.getEntry("fullbackgroundanimated.strip", FilmStrip.class);
     }
 
     //all instances of handleAnimation must be called in the update loop of a given WorldController.
     //view usages to see what I mean if you don't understand.
+
+
 
     /**
      * Handles the animation for the player
