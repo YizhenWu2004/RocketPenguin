@@ -60,7 +60,7 @@ public class SoundController {
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
         trashSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.ogg"));
         eat = Gdx.audio.newSound(Gdx.files.internal("sounds/nom.ogg"));
-        kickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/kick.ogg"));
+        kickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/kick.mp3"));
         squeak = Gdx.audio.newSound(Gdx.files.internal("sounds/squeak.mp3"));
         happy = Gdx.audio.newSound(Gdx.files.internal("sounds/happy.ogg"));
         sad = Gdx.audio.newSound(Gdx.files.internal("sounds/angry.ogg"));
