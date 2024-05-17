@@ -577,6 +577,9 @@ public class RestaurantController extends WorldController implements ContactList
                         player.dishInventory.clear(1);
                     }
                     if(input.getDown()){
+                        if(player.inventory.isCurrFilled()) {
+                            sounds.trashPlay();
+                        }
                         player.removeItem();
                     }
                 } else if(!colliding && obstacle.getTrashcan()){
@@ -592,8 +595,10 @@ public class RestaurantController extends WorldController implements ContactList
         }
         for (Customer c : customers) {
             if (c.justSatisfied){
+                sounds.nomPlay();
                 float satisfaction = c.pat.multiplier();
                 if (c.time() > 0){
+                    sounds.happyPlay();
                     if(isTutorial){
                         if(happy + neutral + angry == 0){
                             score += 50;
@@ -611,8 +616,10 @@ public class RestaurantController extends WorldController implements ContactList
                         score += c.servedDish.getScore() * c.pat.multiplier();
                         if (satisfaction == 1) {
                             happy += 1;
+//                            sounds.happyPlay();
                         } else if (satisfaction < 1 && satisfaction > 0.3) {
                             neutral += 1;
+//                            sounds.happyPlay();
                         } else{
                             angry += 1;
                         }
@@ -627,6 +634,7 @@ public class RestaurantController extends WorldController implements ContactList
                 unsatisfiedCustomers++;
                 c.timeOut();
                 c.satisfied = Customer.SATISFIED.NO;
+//                sounds.sadPlay();
             }
         }
         for (CookingStationObject c : stations){
@@ -722,6 +730,7 @@ public class RestaurantController extends WorldController implements ContactList
         animator.processCookingStations(stations, tick);
 
         if(player.justDied == true){
+            sounds.kickPlay();
             respawnTimer = 1.6666f;
             player.justDied = false;
         }

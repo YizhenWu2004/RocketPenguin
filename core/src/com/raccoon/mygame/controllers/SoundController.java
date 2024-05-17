@@ -12,6 +12,7 @@ public class SoundController {
     public boolean panplaying = false;
     private Sound chopSound;
     private Sound honkSound;
+    private Sound kickSound;
     private Sound ventSound;
     private Sound clickSound;
     private Sound swipeSound;
@@ -20,6 +21,9 @@ public class SoundController {
     private Sound orderSound;
     private Sound catSound;
     private Sound bearSound;
+    private Sound trashSound;
+    private Sound happy;
+    private Sound sad;
     private Sound ferretSound;
     private Sound otterSound;
     private Sound goatSound;
@@ -29,6 +33,8 @@ public class SoundController {
 
     private Sound pot;
     private Sound pan;
+    private Sound eat;
+    private Sound squeak;
     private float musicVol;
     private Music menu;
     private float sfxvol;
@@ -52,6 +58,13 @@ public class SoundController {
         otterSound = Gdx.audio.newSound(Gdx.files.internal("sounds/otter.ogg"));
         menu = Gdx.audio.newMusic(Gdx.files.internal("sounds/racoon_menu.mp3"));
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
+        trashSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.ogg"));
+        eat = Gdx.audio.newSound(Gdx.files.internal("sounds/nom.ogg"));
+        kickSound = Gdx.audio.newSound(Gdx.files.internal("sounds/kick.mp3"));
+        squeak = Gdx.audio.newSound(Gdx.files.internal("sounds/squeak.mp3"));
+        happy = Gdx.audio.newSound(Gdx.files.internal("sounds/happy.ogg"));
+        sad = Gdx.audio.newSound(Gdx.files.internal("sounds/angry.ogg"));
+
         musicVol = 1.6f;
         sfxvol = 1.6f;
         cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/cafetrackv2.ogg"));
@@ -77,6 +90,29 @@ public class SoundController {
     }
     public void chopPlay(){
         chopSound.play(sfxvol);
+    }
+    public void nomPlay(){
+        eat.play(sfxvol * 2);
+    }
+    public void kickPlay(){
+        kickSound.play(5000 * sfxvol);
+    }
+
+    public void happyPlay(){
+        long id = happy.play(sfxvol);
+        happy.setPitch(id, 0.8f);
+    }
+
+    public void sadPlay(){
+        long id = sad.play(5000 * sfxvol);
+        sad.setPitch(id, 0.8f);
+    }
+    public void squeakPlay(){
+        squeak.play(sfxvol);
+    }
+
+    public void trashPlay(){
+        trashSound.play(sfxvol);
     }
     public void menuPlay(){
         menu.setVolume(musicVol);

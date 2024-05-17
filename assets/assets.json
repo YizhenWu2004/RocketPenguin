@@ -165,6 +165,16 @@
 			}
 		},
 
+		"levelendtimeout":  {
+			"file" : "levelendtimeout.png",
+			"sprites" : {
+				"strip": {
+					"rows": 3,
+					"cols": 5
+				}
+			}
+		},
+
 		"gooseidle": {
 			"file" : "720/gooseidle.png",
 			"sprites" : {
