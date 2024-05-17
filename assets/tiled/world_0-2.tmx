@@ -32,85 +32,84 @@
 </data>
  </layer>
  <objectgroup id="2" name="Obstacles">
-  <object id="3" name="HorizShelf" gid="580" x="-7.32363" y="144.664" width="230" height="230"/>
-  <object id="21" name="HorizWall" gid="578" x="-19.3325" y="644.837" width="230" height="230"/>
-  <object id="22" name="VertWall" gid="579" x="209.809" y="727.341" width="230" height="230"/>
-  <object id="26" name="JanitorTools" gid="588" x="-21.2749" y="689.479" width="230" height="230"/>
-  <object id="27" name="VertShelf" gid="581" x="-102.246" y="250.964" width="230" height="230"/>
-  <object id="41" name="Ladder" gid="587" x="1083.19" y="204.118" width="230" height="230"/>
-  <object id="45" name="BoxL" gid="584" x="-52.1077" y="189.232" width="230" height="230"/>
-  <object id="46" name="BoxM" gid="585" x="-4.79452" y="181.514" width="230" height="230"/>
-  <object id="47" name="BoxS" gid="586" x="390.978" y="449.087" width="230" height="230"/>
-  <object id="72" name="Bin" gid="583" x="275.647" y="764.842" width="230" height="230"/>
-  <object id="83" name="HorizShelf" gid="580" x="211.482" y="144.619" width="230" height="230"/>
-  <object id="84" name="HorizShelf" gid="580" x="429.473" y="144.211" width="230" height="230"/>
-  <object id="85" name="HorizShelf" gid="580" x="647.853" y="144.151" width="230" height="230"/>
-  <object id="86" name="HorizShelf" gid="580" x="866.378" y="144.037" width="230" height="230"/>
-  <object id="87" name="HorizShelf" gid="580" x="1084.82" y="144.037" width="230" height="230"/>
-  <object id="88" name="VertShelf" gid="581" x="-102.292" y="440.106" width="230" height="230"/>
-  <object id="89" name="VertShelf" gid="581" x="-102.568" y="629.284" width="230" height="230"/>
-  <object id="90" name="Bin" gid="583" x="275.757" y="653.085" width="230" height="230"/>
-  <object id="91" name="HorizShelf" gid="580" x="-5.13352" y="372.776" width="230" height="230"/>
-  <object id="92" name="HorizShelf" gid="580" x="374.65" y="373.581" width="230" height="230"/>
-  <object id="93" name="HorizShelf" gid="580" x="528.283" y="373.581" width="230" height="230"/>
-  <object id="94" name="VertShelf" gid="581" x="1144.9" y="250.426" width="230" height="230"/>
-  <object id="95" name="VertShelf" gid="581" x="1144.62" y="439.533" width="230" height="230"/>
-  <object id="96" name="VertShelf" gid="581" x="1144.62" y="628.56" width="230" height="230"/>
-  <object id="97" name="VertShelf" gid="581" x="1144.92" y="817.285" width="230" height="230"/>
-  <object id="98" name="Bin" gid="583" x="317.321" y="217.464" width="230" height="230"/>
-  <object id="99" name="HorizShelf" gid="580" x="1051.81" y="372.152" width="230" height="230"/>
-  <object id="100" name="Bin" gid="583" x="781.932" y="217.512" width="230" height="230"/>
-  <object id="101" name="Bin" gid="583" x="779.745" y="393.134" width="230" height="230"/>
-  <object id="102" name="HorizShelf" gid="580" x="1053.61" y="627.742" width="230" height="230"/>
-  <object id="103" name="HorizShelf" gid="580" x="625.003" y="628.343" width="230" height="230"/>
-  <object id="104" name="Bin" gid="583" x="1069.52" y="582.208" width="230" height="230"/>
-  <object id="105" name="Ladder" gid="587" x="1087.97" y="687.612" width="230" height="230"/>
-  <object id="106" name="Ladder" gid="587" x="407.152" y="206.73" width="230" height="230"/>
-  <object id="109" name="BoxL" gid="584" x="-52.3242" y="423.369" width="230" height="230"/>
-  <object id="110" name="BoxL" gid="584" x="1024.35" y="191.229" width="230" height="230"/>
-  <object id="111" name="BoxL" gid="584" x="1100.15" y="413.807" width="230" height="230"/>
-  <object id="112" name="BoxL" gid="584" x="1038.02" y="414.547" width="230" height="230"/>
-  <object id="113" name="BoxL" gid="584" x="1100.33" y="785.833" width="230" height="230"/>
-  <object id="114" name="BoxL" gid="584" x="365.803" y="420.097" width="230" height="230"/>
-  <object id="115" name="BoxL" gid="584" x="428.137" y="418.942" width="230" height="230"/>
-  <object id="116" name="Ladder" gid="587" x="496.044" y="433.623" width="230" height="230"/>
-  <object id="117" name="BoxM" gid="585" x="-64.4524" y="205.135" width="230" height="230"/>
-  <object id="118" name="BoxM" gid="585" x="246.995" y="184.104" width="230" height="230"/>
-  <object id="119" name="BoxM" gid="585" x="712.369" y="189.644" width="230" height="230"/>
-  <object id="121" name="BoxM" gid="585" x="1070.05" y="431.189" width="230" height="230"/>
-  <object id="122" name="BoxM" gid="585" x="996.111" y="434.147" width="230" height="230"/>
-  <object id="123" name="BoxM" gid="585" x="1053.92" y="781.801" width="230" height="230"/>
-  <object id="125" name="BoxM" gid="585" x="1037.55" y="667.042" width="230" height="230"/>
-  <object id="127" name="BoxM" gid="585" x="624.52" y="663.106" width="230" height="230"/>
-  <object id="128" name="BoxM" gid="585" x="395.992" y="442.954" width="230" height="230"/>
-  <object id="129" name="BoxM" gid="585" x="564.31" y="407.815" width="230" height="230"/>
-  <object id="131" name="BoxM" gid="585" x="-35.5616" y="441.992" width="230" height="230"/>
-  <object id="133" name="BoxS" gid="586" x="449.972" y="469.712" width="230" height="230"/>
-  <object id="134" name="BoxS" gid="586" x="550.033" y="460.863" width="230" height="230"/>
-  <object id="135" name="BoxS" gid="586" x="719.603" y="197.436" width="230" height="230"/>
-  <object id="136" name="BoxS" gid="586" x="851.792" y="216.084" width="230" height="230"/>
-  <object id="137" name="BoxS" gid="586" x="254.078" y="235.877" width="230" height="230"/>
-  <object id="138" name="BoxS" gid="586" x="-50.5487" y="257.546" width="230" height="230"/>
-  <object id="139" name="BoxS" gid="586" x="634.379" y="716.129" width="230" height="230"/>
-  <object id="142" name="BoxS" gid="586" x="1040.73" y="673.651" width="230" height="230"/>
-  <object id="143" name="BoxS" gid="586" x="1016.03" y="484.038" width="230" height="230"/>
-  <object id="146" name="BoxS" gid="586" x="1069.96" y="438.855" width="230" height="230"/>
-  <object id="148" name="BoxS" gid="586" x="1041.41" y="242.225" width="230" height="230"/>
-  <object id="160" name="Bin" gid="583" x="-35.427" y="345.941" width="230" height="230"/>
-  <object id="178" name="Bin" gid="583" x="39.1389" y="452.079" width="230" height="230"/>
- </objectgroup>
+   <object id="3" name="HorizShelf" gid="580" x="-7.32363" y="144.664" width="230" height="230"/>
+   <object id="21" name="HorizWall" gid="578" x="-19.3325" y="644.837" width="230" height="230"/>
+   <object id="22" name="VertWall" gid="579" x="209.809" y="727.341" width="230" height="230"/>
+   <object id="26" name="JanitorTools" gid="588" x="-21.2749" y="689.479" width="230" height="230"/>
+   <object id="27" name="VertShelf" gid="581" x="-102.246" y="250.964" width="230" height="230"/>
+   <object id="41" name="Ladder" gid="587" x="1083.19" y="204.118" width="230" height="230"/>
+   <object id="45" name="BoxL" gid="584" x="-52.1077" y="189.232" width="230" height="230"/>
+   <object id="46" name="BoxM" gid="585" x="-4.79452" y="181.514" width="230" height="230"/>
+   <object id="47" name="BoxS" gid="586" x="390.978" y="449.087" width="230" height="230"/>
+   <object id="83" name="HorizShelf" gid="580" x="211.482" y="144.619" width="230" height="230"/>
+   <object id="84" name="HorizShelf" gid="580" x="429.473" y="144.211" width="230" height="230"/>
+   <object id="85" name="HorizShelf" gid="580" x="647.853" y="144.151" width="230" height="230"/>
+   <object id="86" name="HorizShelf" gid="580" x="866.378" y="144.037" width="230" height="230"/>
+   <object id="87" name="HorizShelf" gid="580" x="1084.82" y="144.037" width="230" height="230"/>
+   <object id="88" name="VertShelf" gid="581" x="-102.292" y="440.106" width="230" height="230"/>
+   <object id="89" name="VertShelf" gid="581" x="-102.568" y="629.284" width="230" height="230"/>
+   <object id="90" name="Bin" gid="583" x="275.757" y="703.085" width="230" height="230"/>
+   <object id="91" name="HorizShelf" gid="580" x="-5.13352" y="372.776" width="230" height="230"/>
+   <object id="92" name="HorizShelf" gid="580" x="374.65" y="373.581" width="230" height="230"/>
+   <object id="93" name="HorizShelf" gid="580" x="528.283" y="373.581" width="230" height="230"/>
+   <object id="94" name="VertShelf" gid="581" x="1144.9" y="250.426" width="230" height="230"/>
+   <object id="95" name="VertShelf" gid="581" x="1144.62" y="439.533" width="230" height="230"/>
+   <object id="96" name="VertShelf" gid="581" x="1144.62" y="628.56" width="230" height="230"/>
+   <object id="97" name="VertShelf" gid="581" x="1144.92" y="817.285" width="230" height="230"/>
+   <object id="98" name="Bin" gid="583" x="427.321" y="217.464" width="230" height="230"/>
+   <object id="99" name="HorizShelf" gid="580" x="1051.81" y="372.152" width="230" height="230"/>
+   <object id="100" name="Bin" gid="583" x="681.932" y="217.512" width="230" height="230"/>
+   <object id="101" name="Bin" gid="583" x="779.745" y="393.134" width="230" height="230"/>
+   <object id="102" name="HorizShelf" gid="580" x="1053.61" y="627.742" width="230" height="230"/>
+   <object id="103" name="HorizShelf" gid="580" x="625.003" y="628.343" width="230" height="230"/>
+   <object id="104" name="Bin" gid="583" x="1069.52" y="582.208" width="230" height="230"/>
+   <object id="105" name="Ladder" gid="587" x="1087.97" y="687.612" width="230" height="230"/>
+   <object id="106" name="Ladder" gid="587" x="517.152" y="206.73" width="230" height="230"/>
+   <object id="109" name="BoxL" gid="584" x="-52.3242" y="423.369" width="230" height="230"/>
+   <object id="110" name="BoxL" gid="584" x="1024.35" y="191.229" width="230" height="230"/>
+   <object id="111" name="BoxL" gid="584" x="1100.15" y="413.807" width="230" height="230"/>
+   <object id="112" name="BoxL" gid="584" x="1038.02" y="414.547" width="230" height="230"/>
+   <object id="113" name="BoxL" gid="584" x="1100.33" y="785.833" width="230" height="230"/>
+   <object id="114" name="BoxL" gid="584" x="365.803" y="420.097" width="230" height="230"/>
+   <object id="115" name="BoxL" gid="584" x="428.137" y="418.942" width="230" height="230"/>
+   <object id="116" name="Ladder" gid="587" x="496.044" y="433.623" width="230" height="230"/>
+   <object id="117" name="BoxM" gid="585" x="-64.4524" y="205.135" width="230" height="230"/>
+   <object id="118" name="BoxM" gid="585" x="246.995" y="184.104" width="230" height="230"/>
+   <object id="119" name="BoxM" gid="585" x="712.369" y="189.644" width="230" height="230"/>
+   <object id="121" name="BoxM" gid="585" x="1070.05" y="431.189" width="230" height="230"/>
+   <object id="122" name="BoxM" gid="585" x="996.111" y="434.147" width="230" height="230"/>
+   <object id="123" name="BoxM" gid="585" x="1053.92" y="781.801" width="230" height="230"/>
+   <object id="125" name="BoxM" gid="585" x="1037.55" y="667.042" width="230" height="230"/>
+   <object id="127" name="BoxM" gid="585" x="624.52" y="663.106" width="230" height="230"/>
+   <object id="128" name="BoxM" gid="585" x="395.992" y="442.954" width="230" height="230"/>
+   <object id="129" name="BoxM" gid="585" x="564.31" y="407.815" width="230" height="230"/>
+   <object id="131" name="BoxM" gid="585" x="-35.5616" y="441.992" width="230" height="230"/>
+   <object id="133" name="BoxS" gid="586" x="449.972" y="469.712" width="230" height="230"/>
+   <object id="133" name="BoxS" gid="586" x="449.972" y="469.712" width="230" height="230"/>
+   <object id="134" name="BoxS" gid="586" x="550.033" y="460.863" width="230" height="230"/>
+   <object id="135" name="BoxS" gid="586" x="719.603" y="197.436" width="230" height="230"/>
+   <object id="137" name="BoxS" gid="586" x="254.078" y="235.877" width="230" height="230"/>
+   <object id="138" name="BoxS" gid="586" x="-50.5487" y="257.546" width="230" height="230"/>
+   <object id="139" name="BoxS" gid="586" x="634.379" y="716.129" width="230" height="230"/>
+   <object id="142" name="BoxS" gid="586" x="1040.73" y="673.651" width="230" height="230"/>
+   <object id="143" name="BoxS" gid="586" x="1016.03" y="484.038" width="230" height="230"/>
+   <object id="146" name="BoxS" gid="586" x="1069.96" y="438.855" width="230" height="230"/>
+   <object id="148" name="BoxS" gid="586" x="1041.41" y="242.225" width="230" height="230"/>
+   <object id="160" name="Bin" gid="583" x="-35.427" y="345.941" width="230" height="230"/>
+   <object id="170" name="Bin" gid="583" x="39.1801" y="451.449" width="230" height="230"/>
+  </objectgroup>
  <objectgroup id="6" name="Ingredients">
    <object id="36" name="redpepper" gid="612" x="868.238" y="351.761" width="67" height="67"/>
    <object id="37" name="banana" gid="608" x="259.397" y="107.749" width="67" height="67"/>
-   <object id="38" name="persimmon" gid="602" x="768.681" y="592.709" width="67" height="67"/>
+   <object id="38" name="persimmon" gid="602" x="720.681" y="592.709" width="67" height="67"/>
    <object id="74" name="greenpepper" gid="607" x="128.242" y="409.149" width="67" height="67"/>
-   <object id="75" name="cabbage" gid="606" x="364.796" y="722.331" width="67" height="67"/>
-   <object id="76" name="tomato" gid="611" x="868.734" y="174.121" width="67" height="67"/>
+   <object id="75" name="cabbage" gid="606" x="394.796" y="341.761" width="67" height="67"/>
+   <object id="76" name="tomato" gid="611" x="768.734" y="174.121" width="67" height="67"/>
    <object id="77" name="corn" gid="609" x="53.2352" y="239.536" width="67" height="67"/>
-   <object id="78" name="lemon" gid="610" x="404.426" y="174.547" width="67" height="67"/>
-   <object id="79" name="pear" gid="614" x="364.649" y="610.662" width="67" height="67"/>
+   <object id="78" name="lemon" gid="610" x="514.426" y="174.547" width="67" height="67"/>
+   <object id="79" name="pear" gid="614" x="364.649" y="660.662" width="67" height="67"/>
    <object id="81" name="orange" gid="603" x="1068.67" y="592.035" width="67" height="67"/>
-   <object id="82" name="carrot" gid="604" x="642.401" y="591.467" width="67" height="67"/>
+   <object id="82" name="carrot" gid="604" x="652.401" y="341.761" width="67" height="67"/>
    <object id="161" name="apple" gid="613" x="1012.32" y="108.956" width="67" height="67"/>
   </objectgroup>
  <objectgroup id="3" name="Guards">
