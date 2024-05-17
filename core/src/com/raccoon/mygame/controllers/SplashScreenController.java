@@ -34,7 +34,7 @@ public class SplashScreenController extends WorldController{
             }
         });
 
-        video = Gdx.files.internal("videos/splashscreen.webm");
+        video = Gdx.files.internal("videos/splashscreentwo.webm");
         if (video.exists()) {
             try {
                 videoPlayer.play(video);
