@@ -25,7 +25,7 @@ public class InputController {
     private boolean space;
 
     private SoundController sounds;
-    private boolean reset;
+    //private boolean reset;
     public boolean click;
     private boolean up;
     private boolean down;
@@ -62,9 +62,9 @@ public class InputController {
         return space;
     }
 
-    public boolean getReset() {
-        return reset;
-    }
+//    public boolean getReset() {
+//        return reset;
+//    }
     public boolean getUp() {return up;};
     public boolean getDown() {return down;};
 
@@ -158,13 +158,13 @@ public class InputController {
             oppositePause = true;
         }
 
-        if (Gdx.input.isKeyPressed(Keys.R)) {
-            sounds.cafeeactualstop();
-            sounds.storeStop();
-            reset = true;
-        } else {
-            reset = false;
-        }
+//        if (Gdx.input.isKeyPressed(Keys.R)) {
+//            sounds.cafeeactualstop();
+//            sounds.storeStop();
+//            reset = true;
+//        } else {
+//            reset = false;
+//        }
         if (Gdx.input.isButtonJustPressed(Buttons.LEFT)) {
             click = true;
 //            sounds.clickPlay();

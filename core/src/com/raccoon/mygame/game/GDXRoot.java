@@ -126,6 +126,7 @@ public class GDXRoot extends Game implements ScreenListener {
     public int timeoutTimer = 0;
 
     public void create() {
+        star_req = new int[]{50,75,100};
         //world = new World(new Vector2(0, 0), false);
         canvas = new GameCanvas();
 
@@ -155,7 +156,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
         //store.setLevel(loader.getLevels().get(levelToGoTo), inv);
         result = new ResultController(canvas, directory.getEntry("r_result", Texture.class),input, directory);
-        levelselect = new LevelSelectController(canvas, input, loader, saveController, sounds, directory);
+        levelselect = new LevelSelectController(canvas, input, loader, saveController, sounds, directory,star_req);
         mainmenu = new MainMenuController(canvas, input, saveController, levelselect, sounds, directory, loader);
         pause = new MenuController(canvas, directory.getEntry("p_paused", Texture.class),input, sounds, directory);
         mainmenu.on_main = true;
@@ -170,7 +171,6 @@ public class GDXRoot extends Game implements ScreenListener {
          * */
         current = -3;
         isPaused = false;
-        star_req = new int[]{50,75,100};
 
         levelEndTimeOut = directory.getEntry("levelendtimeout.strip", FilmStrip.class);
     }
@@ -201,7 +201,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
         //pause = new MenuController(canvas, new Texture("pause/paused_final.png"),input);
         //result = new ResultController(canvas, new Texture("result/result_final.png"),input);
-        levelselect = new LevelSelectController(canvas, input, loader, saveController,sounds,directory);
+        levelselect = new LevelSelectController(canvas, input, loader, saveController,sounds,directory,star_req);
         //mainmenu = new MainMenuController(canvas,input);
         mainmenu.on_main = true;
         current = 0;
@@ -277,6 +277,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
 
     public void update() {
+
         if(timeoutTimer >0){
             animationTimerTimeOut += Gdx.graphics.getDeltaTime();
             if (animationTimerTimeOut >= 0.1f) {
@@ -286,7 +287,6 @@ public class GDXRoot extends Game implements ScreenListener {
             }
         }
 
-        System.out.println("CURRENT"+current);
         store.current = this.current;
         restaurant.current = this.current;
         input.readInput();
@@ -524,9 +524,9 @@ public class GDXRoot extends Game implements ScreenListener {
           notepadOrders = restaurant.getTakenCustomers();
           store.setNotepadOrders(notepadOrders);
 
-          if (input.getReset()) {
-              create();
-          }
+//          if (input.getReset()) {
+//              create();
+//          }
       }
     }
 
