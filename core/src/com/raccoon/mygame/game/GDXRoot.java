@@ -135,7 +135,7 @@ public class GDXRoot extends Game implements ScreenListener {
         directory.finishLoading();
         //180
         //w = new Worldtimer(180, canvas, new Texture("720/BaseTimer.png"));
-        w = new Worldtimer(3, canvas, directory.getEntry( "basetimer", Texture.class ), directory);
+        w = new Worldtimer(180, canvas, directory.getEntry( "basetimer", Texture.class ), directory);
         w.create();
         input = new InputController(sounds);
 
@@ -177,7 +177,6 @@ public class GDXRoot extends Game implements ScreenListener {
 
     public void restart(){
         //canvas = new GameCanvas();
-        //180
 //        sounds.storeStop();
 //        sounds.cafeStop();
         System.out.println("restarted");
@@ -186,7 +185,8 @@ public class GDXRoot extends Game implements ScreenListener {
         sounds.potplaying = false;
         sounds.panplaying = false;
         store.setA(1);
-        w = new Worldtimer(3, canvas, directory.getEntry("basetimer", Texture.class),directory);
+        //180
+        w = new Worldtimer(180, canvas, directory.getEntry("basetimer", Texture.class),directory);
         w.create();
         result.ticks = 0;
 
