@@ -457,6 +457,7 @@ public class GDXRoot extends Game implements ScreenListener {
           }
           else if (current == 1 && store.playerJustDied && !store.gettingCaught()) {
               store.player.setPosition(0,0);
+              store.setActive(false);
               store.guardWanderReset();
               current = 0;
               sounds.storeStop();
@@ -473,6 +474,7 @@ public class GDXRoot extends Game implements ScreenListener {
               current = 0;
               sounds.storeStop();
               store.guardWanderReset();
+              store.setActive(false);
               store.setVentCollision(false);
               restaurant.setVentCollision(false);
               restaurant.ventOutFlag = true;
