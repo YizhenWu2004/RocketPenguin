@@ -12,7 +12,9 @@ public class CollisionController {
     /**
      * Maximum distance a player must be from an ingredient to pick it up
      */
-    protected static final float PICKUP_RADIUS = 2.2f;
+    protected static final float PICKUP_RADIUS = 2.4f;
+
+    private static final float DROP_RADIUS = 2.45f;
 
     protected static final float TRASH_RADIUS = 1.0f;
 
@@ -210,7 +212,7 @@ public class CollisionController {
         return new Vector2(canvasCoords.x * WORLD_WIDTH / width, canvasCoords.y * WORLD_HEIGHT / height);
     }
 
-    private static final float DROP_RADIUS = 2.3f;
+
 //    private long lastScaleChangeTime = 0;
 //    private static final long SCALE_CHANGE_COOLDOWN = 1000;
 
