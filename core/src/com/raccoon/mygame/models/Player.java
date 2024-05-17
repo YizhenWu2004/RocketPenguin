@@ -128,18 +128,36 @@ public class Player extends CapsuleObstacle {
 
     private void updateShadow() {
         if(dishInventory.oneFilled()){
+            shadow.texture_sx = 0.6f;
+            shadow.texture_sy = 0.6f;
             if(direction == -1){
-                float shadowX = getX()-getWidth();
+                float shadowX = getX()-getWidth()/4;
                 float shadowY = getY() - getHeight() / 2;
                 shadow.setPosition(shadowX*40, shadowY*40);
             }
             else{
-                float shadowX = getX()-getWidth()*1.2f;
+                float shadowX = getX()-getWidth()/2;
+                float shadowY = getY() - getHeight() / 2;
+                shadow.setPosition(shadowX*40, shadowY*40);
+            }
+        }
+        else if(current == 1){
+            shadow.texture_sx = 0.6f;
+            shadow.texture_sy = 0.6f;
+            if(direction == -1){
+                float shadowX = getX()-getWidth()/2;
+                float shadowY = getY() - getHeight() / 2;
+                shadow.setPosition(shadowX*40, shadowY*40);
+            }
+            else{
+                float shadowX = getX()-getWidth()/2;
                 float shadowY = getY() - getHeight() / 2;
                 shadow.setPosition(shadowX*40, shadowY*40);
             }
         }
         else{
+            shadow.texture_sx = 1f;
+            shadow.texture_sy = 1f;
             if(direction == -1){
 //                float shadowX = getX()-getWidth();
                 float shadowX = getX()-getWidth()/2;

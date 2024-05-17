@@ -6,8 +6,8 @@ import com.raccoon.mygame.assets.AssetDirectory;
 import com.raccoon.mygame.view.GameCanvas;
 
 public class Shadow {
-    private static float texture_sx = 1f;
-    private static float texture_sy = 1f;
+    public static float texture_sx = 1f;
+    public static float texture_sy = 1f;
 
     public String type;
 

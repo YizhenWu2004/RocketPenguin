@@ -239,17 +239,9 @@ public class Customer extends BoxObstacle {
         satisfied = SATISFIED.NOTYET;
         isActive = true;
 
-//        shadow;
-
-        //CONTROLLER INITIALIZATION
-//        controller = new CustomerAIController(tables, this, shadow,
-//                new float[]{scaleX, scaleY, this.height});
-
         show = false;
         flipScale = -1;
         onRight = false;
-//        pat = new PatienceMeter(120, canvas, this);
-//        pat.create();
 
         pat = null;
 

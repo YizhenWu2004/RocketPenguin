@@ -160,7 +160,9 @@ public class Guard extends WheelObstacle {
                     shadow.setPosition(shadowX-offsetCons*0.5f, shadowY);
                 }
                 else{
-                    shadow.setPosition(shadowX, shadowY);
+                    float shadowXUp = this.getX()* scaleX-shadow.getTextureWidth()/2-8;
+                    float shadowYUp = (this.getY() * scaleY) - (this.height * scaleY / 2);
+                    shadow.setPosition(shadowXUp, shadowYUp);
                 }
             }
 

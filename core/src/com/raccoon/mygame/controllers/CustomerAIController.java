@@ -61,6 +61,9 @@ public class CustomerAIController implements AIController {
 
     @Override
     public int getAction() {
+        shadow.texture_sx = 0.7f;
+        shadow.texture_sy = 0.7f;
+
         float shadowX = customer.getX()* customerInfo[0]-shadow.getTextureWidth()/2;
         float shadowY = (customer.getY() * customerInfo[1]) - (customerInfo[2] * customerInfo[1] / 2);
 
