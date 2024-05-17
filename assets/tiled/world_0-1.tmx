@@ -3,7 +3,7 @@
  <properties>
   <property name="Guard Speed" value="10"/>
   <property name="Patience Time" value="120"/>
-  <property name="Tutorial" value="Yes"/>
+  <property name="Tutorial" value="No"/>
  </properties>
  <tileset firstgid="1" source="Rocko Store Floor.tsx"/>
  <tileset firstgid="577" source="RockoGuard.tsx"/>
