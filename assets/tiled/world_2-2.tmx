@@ -97,7 +97,7 @@
   <object id="82" name="tomato" gid="604" x="718.132" y="106.323" width="67" height="67"/>
  </objectgroup>
  <objectgroup id="3" name="Guards">
-  <object id="1" name="Guard" gid="577" x="54.8124" y="189.946" width="102" height="131">
+  <object id="1" name="Guard" gid="577" x="54.8124" y="240.946" width="102" height="131">
    <properties>
     <property name="GuardNum" value="1"/>
     <property name="Orientation" value="Left"/>
