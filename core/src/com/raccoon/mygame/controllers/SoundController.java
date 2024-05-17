@@ -20,6 +20,7 @@ public class SoundController {
     private Sound orderSound;
     private Sound catSound;
     private Sound bearSound;
+    private Sound trashSound;
     private Sound ferretSound;
     private Sound otterSound;
     private Sound goatSound;
@@ -52,6 +53,7 @@ public class SoundController {
         otterSound = Gdx.audio.newSound(Gdx.files.internal("sounds/otter.ogg"));
         menu = Gdx.audio.newMusic(Gdx.files.internal("sounds/racoon_menu.mp3"));
         goatSound = Gdx.audio.newSound(Gdx.files.internal("sounds/goat.ogg"));
+        trashSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trash.ogg"));
         musicVol = 1.6f;
         sfxvol = 1.6f;
         cafeSong = Gdx.audio.newMusic(Gdx.files.internal("sounds/cafetrackv2.ogg"));
@@ -77,6 +79,10 @@ public class SoundController {
     }
     public void chopPlay(){
         chopSound.play(sfxvol);
+    }
+
+    public void trashPlay(){
+        trashSound.play(sfxvol);
     }
     public void menuPlay(){
         menu.setVolume(musicVol);
