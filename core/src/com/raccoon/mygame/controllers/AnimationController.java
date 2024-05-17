@@ -10,6 +10,7 @@ import com.raccoon.mygame.models.Guard;
 import com.raccoon.mygame.models.Player;
 import com.raccoon.mygame.objects.CookingStationObject;
 import com.raccoon.mygame.objects.VentObstacle;
+import com.raccoon.mygame.obstacle.CapsuleObstacle;
 import com.raccoon.mygame.util.FilmStrip;
 
 import java.util.Map;
@@ -169,6 +170,7 @@ public class AnimationController {
      */
     public void handleAnimation(Player o, float delta, boolean respawning) {
         if (respawning) {
+            o.setOrientation(CapsuleObstacle.Orientation.LEFT);
             o.setFilmStrip(kickedOutReturn);
             o.setIgnoreInput(true);
             o.justDied = false;
