@@ -734,6 +734,12 @@
 		"notepadneutral": "720/notepadneutral.png",
 		"notepadangry": "720/notepadangry.png",
 		"notepadtoggled": "720/notepadtoggled.png",
-		"notepaduntoggled": "720/notepaduntoggled.png"
+		"notepaduntoggled": "720/notepaduntoggled.png",
+
+		"comic1" : "cutscene/comic1.png",
+		"comic2" : "cutscene/comic2.png",
+		"comic3" : "cutscene/comic3.png",
+		"comic4" : "cutscene/comic4.png",
+		"comic5" : "cutscene/comic5.png"
 	}
 }
