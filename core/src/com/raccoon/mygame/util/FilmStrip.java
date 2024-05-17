@@ -40,9 +40,9 @@ public class FilmStrip extends TextureRegion {
 	/** The number of columns in this filmstrip */
 	private int cols;
 	/** The width of a single frame; computed from column count */
-	private int fwidth;	
+	public int fwidth;
 	/** The height of a single frame; computed from row count */
-	private int fheight;
+	public int fheight;
 	
 	/** The x-origin of the film strip (in case it is not the whole texture) */
 	private int x;
