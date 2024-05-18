@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="11" nextobjectid="188">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="40" tileheight="40" infinite="0" nextlayerid="11" nextobjectid="110">
  <properties>
   <property name="Guard Speed" value="10"/>
   <property name="Patience Time" value="120"/>
@@ -32,284 +32,91 @@
 </data>
  </layer>
  <objectgroup id="2" name="Obstacles">
-  <object id="45" name="BoxL" gid="584" x="-48.5368" y="195.524" width="230" height="230"/>
-  <object id="46" name="BoxM" gid="585" x="-59.1548" y="217.705" width="230" height="230"/>
-  <object id="47" name="BoxS" gid="586" x="-70.453" y="269.89" width="230" height="230"/>
-  <object id="115" name="Ladder" gid="587" x="11.882" y="188.109" width="230" height="230"/>
-  <object id="116" name="VertShelf" gid="581" x="-101.865" y="212.114" width="230" height="230"/>
-  <object id="117" name="HorizShelf" gid="580" x="-21.7685" y="144.272" width="230" height="230"/>
-  <object id="118" name="HorizShelf" gid="580" x="197.037" y="144.227" width="230" height="230"/>
-  <object id="119" name="HorizShelf" gid="580" x="415.028" y="143.819" width="230" height="230"/>
-  <object id="120" name="HorizShelf" gid="580" x="633.408" y="143.759" width="230" height="230"/>
-  <object id="121" name="HorizShelf" gid="580" x="851.933" y="143.645" width="230" height="230"/>
-  <object id="122" name="HorizShelf" gid="580" x="1070.37" y="143.645" width="230" height="230"/>
-  <object id="123" name="VertShelf" gid="581" x="-101.876" y="400.853" width="230" height="230"/>
-  <object id="124" name="HorizShelf" gid="580" x="148.31" y="826.822" width="230" height="230"/>
-  <object id="125" name="HorizShelf" gid="580" x="367.116" y="826.777" width="230" height="230"/>
-  <object id="126" name="HorizShelf" gid="580" x="585.107" y="826.369" width="230" height="230"/>
-  <object id="127" name="HorizShelf" gid="580" x="803.487" y="826.309" width="230" height="230"/>
-  <object id="128" name="HorizShelf" gid="580" x="1022.01" y="826.195" width="230" height="230"/>
-  <object id="129" name="VertShelf" gid="581" x="-102.176" y="589.509" width="230" height="230"/>
-  <object id="130" name="VertShelf" gid="581" x="1144.9" y="211.09" width="230" height="230"/>
-  <object id="131" name="VertShelf" gid="581" x="1145.05" y="777.273" width="230" height="230"/>
-  <object id="132" name="VertShelf" gid="581" x="1144.59" y="588.485" width="230" height="230"/>
-  <object id="133" name="VertShelf" gid="581" x="1144.59" y="399.302" width="230" height="230"/>
-  <object id="134" name="HorizShelf" gid="580" x="152.813" y="651.356" width="230" height="230"/>
-  <object id="135" name="HorizShelf" gid="580" x="371.619" y="651.311" width="230" height="230"/>
-  <object id="136" name="HorizShelf" gid="580" x="589.61" y="650.903" width="230" height="230"/>
-  <object id="137" name="HorizShelf" gid="580" x="807.99" y="650.843" width="230" height="230"/>
-  <object id="138" name="HorizShelf" gid="580" x="152.259" y="314.021" width="230" height="230"/>
-  <object id="139" name="HorizShelf" gid="580" x="371.065" y="313.976" width="230" height="230"/>
-  <object id="140" name="HorizShelf" gid="580" x="589.056" y="313.568" width="230" height="230"/>
-  <object id="141" name="HorizShelf" gid="580" x="1021.37" y="315.471" width="230" height="230"/>
-  <object id="142" name="HorizShelf" gid="580" x="152.6" y="481.515" width="230" height="230"/>
-  <object id="143" name="HorizShelf" gid="580" x="371.406" y="481.47" width="230" height="230"/>
-  <object id="144" name="HorizShelf" gid="580" x="802.265" y="481.062" width="230" height="230"/>
-  <object id="145" name="HorizShelf" gid="580" x="1020.64" y="481.002" width="230" height="230"/>
-  <object id="146" name="VertShelf" gid="581" x="261.495" y="382.564" width="230" height="230"/>
-  <object id="147" name="BoxM" gid="585" x="222.472" y="352.069" width="230" height="230"/>
-  <object id="148" name="HorizShelf" gid="580" x="-193.547" y="652.045" width="230" height="230"/>
-  <object id="149" name="BoxS" gid="586" x="203.81" y="401.738" width="230" height="230"/>
-  <object id="150" name="Ladder" gid="587" x="304.766" y="415.021" width="230" height="230"/>
-  <object id="151" name="Ladder" gid="587" x="1090.3" y="531.492" width="230" height="230"/>
-  <object id="152" name="BoxL" gid="584" x="593.647" y="351.98" width="230" height="230"/>
-  <object id="154" name="BoxM" gid="585" x="539.083" y="348.857" width="230" height="230"/>
-  <object id="155" name="BoxL" gid="584" x="1099.58" y="184.268" width="230" height="230"/>
-  <object id="156" name="BoxL" gid="584" x="1037.5" y="185.86" width="230" height="230"/>
-  <object id="157" name="BoxM" gid="585" x="1059.79" y="198.594" width="230" height="230"/>
-  <object id="158" name="BoxL" gid="584" x="1045.67" y="780.374" width="230" height="230"/>
-  <object id="159" name="BoxL" gid="584" x="982.662" y="781.625" width="230" height="230"/>
-  <object id="160" name="BoxM" gid="585" x="482.446" y="683.062" width="230" height="230"/>
-  <object id="161" name="BoxS" gid="586" x="515.808" y="718.06" width="230" height="230"/>
+  <object id="3" name="HorizShelf" gid="580" x="200.529" y="145.477" width="230" height="230"/>
+  <object id="21" name="HorizWall" gid="578" x="-18.4637" y="636.534" width="230" height="230"/>
+  <object id="26" name="JanitorTools" gid="588" x="3.37953" y="677.983" width="230" height="230"/>
+  <object id="41" name="Ladder" gid="587" x="-90.9998" y="409.783" width="230" height="230"/>
+  <object id="45" name="BoxL" gid="584" x="-83.6381" y="221.22" width="230" height="230"/>
+  <object id="46" name="BoxM" gid="585" x="-75.1414" y="238.591" width="230" height="230"/>
+  <object id="72" name="Bin" gid="583" x="400.01" y="331.006" width="230" height="230"/>
+  <object id="88" name="HorizShelf" gid="580" x="418.616" y="145.379" width="230" height="230"/>
+  <object id="89" name="HorizShelf" gid="580" x="636.921" y="145.84" width="230" height="230"/>
+  <object id="90" name="HorizShelf" gid="580" x="855.007" y="145.742" width="230" height="230"/>
+  <object id="91" name="HorizShelf" gid="580" x="-6.66294" y="355.145" width="230" height="230"/>
+  <object id="92" name="HorizShelf" gid="580" x="1055.22" y="356.912" width="230" height="230"/>
+  <object id="93" name="HorizShelf" gid="580" x="315.609" y="502.756" width="230" height="230"/>
+  <object id="94" name="HorizShelf" gid="580" x="533.969" y="502.756" width="230" height="230"/>
+  <object id="96" name="HorizShelf" gid="580" x="752.33" y="502.756" width="230" height="230"/>
+  <object id="97" name="Bin" gid="583" x="650.738" y="331.73" width="230" height="230"/>
+  <object id="98" name="Bin" gid="583" x="528.871" y="683.393" width="230" height="230"/>
+  <object id="100" name="Bin" gid="583" x="1104.8" y="549.408" width="230" height="230"/>
+  <object id="101" name="Bin" gid="583" x="1104.8" y="730.61" width="230" height="230"/>
+  <object id="106" name="BoxM" gid="585" x="1141.93" y="218.925" width="230" height="230"/>
+  <object id="107" name="BoxS" gid="586" x="1141.79" y="270.845" width="230" height="230"/>
+  <object id="108" name="HorizShelf" gid="580" x="-17.6667" y="145" width="230" height="230"/>
+  <object id="109" name="HorizShelf" gid="580" x="1073" y="145" width="230" height="230"/>
  </objectgroup>
  <objectgroup id="6" name="Ingredients">
-  <object id="36" name="orange" gid="612" x="453.558" y="276.913" width="67" height="67"/>
-  <object id="37" name="banana" gid="608" x="884.203" y="447.608" width="67" height="67"/>
-  <object id="38" name="apple" gid="602" x="936.966" y="106.185" width="67" height="67"/>
-  <object id="74" name="greenpepper" gid="607" x="453.665" y="614.456" width="67" height="67"/>
-  <object id="75" name="cabbage" gid="606" x="236.881" y="614.289" width="67" height="67"/>
-  <object id="76" name="carrot" gid="611" x="227.346" y="276.554" width="67" height="67"/>
-  <object id="77" name="corn" gid="609" x="1104.78" y="447.029" width="67" height="67"/>
-  <object id="78" name="lemon" gid="610" x="454.718" y="444.139" width="67" height="67"/>
-  <object id="79" name="pear" gid="614" x="677.495" y="613.055" width="67" height="67"/>
-  <object id="80" name="persimmon" gid="613" x="1104.65" y="278.228" width="67" height="67"/>
-  <object id="81" name="redpepper" gid="603" x="275.196" y="104.274" width="67" height="67"/>
-  <object id="82" name="tomato" gid="604" x="718.132" y="106.323" width="67" height="67"/>
+  <object id="36" name="orange" gid="612" x="1089.09" y="315.384" width="67" height="67"/>
+  <object id="37" name="banana" gid="608" x="488.579" y="287.914" width="67" height="67"/>
+  <object id="38" name="apple" gid="602" x="1194.51" y="508.173" width="67" height="67"/>
+  <object id="74" name="greenpepper" gid="607" x="350.084" y="463.846" width="67" height="67"/>
+  <object id="75" name="cabbage" gid="606" x="618.637" y="640.714" width="67" height="67"/>
+  <object id="76" name="carrot" gid="611" x="1147.72" y="109.838" width="67" height="67"/>
+  <object id="77" name="corn" gid="609" x="606.973" y="108.731" width="67" height="67"/>
+  <object id="78" name="lemon" gid="610" x="739.03" y="290.363" width="67" height="67"/>
+  <object id="79" name="pear" gid="614" x="75.3122" y="318.313" width="67" height="67"/>
+  <object id="80" name="persimmon" gid="613" x="926.523" y="107.421" width="67" height="67"/>
+  <object id="81" name="redpepper" gid="603" x="1194.02" y="688.286" width="67" height="67"/>
+  <object id="82" name="tomato" gid="604" x="886.663" y="463.644" width="67" height="67"/>
  </objectgroup>
  <objectgroup id="3" name="Guards">
-  <object id="1" name="Guard" gid="577" x="1093.48" y="611.212" width="102" height="131">
+  <object id="1" name="Guard" gid="577" x="948.114" y="623.938" width="102" height="131">
    <properties>
     <property name="GuardNum" value="1"/>
-    <property name="Orientation" value="Left"/>
-    <property name="Rotate" value="CW"/>
-    <property name="Sleep" value="No"/>
-   </properties>
-  </object>
-  <object id="162" name="Guard" gid="577" x="47.4401" y="360.064" width="102" height="131">
-   <properties>
-    <property name="GuardNum" value="2"/>
-    <property name="Orientation" value="Down"/>
-    <property name="Rotate" value="No"/>
-    <property name="Sleep" value="No"/>
-   </properties>
-  </object>
-  <object id="187" name="Guard" gid="577" x="1038.63" y="171.285" width="102" height="131">
-   <properties>
-    <property name="GuardNum" value="3"/>
-    <property name="Orientation" value="Left"/>
+    <property name="Orientation" value="Right"/>
     <property name="Rotate" value="No"/>
     <property name="Sleep" value="Yes"/>
    </properties>
   </object>
+  <object id="102" name="Guard" gid="577" x="599.989" y="179.01" width="102" height="131">
+   <properties>
+    <property name="GuardNum" value="2"/>
+    <property name="Orientation" value="Right"/>
+    <property name="Rotate" value="No"/>
+    <property name="Sleep" value="No"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="GuardNodes">
-  <object id="67" x="92.4219" y="491.291">
+  <object id="67" x="929.63" y="166.464">
    <properties>
     <property name="GuardNum" value="2"/>
     <property name="NodeNum" value="1"/>
    </properties>
    <point/>
   </object>
-  <object id="163" x="701.196" y="490.686">
+  <object id="103" x="932.625" y="314.194">
    <properties>
     <property name="GuardNum" value="2"/>
     <property name="NodeNum" value="2"/>
    </properties>
    <point/>
   </object>
-  <object id="164" x="919.279" y="330.153">
-   <properties>
-    <property name="GuardNum" value="2"/>
-    <property name="NodeNum" value="4"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="165" x="701.196" y="333.182">
+  <object id="104" x="368.404" y="313.088">
    <properties>
     <property name="GuardNum" value="2"/>
     <property name="NodeNum" value="3"/>
    </properties>
    <point/>
   </object>
-  <object id="166" x="919.279" y="168.105">
+  <object id="105" x="371.723" y="167.054">
    <properties>
     <property name="GuardNum" value="2"/>
-    <property name="NodeNum" value="5"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="167" x="95.4112" y="168.105">
-   <properties>
-    <property name="GuardNum" value="2"/>
-    <property name="NodeNum" value="6"/>
+    <property name="NodeNum" value="4"/>
    </properties>
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="10" name="Customers">
-  <object id="177" gid="577" x="121.49" y="957.521" width="102" height="131">
-   <properties>
-    <property name="Order" value="2 greenpepper"/>
-    <property name="Time" value="2"/>
-   </properties>
-  </object>
-  <object id="178" gid="577" x="240.796" y="955.304" width="102" height="131">
-   <properties>
-    <property name="Order" value="0 green green"/>
-    <property name="Time" value="12"/>
-   </properties>
-  </object>
-  <object id="179" gid="577" x="362.789" y="957.022" width="102" height="131">
-   <properties>
-    <property name="Order" value="2 green"/>
-    <property name="Time" value="14"/>
-   </properties>
-  </object>
-  <object id="180" gid="577" x="962.445" y="953.585" width="102" height="131">
-   <properties>
-    <property name="Order" value="1 green"/>
-    <property name="Time" value="60"/>
-   </properties>
-  </object>
-  <object id="181" gid="577" x="481.831" y="957.271" width="102" height="131">
-   <properties>
-    <property name="Order" value="0 green"/>
-    <property name="Time" value="62"/>
-   </properties>
-  </object>
-  <object id="182" gid="577" x="602.854" y="955.054" width="102" height="131">
-   <properties>
-    <property name="Order" value="2 yellow yellow"/>
-    <property name="Time" value="64"/>
-   </properties>
-  </object>
-  <object id="183" gid="577" x="724.847" y="955.054" width="102" height="131">
-   <properties>
-    <property name="Order" value="0 corn banana lemon"/>
-    <property name="Time" value="120"/>
-   </properties>
-  </object>
-  <object id="184" gid="577" x="841.685" y="955.054" width="102" height="131">
-   <properties>
-    <property name="Order" value="2 orange"/>
-    <property name="Time" value="132"/>
-   </properties>
-  </object>
-  <object id="185" gid="577" x="1077.56" y="953.585" width="102" height="131">
-   <properties>
-    <property name="Order" value="1 yellow yellow"/>
-    <property name="Time" value="134"/>
-   </properties>
-  </object>
-  <object id="186" gid="577" x="1077.56" y="953.585" width="102" height="131">
-     <properties>
-      <property name="Order" value="1 greenpepper greenpepper"/>
-      <property name="Time" value="180"/>
-     </properties>
-  </object>
-  <object id="187" gid="577" x="1077.56" y="953.585" width="102" height="131">
-       <properties>
-        <property name="Order" value="0 greenpepper redpepper"/>
-        <property name="Time" value="182"/>
-       </properties>
-  </object>
-  <object id="188" gid="577" x="1077.56" y="953.585" width="102" height="131">
-         <properties>
-          <property name="Order" value="2 apple greenpepper"/>
-          <property name="Time" value="184"/>
-         </properties>
-  </object>
-  <object id="189" gid="577" x="1077.56" y="953.585" width="102" height="131">
-           <properties>
-            <property name="Order" value="2 persimmon orange carrot"/>
-            <property name="Time" value="240"/>
-           </properties>
-  </object>
-  <object id="190" gid="577" x="1077.56" y="953.585" width="102" height="131">
-           <properties>
-            <property name="Order" value="1 greenpepper"/>
-            <property name="Time" value="252"/>
-           </properties>
-  </object>
-  <object id="191" gid="577" x="1077.56" y="953.585" width="102" height="131">
-             <properties>
-              <property name="Order" value="2 orange"/>
-              <property name="Time" value="254"/>
-             </properties>
-  </object>
-  <object id="192" gid="577" x="1077.56" y="953.585" width="102" height="131">
-             <properties>
-              <property name="Order" value="0 green yellow orange"/>
-              <property name="Time" value="300"/>
-             </properties>
-  </object>
-  <object id="193" gid="577" x="1077.56" y="953.585" width="102" height="131">
-             <properties>
-              <property name="Order" value="2 green yellow orange"/>
-              <property name="Time" value="302"/>
-             </properties>
-  </object>
-  <object id="194" gid="577" x="1077.56" y="953.585" width="102" height="131">
-             <properties>
-              <property name="Order" value="0 green yellow orange"/>
-              <property name="Time" value="304"/>
-             </properties>
-  </object>
-  <object id="195" gid="577" x="1077.56" y="953.585" width="102" height="131">
-               <properties>
-                <property name="Order" value="2 tomato redpepper apple"/>
-                <property name="Time" value="360"/>
-               </properties>
-  </object>
-   <object id="196" gid="577" x="1077.56" y="953.585" width="102" height="131">
-               <properties>
-                <property name="Order" value="2 red"/>
-                <property name="Time" value="372"/>
-               </properties>
-   </object>
-   <object id="197" gid="577" x="1077.56" y="953.585" width="102" height="131">
-                <properties>
-                  <property name="Order" value="2 red"/>
-                  <property name="Time" value="374"/>
-                </properties>
-   </object>
-   <object id="198" gid="577" x="1077.56" y="953.585" width="102" height="131">
-                <properties>
-                  <property name="Order" value="1 red"/>
-                  <property name="Time" value="420"/>
-                </properties>
-    </object>
-    <object id="199" gid="577" x="1077.56" y="953.585" width="102" height="131">
-              <properties>
-                <property name="Order" value="1 red"/>
-                <property name="Time" value="422"/>
-              </properties>
-     </object>
-     <object id="200" gid="577" x="1077.56" y="953.585" width="102" height="131">
-             <properties>
-              <property name="Order" value="1 red"/>
-              <property name="Time" value="424"/>
-             </properties>
-     </object>
- </objectgroup>
+ <objectgroup id="10" name="Customers"/>
 </map>
