@@ -63,6 +63,10 @@ public class LevelSelectController extends WorldController{
     private Texture w33;
     private Texture wendless;
 
+    private Texture endlessText;
+    private Texture endlessbooklet;
+    private Texture endlesspamphlet;
+
     private int[][] star_req;
 
     private Array<Texture> numbers = new Array<Texture>();
@@ -127,6 +131,7 @@ public class LevelSelectController extends WorldController{
         this.input = input;
         this.saveController = saveController;
         this.star_req = star_req;
+        this.loader = loader;
 
         modalbackground = directory.getEntry("m_modalbackground",Texture.class);
         background = directory.getEntry("m_leveselectbackground",Texture.class);
@@ -167,7 +172,10 @@ public class LevelSelectController extends WorldController{
         w31 = directory.getEntry("m_w31", Texture.class);
         w32 = directory.getEntry("m_w32", Texture.class);
         w33 = directory.getEntry("m_w33", Texture.class);
+        endlessText = directory.getEntry("endlesstext", Texture.class);
         wendless = directory.getEntry("m_wendless", Texture.class);
+        endlessbooklet = directory.getEntry("endlessbooklet", Texture.class);
+        endlesspamphlet = directory.getEntry("endlesspamphlet", Texture.class);
 
         numbers.add(zero);
         numbers.add(one);
@@ -271,6 +279,14 @@ public class LevelSelectController extends WorldController{
                 canvas.draw(napkinbox,Color.WHITE, 0,0,670,shiftingYs.get(i)+600,0,0.6f,0.6f);
                 canvas.draw(week,Color.WHITE, 0,0,740,shiftingYs.get(i)+630,0,0.6f,0.6f);
                 drawSimpleNumber(i, 870,shiftingYs.get(i)+601,0.8f,0.8f);
+                continue;
+            }
+            if(i == shiftingYs.size-1){
+                canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
+                        0, shiftingYs.get(i), 0.0f, 0.7f, 0.7f);
+                canvas.draw(napkinbox,Color.WHITE, 0,0,670,shiftingYs.get(i)+600,0,0.6f,0.6f);
+//                canvas.draw(week,Color.WHITE, 0,0,740,shiftingYs.get(i)+630,0,0.6f,0.6f);
+                canvas.draw(endlessText,Color.BLACK,0,0,710,shiftingYs.get(i)+625,0,0.8f,0.8f);
                 continue;
             }
             canvas.draw(backgroundBlank, Color.WHITE, 0, 0,
@@ -493,20 +509,10 @@ public class LevelSelectController extends WorldController{
 
         //texture might need a rename
         UIButton booklet = new UIButton(this.booklet,"levelbutton",0,0,0.5f, 0.5f, canvas);
-
-        //texture might need a rename
-        UIButton back = new UIButton(this.back, "back", 190, 75, 0.5f, 0.5f,canvas);
-        final boolean[] sound = {false};
-        back.setOnClickAction(()->{sounds.clickPlay();selectModal.setActive(false);});
-        back.setOnHoverAction(()->{back.setSX(0.6f);back.setSY(0.6f);
-        if(!sound[0]){
-            sounds.switchPlay();
-            sound[0] = true;
+        if(num == loader.getLevels().size-1){
+            booklet.setTexture(endlesspamphlet);
         }
-        });
-        back.setOnUnhoverAction(()->{
-            sound[0] = false;
-            back.resetStyleProperties();});
+
 
         //texture might need a rename
         UIButton start = new UIButton(this.start, "start", 650, 75, 0.5f, 0.5f,canvas);
@@ -520,6 +526,20 @@ public class LevelSelectController extends WorldController{
         });
         start.setOnUnhoverAction(()->{
             sound2[0] = false;start.resetStyleProperties();});
+
+        //texture might need a rename
+        UIButton back = new UIButton(this.back, "back", 190, 75, 0.5f, 0.5f,canvas);
+        final boolean[] sound = {false};
+        back.setOnClickAction(()->{sounds.clickPlay();selectModal.setActive(false);});
+        back.setOnHoverAction(()->{back.setSX(0.6f);back.setSY(0.6f);
+            if(!sound[0]){
+                sounds.switchPlay();
+                sound[0] = true;
+            }
+        });
+        back.setOnUnhoverAction(()->{
+            sound[0] = false;
+            back.resetStyleProperties();});
 
         UIButton dayNumber = createNumberElement(actualDay,320, 415, 0.5f, 0.5f);
         dayNumber.setCOLOR(Color.BLACK);
@@ -580,11 +600,13 @@ public class LevelSelectController extends WorldController{
         selectModal.addElement(booklet);
         selectModal.addElement(back);
         selectModal.addElement(start);
-        selectModal.addElement(dayNumber);
-        selectModal.addElement(weekNumber);
-        selectModal.addElement(minute);
-        selectModal.addElement(second1);
-        selectModal.addElement(second2);
+        if(num != loader.getLevels().size-1) {
+            selectModal.addElement(dayNumber);
+            selectModal.addElement(weekNumber);
+            selectModal.addElement(minute);
+            selectModal.addElement(second1);
+            selectModal.addElement(second2);
+        }
         selectModal.addElement(description);
         for (UIButton butt:
                 multipleNums) {
@@ -634,11 +656,16 @@ public class LevelSelectController extends WorldController{
 
             //level one button
             UIButton levelButton = new UIButton(levelbooklet,is + "levelbutton",90 + (xOffset*400),yOffset,0.7f,0.7f,canvas);
-            UIButton dayNumber = createNumberElement(actualDay, 270,260,1,1);
+            if(i == numberOfLevels-1){
+                levelButton.setTexture(endlessbooklet);
+            }
+            if(i != numberOfLevels-1) {
+                UIButton dayNumber = createNumberElement(actualDay, 270, 260, 1, 1);
+                levelButton.addChild(dayNumber);
+            }
             Array<UIButton> stars = generateStars((saveController.getKeyvaluepairs().get(i)),118,  170,1f,1f,star_req[actualWeek*3+actualDay]);
 
 
-            levelButton.addChild(dayNumber);
             for(UIButton star: stars){
                 levelButton.addChild(star);
             }
@@ -663,7 +690,7 @@ public class LevelSelectController extends WorldController{
 
                     },() -> {
                         sound3[0] = false;
-                        levelButton.resetStyleProperties();
+                        levelButton.resetStylePropertiesNoTexture();
                     });
 
             constructBooklet(is, actualDay, actualWeek);

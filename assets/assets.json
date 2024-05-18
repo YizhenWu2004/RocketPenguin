@@ -782,6 +782,10 @@
 		"comic2" : "cutscene/comic2.png",
 		"comic3" : "cutscene/comic3.png",
 		"comic4" : "cutscene/comic4.png",
-		"comic5" : "cutscene/comic5.png"
+		"comic5" : "cutscene/comic5.png",
+
+		"endlesstext" : "menu/endlesstext.png",
+		"endlessbooklet" : "menu/endlessbooklet.png",
+		"endlesspamphlet" : "menu/endlesspamphlet.png"
 	}
 }

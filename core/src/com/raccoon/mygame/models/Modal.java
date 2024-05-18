@@ -63,4 +63,14 @@ public class Modal {
     public String getId(){
         return this.id;
     }
+
+    public UIButton getElementOfID(String id){
+        for(UIButton button : elements){
+            if(button.getID().equals(id)){
+                return button;
+            }
+        }
+        //stub button
+        return new UIButton("null",0,0,0,0);
+    }
 }

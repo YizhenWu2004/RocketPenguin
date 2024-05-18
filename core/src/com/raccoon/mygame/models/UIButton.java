@@ -281,6 +281,17 @@ public class UIButton {
 //        this.x = defaultX;
 //        this.y = defaultY;
     }
+    public void resetStylePropertiesNoTexture(){
+        this.COLOR = defaultCOLOR;
+        this.OX = defaultOX;
+        this.OY = defaultOY;
+        this.SX = defaultSX;
+        this.SY = defaultSY;
+        this.width = defaultWidth * defaultSX;
+        this.height = defaultHeight * defaultSY;
+//        this.x = defaultX;
+//        this.y = defaultY;
+    }
     /**
      * Executes the provided lambda method on click.
      *
