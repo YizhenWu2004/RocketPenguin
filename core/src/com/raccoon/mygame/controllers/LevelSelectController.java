@@ -63,6 +63,20 @@ public class LevelSelectController extends WorldController{
     private Texture w33;
     private Texture wendless;
 
+    private Texture s01;
+    private Texture s02;
+    private Texture s03;
+    private Texture s11;
+    private Texture s12;
+    private Texture s13;
+    private Texture s21;
+    private Texture s22;
+    private Texture s23;
+    private Texture s31;
+    private Texture s32;
+    private Texture s33;
+    private Texture sendless;
+
     private int[][] star_req;
 
     private Array<Texture> numbers = new Array<Texture>();
@@ -168,6 +182,19 @@ public class LevelSelectController extends WorldController{
         w32 = directory.getEntry("m_w32", Texture.class);
         w33 = directory.getEntry("m_w33", Texture.class);
         wendless = directory.getEntry("m_wendless", Texture.class);
+        s01 = directory.getEntry("m_s01", Texture.class);
+        s02 = directory.getEntry("m_s02", Texture.class);
+        s03 = directory.getEntry("m_s03", Texture.class);
+        s11 = directory.getEntry("m_s11", Texture.class);
+        s12 = directory.getEntry("m_s12", Texture.class);
+        s13 = directory.getEntry("m_s13", Texture.class);
+        s21 = directory.getEntry("m_s21", Texture.class);
+        s22 = directory.getEntry("m_s22", Texture.class);
+        s23 = directory.getEntry("m_s23", Texture.class);
+        s31 = directory.getEntry("m_s31", Texture.class);
+        s32 = directory.getEntry("m_s32", Texture.class);
+        s33 = directory.getEntry("m_s33", Texture.class);
+        sendless = directory.getEntry("m_sendless", Texture.class);
 
         numbers.add(zero);
         numbers.add(one);
@@ -485,6 +512,7 @@ public class LevelSelectController extends WorldController{
     }
     public void constructBooklet(String id, int actualDay, int weekNum){
         Texture t = wendless;
+        Texture layout = sendless;
         int num = Integer.parseInt(id);
         //this is the modal for when you click on an individual level entry
         //mostly just for testing now
@@ -542,38 +570,51 @@ public class LevelSelectController extends WorldController{
         if(weekNum == 0){
             if(actualDay == 1){
                 t = w01;
+                layout=s01;
             } else if(actualDay == 2){
                 t = w02;
+                layout=s02;
             } else if (actualDay == 3){
                 t = w03;
+                layout=s03;
             }
         } else if (weekNum == 1){
             if(actualDay == 1){
                 t = w11;
+                layout=s11;
             } else if(actualDay == 2){
                 t = w12;
+                layout=s12;
             } else if (actualDay == 3){
                 t = w13;
+                layout=s13;
             }
         } else if (weekNum == 2){
             if(actualDay == 1){
                 t = w21;
+                layout=s21;
             } else if(actualDay == 2){
                 t = w22;
+                layout=s22;
             } else if (actualDay == 3){
                 t = w23;
+                layout=s23;
             }
         } else if(weekNum == 3){
             if(actualDay == 1){
                 t = w31;
+                layout=s31;
             } else if(actualDay == 2){
                 t = w32;
+                layout=s32;
             } else if (actualDay == 3){
                 t = w33;
+                layout=s33;
             }
         }
 
         UIButton description = new UIButton(t, "description", 200, 180, 0.5f, 0.5f,canvas);
+        UIButton grocery_layout = new UIButton(layout, "layout", 198, 268, 0.2f, 0.2f,canvas);
 
 
         //add the buttons to the modal thingy to the modal
@@ -586,6 +627,7 @@ public class LevelSelectController extends WorldController{
         selectModal.addElement(second1);
         selectModal.addElement(second2);
         selectModal.addElement(description);
+        selectModal.addElement(grocery_layout);
         for (UIButton butt:
                 multipleNums) {
             selectModal.addElement(butt);
