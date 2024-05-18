@@ -318,7 +318,7 @@ public class MainMenuController extends WorldController{
             back1.resetStyleProperties();
         },setting_buttons);
 
-        UIButton back2 = new UIButton(back,"exit",150,150,canvas);
+        UIButton back2 = new UIButton(back,"exit",320,123,canvas);
         final boolean [] soundPlayed7 = {false};
         addButton(back2, ()-> {
             sounds.clickPlay();
@@ -454,7 +454,7 @@ public class MainMenuController extends WorldController{
         } else if (on_audio){
 
         musicbars = (int)(sounds.getmusic() * 5);
-        System.out.println("music: " + sounds.getmusic());
+        //System.out.println("music: " + sounds.getmusic());
         sfxbars = (int)(sounds.getsfx() * 5);
 //            System.out.println("on audio");
             checkButtons(audio_buttons);

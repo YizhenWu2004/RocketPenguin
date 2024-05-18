@@ -233,7 +233,7 @@ public class Customer extends BoxObstacle {
             }
         }
 
-        System.out.println(order);
+        //System.out.println(order);
 
         this.showUpTime = showUpTime;
 

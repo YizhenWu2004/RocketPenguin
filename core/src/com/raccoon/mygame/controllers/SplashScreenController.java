@@ -29,7 +29,7 @@ public class SplashScreenController extends WorldController{
         videoPlayer.setOnCompletionListener(new VideoPlayer.CompletionListener() {
             @Override
             public void onCompletionListener(FileHandle file) {
-                System.out.println("Video done playing!");
+                //System.out.println("Video done playing!");
                 videoDonePlaying = true;
             }
         });

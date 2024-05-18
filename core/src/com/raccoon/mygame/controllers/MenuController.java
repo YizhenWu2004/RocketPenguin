@@ -94,8 +94,8 @@ public class MenuController extends WorldController{
         this.pause_background = background;
         this.canvas = canvas;
         this.input = input;
-        System.out.println(s.getmusic());
-        System.out.println(s.getsfx());
+        //System.out.println(s.getmusic());
+        //System.out.println(s.getsfx());
 //        musicbar = (int)(s.getmusic() * 5);
 //        sfxbar = (int)(s.getsfx() * 5);
 
@@ -233,7 +233,7 @@ public class MenuController extends WorldController{
             back_.setTexture(back_button_hover);
         },back_::resetStyleProperties,opt_buttons);
 
-        UIButton back2 = new UIButton(back,"restart",520,125,canvas);
+        UIButton back2 = new UIButton(back,"restart",530,135,canvas);
         addButton(back2, ()-> {
             sounds.clickPlay();
             this.cont_back = true;
@@ -245,7 +245,7 @@ public class MenuController extends WorldController{
             back2.setTexture(back_button_hover);
         },back2::resetStyleProperties,cont_buttons);
 
-        UIButton back3 = new UIButton(back,"restart",520,200,canvas);
+        UIButton back3 = new UIButton(back,"restart",535,150,canvas);
         addButton(back3, ()-> {
             sounds.clickPlay();
             this.aud_back = true;
@@ -301,7 +301,6 @@ public class MenuController extends WorldController{
             canvas.draw(cont_background, Color.WHITE, 0, 0,
                     0, 0, 0.0f, 1f, 1f);
             for(UIButton button : cont_buttons) {
-                System.out.println("on control");
                 button.draw(canvas);
             }
         } else if (on_audio){

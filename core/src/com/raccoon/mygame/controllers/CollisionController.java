@@ -435,7 +435,7 @@ public class CollisionController {
     }
 
     private void addOrder(Customer order) {
-        System.out.println("Adding order" + order);
+        //System.out.println("Adding order" + order);
         if (takenOrders.size >= 3) {
             takenOrders.removeIndex(0);
         }

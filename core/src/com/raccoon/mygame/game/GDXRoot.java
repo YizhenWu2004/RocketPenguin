@@ -194,7 +194,7 @@ public class GDXRoot extends Game implements ScreenListener {
 //        sounds.storeStop();
 //        sounds.cafeStop();
         store.isEndless = loader.getLevels().get(levelToGoTo).isEndless();
-        System.out.println("restarted");
+        //System.out.println("restarted");
         sounds.potStop();
         sounds.panStopp();
         sounds.potplaying = false;
@@ -437,7 +437,7 @@ public class GDXRoot extends Game implements ScreenListener {
             levelselect.resetLevelSelectors();
             result.update();
             if (result.retry){
-                System.out.println("clicked retry");
+                //System.out.println("clicked retry");
                 sounds.cafeeactualstop();
                 sounds.storeStop();
                 restart();
@@ -461,7 +461,7 @@ public class GDXRoot extends Game implements ScreenListener {
             return;
         }
         //System.out.println(isPaused);
-      else if(input.getPause() && (current == 0||current == 1)){
+      else if(input.getPause() && !isPaused && (current == 0||current == 1)){
           isPaused = true;
           w.pauseTimer();
           sounds.storeStop();
@@ -473,40 +473,56 @@ public class GDXRoot extends Game implements ScreenListener {
       }
 
       else if(isPaused){
-          pause.update();
-          if(pause.resume){
+          if(input.getPause() && (current == 0||current == 1)){
               isPaused = false;
               pause.resumed();
-              if(sounds.potplaying){
+              if (sounds.potplaying) {
                   sounds.potPlay();
               }
-              if(sounds.panplaying){
+              if (sounds.panplaying) {
                   sounds.panPlay();
               }
               pause.on_pause = false;
-              if(current == 1){
+              if (current == 1) {
                   sounds.storePlay();
               }
               sounds.cafePlay();
+          }else {
+              pause.update();
+              if (pause.resume) {
+                  isPaused = false;
+                  pause.resumed();
+                  if (sounds.potplaying) {
+                      sounds.potPlay();
+                  }
+                  if (sounds.panplaying) {
+                      sounds.panPlay();
+                  }
+                  pause.on_pause = false;
+                  if (current == 1) {
+                      sounds.storePlay();
+                  }
+                  sounds.cafePlay();
+              }
+              if (pause.quit) {
+                  pause.quit = false;
+                  levelselect.resetLevelSelectors();
+                  levelselect.setSaveController(saveController);
+                  levelselect.generateLevelSelectors(loader.getLevels().size);
+                  current = -1;
+              }
+              if (pause.restart) {
+                  sounds.storeStop();
+                  sounds.cafeeactualstop();
+                  notepadOrders = new Array<>();
+                  pause.on_pause = false;
+                  restart();
+                  pause.restart = false;
+              }
+              if (pause.options) {
+              }
           }
-          if(pause.quit){
-              pause.quit = false;
-              levelselect.resetLevelSelectors();
-              levelselect.setSaveController(saveController);
-              levelselect.generateLevelSelectors(loader.getLevels().size);
-              current = -1;
-          }
-          if(pause.restart){
-              sounds.storeStop();
-              sounds.cafeeactualstop();
-              notepadOrders = new Array<>();
-              pause.on_pause = false;
-              restart();
-              pause.restart = false;
-          }
-          if(pause.options){
 
-          }
       }
       else if (!isPaused) {
           if (w.timerPaused) {

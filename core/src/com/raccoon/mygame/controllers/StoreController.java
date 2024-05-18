@@ -244,7 +244,7 @@ public class StoreController extends WorldController implements ContactListener 
         guards = level.getGuards();
 //        guards = new Array<Guard>(1);
 //        guards.add(new Guard(20f, 10, 1.67f, 0.83f, guardIdle, world, canvas, PatrolDirection.ROTATE_CCW,collisionLayer,new Array<>(), GuardAIController.GuardOrientation.LEFT));
-        System.out.println("Size: " + level.getIngredients().size);
+        //System.out.println("Size: " + level.getIngredients().size);
         ingredients = level.getIngredients();
 //        for(Ingredient i: ingredients){
 //            ingredientTextures.put(i.type, new Texture("720/" + i.type + ".png"));
@@ -754,8 +754,8 @@ public class StoreController extends WorldController implements ContactListener 
         try{
             return ingredientTextures.get(id);
         } catch(Exception e){
-            System.out.println("This texture does not exist yet");
-            System.out.println(e);
+            //System.out.println("This texture does not exist yet");
+            //System.out.println(e);
         }
         return apple;
     }
