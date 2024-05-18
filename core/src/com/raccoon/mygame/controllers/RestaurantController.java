@@ -38,6 +38,7 @@ public class RestaurantController extends WorldController implements ContactList
     private boolean panplay;
     private GameCanvas canvas;
     private Texture background;
+    private Timer.Task timerTask;
     private Array<Customer> customers;
     private Array<Customer> customersToAdd;
     private Array<NormalObstacle> obstacles;
@@ -53,6 +54,8 @@ public class RestaurantController extends WorldController implements ContactList
     private Array<Object> drawableObjects = new Array<>();
 
     private int globalIndex = 0;
+
+    public boolean timerStarted = false;
     private int tick;
     private Vector2 localStartingPos;
     private boolean paused = false;
@@ -737,7 +740,7 @@ public class RestaurantController extends WorldController implements ContactList
         animator.processCookingStations(stations, tick);
 
         if(player.justDied == true){
-            sounds.kickPlay();
+            create2();
             respawnTimer = 1.6666f;
             player.justDied = false;
         }
@@ -761,6 +764,15 @@ public class RestaurantController extends WorldController implements ContactList
         world.step(1 / 60f, 6, 2);
     }
 
+    public void create2() {
+        // Schedule the task to run after 0.5 seconds
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                sounds.kickPlay();
+            }
+        }, 0.5f);
+    }
     private float getYPosOfAnyObject(Object obj){
         if(obj instanceof VentObstacle)
             return ((VentObstacle) obj).getPosition().y;
