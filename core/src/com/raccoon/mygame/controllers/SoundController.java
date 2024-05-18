@@ -170,7 +170,7 @@ public class SoundController {
         } else {
             musicVol = 1.6f;
         }
-        System.out.println("music volume: " + musicVol);
+        //System.out.println("music volume: " + musicVol);
     }
     public void decmusic(){
         if(musicVol > 0.0f){
@@ -182,7 +182,7 @@ public class SoundController {
         } else {
             musicVol = 0.0f;
         }
-        System.out.println("music volume: " + musicVol);
+        //System.out.println("music volume: " + musicVol);
     }
 
     public void incsfx(){
@@ -191,7 +191,7 @@ public class SoundController {
         } else {
             sfxvol = 1.6f;
         }
-        System.out.println("sfx volume: " + sfxvol);
+        //System.out.println("sfx volume: " + sfxvol);
     }
 
     public void decsfx(){
@@ -204,7 +204,7 @@ public class SoundController {
         } else {
             sfxvol = 0.0f;
         }
-        System.out.println("sfx volume: " + sfxvol);
+        //System.out.println("sfx volume: " + sfxvol);
     }
     public void cafeeactualstop(){
         cafeSong.stop();

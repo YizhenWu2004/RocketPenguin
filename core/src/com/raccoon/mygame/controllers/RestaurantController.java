@@ -478,7 +478,7 @@ public class RestaurantController extends WorldController implements ContactList
             customerOrders.add(new Array<>(new String[]{"448", "1", "red", "yellow", "orange"}));
 
             for(Array<String> arr : customerOrders){
-                System.out.println(arr);
+                //System.out.println(arr);
                 int time = Integer.parseInt(arr.get(0));
                 arr.removeIndex(0);
                 Customer customer1 = new Customer(0f, 7.5f, 1f, 0.7f, goatIdle, world, canvas, 1, time,arr,directory);
@@ -524,12 +524,12 @@ public class RestaurantController extends WorldController implements ContactList
         player.current = this.current;
 
         if(isEndless){
-            System.out.println(infTimer);
-            System.out.println(customersToAdd.size);
+            //System.out.println(infTimer);
+            //System.out.println(customersToAdd.size);
             for(Customer c: customersToAdd){
 //            System.out.println(c.showUpTime);
                 if(c.showUpTime <= infTimer && paused == false){
-                    System.out.println("c.showUpTime" + c.showUpTime + "infTimer" + infTimer);
+                    //System.out.println("c.showUpTime" + c.showUpTime + "infTimer" + infTimer);
                     customers.add(c);
                     sounds.doorPlay();
                     drawableObjects.add(c);

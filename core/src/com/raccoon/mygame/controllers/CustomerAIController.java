@@ -55,7 +55,7 @@ public class CustomerAIController implements AIController {
         this.shadow = shadow;
         this.directory = directory;
         r = new Random();
-        System.out.println("customer created");
+        //System.out.println("customer created");
     }
 
 
@@ -153,7 +153,7 @@ public class CustomerAIController implements AIController {
                         customer.seatIndex = 1;
                         break;
                     } else if (!t.isOccupied(0)) {
-                        System.out.println(idx);
+                        //System.out.println(idx);
                         goal = t.occupy(0);
                         customer.table = t;
                         customer.seatIndex = 0;
