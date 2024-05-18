@@ -619,7 +619,7 @@ public class GDXRoot extends Game implements ScreenListener {
         } else if (current == 1) {
             store.draw();
             if(timeoutTimer > 0){
-                canvas.drawTextCentered("The day is over",new BitmapFont(),0);
+                //canvas.drawTextCentered("The day is over",new BitmapFont(),0);
             }
         } else if (current == 2){
 //            result.setStarReq(this.star_req);
