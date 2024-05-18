@@ -140,7 +140,7 @@ public class RestaurantController extends WorldController implements ContactList
 
     private HashMap<String, Texture> obstacleTextures = new HashMap<>();
 
-    private int[] star_req;
+    public int[] star_req;
 
     private AssetDirectory directory;
 
@@ -149,6 +149,10 @@ public class RestaurantController extends WorldController implements ContactList
     float infTimer = 0;
 
     public int unsatisfiedCustomers = 0;
+
+    public int totalCustomer;
+
+    public int customerServed = 0;
 
 
     private void createTextures(AssetDirectory directory) {
@@ -479,6 +483,8 @@ public class RestaurantController extends WorldController implements ContactList
             }
         }
 
+        totalCustomer = customersToAdd.size;
+
         for(Customer c : customersToAdd){
             c.initializeAIController(tables);
         }
@@ -595,6 +601,7 @@ public class RestaurantController extends WorldController implements ContactList
         }
         for (Customer c : customers) {
             if (c.justSatisfied){
+                customerServed++;
                 sounds.nomPlay();
                 float satisfaction = c.pat.multiplier();
                 if (c.time() > 0){
