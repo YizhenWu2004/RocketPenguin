@@ -851,7 +851,7 @@ public class RestaurantController extends WorldController implements ContactList
 //            canvas.draw(singleInv, Color.WHITE, 10, 10,
 //                    midpoint, 90, 0.0f, 1, 1);
 //        }
-        t.draw(20, 700);
+        t.draw(isEndless, unsatisfiedCustomers);
         drawOutline();
         drawReq();
         drawScore();

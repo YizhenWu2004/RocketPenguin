@@ -45,6 +45,10 @@ public class Worldtimer extends ApplicationAdapter {
     private Texture nine;
     private Texture zero;
     private Texture twozeros;
+    private Texture unsatisfiedZero;
+    private Texture unsatisfiedOne;
+    private Texture unsatisfiedTwo;
+    private Texture unsatisfiedThree;
     FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("720/PatrickHandSC-Regular.ttf"));
     FreeTypeFontGenerator.FreeTypeFontParameter p = new FreeTypeFontGenerator.FreeTypeFontParameter();
     BitmapFont font = generator.generateFont(p);
@@ -71,6 +75,11 @@ public class Worldtimer extends ApplicationAdapter {
         nine = directory.getEntry("tnine",Texture.class);
         zero = directory.getEntry("tzero",Texture.class);
         twozeros = directory.getEntry("t2zero",Texture.class);
+
+        unsatisfiedZero = directory.getEntry("unsatisfiedzero",Texture.class);
+        unsatisfiedOne = directory.getEntry("unsatisfiedone",Texture.class);
+        unsatisfiedTwo = directory.getEntry("unsatisfiedtwo",Texture.class);
+        unsatisfiedThree = directory.getEntry("unsatisfiedthree",Texture.class);
 
         countdownSeconds = count;
         gameCanvas = canvas;
@@ -114,52 +123,72 @@ public class Worldtimer extends ApplicationAdapter {
     }
 
 
-    public void draw(int x,int y) {
-        float ratio = (float)countdownSeconds/maxTime;
-        gameCanvas.draw(timer_background, Color.WHITE, 10, 10,
-                103, 635, 0.0f, 0.92f, 1);
-        if(ratio >= 0.15){
-            gameCanvas.draw(timer_green, Color.WHITE, 10, 10,
-                    93, 635, 0.0f, ratio, 1);
-        } else {
-            gameCanvas.draw(timer_red, Color.WHITE, 10, 10,
-                    93, 635, 0.0f, ratio, 1);
+    public void draw(boolean isEndless, int unsatisfied) {
+        if(isEndless){
+            if(unsatisfied == 0){
+                gameCanvas.draw(unsatisfiedZero, Color.WHITE, 0, 10,
+                        10, 615, 0.0f, 1f, 1);
+            }
+            else if(unsatisfied == 1){
+                gameCanvas.draw(unsatisfiedOne, Color.WHITE, 0, 10,
+                        10, 615, 0.0f, 1f, 1);
+            }
+            else if(unsatisfied == 2){
+                gameCanvas.draw(unsatisfiedTwo, Color.WHITE, 0, 10,
+                        10, 615, 0.0f, 1f, 1);
+            }
+            else if(unsatisfied ==3){
+                gameCanvas.draw(unsatisfiedThree, Color.WHITE, 0, 10,
+                        10, 615, 0.0f, 1f, 1);
+            }
         }
+        else{
+            float ratio = (float)countdownSeconds/maxTime;
+            gameCanvas.draw(timer_background, Color.WHITE, 10, 10,
+                    103, 635, 0.0f, 0.92f, 1);
+            if(ratio >= 0.15){
+                gameCanvas.draw(timer_green, Color.WHITE, 10, 10,
+                        93, 635, 0.0f, ratio, 1);
+            } else {
+                gameCanvas.draw(timer_red, Color.WHITE, 10, 10,
+                        93, 635, 0.0f, ratio, 1);
+            }
 
-        gameCanvas.draw(timer_frame, Color.WHITE, 10, 10,
-                10, 615, 0.0f, 1, 1);
+            gameCanvas.draw(timer_frame, Color.WHITE, 10, 10,
+                    10, 615, 0.0f, 1, 1);
 
 
 
 
 //        gameCanvas.draw(timerTexture, x, y);
-        int mins = countdownSeconds / 60;
-        int secs = countdownSeconds % 60;
-        if (countdownSeconds > 60) {
-            mins = countdownSeconds / 60;
-            secs = countdownSeconds % 60;
-        }
-        int min1 = mins/10;
-        int min2 = mins % 10;
-        int sec1 = secs/10;
-        int secs2 = secs % 10;
-        Texture [] tex = helper(min1,min2,sec1,secs2);
-        if (secs < 10) {
+            int mins = countdownSeconds / 60;
+            int secs = countdownSeconds % 60;
+            if (countdownSeconds > 60) {
+                mins = countdownSeconds / 60;
+                secs = countdownSeconds % 60;
+            }
+            int min1 = mins/10;
+            int min2 = mins % 10;
+            int sec1 = secs/10;
+            int secs2 = secs % 10;
+            Texture [] tex = helper(min1,min2,sec1,secs2);
+            if (secs < 10) {
 //            gameCanvas.draw(tex[0], 120, 690);
-            gameCanvas.draw(tex[1], 110, 640);
-            gameCanvas.draw(tex[2], 150, 640);
-            gameCanvas.draw(tex[3], 180, 640);
+                gameCanvas.draw(tex[1], 110, 640);
+                gameCanvas.draw(tex[2], 150, 640);
+                gameCanvas.draw(tex[3], 180, 640);
 //            gameCanvas.drawText(Integer.toString(mins),
 //                    font, 120, 690, 2, 3,layout);
 //            gameCanvas.drawText( "0" + Integer.toString(secs), font, 170, 690, 3, 3,layout);
-        } else {
+            } else {
 //            gameCanvas.draw(tex[0], 120, 690);
-            gameCanvas.draw(tex[1], 110, 640);
-            gameCanvas.draw(tex[2], 150, 640);
-            gameCanvas.draw(tex[3], 180, 640);
+                gameCanvas.draw(tex[1], 110, 640);
+                gameCanvas.draw(tex[2], 150, 640);
+                gameCanvas.draw(tex[3], 180, 640);
 //            gameCanvas.drawText(Integer.toString(mins),
 //                    font, 120, 690,2,3,layout);
 //            gameCanvas.drawText(Integer.toString(secs), font,170, 690, 2, 3, layout);
+            }
         }
     }
 

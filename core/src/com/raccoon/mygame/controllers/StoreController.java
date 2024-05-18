@@ -99,6 +99,8 @@ public class StoreController extends WorldController implements ContactListener 
     private HashMap<String, Texture> ingredientTextures;
     public Worldtimer t;
     AssetDirectory directory;
+
+    public boolean isEndless;
     private void createTextures(AssetDirectory directory) {
         playerIdle = directory.getEntry("rockoidle.strip", FilmStrip.class);
         vent = directory.getEntry("vent.strip", FilmStrip.class);
@@ -176,8 +178,11 @@ public class StoreController extends WorldController implements ContactListener 
     }
 
 
-    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, Array<Customer> notepadOrders, SoundController s, AssetDirectory directory) {
+    public StoreController(GameCanvas canvas, Texture texture, InputController input, Inventory sharedInv, Worldtimer w, Array<Customer> notepadOrders, SoundController s, AssetDirectory directory, boolean isEndless) {
         createTextures(directory);
+
+        this.isEndless = isEndless;
+
         this.directory = directory;
         world = new World(new Vector2(0, 0), false);
         this.canvas = canvas;
@@ -433,7 +438,7 @@ public class StoreController extends WorldController implements ContactListener 
     public void setA(int i){
         a = i;
     }
-    public void draw() {
+    public void draw(int unsatisfied) {
         canvas.draw(background, Color.WHITE, 0, 0,
                 0, 0, 0.0f, 1f, 1f);
 
@@ -473,7 +478,7 @@ public class StoreController extends WorldController implements ContactListener 
 //        for (Guard g : guards) {
 //            g.draw(0.1f, 0.1f);
 //        }
-        t.draw(20, 700);
+        t.draw(isEndless, unsatisfied);
         player.inventory.draw(canvas);
     }
 

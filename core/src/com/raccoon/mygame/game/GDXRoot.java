@@ -87,6 +87,7 @@ public class GDXRoot extends Game implements ScreenListener {
     private FilmStrip levelEndTimeOut;
 
     private FilmStrip levelEndAllServed;
+    private FilmStrip levelEndUnsatisfied;
     private float animationTimerTimeOut = 0;
 
 
@@ -153,7 +154,7 @@ public class GDXRoot extends Game implements ScreenListener {
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
         restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req[0], sounds, directory, false,false);
         notepadOrders = new Array<>();
-        store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, notepadOrders, sounds, directory);
+        store = new StoreController(canvas, directory.getEntry("floorstore", Texture.class), input, inv, w, notepadOrders, sounds, directory,false);
         loader = new LevelLoader(canvas, sounds, directory);
 
         saveController = new SaveController(loader);
@@ -179,6 +180,7 @@ public class GDXRoot extends Game implements ScreenListener {
 
         levelEndTimeOut = directory.getEntry("levelendtimeout.strip", FilmStrip.class);
         levelEndAllServed= directory.getEntry("levelendallserved.strip", FilmStrip.class);
+        levelEndUnsatisfied = directory.getEntry("levelendunsatisfied.strip", FilmStrip.class);
         levelEndBackground = directory.getEntry("levelendbackground", Texture.class);
     }
 
@@ -186,6 +188,7 @@ public class GDXRoot extends Game implements ScreenListener {
         //canvas = new GameCanvas();
 //        sounds.storeStop();
 //        sounds.cafeStop();
+        store.isEndless = loader.getLevels().get(levelToGoTo).isEndless();
         System.out.println("restarted");
         sounds.potStop();
         sounds.panStopp();
@@ -217,7 +220,6 @@ public class GDXRoot extends Game implements ScreenListener {
         timeoutTimer = 0;
         unsatisfiedCustomerTimer = 0;
 
-        //todo levelendallserved
         levelEndTimeOut = directory.getEntry("levelendtimeout.strip", FilmStrip.class);
         levelEndAllServed= directory.getEntry("levelendallserved.strip", FilmStrip.class);
         levelEndBackground = directory.getEntry("levelendbackground", Texture.class);
@@ -296,6 +298,7 @@ public class GDXRoot extends Game implements ScreenListener {
                 int newFrame = (levelEndTimeOut.getFrame() + 1) % levelEndTimeOut.getSize();
                 levelEndTimeOut.setFrame(newFrame);
                 levelEndAllServed.setFrame(newFrame);
+                levelEndUnsatisfied.setFrame(newFrame);
                 animationTimerTimeOut = 0;
             }
         }
@@ -563,8 +566,10 @@ public class GDXRoot extends Game implements ScreenListener {
             if(unsatisfiedCustomerTimer > 0 && loader.getLevels().get(levelToGoTo).isEndless()){
                 float posX = (canvas.getWidth() - levelEndTimeOut.fwidth) / 2f;
                 float posY = (canvas.getHeight() - levelEndTimeOut.fheight) / 2f;
+                float posXUns = (canvas.getWidth() - levelEndTimeOut.fwidth*0.6f) / 2f;
+                float posYUns = (canvas.getHeight() - levelEndTimeOut.fheight*0.6f) / 2f;
                 canvas.draw(levelEndBackground, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
-                canvas.draw(levelEndTimeOut, Color.WHITE, 0, 0, posX, posY, 0.0f, 1f, 1f);
+                canvas.draw(levelEndUnsatisfied, Color.WHITE, 0, 0, posXUns, posYUns, 0.0f, 0.6f, 0.6f);
             }
             else if(customerLeaveTimer > 0 ){
                 float posX = (canvas.getWidth() - levelEndTimeOut.fwidth) / 2f;
@@ -590,7 +595,7 @@ public class GDXRoot extends Game implements ScreenListener {
             }
 
         } else if (current == 1) {
-            store.draw();
+            store.draw(restaurant.unsatisfiedCustomers);
             if(timeoutTimer > 0){
                 canvas.drawTextCentered("The day is over",new BitmapFont(),0);
             }

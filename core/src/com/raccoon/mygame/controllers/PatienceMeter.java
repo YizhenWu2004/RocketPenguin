@@ -33,7 +33,7 @@ public class PatienceMeter extends ApplicationAdapter{
     private Texture madHollow;
 
     public PatienceMeter(int count, GameCanvas canvas, Customer cus, AssetDirectory directory){
-        countdownSeconds = count;
+        countdownSeconds = 3;
         max_countdown = count;
         gameCanvas = canvas;
         customer = cus;

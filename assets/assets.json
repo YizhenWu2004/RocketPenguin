@@ -185,6 +185,16 @@
 			}
 		},
 
+		"levelendunsatisfied":  {
+			"file" : "levelendunsatisfied.png",
+			"sprites" : {
+				"strip": {
+					"rows": 6,
+					"cols": 5
+				}
+			}
+		},
+
 		"gooseidle": {
 			"file" : "720/gooseidle.png",
 			"sprites" : {
@@ -721,6 +731,12 @@
 				}
 			}
 		},
+
+		"unsatisfiedzero": "720/unsatisfiedzero.png",
+		"unsatisfiedone": "720/unsatisfiedone.png",
+		"unsatisfiedtwo": "720/unsatisfiedtwo.png",
+		"unsatisfiedthree": "720/unsatisfiedthree.png",
+
 		"goodHollow": "goodHollow.png",
 		"guard": "guard.png",
 		"invisible": "invisible.png",
