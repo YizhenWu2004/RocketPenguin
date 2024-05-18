@@ -382,9 +382,11 @@ public class GDXRoot extends Game implements ScreenListener {
                 if(levelselect.getLevelToGoTo() == 0){
                     this.current = 3;
                 }
-                this.levelToGoTo = levelselect.getLevelToGoTo();
-                restart();
-                restaurant.star_req = star_req[levelToGoTo+1];
+                else {
+                    this.levelToGoTo = levelselect.getLevelToGoTo();
+                    restart();
+                    restaurant.star_req = star_req[levelToGoTo + 1];
+                }
                 //store.setLevel(loader.getLevels().get(levelToGoTo),this.inv);
             }
             levelselect.setGoToLevel(false);
