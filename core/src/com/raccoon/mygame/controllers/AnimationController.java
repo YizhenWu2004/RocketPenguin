@@ -160,6 +160,9 @@ public class AnimationController {
     //all instances of handleAnimation must be called in the update loop of a given WorldController.
     //view usages to see what I mean if you don't understand.
 
+    public void resetVentOut(){
+        ventOut.setFrame(0);
+    }
 
 
     /**
@@ -621,6 +624,7 @@ public class AnimationController {
         }
         if (ventingOut) {
 //            System.out.println("Venting out");
+            System.out.println(ventOut.getFrame());
             o.setFilmStrip(ventOut);
             o.setOX(170f);
             if (p.getX() < o.getX()) {

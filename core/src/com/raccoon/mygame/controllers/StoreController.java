@@ -311,13 +311,6 @@ public class StoreController extends WorldController implements ContactListener 
             playerGuardCollide = false;
         }
 
-        if(ventOutFlag == true){
-            ventOutTimer = 1.1666f;
-            ventOutFlag = false;
-        }
-
-        ventOutTimer = Math.max(ventOutTimer-delta,0);
-
         playerJustCaughtTimer = Math.max(playerJustCaughtTimer-delta,0);
 
         if (active) {
@@ -357,7 +350,6 @@ public class StoreController extends WorldController implements ContactListener 
         collision.processBounds(player);
 //        collision.processGuards(player,guards);
         collision.processIngredients(player, ingredients);
-        world.step(1 / 60f, 6, 2);
 
         Guard[] guards2 = new Guard[guards.size];
         for (int i = 0; i < guards.size; i++) {
@@ -395,7 +387,18 @@ public class StoreController extends WorldController implements ContactListener 
         animator.handleAnimation(player, delta, respawning());
         checkButtons();
 
+        if(ventOutFlag == true){
+            animator.resetVentOut();
+            vent1.animeframe = 0;
+            ventOutTimer = 1.1666f;
+            ventOutFlag = false;
+        }
+
+        ventOutTimer = Math.max(ventOutTimer-delta,0);
+
         addOrdersToNotepad();
+
+        world.step(1 / 60f, 6, 2);
     }
 
     private float getYPosOfAnyObject(Object obj){

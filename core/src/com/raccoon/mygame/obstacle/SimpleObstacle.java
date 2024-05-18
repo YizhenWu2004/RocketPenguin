@@ -68,7 +68,7 @@ public abstract class SimpleObstacle extends Obstacle {
      * Current animation frame.
      * Updated with deltaTime
      * */
-    protected float animeframe = 0;
+    public float animeframe = 0;
 
     /**
      * The speed of our animation at 60 fps
@@ -130,6 +130,7 @@ public abstract class SimpleObstacle extends Obstacle {
             animeframe -= NUM_ANIM_FRAMES;
         }
     }
+
 
     /**
      * Sets the filmstrip of this obstacle.

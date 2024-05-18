@@ -749,6 +749,8 @@ public class RestaurantController extends WorldController implements ContactList
         respawnTimer = Math.max(respawnTimer-delta,0);
 
         if(ventOutFlag == true){
+            animator.resetVentOut();
+            vent1.animeframe = 0;
             ventOutTimer = 1.1666f;
             ventOutFlag = false;
             if(panplay){
