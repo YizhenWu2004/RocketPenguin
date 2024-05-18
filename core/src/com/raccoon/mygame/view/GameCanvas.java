@@ -1300,8 +1300,8 @@ public class GameCanvas {
 
         debugRender.setColor(color);
         if (g.getAIController().getOrien()== GuardAIController.GuardOrientation.LEFT){
-            float angleStep = fov / 30;
-            for (int i = 0; i < 30; i++) {
+            float angleStep = fov / 20;
+            for (int i = 0; i < 20; i++) {
                  float angle = direction - fov / 2 + angleStep * i;
                 float endX = position.x + range.get(i) * MathUtils.cosDeg(angle);
                 float endY = position.y + range.get(i) * MathUtils.sinDeg(angle);
@@ -1310,8 +1310,8 @@ public class GameCanvas {
 //                System.out.println("the shape y:" + endY);
             }
         } else if (g.getAIController().getOrien() == GuardAIController.GuardOrientation.RIGHT){
-                float angleStep = fov / 30;
-                for (int i = 0; i < 30; i++) {
+                float angleStep = fov / 20;
+                for (int i = 0; i < 20; i++) {
                     float angle = direction - fov / 2 + angleStep * i + 180;
                     float endX = position.x + range.get(i) * MathUtils.cosDeg(angle);
                     float endY = position.y + range.get(i) * MathUtils.sinDeg(angle);
@@ -1320,16 +1320,16 @@ public class GameCanvas {
 //                    System.out.println("the shape y:" + endY);
                 }
         } else if(g.getAIController().getOrien()== GuardAIController.GuardOrientation.DOWN){
-            float angleStep = fov / 30;
-            for (int i = 0; i < 30; i++) {
+            float angleStep = fov / 20;
+            for (int i = 0; i < 20; i++) {
                 float angle = direction - fov / 2 + angleStep * i + 90;
                 float endX = position.x + range.get(i) * MathUtils.cosDeg(angle);
                 float endY = position.y + range.get(i) * MathUtils.sinDeg(angle);
                 debugRender.line(position.x, position.y, endX, endY);
             }
         } else {
-            float angleStep = fov / 30;
-                for (int i = 0; i < 30; i++) {
+            float angleStep = fov / 20;
+                for (int i = 0; i < 20; i++) {
                     float angle = direction - fov / 2 + angleStep * i + 270;
                     float endX = position.x + range.get(i) * MathUtils.cosDeg(angle);
                     float endY = position.y + range.get(i) * MathUtils.sinDeg(angle);
