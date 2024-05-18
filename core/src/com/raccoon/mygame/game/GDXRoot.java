@@ -113,6 +113,7 @@ public class GDXRoot extends Game implements ScreenListener {
     MainMenuController mainmenu;
     LevelLoader loader;
     SplashScreenController splash;
+    CutsceneController cutscene;
 
     MenuController pause;
 
@@ -150,6 +151,8 @@ public class GDXRoot extends Game implements ScreenListener {
 
         splash = new SplashScreenController(canvas);
 
+        cutscene = new CutsceneController(canvas,input,directory);
+
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
         restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w, star_req[0], sounds, directory, false,false);
@@ -169,8 +172,10 @@ public class GDXRoot extends Game implements ScreenListener {
 
         /*
          *Remember a few things about current.
-         * 0 = restaurant
+         * 3 = cutscene
+         * 2 = pause
          * 1 = store
+         * 0 = restaurant
          * -1 = level select
          * -2 = main menu
          * -3 = splash screen
@@ -318,6 +323,21 @@ public class GDXRoot extends Game implements ScreenListener {
                 current = -2;
             }
         }
+        if(current == 3){
+            cutscene.update();
+            w.pauseTimer();
+            restaurant.setActive(false);
+            restaurant.setPaused(true);
+            store.setActive(false);
+            sounds.storeStop();
+            sounds.cafeStop();
+            if(cutscene.getGoToLevel()){
+                this.levelToGoTo = 0;
+                cutscene.setGoToLevel(false);
+                cutscene = new CutsceneController(canvas,input,directory);
+                restart();
+            }
+        }
         if(current == -2){
             mainmenu.update();
             w.pauseTimer();
@@ -362,9 +382,14 @@ public class GDXRoot extends Game implements ScreenListener {
             }
             if(levelselect.checkForGoToLevel()){
                 levelselect.setLastCameraY();
-                this.levelToGoTo = levelselect.getLevelToGoTo();
-                restart();
-                restaurant.star_req = star_req[levelToGoTo+1];
+                if(levelselect.getLevelToGoTo() == 0){
+                    this.current = 3;
+                }
+                else {
+                    this.levelToGoTo = levelselect.getLevelToGoTo();
+                    restart();
+                    restaurant.star_req = star_req[levelToGoTo + 1];
+                }
                 //store.setLevel(loader.getLevels().get(levelToGoTo),this.inv);
             }
             levelselect.setGoToLevel(false);
@@ -547,6 +572,10 @@ public class GDXRoot extends Game implements ScreenListener {
     }
 
     public void draw() {
+        if(current == 3){
+            cutscene.draw();
+            return;
+        }
         if(current == -3){
             splash.draw();
             return;
