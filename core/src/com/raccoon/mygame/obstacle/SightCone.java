@@ -50,7 +50,7 @@ public class SightCone extends BoxObstacle {
         create();
         isActivated = true;
         range = new ArrayList<>();
-        for(int i = 0; i < 31; i++){
+        for(int i = 0; i < 21; i++){
             range.add(300f);
         }
 //        range = 300;
@@ -229,7 +229,7 @@ public class SightCone extends BoxObstacle {
 //        System.out.println("range in calculateSightconeVertices: " + range);
 //        System.out.println("range2 in calculateSightConeVertices: " + range2);
 
-        int numVertices = 30; // Number of vertices for the cone
+        int numVertices =20; // Number of vertices for the cone
 
         Vector2[] vertices = new Vector2[numVertices];
 
