@@ -36,11 +36,14 @@ public class Pot implements GameObject {
     private float y;
     private float ox;
     private float oy;
+
     public float sx;
     public float sy;
 
     private boolean scaling;
     private long scalingStartTime;
+
+    public boolean isCooking = false;
 
     public Pot(int type, FilmStrip sprite, float x, float y, float ox, float oy, float sx, float sy,FilmStrip spriteCooked){
         this.type = type;
@@ -79,7 +82,13 @@ public class Pot implements GameObject {
 
     @Override
     public void draw(GameCanvas canvas) {
-        canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx, this.sy);
+        if(isCooking){
+            canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx*-1, this.sy);
+        }
+        else{
+            canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx, this.sy);
+        }
+
     }
 
     //    @Override
@@ -88,7 +97,12 @@ public class Pot implements GameObject {
             canvas.draw(this.spriteCooked, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx, this.sy);
         }
         else{
-            canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx, this.sy);
+            if(isCooking){
+                canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx*-1, this.sy);
+            }
+            else{
+                canvas.draw(this.sprite, Color.WHITE, this.x, this.y, this.ox, this.oy, 0.0f,this.sx, this.sy);
+            }
         }
     }
 

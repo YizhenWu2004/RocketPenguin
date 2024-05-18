@@ -410,7 +410,7 @@ public class AnimationController {
             if (o.wok.isScaling()) {
                 long currentTime = System.currentTimeMillis();
                 long startTime = o.wok.getScalingStartTime();
-                float elapsedTime = (currentTime - startTime) / 200f; // Consider adjusting this factor
+                float elapsedTime = (currentTime - startTime) / 200f;
 
                 float newScale = Math.min(1.0f + 0.4f * elapsedTime, 1.2f);
                 o.wok.setSX(newScale);
@@ -529,11 +529,12 @@ public class AnimationController {
         if (o.getStationType() == 0 && o.timer != null) {
 
             if (o.timer.getTime() <= 0) {
-                o.wok.sx = 1;
+//                o.wok.sx = 1*o.wok.sx;
+                o.wok.isCooking = false;
                 o.wok.x = 40;
                 o.wok.setFilmStrip(wokIdle);
             } else {
-                o.wok.sx = -1;
+                o.wok.isCooking = true;
                 o.wok.x = 70;
                 o.wok.setFilmStrip(wokSizzle);
             }
