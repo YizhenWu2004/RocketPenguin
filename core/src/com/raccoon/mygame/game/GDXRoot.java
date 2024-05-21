@@ -206,7 +206,7 @@ public class GDXRoot extends Game implements ScreenListener {
         result.ticks = 0;
 
         inv = new Inventory(directory.getEntry("inventory", Texture.class), directory.getEntry("inventoryselect", Texture.class), sounds);
-        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req[0], sounds, directory, loader.getLevels().get(levelToGoTo).isEndless(), loader.getLevels().get(levelToGoTo).isTutorial());
+        restaurant = new RestaurantController(canvas, directory.getEntry("floorrestaurant", Texture.class), input, inv,w,star_req[levelToGoTo+1], sounds, directory, loader.getLevels().get(levelToGoTo).isEndless(), loader.getLevels().get(levelToGoTo).isTutorial());
         notepadOrders = new Array<>();
         //store = new StoreController(canvas, new Texture("720/grocerybg.png"), input, inv);
         //restaurant.setTimer(w);

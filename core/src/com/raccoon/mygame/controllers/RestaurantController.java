@@ -617,7 +617,7 @@ public class RestaurantController extends WorldController implements ContactList
                         }
                         if (satisfaction == 1) {
                             happy += 1;
-                        } else if (satisfaction < 1 && satisfaction > 0.3) {
+                        } else if (satisfaction < 1 && satisfaction > 0.4) {
                             neutral += 1;
                         } else{
                             angry += 1;
@@ -627,7 +627,7 @@ public class RestaurantController extends WorldController implements ContactList
                         if (satisfaction == 1) {
                             happy += 1;
 //                            sounds.happyPlay();
-                        } else if (satisfaction < 1 && satisfaction > 0.3) {
+                        } else if (satisfaction < 1 && satisfaction > 0.4) {
                             neutral += 1;
 //                            sounds.happyPlay();
                         } else{
